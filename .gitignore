@@ -1,0 +1,39 @@
+# Node / frontend
+node_modules/
+.next/
+frontend/.env*.local
+frontend/dist/
+frontend/coverage/
+
+# Python / backend
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+backend/dist/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Firebase / Firestore emulator
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.firestore-emulator-data/
+
+# Terraform
+infra/**/.terraform/
+infra/**/*.tfstate
+infra/**/*.tfstate.*
+infra/**/.terraform.lock.hcl
+
+# OS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/

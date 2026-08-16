@@ -1,0 +1,1880 @@
+
+# AI Engineering Lab — Complete Implementation Specification
+
+## 1. Product Vision
+
+Build **one integrated AI Engineering Lab** containing five learning modules:
+
+1. **LLM & AI Fundamentals**
+2. **GenAI Systems Lab**
+3. **AI Evaluation Lab**
+4. **AI Inference Lab**
+5. **AI Production / LLMOps Lab**
+
+These are **not five independent applications**.
+
+They are five modules of one application, connected through a shared AI artifact lifecycle:
+
+```text
+Understand
+    ↓
+Build
+    ↓
+Evaluate
+    ↓
+Optimize
+    ↓
+Deploy
+    ↓
+Monitor
+    ↓
+Improve
+    ↺
+```
+
+The five modules correspond to:
+
+```text
+1. Fundamentals  → Understand
+2. GenAI Systems → Build
+3. Evaluation    → Measure
+4. Inference     → Optimize
+5. LLMOps        → Operate
+```
+
+The application should demonstrate that modern AI engineering is not simply "calling an LLM API", but a lifecycle of **building → evaluating → optimizing → deploying → monitoring → improving**.
+
+---
+
+# 2. Most Important Architectural Principle: Shared AI Artifacts
+
+The central object connecting the five modules is an **AI Artifact**.
+
+For example, the user creates a RAG application:
+
+```text
+GenAI Systems
+      ↓
+Create "My RAG"
+      ↓
+My RAG v1
+```
+
+That same artifact can then be used in:
+
+```text
+                 My RAG v1
+                     │
+          ┌──────────┼──────────┐
+          ↓          ↓          ↓
+      Evaluation  Inference   LLMOps
+          │          │          │
+          ↓          ↓          ↓
+       Quality    Performance Deployment
+                                │
+                                ↓
+                            Monitoring
+                                │
+                                ↓
+                              Problem
+                                │
+                                ↓
+                           My RAG v2
+                                │
+                                ↓
+                           Evaluation
+```
+
+This is **mandatory**, not an optional UX enhancement.
+
+The user should feel that they are operating on the same AI system throughout its lifecycle.
+
+---
+
+# 3. Navigation
+
+There should be three types of navigation.
+
+## 3.1 Global navigation
+
+Always-visible navigation:
+
+```text
+AI Engineering Lab
+
+Fundamentals
+GenAI Systems
+Evaluation
+Inference
+LLMOps
+```
+
+Users can freely jump between modules.
+
+---
+
+## 3.2 Learning-path navigation
+
+The recommended progression is:
+
+```text
+Fundamentals
+      ↓
+GenAI Systems
+      ↓
+Evaluation
+      ↓
+Inference
+      ↓
+LLMOps
+```
+
+The UI should indicate:
+
+* current module
+* completed modules
+* recommended next module
+* related modules
+
+---
+
+## 3.3 Artifact navigation
+
+This is the most important.
+
+If the user is looking at:
+
+```text
+My RAG v1
+```
+
+they should see:
+
+```text
+Build ✓
+Evaluate →
+Optimize →
+Deploy →
+Monitor →
+```
+
+Clicking **Evaluate** should open:
+
+```text
+Evaluation
+└── My RAG v1
+```
+
+with the artifact already selected.
+
+It should **not** merely open the generic Evaluation homepage.
+
+Similarly:
+
+```text
+[Optimize this RAG]
+[Deploy this RAG]
+[View monitoring]
+```
+
+must preserve the artifact context.
+
+---
+
+# 4. Breadcrumbs
+
+Use breadcrumbs throughout the application.
+
+Example:
+
+```text
+AI Engineering Lab
+ / GenAI Systems
+ / RAG
+ / My RAG v1
+```
+
+Then:
+
+```text
+AI Engineering Lab
+ / Evaluation
+ / RAG Evaluation
+ / My RAG v1
+```
+
+The user should always understand both:
+
+* where they are in the application
+* which AI artifact they are working with
+
+---
+
+# 5. Artifact Lifecycle UI
+
+Every artifact should have a lifecycle visualization:
+
+```text
+Build → Evaluate → Optimize → Deploy → Monitor
+  ✓         ✓          →          ○         ○
+```
+
+Meaning:
+
+* ✓ completed
+* → current/recommended
+* ○ not completed
+
+This gives the user a visual understanding of the relationship between the five modules.
+
+---
+
+# 6. Core Data Model
+
+The exact database schema can be refined during implementation, but the conceptual model should be:
+
+## AIArtifact
+
+```text
+AIArtifact
+├── id
+├── name
+├── type
+├── current_version
+├── status
+├── created_at
+└── updated_at
+```
+
+Possible types:
+
+```text
+rag
+agent
+workflow
+prompt
+inference_configuration
+```
+
+## ArtifactVersion
+
+```text
+ArtifactVersion
+├── id
+├── artifact_id
+├── version
+├── configuration
+├── model
+├── prompt_version
+├── dataset_version
+├── created_at
+└── metadata
+```
+
+Example:
+
+```text
+My RAG v1
+
+model: Gemini
+chunk_size: 500
+chunk_overlap: 50
+top_k: 5
+reranking: true
+prompt_version: v3
+```
+
+The configuration must be reproducible.
+
+---
+
+# 7. Shared Experiment Model
+
+All experiments should use a common conceptual model:
+
+```text
+Experiment
+├── id
+├── artifact_id
+├── artifact_version
+├── module
+├── model
+├── prompt
+├── dataset
+├── configuration
+├── metrics
+├── latency
+├── token_usage
+├── estimated_cost
+├── status
+└── created_at
+```
+
+This allows experiments from one module to be consumed by another.
+
+---
+
+# 8. Shared Evaluation Model
+
+```text
+EvaluationRun
+├── id
+├── artifact_id
+├── artifact_version
+├── dataset
+├── evaluator
+├── metrics
+├── score
+├── failures
+├── latency
+├── cost
+└── timestamp
+```
+
+Evaluation results should be usable by LLMOps deployment gates.
+
+Example:
+
+```text
+Evaluation
+     ↓
+Score >= 85%?
+   ↙       ↘
+ NO        YES
+ ↓          ↓
+Block     Deploy
+```
+
+---
+
+# 9. Shared Observability Model
+
+All AI operations should emit structured telemetry:
+
+```text
+trace_id
+request_id
+artifact_id
+artifact_version
+module
+operation
+model
+latency
+input_tokens
+output_tokens
+cost
+status
+error
+timestamp
+```
+
+The LLMOps module should consume this information.
+
+---
+
+# 10. Shared AI Provider Abstraction
+
+Use a provider abstraction rather than coupling the application to one vendor.
+
+```text
+AIProvider
+├── OpenAIProvider
+├── AnthropicProvider
+├── GeminiProvider
+└── VLLMProvider
+```
+
+At minimum capture:
+
+```text
+model
+input_tokens
+output_tokens
+latency
+estimated_cost
+request_id
+timestamp
+```
+
+Local development should support mock providers.
+
+---
+
+# 11. Module 1 — LLM & AI Fundamentals
+
+## Purpose
+
+Teach the technical foundations necessary to understand modern AI systems.
+
+The objective is **engineering-level understanding**, not frontier-model research.
+
+---
+
+## 11.1 Classical ML
+
+Interactive concepts:
+
+* regression
+* classification
+* clustering
+* loss
+* gradient descent
+* train/test split
+* overfitting
+* regularization
+* evaluation
+
+Example visualization:
+
+```text
+Dataset
+   ↓
+Model
+   ↓
+Training
+   ↓
+Decision Boundary
+   ↓
+Evaluation
+```
+
+Users should change parameters and immediately see the effect.
+
+---
+
+## 11.2 Neural Networks
+
+Teach visually:
+
+* neurons
+* weights
+* activations
+* forward propagation
+* loss
+* backpropagation
+* optimization
+
+---
+
+## 11.3 Transformers
+
+This should be one of the strongest visualizations in the application.
+
+Teach:
+
+* tokenization
+* embeddings
+* positional information
+* Q/K/V
+* attention scores
+* softmax
+* multi-head attention
+* causal masking
+* FFN
+* residual connections
+* layer normalization
+* Transformer blocks
+* autoregressive generation
+
+Central visualization:
+
+```text
+Text
+ ↓
+Tokens
+ ↓
+Embeddings
+ ↓
+Q/K/V
+ ↓
+Attention
+ ↓
+Multi-Head Attention
+ ↓
+FFN
+ ↓
+Next Token
+```
+
+Users should be able to inspect attention matrices and intermediate values.
+
+---
+
+## 11.4 Tiny LLM
+
+Build a deliberately tiny Transformer.
+
+Allow users to:
+
+* inspect architecture
+* train it
+* change parameters
+* observe loss
+* generate text
+
+Do not attempt large-scale training.
+
+---
+
+## 11.5 Do not include
+
+Avoid:
+
+* frontier model training
+* distributed training
+* advanced theoretical ML research
+* exhaustive classical ML algorithms
+* implementing every Transformer variant
+
+---
+
+## 11.6 What the developer learns
+
+* PyTorch
+* tensors
+* Transformer internals
+* training loops
+* ML fundamentals
+* model behavior
+
+---
+
+# 12. Module 2 — GenAI Systems Lab
+
+## Purpose
+
+Teach how modern AI applications are actually constructed.
+
+This should probably be the largest module.
+
+---
+
+## 12.1 LLM API
+
+Support:
+
+```text
+OpenAI
+Anthropic
+Gemini
+```
+
+Show:
+
+* model
+* input
+* output
+* token usage
+* latency
+* estimated cost
+* configuration
+
+---
+
+## 12.2 Prompt Engineering
+
+Allow:
+
+```text
+Prompt A
+vs
+Prompt B
+```
+
+Run identical test cases and compare results.
+
+---
+
+## 12.3 Structured Output
+
+Visualize:
+
+```text
+Natural Language
+       ↓
+JSON Schema
+       ↓
+Validation
+       ↓
+Structured Output
+```
+
+Allow users to modify schemas.
+
+---
+
+# 13. RAG
+
+This should be one of the most important interactive experiences.
+
+Pipeline:
+
+```text
+Document
+ ↓
+Parsing
+ ↓
+Chunking
+ ↓
+Embedding
+ ↓
+Vector Search
+ ↓
+Top-K
+ ↓
+Reranking
+ ↓
+Context
+ ↓
+LLM
+ ↓
+Answer
+```
+
+Every major step should be inspectable.
+
+Example:
+
+```text
+Query
+ ↓
+Embedding
+ ↓
+Document A  0.92
+Document C  0.84
+Document F  0.73
+```
+
+Allow manipulation of:
+
+* chunk size
+* overlap
+* top-K
+* similarity threshold
+* retrieval strategy
+* reranking
+* model
+
+The user should see how these parameters affect retrieval and final answers.
+
+---
+
+# 14. Tool Calling
+
+Visualize:
+
+```text
+User
+ ↓
+LLM
+ ↓
+Tool Selection
+ ↓
+Tool Execution
+ ↓
+Tool Result
+ ↓
+LLM
+ ↓
+Answer
+```
+
+---
+
+# 15. Agents
+
+Implement a simple real agent loop:
+
+```text
+Goal
+ ↓
+Plan
+ ↓
+Tool
+ ↓
+Observation
+ ↓
+Next Action
+ ↓
+Tool
+ ↓
+Final Answer
+```
+
+Show:
+
+* reasoning/action state at an appropriate abstraction level
+* tool calls
+* tool results
+* failures
+* retries
+* final answer
+
+Do not expose private chain-of-thought.
+
+---
+
+# 16. Workflows
+
+Compare visually:
+
+```text
+Deterministic Workflow
+```
+
+vs
+
+```text
+Agentic Workflow
+```
+
+The goal is to teach **when an agent is actually useful**.
+
+---
+
+# 17. Artifact Creation in Module 2
+
+Users must be able to save a system:
+
+```text
+[Save as AI Artifact]
+```
+
+Example:
+
+```text
+Name: My RAG
+Version: v1
+Type: RAG
+```
+
+After saving, provide:
+
+```text
+[Evaluate]
+[Optimize]
+[Deploy]
+[Monitor]
+```
+
+These buttons link directly into the corresponding modules while preserving the artifact.
+
+---
+
+# 18. Module 3 — AI Evaluation Lab
+
+## Purpose
+
+Teach the user how to determine whether an AI system actually works.
+
+This module operates on artifacts created in Module 2.
+
+---
+
+## 18.1 Dataset Builder
+
+Allow:
+
+* questions
+* expected answers
+* references
+* test cases
+* import/export
+
+---
+
+## 18.2 Evaluation
+
+```text
+AI Artifact
+ ↓
+Dataset
+ ↓
+Run
+ ↓
+Evaluation
+ ↓
+Score
+ ↓
+Comparison
+```
+
+---
+
+## 18.3 Metrics
+
+Include appropriate metrics such as:
+
+* exact match
+* semantic similarity
+* answer correctness
+* faithfulness
+* retrieval quality
+* latency
+* token usage
+* cost
+
+Explain when each metric is useful.
+
+---
+
+## 18.4 LLM-as-a-Judge
+
+```text
+Question
+Answer
+Reference
+ ↓
+Judge
+ ↓
+Score + Explanation
+```
+
+Teach limitations and evaluator bias.
+
+---
+
+## 18.5 Model Comparison
+
+Same dataset:
+
+```text
+Model A
+Model B
+Model C
+```
+
+Compare:
+
+```text
+Quality
+Latency
+Cost
+Consistency
+```
+
+---
+
+## 18.6 RAG Evaluation
+
+Separate:
+
+```text
+Retrieval Quality
+```
+
+from:
+
+```text
+Answer Quality
+```
+
+and:
+
+```text
+Faithfulness
+```
+
+This distinction should be visually obvious.
+
+---
+
+## 18.7 Agent Evaluation
+
+Measure:
+
+* task success
+* tool selection
+* tool execution
+* final answer
+* failure rate
+
+---
+
+## 18.8 Regression Testing
+
+Compare:
+
+```text
+My RAG v1
+vs
+My RAG v2
+```
+
+Show:
+
+```text
+Quality:     88 → 84  ↓
+Latency:    900 → 650 ↑
+Cost:      .004 → .002 ↑
+```
+
+The user should understand that optimization can introduce trade-offs.
+
+---
+
+## 18.9 Artifact Context
+
+If entering from:
+
+```text
+My RAG v1
+```
+
+the evaluation screen should automatically select:
+
+```text
+Artifact: My RAG
+Version: v1
+```
+
+After evaluation:
+
+```text
+[Create v2]
+[Optimize]
+[Deploy if passing]
+```
+
+---
+
+# 19. Module 4 — AI Inference Lab
+
+## Purpose
+
+Teach how models are served efficiently.
+
+This is where **vLLM** becomes a major topic.
+
+---
+
+## 19.1 Model Serving
+
+```text
+Client
+ ↓
+Inference Server
+ ↓
+Model
+ ↓
+Tokens
+```
+
+---
+
+## 19.2 vLLM
+
+Teach:
+
+* model serving
+* request scheduling
+* continuous batching
+* KV cache
+* throughput
+* latency
+* GPU memory
+
+---
+
+## 19.3 KV Cache
+
+Visualize:
+
+```text
+Prompt Tokens
+ ↓
+K/V States
+ ↓
+KV Cache
+ ↓
+Reuse
+```
+
+Allow changes to:
+
+* context length
+* generation length
+* concurrency
+
+Show memory implications.
+
+---
+
+## 19.4 Continuous Batching
+
+```text
+Request 1 ─┐
+Request 2 ─┼──→ Scheduler → GPU
+Request 3 ─┤
+Request 4 ─┘
+```
+
+Users should see why batching improves utilization.
+
+---
+
+## 19.5 Quantization
+
+Compare:
+
+```text
+FP16
+INT8
+INT4
+```
+
+Visualize:
+
+```text
+Memory
+Speed
+Quality
+```
+
+---
+
+## 19.6 Performance
+
+Show:
+
+* TTFT
+* latency
+* tokens/sec
+* throughput
+* concurrency
+* GPU utilization
+* memory
+
+---
+
+## 19.7 Hosted API vs Self-hosted
+
+Compare:
+
+```text
+Hosted API
+     vs
+Self-hosted inference
+```
+
+Compare:
+
+* cost
+* latency
+* control
+* infrastructure complexity
+
+---
+
+## 19.8 GPU
+
+GPU infrastructure should be optional.
+
+When no GPU is available:
+
+```text
+Simulation Mode
+```
+
+should provide educational behavior.
+
+Do not require permanently running GPUs.
+
+---
+
+# 20. Module 5 — AI Production / LLMOps Lab
+
+## Purpose
+
+Teach and implement the production lifecycle.
+
+This module has two roles:
+
+1. user-facing interactive educational content
+2. operational infrastructure used by the other modules
+
+It must **not** merely be an invisible implementation.
+
+---
+
+# 21. Experiment Tracking
+
+Show:
+
+```text
+My RAG v1
+My RAG v2
+My RAG v3
+```
+
+Compare:
+
+* model
+* prompt
+* dataset
+* configuration
+* quality
+* latency
+* cost
+
+---
+
+# 22. Versioning
+
+Track:
+
+* prompt versions
+* model versions
+* RAG configurations
+* datasets
+* application versions
+* inference configurations
+
+---
+
+# 23. CI/CD
+
+Interactive pipeline:
+
+```text
+Code
+ ↓
+Test
+ ↓
+Evaluate
+ ↓
+Threshold?
+ ├── FAIL → Stop
+ └── PASS → Deploy
+```
+
+Users should be able to change:
+
+* threshold
+* dataset
+* version
+
+and observe whether deployment proceeds.
+
+---
+
+# 24. Deployment
+
+Visualize:
+
+```text
+Development
+ ↓
+Staging
+ ↓
+Production
+```
+
+Deployment must reference a real artifact version.
+
+---
+
+# 25. Monitoring
+
+Show interactive:
+
+* requests
+* latency
+* errors
+* token usage
+* cost
+* evaluation score
+* model version
+
+Provide safe demo traffic generation.
+
+---
+
+# 26. Observability
+
+Visualize an AI trace:
+
+```text
+Request
+ ↓
+Agent
+ ↓
+RAG
+ ↓
+Retriever
+ ↓
+LLM
+ ↓
+Response
+```
+
+Users should be able to inspect the individual operations.
+
+---
+
+# 27. Cost Monitoring
+
+Show:
+
+```text
+Requests
+Tokens
+Model
+Cost / Request
+Estimated Monthly Cost
+```
+
+Changing the model or configuration should change the estimated cost.
+
+---
+
+# 28. Regression Detection
+
+Example:
+
+```text
+Production v1 → 88%
+New v2         → 72%
+                     ↓
+                 Regression
+```
+
+The system should visually identify the regression.
+
+---
+
+# 29. Rollback
+
+Visualize:
+
+```text
+v1 ━━━━━━━━━━━━━━━━━━━━━
+                       \
+v2                     ━━━━━ X
+                              ↓
+                           Rollback
+                              ↓
+v1 restored
+```
+
+This should be connected to the actual artifact/deployment state where practical.
+
+---
+
+# 30. The Complete User Journey
+
+The final application should support a journey such as:
+
+```text
+1. Learn Transformer attention
+            ↓
+2. Build a RAG
+            ↓
+3. Save "My RAG v1"
+            ↓
+4. Evaluate it
+            ↓
+5. Discover retrieval problem
+            ↓
+6. Modify chunking/top-K
+            ↓
+7. Save "My RAG v2"
+            ↓
+8. Compare v1 vs v2
+            ↓
+9. Benchmark inference
+            ↓
+10. Select inference configuration
+            ↓
+11. Pass evaluation gate
+            ↓
+12. Deploy v2
+            ↓
+13. Generate traffic
+            ↓
+14. Monitor
+            ↓
+15. Detect regression
+            ↓
+16. Roll back
+            ↓
+17. Improve
+            ↓
+18. Return to Evaluation
+```
+
+This journey is the **core demonstration of the entire product**.
+
+---
+
+# 31. High-Level Folder Structure
+
+The repository must have exactly these four major directories:
+
+```text
+/
+├── docs/
+├── frontend/
+├── backend/
+└── infra/
+```
+
+## docs
+
+```text
+docs/
+├── README.md
+├── architecture/
+├── learning/
+│   ├── fundamentals/
+│   ├── genai-systems/
+│   ├── evaluation/
+│   ├── inference/
+│   └── llmops/
+├── product/
+├── api/
+└── decisions/
+```
+
+Documentation should include:
+
+* architecture
+* learning objectives
+* module specifications
+* API specifications
+* design decisions
+* deployment instructions
+
+---
+
+# 32. Frontend
+
+Recommended:
+
+* Next.js
+* TypeScript
+* React
+
+Structure:
+
+```text
+frontend/
+├── app/
+├── components/
+├── features/
+│   ├── fundamentals/
+│   ├── genai/
+│   ├── evaluation/
+│   ├── inference/
+│   └── llmops/
+├── lib/
+├── hooks/
+├── types/
+├── public/
+└── tests/
+```
+
+Build reusable components for:
+
+* diagrams
+* interactive visualizations
+* charts
+* node graphs
+* pipeline visualization
+* experiment controls
+* artifact lifecycle
+* comparisons
+* traces
+* metrics
+
+---
+
+# 33. Backend
+
+Recommended:
+
+* Python
+* FastAPI
+
+Structure:
+
+```text
+backend/
+├── app/
+│   ├── api/
+│   ├── core/
+│   ├── models/
+│   ├── services/
+│   ├── providers/
+│   ├── artifacts/
+│   ├── evaluation/
+│   ├── retrieval/
+│   ├── agents/
+│   ├── inference/
+│   └── observability/
+├── tests/
+└── pyproject.toml
+```
+
+---
+
+# 34. Infrastructure
+
+Everything must be Terraform-managed.
+
+```text
+infra/
+├── environments/
+│   ├── dev/
+│   └── prod/
+├── modules/
+│   ├── cloud-run/
+│   ├── firestore/
+│   ├── storage/
+│   ├── artifact-registry/
+│   ├── monitoring/
+│   └── iam/
+├── providers.tf
+├── variables.tf
+├── outputs.tf
+└── README.md
+```
+
+---
+
+# 35. Phase 1 — Local Implementation
+
+**Phase 1 must not depend on GCP.**
+
+Implement and validate locally first.
+
+Use:
+
+```text
+Frontend
+   ↓
+Local Backend
+   ↓
+Local/mock persistence
+   ↓
+Mock/real AI providers
+```
+
+Where practical, provide:
+
+* mock LLM provider
+* deterministic datasets
+* simulation mode
+* local evaluation
+* simulated GPU/inference behavior
+
+The learning experience must remain usable without cloud infrastructure.
+
+Use environment variables for API keys.
+
+Never commit secrets.
+
+---
+
+# 36. Phase 2 — GCP
+
+Only after the five modules have individually passed user testing should the cloud implementation begin.
+
+Target architecture:
+
+```text
+Frontend
+     ↓
+Cloud Storage / appropriate static hosting
+     ↓
+Cloud Run
+     ↓
+Firestore
+     ↓
+Cloud Storage
+     ↓
+External LLM APIs
+```
+
+Potential supporting services:
+
+```text
+Artifact Registry
+Cloud Logging
+Cloud Monitoring
+IAM
+```
+
+Avoid unnecessarily complex infrastructure.
+
+Do not initially use:
+
+* GKE
+* Cloud SQL
+* always-on VM
+* always-on GPU
+* unnecessary load balancers
+
+GPU/vLLM infrastructure should be optional.
+
+---
+
+# 37. Terraform
+
+**All cloud infrastructure must be managed by Terraform.**
+
+Terraform must manage relevant:
+
+* GCP APIs
+* Cloud Run
+* Firestore
+* Cloud Storage
+* Artifact Registry
+* IAM
+* service accounts
+* monitoring
+* logging
+* optional GPU resources
+
+Document:
+
+```bash
+terraform init
+terraform plan
+terraform apply
+terraform destroy
+```
+
+No manually created infrastructure should be required for the final deployment.
+
+---
+
+# 38. Cost Strategy
+
+Expected traffic is extremely small.
+
+Optimize for:
+
+> Maximum learning value per yen.
+
+Prefer:
+
+```text
+Cloud Storage
++
+Cloud Run
++
+Firestore
++
+External LLM APIs
+```
+
+GPU infrastructure should normally be stopped.
+
+Implement:
+
+* mock mode
+* inexpensive models
+* experiment limits
+* dataset limits
+* cost estimates
+* safe demo traffic limits
+* explicit GPU activation
+
+Avoid accidentally generating large cloud bills.
+
+---
+
+# 39. Security
+
+Minimum requirements:
+
+* no secrets in Git
+* environment variables / secret management
+* least-privilege IAM
+* input validation
+* output validation
+* safe tool execution
+* prompt-injection awareness
+* no arbitrary user-code execution
+* clear separation between simulation and actual infrastructure operations
+
+---
+
+# 40. Testing
+
+Each module requires:
+
+* unit tests
+* integration tests
+* critical interaction tests
+* end-to-end tests
+
+Minimum:
+
+```text
+Fundamentals
+→ experiment works
+
+GenAI
+→ RAG works
+
+Evaluation
+→ evaluation works
+
+Inference
+→ benchmark works
+
+LLMOps
+→ evaluate → deploy → monitor works
+```
+
+Also test cross-module artifact navigation:
+
+```text
+Create artifact
+ ↓
+Evaluate artifact
+ ↓
+Optimize artifact
+ ↓
+Deploy artifact
+ ↓
+Monitor artifact
+```
+
+---
+
+# 41. User Testing Strategy
+
+The user will manually test **each module immediately after completion**.
+
+Therefore, implementation must be strictly incremental.
+
+```text
+MODULE 1
+    ↓
+Local verification
+    ↓
+User test
+    ↓
+Feedback
+    ↓
+Fix / improve
+    ↓
+MODULE 2
+    ↓
+Local verification
+    ↓
+User test
+    ↓
+...
+```
+
+Do not implement all five modules before user testing.
+
+After every module, provide:
+
+```text
+- What was implemented
+- How to run locally
+- What the user should test
+- Learning objectives covered
+- Known limitations
+- Expected behavior
+```
+
+Wait for user feedback before proceeding.
+
+---
+
+# 42. Definition of Done
+
+A module is complete only when:
+
+* learning objectives are clear
+* concepts are interactively visualized
+* important parameters are manipulable
+* results visibly update
+* explanations are concise
+* UI is coherent
+* cross-module links work
+* artifacts persist where applicable
+* local frontend/backend work
+* tests pass
+* loading states exist
+* error states exist
+* no obvious console errors
+* responsive layout works
+* documentation exists
+* user-test checklist exists
+
+For Modules 2–5:
+
+**Artifact context must survive navigation between modules.**
+
+---
+
+# 43. Development Sequence
+
+For every module:
+
+```text
+1. Define learning objectives
+2. Define concepts
+3. Define interactive experiments
+4. Define visualizations
+5. Define artifact/data requirements
+6. Implement backend
+7. Implement frontend
+8. Connect frontend/backend
+9. Implement cross-module navigation
+10. Implement persistence
+11. Add tests
+12. Verify locally
+13. Polish UX
+14. Prepare user-test checklist
+15. STOP
+16. User performs test
+17. Apply feedback
+18. Continue to next module
+```
+
+---
+
+# 44. What Should NOT Be Overbuilt
+
+The purpose is to demonstrate strong AI engineering, not to build a miniature hyperscaler.
+
+Avoid spending excessive time on:
+
+* frontier model training
+* advanced ML research
+* implementing every classical ML algorithm
+* building an LLM framework
+* Kubernetes
+* distributed infrastructure
+* complicated multi-agent systems
+* permanent GPU infrastructure
+* enterprise IAM complexity
+
+Prioritize:
+
+```text
+AI understanding
++
+AI application engineering
++
+Evaluation
++
+Inference
++
+LLMOps
+```
+
+---
+
+# 45. Final Technical Learning Outcome
+
+After completing the entire application, the developer should have practical experience with:
+
+### AI
+
+* Transformers
+* attention
+* embeddings
+* RAG
+* agents
+* evaluation
+
+### AI application engineering
+
+* LLM APIs
+* structured outputs
+* retrieval
+* tool calling
+* workflows
+* provider abstraction
+
+### ML
+
+* classical ML fundamentals
+* PyTorch
+* training
+* optimization
+
+### Inference
+
+* vLLM
+* KV cache
+* batching
+* quantization
+* GPU memory
+* latency
+* throughput
+
+### LLMOps
+
+* experiment tracking
+* evaluation gates
+* versioning
+* CI/CD
+* deployment
+* observability
+* monitoring
+* regression detection
+* rollback
+* cost management
+
+### Cloud
+
+* GCP
+* Cloud Run
+* Firestore
+* Cloud Storage
+* Artifact Registry
+* IAM
+* Terraform
+
+---
+
+# 46. Final Instruction to Claude Code
+
+**Implement this as one coherent application, not five separate applications.**
+
+The most important architectural requirements are:
+
+```text
+ONE APPLICATION
+      │
+      ├── Fundamentals
+      ├── GenAI Systems
+      ├── Evaluation
+      ├── Inference
+      └── LLMOps
+             │
+             │
+      SHARED AI ARTIFACTS
+             │
+             ↓
+     BUILD → EVALUATE → OPTIMIZE
+             ↓
+          DEPLOY
+             ↓
+         MONITOR
+             ↓
+         IMPROVE
+             ↺
+```
+
+The five modules should be individually understandable, but their **integration is part of the product's educational value**.
+
+The final system should let a user go from:
+
+> "I want to understand how an AI system works"
+
+to:
+
+> "I built one, measured it, optimized it, deployed it, monitored it, detected a problem, and improved it."
+
+That complete lifecycle is the core of the AI Engineering Lab.
