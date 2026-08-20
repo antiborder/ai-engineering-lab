@@ -35,7 +35,7 @@ export default function FundamentalsPage() {
     <div>
       <Breadcrumbs items={[{ label: "Fundamentals" }]} />
       <h1 className="text-2xl font-semibold mb-1">Fundamentals</h1>
-      <p className="text-neutral-400 mb-8 max-w-2xl">
+      <p className="text-neutral-600 mb-8 max-w-2xl">
         Engineering-level understanding of how modern AI systems work, from classical ML up
         through a real (tiny) Transformer you train yourself.
       </p>
@@ -46,19 +46,19 @@ export default function FundamentalsPage() {
             <Link
               key={s.href}
               href={s.href}
-              className="block rounded-lg border border-neutral-800 bg-neutral-900 p-4 hover:border-neutral-600 transition-colors"
+              className="block rounded-lg border border-neutral-200 bg-white p-4 hover:border-neutral-400 transition-colors"
             >
-              <div className="font-medium text-neutral-100">{s.label}</div>
-              <p className="text-sm text-neutral-400 mt-1">{s.description}</p>
+              <div className="font-medium text-neutral-900">{s.label}</div>
+              <p className="text-sm text-neutral-600 mt-1">{s.description}</p>
             </Link>
           ) : (
             <div
               key={s.href}
-              className="block rounded-lg border border-neutral-900 bg-neutral-950 p-4 opacity-50"
+              className="block rounded-lg border border-neutral-200 bg-neutral-50 p-4 opacity-50"
             >
-              <div className="font-medium text-neutral-300 flex items-center gap-2">
+              <div className="font-medium text-neutral-400 flex items-center gap-2">
                 {s.label}
-                <span className="text-[10px] uppercase tracking-wide text-neutral-500 border border-neutral-800 rounded px-1.5 py-0.5">
+                <span className="text-[10px] uppercase tracking-wide text-neutral-500 border border-neutral-200 rounded px-1.5 py-0.5">
                   coming soon
                 </span>
               </div>

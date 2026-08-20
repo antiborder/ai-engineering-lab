@@ -11,9 +11,9 @@ export function RetrievedChunksList({ chunks, reranked }: { chunks: RetrievedChu
       {chunks.map((c, i) => {
         const displayScore = reranked ? c.rerank_score ?? c.score : c.score;
         return (
-          <li key={i} className="bg-neutral-900 border border-neutral-800 rounded-md p-3">
+          <li key={i} className="bg-white border border-neutral-200 rounded-md p-3">
             <div className="flex items-center justify-between text-xs mb-1.5">
-              <span className="text-neutral-300 font-medium">
+              <span className="text-neutral-400 font-medium">
                 {c.doc_title} <span className="text-neutral-600">#{c.chunk_index}</span>
               </span>
               <span className="text-neutral-500 font-mono">
@@ -23,13 +23,13 @@ export function RetrievedChunksList({ chunks, reranked }: { chunks: RetrievedChu
                 {displayScore.toFixed(3)}
               </span>
             </div>
-            <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden mb-2">
+            <div className="h-1.5 bg-neutral-200 rounded-full overflow-hidden mb-2">
               <div
-                className="h-full bg-cyan-500/70"
+                className="h-full bg-cyan-600"
                 style={{ width: `${(displayScore / maxScore) * 100}%` }}
               />
             </div>
-            <p className="text-xs text-neutral-400">{c.text}</p>
+            <p className="text-xs text-neutral-600">{c.text}</p>
           </li>
         );
       })}

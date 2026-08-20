@@ -29,11 +29,11 @@ export function ModulePlaceholder({
         }
       />
       <h1 className="text-2xl font-semibold mb-1">{label}</h1>
-      <p className="text-neutral-400 mb-8 max-w-2xl">{tagline}</p>
+      <p className="text-neutral-600 mb-8 max-w-2xl">{tagline}</p>
 
       {artifact?.artifactName && (
-        <div className="rounded-lg border border-cyan-900 bg-cyan-950/20 p-4 max-w-2xl mb-4">
-          <p className="text-sm text-cyan-400">
+        <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-4 max-w-2xl mb-4">
+          <p className="text-sm text-cyan-700">
             Selected artifact: <span className="font-mono">{artifact.artifactName} {artifact.artifactVersion}</span>
           </p>
           <p className="text-xs text-neutral-500 mt-1">
@@ -43,12 +43,12 @@ export function ModulePlaceholder({
         </div>
       )}
 
-      <div className="rounded-lg border border-dashed border-neutral-800 p-6 max-w-2xl">
-        <p className="text-sm text-neutral-400">{purpose}</p>
+      <div className="rounded-lg border border-dashed border-neutral-200 p-6 max-w-2xl">
+        <p className="text-sm text-neutral-600">{purpose}</p>
         <p className="text-sm text-neutral-500 mt-3">
           This module is not implemented yet. Development proceeds one module at a time,
           starting with Fundamentals — see{" "}
-          <a href="/fundamentals" className="text-cyan-400 hover:underline">
+          <a href="/fundamentals" className="text-cyan-700 hover:underline">
             Fundamentals
           </a>{" "}
           for what is live today.

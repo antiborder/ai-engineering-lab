@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
-/* This app uses a single dark theme (no light/dark toggle yet) — kept as
+/* This app uses a single light theme (no light/dark toggle yet) — kept as
    the one source of truth here since Tailwind v4 utilities live inside a
    cascade layer and would otherwise silently lose to any unlayered rule
    here, regardless of specificity. */
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
 @theme inline {

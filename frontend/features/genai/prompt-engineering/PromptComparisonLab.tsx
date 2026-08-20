@@ -48,36 +48,36 @@ export function PromptComparisonLab() {
     <div className="space-y-6">
       <div className="grid md:grid-cols-2 gap-4">
         <label className="block text-sm">
-          <div className="text-neutral-400 mb-1">Prompt A (system instructions)</div>
+          <div className="text-neutral-600 mb-1">Prompt A (system instructions)</div>
           <textarea
             value={promptA}
             onChange={(e) => setPromptA(e.target.value)}
             rows={3}
-            className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-3 py-2 text-sm text-neutral-100 font-mono"
+            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900 font-mono"
           />
         </label>
         <label className="block text-sm">
-          <div className="text-neutral-400 mb-1">Prompt B (system instructions)</div>
+          <div className="text-neutral-600 mb-1">Prompt B (system instructions)</div>
           <textarea
             value={promptB}
             onChange={(e) => setPromptB(e.target.value)}
             rows={3}
-            className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-3 py-2 text-sm text-neutral-100 font-mono"
+            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900 font-mono"
           />
         </label>
       </div>
 
       <div>
-        <div className="text-sm text-neutral-400 mb-2">Test cases (same input sent to both prompts)</div>
+        <div className="text-sm text-neutral-600 mb-2">Test cases (same input sent to both prompts)</div>
         <ul className="space-y-1.5">
           {testCases.map((tc, i) => (
             <li key={i} className="flex items-center gap-2">
-              <span className="flex-1 text-sm font-mono text-neutral-300 bg-neutral-900 border border-neutral-800 rounded-md px-3 py-1.5">
+              <span className="flex-1 text-sm font-mono text-neutral-400 bg-white border border-neutral-200 rounded-md px-3 py-1.5">
                 {tc}
               </span>
               <button
                 onClick={() => setTestCases((cases) => cases.filter((_, j) => j !== i))}
-                className="text-xs text-neutral-500 hover:text-red-400 px-2"
+                className="text-xs text-neutral-500 hover:text-red-700 px-2"
                 aria-label="Remove test case"
               >
                 ✕
@@ -90,7 +90,7 @@ export function PromptComparisonLab() {
             value={newCase}
             onChange={(e) => setNewCase(e.target.value)}
             placeholder="Add a test case…"
-            className="flex-1 bg-neutral-900 border border-neutral-800 rounded-md px-3 py-1.5 text-sm text-neutral-100"
+            className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-1.5 text-sm text-neutral-900"
           />
           <button
             onClick={() => {
@@ -98,7 +98,7 @@ export function PromptComparisonLab() {
               setTestCases((cases) => [...cases, newCase.trim()]);
               setNewCase("");
             }}
-            className="px-3 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm text-neutral-200"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
           >
             Add
           </button>
@@ -109,7 +109,7 @@ export function PromptComparisonLab() {
         <select
           value={model}
           onChange={(e) => setModel(e.target.value)}
-          className="bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-sm text-neutral-100"
+          className="bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-sm text-neutral-900"
         >
           <option value="mock-small">mock-small</option>
           <option value="mock-large">mock-large</option>
@@ -117,13 +117,13 @@ export function PromptComparisonLab() {
         <button
           onClick={handleRun}
           disabled={loading || testCases.length === 0}
-          className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-sm font-medium text-white"
+          className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
         >
           {loading ? "Running…" : "Run comparison"}
         </button>
       </div>
       {error && (
-        <p className="text-sm text-red-400 bg-red-950/40 border border-red-900 rounded-md px-3 py-2">{error}</p>
+        <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
       )}
 
       {resultsA && resultsB && (
@@ -150,15 +150,15 @@ function ResultColumn({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between text-sm">
-        <span className="font-medium text-neutral-200">{label}</span>
+        <span className="font-medium text-neutral-800">{label}</span>
         <span className="text-xs text-neutral-500">
           avg {avgLatency.toFixed(0)}ms · {avgTokens.toFixed(0)} tokens
         </span>
       </div>
       {results.map((r, i) => (
-        <div key={i} className="bg-neutral-900 border border-neutral-800 rounded-md p-3">
+        <div key={i} className="bg-white border border-neutral-200 rounded-md p-3">
           <div className="text-xs text-neutral-500 mb-1">{testCases[i]}</div>
-          <div className="text-sm text-neutral-200">{r.text}</div>
+          <div className="text-sm text-neutral-800">{r.text}</div>
         </div>
       ))}
     </div>

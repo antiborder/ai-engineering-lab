@@ -18,7 +18,7 @@ export default function GenAiPage() {
     <div>
       <Breadcrumbs items={[{ label: "GenAI Systems" }]} />
       <h1 className="text-2xl font-semibold mb-1">GenAI Systems</h1>
-      <p className="text-neutral-400 mb-8 max-w-2xl">
+      <p className="text-neutral-600 mb-8 max-w-2xl">
         How modern AI applications are actually built. RAG is where you save your first AI
         Artifact — it then follows you into Evaluation, Inference, and LLMOps.
       </p>
@@ -28,10 +28,10 @@ export default function GenAiPage() {
           <Link
             key={s.href}
             href={s.href}
-            className="block rounded-lg border border-neutral-800 bg-neutral-900 p-4 hover:border-neutral-600 transition-colors"
+            className="block rounded-lg border border-neutral-200 bg-white p-4 hover:border-neutral-400 transition-colors"
           >
-            <div className="font-medium text-neutral-100">{s.label}</div>
-            <p className="text-sm text-neutral-400 mt-1">{s.description}</p>
+            <div className="font-medium text-neutral-900">{s.label}</div>
+            <p className="text-sm text-neutral-600 mt-1">{s.description}</p>
           </Link>
         ))}
       </div>

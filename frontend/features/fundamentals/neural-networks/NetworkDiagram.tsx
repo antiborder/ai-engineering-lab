@@ -21,7 +21,7 @@ function nodePositions(sizes: number[]): { x: number; y: number }[][] {
 }
 
 function weightColor(w: number): string {
-  return w >= 0 ? "#22d3ee" : "#fb923c";
+  return w >= 0 ? "#0891b2" : "#ea580c";
 }
 
 /** Nodes = neurons (input, hidden, output). Edge thickness/opacity = |weight|,
@@ -42,7 +42,13 @@ export function NetworkDiagram({
   const maxAbsW = Math.max(0.05, ...weights.flatMap((l) => l.W.flat().map(Math.abs)));
 
   return (
-    <svg width={WIDTH} height={HEIGHT} className="bg-neutral-900 rounded-md border border-neutral-800">
+    <div className="w-full max-w-[460px] mx-auto">
+    <svg
+      width={WIDTH}
+      height={HEIGHT}
+      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      className="bg-white rounded-md border border-neutral-200 w-full h-auto"
+    >
       {weights.map((layer, l) =>
         layer.W.map((row, i) =>
           row.map((w, j) => {
@@ -74,13 +80,14 @@ export function NetworkDiagram({
               cx={pos.x}
               cy={pos.y}
               r={NODE_R}
-              fill={`rgba(167, 139, 250, ${0.25 + intensity * 0.7})`}
-              stroke="#a78bfa"
+              fill={`rgba(124, 58, 237, ${0.25 + intensity * 0.7})`}
+              stroke="#7c3aed"
               strokeWidth={1}
             />
           );
         })
       )}
     </svg>
+    </div>
   );
 }

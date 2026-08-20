@@ -10,7 +10,12 @@ export function AttentionHeatmap({ tokens, attn }: { tokens: string[]; attn: num
   const size = LABEL_MARGIN + n * CELL;
 
   return (
-    <svg width={size} height={size} className="bg-neutral-900 rounded-md border border-neutral-800">
+    // The heatmap's pixel size grows with token count, and its axis labels
+    // are small text baked into the SVG's coordinate system — shrinking the
+    // whole thing to fit a narrow viewport would make labels illegible, so
+    // it scrolls horizontally instead of scaling down.
+    <div className="w-full max-w-full overflow-x-auto">
+    <svg width={size} height={size} className="bg-white rounded-md border border-neutral-200">
       {tokens.map((tok, i) => (
         <text
           key={`row-${i}`}
@@ -18,7 +23,7 @@ export function AttentionHeatmap({ tokens, attn }: { tokens: string[]; attn: num
           y={LABEL_MARGIN + i * CELL + CELL / 2 + 4}
           textAnchor="end"
           fontSize={11}
-          fill="#a3a3a3"
+          fill="#525252"
         >
           {tok}
         </text>
@@ -30,7 +35,7 @@ export function AttentionHeatmap({ tokens, attn }: { tokens: string[]; attn: num
           y={LABEL_MARGIN - 8}
           textAnchor="middle"
           fontSize={11}
-          fill="#a3a3a3"
+          fill="#525252"
           transform={`rotate(-45, ${LABEL_MARGIN + j * CELL + CELL / 2}, ${LABEL_MARGIN - 8})`}
         >
           {tok}
@@ -54,5 +59,6 @@ export function AttentionHeatmap({ tokens, attn }: { tokens: string[]; attn: num
         })
       )}
     </svg>
+    </div>
   );
 }

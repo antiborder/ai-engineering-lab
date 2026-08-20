@@ -1,7 +1,7 @@
 const TONE_CLASSES = {
-  default: { border: "border-neutral-800 bg-neutral-900", text: "text-neutral-100" },
-  warn: { border: "border-amber-800 bg-amber-950/30", text: "text-amber-400" },
-  good: { border: "border-emerald-800 bg-emerald-950/30", text: "text-emerald-400" },
+  default: { border: "border-neutral-200 bg-white", text: "text-neutral-900" },
+  warn: { border: "border-amber-300 bg-amber-50", text: "text-amber-800" },
+  good: { border: "border-emerald-300 bg-emerald-50", text: "text-emerald-700" },
 } as const;
 
 export function StatCard({

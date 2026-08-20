@@ -8,7 +8,7 @@ export default function StructuredOutputPage() {
     <div>
       <Breadcrumbs items={[{ label: "GenAI Systems", href: "/genai" }, { label: "Structured Output" }]} />
       <h1 className="text-2xl font-semibold mb-1">Structured Output</h1>
-      <p className="text-neutral-400 mb-8 max-w-2xl">
+      <p className="text-neutral-600 mb-8 max-w-2xl">
         Edit the JSON Schema and see the shape of the output change with it — and watch
         validation catch it when the output doesn&rsquo;t match. Requires the backend to be
         running.

@@ -17,9 +17,9 @@ export function Slider({
 }) {
   return (
     <label className="block text-sm">
-      <div className="flex justify-between text-neutral-400 mb-1">
+      <div className="flex justify-between text-neutral-600 mb-1">
         <span>{label}</span>
-        <span className="text-neutral-200 tabular-nums">{format ? format(value) : value}</span>
+        <span className="text-neutral-800 tabular-nums">{format ? format(value) : value}</span>
       </div>
       <input
         type="range"
@@ -28,7 +28,7 @@ export function Slider({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full accent-cyan-400"
+        className="w-full accent-cyan-600"
       />
     </label>
   );

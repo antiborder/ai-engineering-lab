@@ -8,7 +8,7 @@ export default function RagPage() {
     <div>
       <Breadcrumbs items={[{ label: "GenAI Systems", href: "/genai" }, { label: "RAG" }]} />
       <h1 className="text-2xl font-semibold mb-1">RAG</h1>
-      <p className="text-neutral-400 mb-8 max-w-2xl">
+      <p className="text-neutral-600 mb-8 max-w-2xl">
         Ask a question, watch retrieval find the relevant chunks by real vector similarity (not
         fabricated scores), and see how chunk size, overlap, top-K, and reranking change what
         the model sees. Save it as an AI Artifact when you&rsquo;re happy with it — that&rsquo;s

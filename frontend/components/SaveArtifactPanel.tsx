@@ -53,8 +53,8 @@ export function SaveArtifactPanel({
     }).toString();
 
     return (
-      <div className="rounded-md border border-emerald-800 bg-emerald-950/30 p-4 space-y-3">
-        <p className="text-sm text-emerald-400">
+      <div className="rounded-md border border-emerald-300 bg-emerald-50 p-4 space-y-3">
+        <p className="text-sm text-emerald-700">
           Saved as AI Artifact: <span className="font-mono">{saved.name} {saved.version}</span>
         </p>
         <div className="flex flex-wrap gap-2">
@@ -67,7 +67,7 @@ export function SaveArtifactPanel({
             <Link
               key={btn.label}
               href={btn.href}
-              className="px-3 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm text-neutral-200"
+              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
             >
               {btn.label}
             </Link>
@@ -83,18 +83,18 @@ export function SaveArtifactPanel({
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="flex-1 bg-neutral-900 border border-neutral-800 rounded-md px-3 py-1.5 text-sm text-neutral-100"
+          className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-1.5 text-sm text-neutral-900"
           placeholder="Artifact name"
         />
         <button
           onClick={handleSave}
           disabled={saving || !name}
-          className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-sm font-medium text-white whitespace-nowrap"
+          className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white whitespace-nowrap"
         >
           {saving ? "Saving…" : "Save as AI Artifact"}
         </button>
       </div>
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs text-red-700">{error}</p>}
     </div>
   );
 }

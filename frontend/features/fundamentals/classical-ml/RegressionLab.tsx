@@ -4,9 +4,11 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { generateRegressionData, type RegressionPoint } from "./data";
 import { PolynomialRegressor } from "./models";
 import { RegressionPlot } from "./RegressionPlot";
+import { RegressionWalkthrough } from "./RegressionWalkthrough";
 import { LossChart } from "./LossChart";
 import { Slider } from "./Slider";
 import { StatCard } from "@/components/StatCard";
+import { Term } from "@/components/Term";
 
 const MAX_HISTORY = 120;
 const LR = 0.6;
@@ -21,6 +23,7 @@ export function RegressionLab() {
   const [trainRatio, setTrainRatio] = useState(0.3);
   const [showTrueFn, setShowTrueFn] = useState(true);
   const [playing, setPlaying] = useState(true);
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
 
   const points = useMemo(
     () => generateRegressionData(seed, 60, noiseStd, trainRatio),
@@ -28,7 +31,26 @@ export function RegressionLab() {
   );
 
   return (
-    <div className="grid md:grid-cols-[420px_1fr] gap-6">
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+          <span className="text-neutral-800 font-medium">Regression</span> means predicting a
+          number from an input — here, a y-value from an x-value. The model is a curve; training
+          means adjusting that curve so its predictions are as close as possible to the real data,
+          measured by a <Term id="loss">loss</Term> function, without memorizing the training
+          points so exactly that it fails on new ones (<Term id="overfitting">overfitting</Term>).
+        </p>
+        <RegressionWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+      </div>
+
+      {walkthroughComplete && (
+      <div>
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 mb-4">
+          Same idea, now with controls. Try raising the polynomial degree past 8 — watch the gap
+          between train and test loss open up.
+        </p>
+        <div className="grid md:grid-cols-[420px_1fr] gap-6">
       {/* Changing degree/lambda/dataset remounts the trainer below, which
           restarts training from scratch — so every parameter's effect is
           visible from epoch 0 (spec 11.1). */}
@@ -47,7 +69,7 @@ export function RegressionLab() {
               <StatCard label="Test loss (MSE)" value={stats.testLoss.toFixed(4)} tone={stats.overfitting ? "warn" : "default"} />
             </div>
             {stats.overfitting && (
-              <p className="text-xs text-amber-400 bg-amber-950/40 border border-amber-900 rounded-md px-3 py-2">
+              <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
                 Test loss is much higher than train loss — the model is overfitting the
                 training points instead of learning the underlying function. Try lowering the
                 polynomial degree or raising the L2 regularization strength.
@@ -55,8 +77,8 @@ export function RegressionLab() {
             )}
             <LossChart
               series={[
-                { label: "train", color: "#a78bfa", values: stats.history.train },
-                { label: "test", color: "#fb923c", values: stats.history.test },
+                { label: "train", color: "#7c3aed", values: stats.history.train },
+                { label: "test", color: "#ea580c", values: stats.history.test },
               ]}
             />
 
@@ -70,17 +92,17 @@ export function RegressionLab() {
             <div className="flex items-center gap-3 pt-1">
               <button
                 onClick={() => setPlaying((p) => !p)}
-                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-500 text-sm font-medium text-white"
+                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white"
               >
                 {playing ? "Pause" : "Resume"} training
               </button>
               <button
                 onClick={() => setSeed((s) => s + 1)}
-                className="px-3 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm text-neutral-200"
+                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-700"
               >
                 New dataset
               </button>
-              <label className="flex items-center gap-1.5 text-sm text-neutral-400 ml-auto">
+              <label className="flex items-center gap-1.5 text-sm text-neutral-600 ml-auto">
                 <input type="checkbox" checked={showTrueFn} onChange={(e) => setShowTrueFn(e.target.checked)} />
                 show true function
               </label>
@@ -89,6 +111,9 @@ export function RegressionLab() {
           </div>
         )}
       </RegressionTrainer>
+        </div>
+      </div>
+      )}
     </div>
   );
 }
@@ -158,10 +183,10 @@ function RegressionTrainer({
     <>
       <div className="space-y-4">
         <RegressionPlot points={points} model={model} showTrueFn={showTrueFn} />
-        <div className="flex flex-wrap gap-3 text-xs text-neutral-400">
-          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-violet-400" /> train points</span>
-          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-orange-400" /> test points</span>
-          <span className="flex items-center gap-1.5"><span className="w-2.5 h-0.5 bg-cyan-400" /> model fit</span>
+        <div className="flex flex-wrap gap-3 text-xs text-neutral-600">
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-violet-600" /> train points</span>
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-orange-600" /> test points</span>
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-0.5 bg-cyan-600" /> model fit</span>
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-0.5 border-t border-dashed border-neutral-500" /> true function</span>
         </div>
       </div>

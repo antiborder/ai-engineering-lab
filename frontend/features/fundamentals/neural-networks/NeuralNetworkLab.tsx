@@ -69,25 +69,25 @@ export function NeuralNetworkLab() {
               <StatCard label="Test accuracy" value={`${(stats.testAcc * 100).toFixed(1)}%`} warn={stats.overfitting} />
             </div>
             {stats.overfitting && (
-              <p className="text-xs text-amber-400 bg-amber-950/40 border border-amber-900 rounded-md px-3 py-2">
+              <p className="text-xs text-amber-800 bg-amber-50 border border-amber-300 rounded-md px-3 py-2">
                 Test loss is diverging from train loss. Larger networks can overfit just like
                 high-degree polynomials did in Classical ML.
               </p>
             )}
             <LossChart
               series={[
-                { label: "train", color: "#a78bfa", values: stats.history.train },
-                { label: "test", color: "#fb923c", values: stats.history.test },
+                { label: "train", color: "#7c3aed", values: stats.history.train },
+                { label: "test", color: "#ea580c", values: stats.history.test },
               ]}
             />
 
             <div className="space-y-3 pt-2">
               <label className="block text-sm">
-                <div className="text-neutral-400 mb-1">Architecture</div>
+                <div className="text-neutral-600 mb-1">Architecture</div>
                 <select
                   value={archIndex}
                   onChange={(e) => setArchIndex(Number(e.target.value))}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-neutral-100"
+                  className="w-full bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-900"
                 >
                   {ARCHITECTURES.map((a, i) => (
                     <option key={a.label} value={i}>
@@ -97,11 +97,11 @@ export function NeuralNetworkLab() {
                 </select>
               </label>
               <label className="block text-sm">
-                <div className="text-neutral-400 mb-1">Activation</div>
+                <div className="text-neutral-600 mb-1">Activation</div>
                 <select
                   value={activation}
                   onChange={(e) => setActivation(e.target.value as Activation)}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-neutral-100"
+                  className="w-full bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-900"
                 >
                   <option value="tanh">tanh</option>
                   <option value="relu">ReLU</option>
@@ -118,13 +118,13 @@ export function NeuralNetworkLab() {
             <div className="flex items-center gap-3 pt-1">
               <button
                 onClick={() => setPlaying((p) => !p)}
-                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-500 text-sm font-medium text-white"
+                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white"
               >
                 {playing ? "Pause" : "Resume"} training
               </button>
               <button
                 onClick={() => setSeed((s) => s + 1)}
-                className="px-3 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm text-neutral-200"
+                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
               >
                 New dataset
               </button>
@@ -204,8 +204,8 @@ function NetworkTrainer({
       <div className="space-y-4">
         <NetworkDiagram config={config} weights={weights} activations={activations} />
         <DecisionBoundaryCanvas points={points} predict={predict} domain={DOMAIN} />
-        <div className="flex flex-wrap gap-3 text-xs text-neutral-400">
-          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-orange-400" /> class 0</span>
+        <div className="flex flex-wrap gap-3 text-xs text-neutral-600">
+          <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-orange-600" /> class 0</span>
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-cyan-400" /> class 1</span>
           <span>node brightness = mean activation · edge color = weight sign</span>
         </div>
@@ -217,9 +217,9 @@ function NetworkTrainer({
 
 function StatCard({ label, value, warn }: { label: string; value: string; warn?: boolean }) {
   return (
-    <div className={`rounded-md border px-3 py-2 ${warn ? "border-amber-800 bg-amber-950/30" : "border-neutral-800 bg-neutral-900"}`}>
+    <div className={`rounded-md border px-3 py-2 ${warn ? "border-amber-300 bg-amber-50" : "border-neutral-200 bg-white"}`}>
       <div className="text-xs text-neutral-500">{label}</div>
-      <div className={`text-lg font-mono ${warn ? "text-amber-400" : "text-neutral-100"}`}>{value}</div>
+      <div className={`text-lg font-mono ${warn ? "text-amber-800" : "text-neutral-900"}`}>{value}</div>
     </div>
   );
 }

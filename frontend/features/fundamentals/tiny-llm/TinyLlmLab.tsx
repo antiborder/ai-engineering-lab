@@ -122,20 +122,20 @@ export function TinyLlmLab() {
   }
 
   if (error && !state) {
-    return <p className="text-sm text-red-400 bg-red-950/40 border border-red-900 rounded-md px-3 py-2 max-w-lg">{error}</p>;
+    return <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2 max-w-lg">{error}</p>;
   }
 
   return (
     <div className="space-y-6">
       {error && (
-        <p className="text-sm text-red-400 bg-red-950/40 border border-red-900 rounded-md px-3 py-2">
+        <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">
           {error}
         </p>
       )}
 
       <details className="text-sm">
-        <summary className="cursor-pointer text-neutral-400">Training text ({corpus.length} characters)</summary>
-        <pre className="mt-2 whitespace-pre-wrap text-xs text-neutral-500 bg-neutral-900 border border-neutral-800 rounded-md p-3 max-h-40 overflow-y-auto">
+        <summary className="cursor-pointer text-neutral-600">Training text ({corpus.length} characters)</summary>
+        <pre className="mt-2 whitespace-pre-wrap text-xs text-neutral-500 bg-white border border-neutral-200 rounded-md p-3 max-h-40 overflow-y-auto">
           {corpus}
         </pre>
       </details>
@@ -149,11 +149,11 @@ export function TinyLlmLab() {
 
           <div className="space-y-3">
             <label className="block text-sm">
-              <div className="text-neutral-400 mb-1">Transformer blocks</div>
+              <div className="text-neutral-600 mb-1">Transformer blocks</div>
               <select
                 value={nLayer}
                 onChange={(e) => setNLayer(Number(e.target.value))}
-                className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-neutral-100"
+                className="w-full bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-900"
               >
                 {[1, 2, 3, 4].map((n) => (
                   <option key={n} value={n}>
@@ -163,11 +163,11 @@ export function TinyLlmLab() {
               </select>
             </label>
             <label className="block text-sm">
-              <div className="text-neutral-400 mb-1">Attention heads</div>
+              <div className="text-neutral-600 mb-1">Attention heads</div>
               <select
                 value={nHead}
                 onChange={(e) => setNHead(Number(e.target.value))}
-                className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-neutral-100"
+                className="w-full bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-900"
               >
                 {[1, 2, 4].map((n) => (
                   <option key={n} value={n}>
@@ -181,18 +181,18 @@ export function TinyLlmLab() {
 
           <button
             onClick={handleReinit}
-            className="w-full px-3 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm text-neutral-200"
+            className="w-full px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
           >
             Reinitialize model (resets training)
           </button>
         </div>
 
         <div className="space-y-4">
-          <LossChart series={[{ label: "loss", color: "#22d3ee", values: state?.loss_history ?? [] }]} />
+          <LossChart series={[{ label: "loss", color: "#0891b2", values: state?.loss_history ?? [] }]} />
           <div className="flex items-center gap-3">
             <button
               onClick={() => setPlaying((p) => !p)}
-              className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-500 text-sm font-medium text-white"
+              className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white"
             >
               {playing ? "Pause" : "Train"}
             </button>
@@ -201,19 +201,19 @@ export function TinyLlmLab() {
             </p>
           </div>
 
-          <div className="space-y-3 pt-2 border-t border-neutral-900">
-            <div className="text-sm text-neutral-400">Generate</div>
+          <div className="space-y-3 pt-2 border-t border-neutral-200">
+            <div className="text-sm text-neutral-600">Generate</div>
             <div className="flex gap-2">
               <input
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="flex-1 bg-neutral-900 border border-neutral-800 rounded-md px-3 py-1.5 text-sm text-neutral-100 font-mono"
+                className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-1.5 text-sm text-neutral-900 font-mono"
                 placeholder="prompt"
               />
               <button
                 onClick={handleGenerate}
                 disabled={generating || !prompt}
-                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-sm font-medium text-white"
+                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
               >
                 {generating ? "Generating…" : "Generate"}
               </button>
@@ -223,7 +223,7 @@ export function TinyLlmLab() {
               <Slider label="Temperature" value={temperature} min={0.1} max={1.5} step={0.05} onChange={setTemperature} format={(v) => v.toFixed(2)} />
             </div>
             {generated && (
-              <pre className="whitespace-pre-wrap text-sm text-neutral-200 bg-neutral-900 border border-neutral-800 rounded-md p-3 max-h-56 overflow-y-auto">
+              <pre className="whitespace-pre-wrap text-sm text-neutral-800 bg-white border border-neutral-200 rounded-md p-3 max-h-56 overflow-y-auto">
                 {generated}
               </pre>
             )}

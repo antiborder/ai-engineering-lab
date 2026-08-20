@@ -12,18 +12,18 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
   const all: Crumb[] = [{ label: "AI Engineering Lab", href: "/" }, ...items];
 
   return (
-    <nav aria-label="Breadcrumb" className="text-sm text-neutral-400 mb-4">
+    <nav aria-label="Breadcrumb" className="text-sm text-neutral-600 mb-4">
       <ol className="flex flex-wrap items-center gap-1">
         {all.map((crumb, i) => (
           <Fragment key={i}>
             {i > 0 && <span className="text-neutral-600">/</span>}
             <li>
               {crumb.href && i < all.length - 1 ? (
-                <Link href={crumb.href} className="hover:text-neutral-100 transition-colors">
+                <Link href={crumb.href} className="hover:text-neutral-900 transition-colors">
                   {crumb.label}
                 </Link>
               ) : (
-                <span className="text-neutral-200">{crumb.label}</span>
+                <span className="text-neutral-800">{crumb.label}</span>
               )}
             </li>
           </Fragment>

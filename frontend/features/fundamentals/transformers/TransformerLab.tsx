@@ -50,20 +50,20 @@ export function TransformerLab() {
       <div className="flex flex-wrap items-center gap-1.5 text-xs text-neutral-500">
         {PIPELINE.map((stage, i) => (
           <span key={stage} className="flex items-center gap-1.5">
-            <span className="px-2 py-1 rounded-full border border-neutral-800 bg-neutral-900">
+            <span className="px-2 py-1 rounded-full border border-neutral-200 bg-white">
               {stage}
             </span>
-            {i < PIPELINE.length - 1 && <span className="text-neutral-700">→</span>}
+            {i < PIPELINE.length - 1 && <span className="text-neutral-400">→</span>}
           </span>
         ))}
       </div>
 
       <div className="space-y-2">
-        <label className="block text-sm text-neutral-400">Input text</label>
+        <label className="block text-sm text-neutral-600">Input text</label>
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-3 py-2 text-neutral-100 font-mono text-sm"
+          className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-900 font-mono text-sm"
           maxLength={120}
         />
         <TokenChips tokens={tokens} />
@@ -76,7 +76,7 @@ export function TransformerLab() {
         <div className="grid lg:grid-cols-[auto_1fr] gap-6">
           <div className="space-y-4">
             <div>
-              <div className="text-sm text-neutral-400 mb-2">
+              <div className="text-sm text-neutral-600 mb-2">
                 Attention — layer {clampedLayer + 1} of {numLayers}, head {clampedHead + 1} of{" "}
                 {numHeads}
               </div>
@@ -95,11 +95,11 @@ export function TransformerLab() {
           <div className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <label className="block text-sm">
-                <div className="text-neutral-400 mb-1">Layer</div>
+                <div className="text-neutral-600 mb-1">Layer</div>
                 <select
                   value={clampedLayer}
                   onChange={(e) => setLayerIndex(Number(e.target.value))}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-neutral-100"
+                  className="w-full bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-900"
                 >
                   {Array.from({ length: numLayers }, (_, i) => (
                     <option key={i} value={i}>
@@ -109,11 +109,11 @@ export function TransformerLab() {
                 </select>
               </label>
               <label className="block text-sm">
-                <div className="text-neutral-400 mb-1">Head</div>
+                <div className="text-neutral-600 mb-1">Head</div>
                 <select
                   value={clampedHead}
                   onChange={(e) => setHeadIndex(Number(e.target.value))}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-neutral-100"
+                  className="w-full bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-900"
                 >
                   {Array.from({ length: numHeads }, (_, i) => (
                     <option key={i} value={i}>
@@ -123,11 +123,11 @@ export function TransformerLab() {
                 </select>
               </label>
               <label className="block text-sm">
-                <div className="text-neutral-400 mb-1">Number of heads</div>
+                <div className="text-neutral-600 mb-1">Number of heads</div>
                 <select
                   value={numHeads}
                   onChange={(e) => setNumHeads(Number(e.target.value))}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-neutral-100"
+                  className="w-full bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-900"
                 >
                   {HEAD_OPTIONS.map((h) => (
                     <option key={h} value={h}>
@@ -137,11 +137,11 @@ export function TransformerLab() {
                 </select>
               </label>
               <label className="block text-sm">
-                <div className="text-neutral-400 mb-1">Transformer blocks</div>
+                <div className="text-neutral-600 mb-1">Transformer blocks</div>
                 <select
                   value={numLayers}
                   onChange={(e) => setNumLayers(Number(e.target.value))}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-neutral-100"
+                  className="w-full bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-neutral-900"
                 >
                   {LAYER_OPTIONS.map((l) => (
                     <option key={l} value={l}>
@@ -154,13 +154,13 @@ export function TransformerLab() {
 
             <button
               onClick={() => setSeed((s) => s + 1)}
-              className="px-3 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 text-sm text-neutral-200"
+              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
             >
               Reinitialize weights
             </button>
 
             <div>
-              <div className="text-sm text-neutral-400 mb-2">
+              <div className="text-sm text-neutral-600 mb-2">
                 Next-token prediction (from &ldquo;{tokens.at(-1)}&rdquo;)
               </div>
               <NextTokenBars predictions={result.nextTokenLogits} />

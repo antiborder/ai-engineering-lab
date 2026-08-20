@@ -37,29 +37,29 @@ export function LlmApiLab() {
     <div className="grid md:grid-cols-[1fr_380px] gap-6">
       <div className="space-y-4">
         <label className="block text-sm">
-          <div className="text-neutral-400 mb-1">System prompt (optional)</div>
+          <div className="text-neutral-600 mb-1">System prompt (optional)</div>
           <textarea
             value={system}
             onChange={(e) => setSystem(e.target.value)}
             rows={2}
-            className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-3 py-2 text-sm text-neutral-100 font-mono"
+            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900 font-mono"
             placeholder="You are a helpful assistant."
           />
         </label>
         <label className="block text-sm">
-          <div className="text-neutral-400 mb-1">Prompt</div>
+          <div className="text-neutral-600 mb-1">Prompt</div>
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             rows={5}
-            className="w-full bg-neutral-900 border border-neutral-800 rounded-md px-3 py-2 text-sm text-neutral-100 font-mono"
+            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900 font-mono"
           />
         </label>
         <div className="flex items-center gap-3">
           <select
             value={model}
             onChange={(e) => setModel(e.target.value)}
-            className="bg-neutral-900 border border-neutral-800 rounded-md px-2 py-1.5 text-sm text-neutral-100"
+            className="bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-sm text-neutral-900"
           >
             {models.map((m) => (
               <option key={m} value={m}>
@@ -70,23 +70,23 @@ export function LlmApiLab() {
           <button
             onClick={handleRun}
             disabled={loading || !prompt}
-            className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-sm font-medium text-white"
+            className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
           >
             {loading ? "Running…" : "Run"}
           </button>
         </div>
         {error && (
-          <p className="text-sm text-red-400 bg-red-950/40 border border-red-900 rounded-md px-3 py-2">{error}</p>
+          <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
         )}
         {result && (
-          <pre className="whitespace-pre-wrap text-sm text-neutral-200 bg-neutral-900 border border-neutral-800 rounded-md p-3">
+          <pre className="whitespace-pre-wrap text-sm text-neutral-800 bg-white border border-neutral-200 rounded-md p-3">
             {result.text}
           </pre>
         )}
       </div>
 
       <div className="space-y-3">
-        <div className="text-sm text-neutral-400">Call details</div>
+        <div className="text-sm text-neutral-600">Call details</div>
         <div className="grid grid-cols-2 gap-3">
           <StatCard label="Model" value={result?.model ?? "—"} />
           <StatCard label="Latency" value={result ? `${result.latency_ms.toFixed(0)}ms` : "—"} />

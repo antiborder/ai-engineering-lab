@@ -18,15 +18,15 @@ export function ClassicalMlPlayground() {
 
   return (
     <div>
-      <div className="flex gap-1 mb-6 border-b border-neutral-800">
+      <div className="flex gap-1 mb-6 border-b border-neutral-200">
         {TABS.map((t) => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
               tab === t.id
-                ? "border-cyan-400 text-white"
-                : "border-transparent text-neutral-500 hover:text-neutral-300"
+                ? "border-cyan-600 text-neutral-900"
+                : "border-transparent text-neutral-500 hover:text-neutral-400"
             }`}
           >
             {t.label}
