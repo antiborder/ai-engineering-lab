@@ -272,15 +272,15 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
             {current.controls}
-            {current.resetAction && (
-              <button
-                onClick={current.resetAction}
-                className="text-xs text-neutral-500 hover:text-neutral-800"
-              >
-                ↺ Undo / reset this step
-              </button>
-            )}
           </div>
+        )}
+        {current.resetAction && (
+          <button
+            onClick={current.resetAction}
+            className="text-xs text-neutral-500 hover:text-neutral-800"
+          >
+            ↺ Undo / reset this step
+          </button>
         )}
 
         <div className="space-y-3">
