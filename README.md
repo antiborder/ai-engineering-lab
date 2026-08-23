@@ -1,6 +1,13 @@
-# AI Engineering Lab
+# AI Playground
 
-One integrated application teaching the full AI engineering lifecycle across five connected modules:
+AI Playground is a single app for learning AI from the ground up, built for beginners so they
+never get stuck or give up. Learn anywhere, anytime, covering the AI field quickly and simply —
+no prior background assumed. Every concept is taught through interactive 2D and 3D
+visualizations and hands-on experiments, not slides: drag a slider, watch a model overfit, train
+a real Transformer yourself. The goal throughout is understanding, not memorization — you learn
+an idea by experiencing it, not by reciting a definition.
+
+It teaches the full AI engineering lifecycle across five connected modules:
 
 1. **Fundamentals** — how LLMs work (classical ML → neural nets → Transformers → tiny LLM)
 2. **GenAI Systems** — how AI applications are built (LLM APIs, RAG, tool calling, agents, workflows)

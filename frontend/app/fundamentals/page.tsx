@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 
-export const metadata = { title: "Fundamentals — AI Engineering Lab" };
+export const metadata = { title: "Fundamentals" };
 
-const SECTIONS = [
+const UNITS = [
   {
     href: "/fundamentals/classical-ml",
     label: "Classical ML",
@@ -41,7 +41,7 @@ export default function FundamentalsPage() {
       </p>
 
       <div className="grid sm:grid-cols-2 gap-4">
-        {SECTIONS.map((s) =>
+        {UNITS.map((s) =>
           s.status === "ready" ? (
             <Link
               key={s.href}

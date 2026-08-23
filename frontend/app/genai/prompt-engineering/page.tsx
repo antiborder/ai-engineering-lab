@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PromptComparisonLab } from "@/features/genai/prompt-engineering/PromptComparisonLab";
 
-export const metadata = { title: "Prompt Engineering — AI Engineering Lab" };
+export const metadata = { title: "Prompt Engineering" };
 
 export default function PromptEngineeringPage() {
   return (

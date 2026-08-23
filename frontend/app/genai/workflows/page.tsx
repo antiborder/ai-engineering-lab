@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { WorkflowsLab } from "@/features/genai/workflows/WorkflowsLab";
 
-export const metadata = { title: "Workflows — AI Engineering Lab" };
+export const metadata = { title: "Workflows" };
 
 export default function WorkflowsPage() {
   return (

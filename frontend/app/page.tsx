@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MODULES } from "@/lib/modules";
+import { APP_NAME } from "@/lib/brand";
 
 const LIFECYCLE = ["Build", "Evaluate", "Optimize", "Deploy", "Monitor", "Improve"];
 
@@ -7,7 +8,7 @@ export default function Home() {
   return (
     <div>
       <div className="max-w-2xl mb-12">
-        <h1 className="text-3xl font-semibold mb-3">AI Engineering Lab</h1>
+        <h1 className="text-3xl font-semibold mb-3">{APP_NAME}</h1>
         <p className="text-neutral-600">
           One integrated lab, five connected modules. Everything you build shares a single{" "}
           <strong className="text-neutral-800 font-medium">AI Artifact</strong> lifecycle — build

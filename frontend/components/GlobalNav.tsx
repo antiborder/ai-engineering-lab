@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MODULES } from "@/lib/modules";
+import { APP_NAME } from "@/lib/brand";
 
 export function GlobalNav() {
   const pathname = usePathname();
@@ -14,7 +15,7 @@ export function GlobalNav() {
           href="/"
           className="font-semibold text-xs sm:text-sm text-neutral-900 shrink-0 whitespace-nowrap"
         >
-          AI Engineering Lab
+          {APP_NAME}
         </Link>
         <nav className="flex gap-1 overflow-x-auto min-w-0">
           {MODULES.map((module) => {

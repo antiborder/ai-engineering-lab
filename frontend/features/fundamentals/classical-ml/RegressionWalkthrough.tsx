@@ -3,12 +3,14 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Equation } from "@/components/Equation";
 import { Term } from "@/components/Term";
+import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { generateRegressionData, type RegressionPoint } from "./data";
 import { PolynomialRegressor } from "./models";
 import { RegressionPlot } from "./RegressionPlot";
 import { LossChart } from "./LossChart";
 import { MSELandscape } from "./MSELandscape";
 import { Slider } from "./Slider";
+import type { ChapterId } from "./ClassicalMlPlayground";
 
 const BASE_SEED = 7;
 const BASE_N = 16;
@@ -43,7 +45,13 @@ function trainStepsWithPath(model: PolynomialRegressor, points: RegressionPoint[
  * per subsection's little sandbox, so earlier subsections don't get
  * disturbed by sliders introduced later (e.g. the noise slider in "Noisy
  * Data" only ever touches that subsection's own dataset). */
-export function RegressionWalkthrough({ onComplete }: { onComplete: () => void }) {
+export function RegressionWalkthrough({
+  onComplete,
+  onNavigateToChapter,
+}: {
+  onComplete: () => void;
+  onNavigateToChapter?: (chapter: ChapterId) => void;
+}) {
   const [step, setStep] = useState(0);
 
   // Shared dataset used by "The Data", "Linear Model", "A More Flexible
@@ -120,6 +128,8 @@ export function RegressionWalkthrough({ onComplete }: { onComplete: () => void }
   const num = (n: number, d = 3) => n.toFixed(d);
 
   const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const chapterLinkBtn =
+    "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const trainBtn = (label: string, onClick: () => void) => (
     <button onClick={onClick} className={nextBtn}>
       {label}
@@ -1042,9 +1052,18 @@ export function RegressionWalkthrough({ onComplete }: { onComplete: () => void }
           version of everything you just learned is now unlocked — no more guided steps, just the sliders
           and controls, all in one place. Go make it overfit on purpose. Go find a learning rate that
           explodes. It&rsquo;s yours to break.
+          <br />
+          Or,{" "}
+          <button
+            type="button"
+            className={chapterLinkBtn}
+            onClick={() => onNavigateToChapter?.("classification")}
+          >
+            move on to Classification →
+          </button>
         </p>
       ),
-      visual: <RegressionPlot points={basePoints} model={cubModel} showTrueFn />,
+      visual: undefined,
     },
   ];
 
@@ -1087,36 +1106,33 @@ export function RegressionWalkthrough({ onComplete }: { onComplete: () => void }
         </span>
       </div>
 
-      <div className="h-1 rounded-full bg-neutral-200 overflow-hidden">
-        <div
-          className="h-full bg-cyan-600 transition-all"
-          style={{ width: `${((step + 1) / total) * 100}%` }}
-        />
-      </div>
+      <SegmentedProgressBar
+        sections={steps.map((s) => s.section)}
+        currentStep={step}
+        onSelectStep={setStep}
+      />
 
-      <div className="grid md:grid-cols-[420px_1fr] gap-6">
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+
+        {current.controls && (
+          <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
+            {current.controls}
+            {current.resetAction && (
+              <button
+                onClick={current.resetAction}
+                className="text-xs text-neutral-500 hover:text-neutral-800"
+              >
+                ↺ Undo training on this step
+              </button>
+            )}
+          </div>
+        )}
+
         <div className="space-y-3">
           {current.visual}
           {current.chart}
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-          <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
-
-          {current.controls && (
-            <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
-              {current.controls}
-              {current.resetAction && (
-                <button
-                  onClick={current.resetAction}
-                  className="text-xs text-neutral-500 hover:text-neutral-800"
-                >
-                  ↺ Undo training on this step
-                </button>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>

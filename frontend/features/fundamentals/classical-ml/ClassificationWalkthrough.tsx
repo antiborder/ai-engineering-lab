@@ -3,12 +3,14 @@
 import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { Equation } from "@/components/Equation";
 import { Term } from "@/components/Term";
+import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { generateMoonsData, type ClassificationPoint } from "./data";
 import { LogisticRegressor } from "./models";
 import { DecisionBoundaryCanvas } from "@/components/DecisionBoundaryCanvas";
 import { ProbabilitySurface3D } from "./ProbabilitySurface3D";
 import { LossChart } from "./LossChart";
 import { Slider } from "./Slider";
+import type { ChapterId } from "./ClassicalMlPlayground";
 
 const BASE_SEED = 6;
 const BASE_N = 20;
@@ -37,7 +39,13 @@ function trainSteps(model: LogisticRegressor, points: ClassificationPoint[], n: 
  * (ProbabilitySurface3D) that literally bends into shape as the model
  * trains, playing the same visual role MSELandscape played for
  * Regression's loss surface. */
-export function ClassificationWalkthrough({ onComplete }: { onComplete: () => void }) {
+export function ClassificationWalkthrough({
+  onComplete,
+  onNavigateToChapter,
+}: {
+  onComplete: () => void;
+  onNavigateToChapter?: (chapter: ChapterId) => void;
+}) {
   const [step, setStep] = useState(0);
 
   // Shared dataset for "The Data" through "The Learning Rate Dial" — fully
@@ -104,6 +112,8 @@ export function ClassificationWalkthrough({ onComplete }: { onComplete: () => vo
   const num = (v: number, d = 3) => v.toFixed(d);
 
   const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const chapterLinkBtn =
+    "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const trainBtn = (label: string, onClick: () => void) => (
     <button onClick={onClick} className={nextBtn}>
       {label}
@@ -202,7 +212,8 @@ export function ClassificationWalkthrough({ onComplete }: { onComplete: () => vo
           the result <Equation tex="P(y=1 \mid x)" display={false} /> — read aloud as{" "}
           <em>&ldquo;the probability y is 1, given x&rdquo;</em>, where{" "}
           <Equation tex={"\\mid"} display={false} /> just means &ldquo;given&rdquo;:
-          <Equation tex={"P(y=1 \\mid x) = \\sigma(z(x)), \\qquad \\sigma(z) = \\frac{1}{1+e^{-z}}"} />
+          <Equation tex={"P(y=1 \\mid x) = \\sigma(z(x))"} />
+          <Equation tex={"\\sigma(z) = \\frac{1}{1+e^{-z}}"} />
           <Equation tex="z(x)" display={false} /> is just the score from the previous step,{" "}
           <Equation tex="w_0 + w_1 x_1 + w_2 x_2" display={false} />, written for input{" "}
           <Equation tex="x = (x_1, x_2)" display={false} />. Large positive{" "}
@@ -267,9 +278,11 @@ export function ClassificationWalkthrough({ onComplete }: { onComplete: () => vo
           <Term id="cross-entropy">Cross-entropy loss</Term> checks each point&rsquo;s predicted
           probability of its <em>correct</em> class against certainty:
           <Equation tex={"\\text{Loss} = -\\frac{1}{n}\\sum_{i=1}^{n}\\big[y_i\\log p_i + (1-y_i)\\log(1-p_i)\\big]"} />
+          <Equation tex="n" display={false} /> is how many data points we have;{" "}
           <Equation tex="y_i" display={false} /> is point <Equation tex="i" display={false} />&rsquo;s
           true label (0 or 1); <Equation tex="p_i" display={false} /> is the model&rsquo;s predicted
-          probability that it&rsquo;s class 1. Right now, Loss ={" "}
+          probability that it&rsquo;s class 1 — so the loss is just an average, over all points, of
+          how wrong each prediction was. Right now, Loss ={" "}
           <span className="text-neutral-900 font-mono">{num(linModel.loss(basePoints), 4)}</span>,
           accuracy = <span className="text-neutral-900 font-mono">{pct(linModel.accuracy(basePoints))}</span>.
         </p>
@@ -812,9 +825,18 @@ export function ClassificationWalkthrough({ onComplete }: { onComplete: () => vo
         <p>
           Everything you just learned is now unlocked below as a free-play sandbox. Push the
           degree too high. Find a learning rate that jitters. See it for yourself.
+          <br />
+          Or,{" "}
+          <button
+            type="button"
+            className={chapterLinkBtn}
+            onClick={() => onNavigateToChapter?.("clustering")}
+          >
+            move on to Clustering →
+          </button>
         </p>
       ),
-      visual: <DecisionBoundaryCanvas points={basePoints} predict={cubPredict} domain={DOMAIN} />,
+      visual: undefined,
     },
   ];
 
@@ -854,36 +876,33 @@ export function ClassificationWalkthrough({ onComplete }: { onComplete: () => vo
         </span>
       </div>
 
-      <div className="h-1 rounded-full bg-neutral-200 overflow-hidden">
-        <div
-          className="h-full bg-cyan-600 transition-all"
-          style={{ width: `${((step + 1) / total) * 100}%` }}
-        />
-      </div>
+      <SegmentedProgressBar
+        sections={steps.map((s) => s.section)}
+        currentStep={step}
+        onSelectStep={setStep}
+      />
 
-      <div className="grid md:grid-cols-[420px_1fr] gap-6">
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+
+        {current.controls && (
+          <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
+            {current.controls}
+            {current.resetAction && (
+              <button
+                onClick={current.resetAction}
+                className="text-xs text-neutral-500 hover:text-neutral-800"
+              >
+                ↺ Undo training on this step
+              </button>
+            )}
+          </div>
+        )}
+
         <div className="space-y-3">
           {current.visual}
           {current.chart}
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-          <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
-
-          {current.controls && (
-            <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
-              {current.controls}
-              {current.resetAction && (
-                <button
-                  onClick={current.resetAction}
-                  className="text-xs text-neutral-500 hover:text-neutral-800"
-                >
-                  ↺ Undo training on this step
-                </button>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>

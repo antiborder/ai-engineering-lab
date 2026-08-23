@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { TinyLlmLab } from "@/features/fundamentals/tiny-llm/TinyLlmLabClientOnly";
 
-export const metadata = { title: "Tiny LLM — AI Engineering Lab" };
+export const metadata = { title: "Tiny LLM" };
 
 export default function TinyLlmPage() {
   return (

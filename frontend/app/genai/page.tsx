@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 
-export const metadata = { title: "GenAI Systems — AI Engineering Lab" };
+export const metadata = { title: "GenAI Systems" };
 
-const SECTIONS = [
+const UNITS = [
   { href: "/genai/llm-api", label: "LLM API", description: "Model, input, output, tokens, latency, cost, configuration." },
   { href: "/genai/prompt-engineering", label: "Prompt Engineering", description: "Prompt A vs Prompt B, run identical test cases and compare." },
   { href: "/genai/structured-output", label: "Structured Output", description: "Natural language → JSON Schema → validation → structured output." },
@@ -24,7 +24,7 @@ export default function GenAiPage() {
       </p>
 
       <div className="grid sm:grid-cols-2 gap-4">
-        {SECTIONS.map((s) => (
+        {UNITS.map((s) => (
           <Link
             key={s.href}
             href={s.href}

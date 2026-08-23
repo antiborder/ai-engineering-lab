@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RagLab } from "@/features/genai/rag/RagLab";
 
-export const metadata = { title: "RAG — AI Engineering Lab" };
+export const metadata = { title: "RAG" };
 
 export default function RagPage() {
   return (

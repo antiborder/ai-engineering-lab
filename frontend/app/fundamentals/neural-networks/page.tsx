@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { NeuralNetworkLab } from "@/features/fundamentals/neural-networks/NeuralNetworkLabClientOnly";
 
-export const metadata = { title: "Neural Networks — AI Engineering Lab" };
+export const metadata = { title: "Neural Networks" };
 
 export default function NeuralNetworksPage() {
   return (

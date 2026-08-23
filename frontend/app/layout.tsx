@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GlobalNav } from "@/components/GlobalNav";
+import { APP_NAME } from "@/lib/brand";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 
@@ -15,7 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Engineering Lab",
+  title: {
+    default: APP_NAME,
+    template: `%s — ${APP_NAME}`,
+  },
   description:
     "Build, evaluate, optimize, deploy, monitor and improve AI systems — one integrated lab across five connected modules.",
 };

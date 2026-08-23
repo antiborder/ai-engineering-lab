@@ -1,6 +1,6 @@
 import { ModulePlaceholder } from "@/components/ModulePlaceholder";
 
-export const metadata = { title: "Inference — AI Engineering Lab" };
+export const metadata = { title: "Inference" };
 
 export default async function InferencePage({ searchParams }: PageProps<"/inference">) {
   const params = await searchParams;

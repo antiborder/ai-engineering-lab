@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ToolCallingLab } from "@/features/genai/tool-calling/ToolCallingLab";
 
-export const metadata = { title: "Tool Calling — AI Engineering Lab" };
+export const metadata = { title: "Tool Calling" };
 
 export default function ToolCallingPage() {
   return (

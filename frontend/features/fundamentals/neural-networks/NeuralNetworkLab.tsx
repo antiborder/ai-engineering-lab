@@ -18,6 +18,7 @@ import {
   type Sample,
 } from "./mlp";
 import { NetworkDiagram } from "./NetworkDiagram";
+import { NeuralNetworkWalkthrough } from "./NeuralNetworkWalkthrough";
 
 const MAX_HISTORY = 120;
 const STEPS_PER_TICK = 4;
@@ -43,6 +44,7 @@ export function NeuralNetworkLab() {
   const [noiseStd, setNoiseStd] = useState(0.15);
   const [trainRatio, setTrainRatio] = useState(0.4);
   const [playing, setPlaying] = useState(true);
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
 
   const points = useMemo(
     () => generateMoonsData(seed, 90, noiseStd, trainRatio),
@@ -54,7 +56,17 @@ export function NeuralNetworkLab() {
   );
 
   return (
-    <div className="grid md:grid-cols-[460px_1fr] gap-6">
+    <div className="space-y-8">
+      <NeuralNetworkWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+
+      {walkthroughComplete && (
+      <div>
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 mb-4">
+          Same idea, now with controls. Try an oversized architecture on a small, noisy dataset
+          to see it overfit.
+        </p>
+        <div className="grid md:grid-cols-[460px_1fr] gap-6">
       <NetworkTrainer
         key={`${archIndex}-${activation}-${lr}-${seed}-${noiseStd}-${trainRatio}`}
         points={points}
@@ -133,6 +145,9 @@ export function NeuralNetworkLab() {
           </div>
         )}
       </NetworkTrainer>
+        </div>
+      </div>
+      )}
     </div>
   );
 }

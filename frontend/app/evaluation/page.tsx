@@ -1,6 +1,6 @@
 import { ModulePlaceholder } from "@/components/ModulePlaceholder";
 
-export const metadata = { title: "Evaluation — AI Engineering Lab" };
+export const metadata = { title: "Evaluation" };
 
 export default async function EvaluationPage({ searchParams }: PageProps<"/evaluation">) {
   const params = await searchParams;

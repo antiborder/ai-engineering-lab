@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { AgentLab } from "@/features/genai/agents/AgentLab";
 
-export const metadata = { title: "Agents — AI Engineering Lab" };
+export const metadata = { title: "Agents" };
 
 export default function AgentsPage() {
   return (

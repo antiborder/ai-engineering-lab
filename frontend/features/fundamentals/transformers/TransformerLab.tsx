@@ -6,6 +6,10 @@ import { forward, initWeights, type TransformerConfig } from "./transformer";
 import { TokenChips } from "./TokenChips";
 import { AttentionHeatmap } from "./AttentionHeatmap";
 import { NextTokenBars } from "./NextTokenBars";
+import { TokensEmbeddingsWalkthrough } from "./TokensEmbeddingsWalkthrough";
+import { AttentionWalkthrough } from "./AttentionWalkthrough";
+import { TransformerBlockWalkthrough } from "./TransformerBlockWalkthrough";
+import { GeneratingTextWalkthrough } from "./GeneratingTextWalkthrough";
 
 const D_MODEL = 24;
 const HEAD_OPTIONS = [1, 2, 3, 4, 6, 8];
@@ -23,7 +27,18 @@ const PIPELINE = [
   "Next Token",
 ];
 
+const CHAPTERS = [
+  { id: "tokens", label: "Tokens & Embeddings" },
+  { id: "attention", label: "Attention" },
+  { id: "block", label: "The Transformer Block" },
+  { id: "generating", label: "Generating Text" },
+] as const;
+
+export type ChapterId = (typeof CHAPTERS)[number]["id"];
+
 export function TransformerLab() {
+  const [activeChapter, setActiveChapter] = useState<ChapterId>("tokens");
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
   const [text, setText] = useState(DEFAULT_TEXT);
   const [numHeads, setNumHeads] = useState(4);
   const [numLayers, setNumLayers] = useState(2);
@@ -46,7 +61,43 @@ export function TransformerLab() {
   const clampedHead = Math.min(headIndex, numHeads - 1);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      <div>
+        <div className="flex flex-wrap gap-1 mb-4 border-b border-neutral-200">
+          {CHAPTERS.map((c) => (
+            <button
+              key={c.id}
+              onClick={() => setActiveChapter(c.id)}
+              className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
+                activeChapter === c.id
+                  ? "border-cyan-600 text-neutral-900"
+                  : "border-transparent text-neutral-500 hover:text-neutral-400"
+              }`}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+        {activeChapter === "tokens" && (
+          <TokensEmbeddingsWalkthrough onNavigateToChapter={setActiveChapter} />
+        )}
+        {activeChapter === "attention" && (
+          <AttentionWalkthrough onNavigateToChapter={setActiveChapter} />
+        )}
+        {activeChapter === "block" && (
+          <TransformerBlockWalkthrough onNavigateToChapter={setActiveChapter} />
+        )}
+        {activeChapter === "generating" && (
+          <GeneratingTextWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+        )}
+      </div>
+
+      {walkthroughComplete && (
+      <div className="space-y-6">
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 -mt-4">
+          Same pipeline, now with full controls. Type any text and inspect every layer and head.
+        </p>
       <div className="flex flex-wrap items-center gap-1.5 text-xs text-neutral-500">
         {PIPELINE.map((stage, i) => (
           <span key={stage} className="flex items-center gap-1.5">
@@ -173,6 +224,8 @@ export function TransformerLab() {
             </div>
           </div>
         </div>
+      )}
+      </div>
       )}
     </div>
   );

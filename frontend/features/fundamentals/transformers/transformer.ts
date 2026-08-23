@@ -30,6 +30,12 @@ export type TransformerWeights = LayerWeights[];
 
 export interface LayerTrace {
   attnByHead: number[][][]; // [head][queryPos][keyPos], post-softmax
+  /** Full (pre-head-split) Query/Key/Value matrices, one row per token —
+   * exposed so the walkthrough can show real Q/K/V vectors, not just the
+   * post-softmax attention weights. */
+  Q: number[][];
+  K: number[][];
+  V: number[][];
 }
 
 export interface ForwardResult {
@@ -119,7 +125,7 @@ function addMatrices(a: number[][], b: number[][]): number[][] {
   return a.map((row, i) => row.map((v, j) => v + b[i][j]));
 }
 
-function layerNorm(X: number[][]): number[][] {
+export function layerNorm(X: number[][]): number[][] {
   const eps = 1e-5;
   return X.map((row) => {
     const mean = row.reduce((s, v) => s + v, 0) / row.length;
@@ -141,7 +147,7 @@ function selfAttention(
   weights: AttnWeights,
   numHeads: number,
   causal: boolean
-): { output: number[][]; attnByHead: number[][][] } {
+): { output: number[][]; attnByHead: number[][][]; Q: number[][]; K: number[][]; V: number[][] } {
   const seqLen = X.length;
   const dModel = X[0].length;
   const headDim = dModel / numHeads;
@@ -175,7 +181,7 @@ function selfAttention(
     attnByHead.push(attn);
   }
 
-  return { output: applyLinear(concatOut, weights.Wo), attnByHead };
+  return { output: applyLinear(concatOut, weights.Wo), attnByHead, Q, K, V };
 }
 
 function relu(X: number[][]): number[][] {
@@ -202,11 +208,11 @@ export function forward(
   const layers: LayerTrace[] = [];
 
   for (const layer of weights) {
-    const { output: attnOut, attnByHead } = selfAttention(X, layer.attn, config.numHeads, true);
+    const { output: attnOut, attnByHead, Q, K, V } = selfAttention(X, layer.attn, config.numHeads, true);
     const afterAttn = layerNorm(addMatrices(X, attnOut));
     const ffnOut = feedForward(afterAttn, layer.ffn);
     X = layerNorm(addMatrices(afterAttn, ffnOut));
-    layers.push({ attnByHead });
+    layers.push({ attnByHead, Q, K, V });
   }
 
   const lastHidden = X.at(-1)!;

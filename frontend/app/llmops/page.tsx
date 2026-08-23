@@ -1,6 +1,6 @@
 import { ModulePlaceholder } from "@/components/ModulePlaceholder";
 
-export const metadata = { title: "LLMOps — AI Engineering Lab" };
+export const metadata = { title: "LLMOps" };
 
 export default async function LlmOpsPage({ searchParams }: PageProps<"/llmops">) {
   const params = await searchParams;

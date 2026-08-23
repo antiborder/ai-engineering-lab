@@ -13,6 +13,7 @@ import {
   trainTinyLlm,
   type TinyLlmState,
 } from "./api";
+import { TinyLlmWalkthrough } from "./TinyLlmWalkthrough";
 
 const N_EMBD = 32;
 const BLOCK_SIZE = 48;
@@ -33,6 +34,7 @@ export function TinyLlmLab() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
 
   const [corpus, setCorpus] = useState<string>("");
   const [prompt, setPrompt] = useState("Alice");
@@ -117,15 +119,34 @@ export function TinyLlmLab() {
     }
   };
 
-  if (loading && !state) {
-    return <p className="text-neutral-500 text-sm">Loading Tiny LLM session…</p>;
-  }
-
-  if (error && !state) {
-    return <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2 max-w-lg">{error}</p>;
-  }
-
   return (
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+          <span className="text-neutral-800 font-medium">Tiny LLM</span> is the same Transformer
+          architecture from the last Unit, but real: a character-level model, trained live on the
+          backend with PyTorch, so its weights actually learn instead of staying fixed and random.
+        </p>
+        <TinyLlmWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+      </div>
+
+      {walkthroughComplete && (
+      <div>
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 mb-4">
+          Everything from the walkthrough, now for real: train this model, watch its loss drop,
+          and generate from it.
+        </p>
+
+        {loading && !state && <p className="text-neutral-500 text-sm">Loading Tiny LLM session…</p>}
+
+        {error && !state && (
+          <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2 max-w-lg">
+            {error}
+          </p>
+        )}
+
+        {state && (
     <div className="space-y-6">
       {error && (
         <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">
@@ -235,6 +256,10 @@ export function TinyLlmLab() {
           </div>
         </div>
       </div>
+    </div>
+        )}
+      </div>
+      )}
     </div>
   );
 }

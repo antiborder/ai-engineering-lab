@@ -21,7 +21,7 @@ export function Equation({ tex, display = true }: { tex: string; display?: boole
   });
   return (
     <span
-      className={display ? "block overflow-x-auto py-1" : "inline-block"}
+      className={display ? "block max-w-full overflow-x-auto py-1" : "inline-block max-w-full"}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

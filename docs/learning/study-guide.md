@@ -1,4 +1,4 @@
-# AI Engineering Lab 学習ガイド
+# AI Playground 学習ガイド
 
 Fundamentals と GenAI Systems、全11ページを順番に進めるための学習ガイド。各ページで「何をするか」と
 「そこで何がわかるようになるか」を、実際の画面構成（タブ・パイプライン・ステップ）に沿って書く。

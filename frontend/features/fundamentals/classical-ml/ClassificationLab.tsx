@@ -9,6 +9,7 @@ import { LossChart } from "./LossChart";
 import { Slider } from "./Slider";
 import { StatCard } from "@/components/StatCard";
 import { Term } from "@/components/Term";
+import type { ChapterId } from "./ClassicalMlPlayground";
 
 const MAX_HISTORY = 120;
 const LR = 1.2;
@@ -16,7 +17,11 @@ const STEPS_PER_TICK = 4;
 const TICK_MS = 60;
 const DOMAIN = { xMin: -1.6, xMax: 2.4, yMin: -1.9, yMax: 1.4 };
 
-export function ClassificationLab() {
+export function ClassificationLab({
+  onNavigateToChapter,
+}: {
+  onNavigateToChapter?: (chapter: ChapterId) => void;
+}) {
   const [seed, setSeed] = useState(1);
   const [degree, setDegree] = useState(3);
   const [lambda, setLambda] = useState(0);
@@ -41,7 +46,10 @@ export function ClassificationLab() {
           as regression: define a <Term id="loss">loss</Term>, then reduce it with{" "}
           <Term id="gradient-descent">gradient descent</Term>.
         </p>
-        <ClassificationWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+        <ClassificationWalkthrough
+          onComplete={() => setWalkthroughComplete(true)}
+          onNavigateToChapter={onNavigateToChapter}
+        />
       </div>
 
       {walkthroughComplete && (

@@ -16,7 +16,7 @@ export function Slider({
   format?: (v: number) => string;
 }) {
   return (
-    <label className="block text-sm">
+    <label className="block w-full text-sm">
       <div className="flex justify-between text-neutral-600 mb-1">
         <span>{label}</span>
         <span className="text-neutral-800 tabular-nums">{format ? format(value) : value}</span>

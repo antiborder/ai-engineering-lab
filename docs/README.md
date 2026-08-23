@@ -3,6 +3,8 @@
 - [`architecture/`](architecture/) — system architecture, local dev setup
 - [`learning/`](learning/) — learning objectives and content per module
 - [`product/`](product/) — module status, user-test checklists
+  - [`content-hierarchy.md`](product/content-hierarchy.md) — Module/Unit/Chapter/Section/Step naming convention
+  - [`pedagogy-guidelines.md`](product/pedagogy-guidelines.md) — design checklist for interactive Chapters
 - [`api/`](api/) — backend API reference
 - [`decisions/`](decisions/) — architecture decision records
 - [`spec.txt`](spec.txt) — the original product specification

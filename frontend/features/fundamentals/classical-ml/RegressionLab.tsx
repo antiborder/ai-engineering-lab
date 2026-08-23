@@ -9,13 +9,18 @@ import { LossChart } from "./LossChart";
 import { Slider } from "./Slider";
 import { StatCard } from "@/components/StatCard";
 import { Term } from "@/components/Term";
+import type { ChapterId } from "./ClassicalMlPlayground";
 
 const MAX_HISTORY = 120;
 const LR = 0.6;
 const STEPS_PER_TICK = 4;
 const TICK_MS = 60;
 
-export function RegressionLab() {
+export function RegressionLab({
+  onNavigateToChapter,
+}: {
+  onNavigateToChapter?: (chapter: ChapterId) => void;
+}) {
   const [seed, setSeed] = useState(1);
   const [degree, setDegree] = useState(3);
   const [lambda, setLambda] = useState(0);
@@ -40,7 +45,10 @@ export function RegressionLab() {
           measured by a <Term id="loss">loss</Term> function, without memorizing the training
           points so exactly that it fails on new ones (<Term id="overfitting">overfitting</Term>).
         </p>
-        <RegressionWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+        <RegressionWalkthrough
+          onComplete={() => setWalkthroughComplete(true)}
+          onNavigateToChapter={onNavigateToChapter}
+        />
       </div>
 
       {walkthroughComplete && (

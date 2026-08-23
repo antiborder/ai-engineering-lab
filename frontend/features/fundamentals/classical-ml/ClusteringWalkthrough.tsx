@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState, type ReactNode } from "react";
+import Link from "next/link";
 import { Equation } from "@/components/Equation";
 import { Term } from "@/components/Term";
+import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { generateBlobsData, type Point2D } from "./data";
 import { initCentroids, kmeansStep } from "./models";
 import { ClusteringPlot } from "./ClusteringPlot";
@@ -182,6 +184,8 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
   const num = (n: number, d = 2) => n.toFixed(d);
 
   const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const chapterLinkBtn =
+    "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const actionBtn = (label: string, onClick: () => void) => (
     <button onClick={onClick} className={nextBtn}>
       {label}
@@ -605,9 +609,14 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
         <p>
           Everything you just learned is now unlocked below as a free-play sandbox. Set k way too
           high. Re-roll the start until you catch it getting stuck. See it for yourself.
+          <br />
+          Or,{" "}
+          <Link href="/fundamentals/neural-networks" className={chapterLinkBtn}>
+            move on to Neural Networks →
+          </Link>
         </p>
       ),
-      visual: <ClusteringPlot points={lloydPoints} centroids={lloydCentroids} assignments={lloydDisplayAssignments} />,
+      visual: undefined,
     },
   ];
 
@@ -647,36 +656,33 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
         </span>
       </div>
 
-      <div className="h-1 rounded-full bg-neutral-200 overflow-hidden">
-        <div
-          className="h-full bg-cyan-600 transition-all"
-          style={{ width: `${((step + 1) / total) * 100}%` }}
-        />
-      </div>
+      <SegmentedProgressBar
+        sections={steps.map((s) => s.section)}
+        currentStep={step}
+        onSelectStep={setStep}
+      />
 
-      <div className="grid md:grid-cols-[420px_1fr] gap-6">
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+
+        {current.controls && (
+          <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
+            {current.controls}
+            {current.resetAction && (
+              <button
+                onClick={current.resetAction}
+                className="text-xs text-neutral-500 hover:text-neutral-800"
+              >
+                ↺ Undo / reset this step
+              </button>
+            )}
+          </div>
+        )}
+
         <div className="space-y-3">
           {current.visual}
           {current.chart}
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-          <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
-
-          {current.controls && (
-            <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
-              {current.controls}
-              {current.resetAction && (
-                <button
-                  onClick={current.resetAction}
-                  className="text-xs text-neutral-500 hover:text-neutral-800"
-                >
-                  ↺ Undo / reset this step
-                </button>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>

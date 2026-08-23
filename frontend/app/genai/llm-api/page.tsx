@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LlmApiLab } from "@/features/genai/llm-api/LlmApiLab";
 
-export const metadata = { title: "LLM API — AI Engineering Lab" };
+export const metadata = { title: "LLM API" };
 
 export default function LlmApiPage() {
   return (

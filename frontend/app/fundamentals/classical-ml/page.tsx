@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ClassicalMlPlayground } from "@/features/fundamentals/classical-ml/ClassicalMlPlaygroundClientOnly";
 
-export const metadata = { title: "Classical ML — AI Engineering Lab" };
+export const metadata = { title: "Classical ML" };
 
 export default function ClassicalMlPage() {
   return (

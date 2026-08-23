@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Fragment } from "react";
+import { APP_NAME } from "@/lib/brand";
 
 export interface Crumb {
   label: string;
@@ -9,7 +10,7 @@ export interface Crumb {
 /** Breadcrumb trail (spec section 4) — always shows where the user is,
  * and (on artifact pages) which AI artifact they're working with. */
 export function Breadcrumbs({ items }: { items: Crumb[] }) {
-  const all: Crumb[] = [{ label: "AI Engineering Lab", href: "/" }, ...items];
+  const all: Crumb[] = [{ label: APP_NAME, href: "/" }, ...items];
 
   return (
     <nav aria-label="Breadcrumb" className="text-sm text-neutral-600 mb-4">

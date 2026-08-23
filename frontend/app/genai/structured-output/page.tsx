@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { StructuredOutputLab } from "@/features/genai/structured-output/StructuredOutputLab";
 
-export const metadata = { title: "Structured Output — AI Engineering Lab" };
+export const metadata = { title: "Structured Output" };
 
 export default function StructuredOutputPage() {
   return (
