@@ -1,18 +1,18 @@
-from app.genai.rag import Chunk, Document, TfidfIndex, chunk_document, rerank, retrieve
+from app.genai.rag import Chunk, Document, TfidfIndex, chunk_document, rerank, retrieve, split_sentences
 from app.genai.rag_session import RagSession
 
 
 def test_chunk_document_respects_size_and_overlap():
-    doc = Document(id="1", title="t", text=" ".join(f"word{i}" for i in range(20)))
-    chunks = chunk_document(doc, chunk_size=5, overlap=2)
-    assert all(len(c.text.split()) <= 5 for c in chunks)
-    # step = chunk_size - overlap = 3, so consecutive chunks share 2 words
-    assert chunks[0].text.split()[-2:] == chunks[1].text.split()[:2]
+    doc = Document(id="1", title="t", text=" ".join(f"Sentence number {i}." for i in range(10)))
+    chunks = chunk_document(doc, chunk_size=3, overlap=1)
+    assert all(len(split_sentences(c.text)) <= 3 for c in chunks)
+    # step = chunk_size - overlap = 2, so consecutive chunks share 1 sentence
+    assert split_sentences(chunks[0].text)[-1:] == split_sentences(chunks[1].text)[:1]
 
 
 def test_chunk_document_handles_overlap_gte_chunk_size_without_looping():
-    doc = Document(id="1", title="t", text=" ".join(f"word{i}" for i in range(30)))
-    chunks = chunk_document(doc, chunk_size=5, overlap=10)  # invalid overlap, must be clamped
+    doc = Document(id="1", title="t", text=" ".join(f"Sentence number {i}." for i in range(15)))
+    chunks = chunk_document(doc, chunk_size=3, overlap=10)  # invalid overlap, must be clamped
     assert len(chunks) > 0
     assert len(chunks) < 100  # would hang / explode if step could be <= 0
 

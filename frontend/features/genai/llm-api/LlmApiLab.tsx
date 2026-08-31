@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ApiError } from "@/lib/api";
 import { StatCard } from "@/components/StatCard";
 import { complete, listModels, type CompletionResponse } from "../api";
+import { LlmApiWalkthrough } from "./LlmApiWalkthrough";
 
 export function LlmApiLab() {
   const [models, setModels] = useState<string[]>([]);
@@ -13,6 +14,7 @@ export function LlmApiLab() {
   const [result, setResult] = useState<CompletionResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
 
   useEffect(() => {
     listModels()
@@ -34,6 +36,23 @@ export function LlmApiLab() {
   };
 
   return (
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+          <span className="text-neutral-800 font-medium">LLM API</span> is the shape every AI
+          application starts from: a model, a system prompt, a user prompt — and a response with
+          its tokens, latency, and cost tracked.
+        </p>
+        <LlmApiWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+      </div>
+
+      {walkthroughComplete && (
+      <div>
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 mb-4">
+          Everything from the walkthrough, now for real: write your own prompts and watch the
+          call details update live.
+        </p>
     <div className="grid md:grid-cols-[1fr_380px] gap-6">
       <div className="space-y-4">
         <label className="block text-sm">
@@ -95,11 +114,14 @@ export function LlmApiLab() {
           <StatCard label="Est. cost" value={result ? `$${result.estimated_cost.toFixed(6)}` : "—"} />
           <StatCard label="Request ID" value={result ? result.request_id.slice(0, 8) : "—"} />
         </div>
-        <p className="text-xs text-neutral-500">
+        <p className="text-sm text-neutral-500">
           Provider is mocked (spec section 35) — deterministic per prompt+model, no API keys or
           network calls, but real token counts, latency, and cost accounting.
         </p>
       </div>
+    </div>
+      </div>
+      )}
     </div>
   );
 }

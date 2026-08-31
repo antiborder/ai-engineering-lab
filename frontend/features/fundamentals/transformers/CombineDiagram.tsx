@@ -41,7 +41,7 @@ export function CombineDiagram({ mode }: { mode: CombineMode }) {
             this diagram is about one token in isolation, not comparing
             multiple tokens, so there's no token index to attach). */}
         <rect x={outBoxX} y={outBoxY} width={boxW} height={boxH} rx={6} fill="rgba(8,145,178,0.12)" stroke={CYAN} strokeWidth={2} />
-        <text x={outBoxX + boxW / 2} y={outBoxY + boxH / 2 + 4} fontSize={11} textAnchor="middle" fill="#3f3f46">
+        <text x={outBoxX + boxW / 2} y={outBoxY + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
           attn_output
         </text>
 
@@ -101,7 +101,7 @@ export function CombineDiagram({ mode }: { mode: CombineMode }) {
         <line x1={hubX + 17} y1={hubY} x2={resultX - 6} y2={hubY} stroke={NEUTRAL} strokeWidth={2} />
         <polygon points={`${resultX - 6},${hubY - 5} ${resultX + 6},${hubY} ${resultX - 6},${hubY + 5}`} fill={NEUTRAL} />
         <rect x={resultX + 6} y={hubY - 17} width={70} height={34} rx={6} fill="#fafafa" stroke="#a1a1aa" strokeWidth={2} />
-        <text x={resultX + 41} y={hubY + 4} fontSize={11} textAnchor="middle" fill="#3f3f46">
+        <text x={resultX + 41} y={hubY + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
           {mode === "question" ? "?" : "new_x"}
         </text>
       </svg>

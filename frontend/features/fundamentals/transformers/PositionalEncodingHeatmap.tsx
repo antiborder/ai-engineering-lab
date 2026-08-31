@@ -41,7 +41,7 @@ export function PositionalEncodingHeatmap({
         <text
           x={titleW / 2}
           y={gridTop + gridH / 2}
-          fontSize={10}
+          fontSize={12}
           fill="#525252"
           textAnchor="middle"
           transform={`rotate(-90, ${titleW / 2}, ${gridTop + gridH / 2})`}
@@ -57,7 +57,7 @@ export function PositionalEncodingHeatmap({
               key={dim}
               x={marginLeft - 4}
               y={gridTop + dim * cellSize + cellSize / 2 + 3}
-              fontSize={9}
+              fontSize={12}
               fill="#525252"
               textAnchor="end"
             >
@@ -89,7 +89,7 @@ export function PositionalEncodingHeatmap({
             key={pos}
             x={marginLeft + pos * cellSize + cellSize / 2}
             y={gridTop + gridH + posLabelH - 2}
-            fontSize={9}
+            fontSize={12}
             fill="#525252"
             textAnchor="middle"
           >
@@ -110,7 +110,7 @@ export function PositionalEncodingHeatmap({
         <text
           x={marginLeft + highlightPos * cellSize + cellSize / 2}
           y={captionH - 4}
-          fontSize={9}
+          fontSize={12}
           fontWeight={600}
           fill="#dc2626"
           textAnchor="middle"
@@ -118,7 +118,7 @@ export function PositionalEncodingHeatmap({
           ↓ one column = one position
         </text>
 
-        <text x={marginLeft + gridW / 2} y={height - 3} fontSize={10} fill="#525252" textAnchor="middle">
+        <text x={marginLeft + gridW / 2} y={height - 3} fontSize={12} fill="#525252" textAnchor="middle">
           position
         </text>
       </svg>

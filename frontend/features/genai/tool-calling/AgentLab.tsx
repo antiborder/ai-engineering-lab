@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ApiError } from "@/lib/api";
 import { SaveArtifactPanel } from "@/components/SaveArtifactPanel";
 import { runAgent, type AgentRunResponse } from "../api";
+import { AgentWalkthrough } from "./AgentWalkthrough";
 
 const EXAMPLES = [
   "what is the weather in Tokyo and what is 12% of 850",
@@ -17,6 +18,7 @@ export function AgentLab() {
   const [result, setResult] = useState<AgentRunResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
 
   const handleRun = async () => {
     setLoading(true);
@@ -31,6 +33,23 @@ export function AgentLab() {
   };
 
   return (
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+          <span className="text-neutral-800 font-medium">An Agent</span> repeats tool calling in
+          a loop. First, it plans every tool call that the goal needs. Then it runs the calls in
+          order. Finally, it combines the results into one final answer.
+        </p>
+        <AgentWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+      </div>
+
+      {walkthroughComplete && (
+      <div>
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 mb-4">
+          Everything from the walkthrough, now for real: describe your own goal and watch the
+          plan and trace it produces.
+        </p>
     <div className="space-y-6">
       <div className="flex gap-2 flex-wrap">
         {EXAMPLES.map((ex) => (
@@ -90,12 +109,12 @@ export function AgentLab() {
                       <span className="text-neutral-500">step {step.step}</span>
                       <span className="text-cyan-700 font-mono">{step.tool_name}</span>
                       {step.retried && (
-                        <span className="text-[10px] uppercase tracking-wide text-amber-800 border border-amber-300 rounded px-1.5 py-0.5">
+                        <span className="text-xs uppercase tracking-wide text-amber-800 border border-amber-300 rounded px-1.5 py-0.5">
                           retried
                         </span>
                       )}
                       {step.failed && (
-                        <span className="text-[10px] uppercase tracking-wide text-red-700 border border-red-300 rounded px-1.5 py-0.5">
+                        <span className="text-xs uppercase tracking-wide text-red-700 border border-red-300 rounded px-1.5 py-0.5">
                           failed
                         </span>
                       )}
@@ -118,6 +137,9 @@ export function AgentLab() {
 
           <SaveArtifactPanel type="agent" defaultName="My Agent" model={model} configuration={{ goal_template: goal }} />
         </div>
+      )}
+    </div>
+      </div>
       )}
     </div>
   );

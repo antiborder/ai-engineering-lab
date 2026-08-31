@@ -139,6 +139,26 @@ export function ClassificationWalkthrough({
     // ---------------------------------------------------------------
     {
       section: "Welcome",
+      title: "What you learn from this chapter",
+      body: (
+        <div className="space-y-2">
+          <p>This chapter covers teaching a model to sort points into two groups:</p>
+          <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+            <li><strong>The Data</strong> — the labeled points we&rsquo;re sorting.</li>
+            <li><strong>Linear Boundary</strong> — a straight line splitting the two groups.</li>
+            <li><strong>A More Flexible Boundary</strong> — letting the boundary curve.</li>
+            <li><strong>Overfitting</strong> — when flexibility goes too far.</li>
+            <li><strong>The Learning Rate Dial</strong> — how big each training step is.</li>
+            <li><strong>Noisy Data</strong> — classifying real, imperfect data.</li>
+            <li><strong>How Much to Hold Out</strong> — the train/test split.</li>
+            <li><strong>L2 Regularization</strong> — penalizing large weights.</li>
+          </ol>
+        </div>
+      ),
+      visual: undefined,
+    },
+    {
+      section: "Welcome",
       title: "Let's learn classification together",
       body: (
         <p>

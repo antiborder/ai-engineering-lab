@@ -51,24 +51,24 @@ export function FeedForwardDiagram() {
           <circle key={`out-${o}`} cx={outX} cy={y} r={8} fill="rgba(124,58,237,0.15)" stroke={PURPLE} strokeWidth={1.5} />
         ))}
 
-        <text x={hidX} y={16} fontSize={9} textAnchor="middle" fill={CYAN}>
+        <text x={hidX} y={16} fontSize={12} textAnchor="middle" fill={CYAN}>
           ⋮ {HIDDEN_TOTAL} total
         </text>
 
-        <text x={(inX + hidX) / 2} y={16} fontSize={9} textAnchor="middle" fill={PURPLE}>
+        <text x={(inX + hidX) / 2} y={16} fontSize={12} textAnchor="middle" fill={PURPLE}>
           W₁, b₁
         </text>
-        <text x={(hidX + outX) / 2} y={16} fontSize={9} textAnchor="middle" fill={PURPLE}>
+        <text x={(hidX + outX) / 2} y={16} fontSize={12} textAnchor="middle" fill={PURPLE}>
           W₂, b₂
         </text>
 
-        <text x={inX} y={height - 6} fontSize={10} textAnchor="middle" fill="#525252">
+        <text x={inX} y={height - 6} fontSize={12} textAnchor="middle" fill="#525252">
           {D_MODEL} dims (x)
         </text>
-        <text x={hidX} y={height - 6} fontSize={10} textAnchor="middle" fill="#525252">
+        <text x={hidX} y={height - 6} fontSize={12} textAnchor="middle" fill="#525252">
           {HIDDEN_TOTAL} hidden, ReLU
         </text>
-        <text x={outX} y={height - 6} fontSize={10} textAnchor="middle" fill="#525252">
+        <text x={outX} y={height - 6} fontSize={12} textAnchor="middle" fill="#525252">
           {D_MODEL} dims
         </text>
       </svg>

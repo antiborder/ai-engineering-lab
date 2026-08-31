@@ -4,10 +4,19 @@ from dataclasses import dataclass
 import numpy as np
 
 _WORD_RE = re.compile(r"[a-z0-9']+")
+_SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
 
 
 def tokenize(text: str) -> list[str]:
     return _WORD_RE.findall(text.lower())
+
+
+def split_sentences(text: str) -> list[str]:
+    """Naive regex sentence splitter: break after ./!/? followed by
+    whitespace. Doesn't handle abbreviations, decimals, etc. correctly, but
+    this app's demo corpus doesn't contain any — same "good enough for
+    teaching, not production-grade" spirit as tokenize() above."""
+    return [s.strip() for s in _SENTENCE_SPLIT_RE.split(text.strip()) if s.strip()]
 
 
 @dataclass
@@ -26,10 +35,13 @@ class Chunk:
 
 
 def chunk_document(doc: Document, chunk_size: int, overlap: int) -> list[Chunk]:
-    """Word-count chunking with configurable size/overlap (spec section 13).
-    Overlap is clamped below chunk_size so the sliding window always moves
-    forward — an overlap >= chunk_size would loop forever."""
-    words = doc.text.split()
+    """Sentence-count chunking with configurable size/overlap (spec section
+    13) — chunk_size/overlap count whole sentences, not words, matching how
+    real-world chunkers usually respect sentence boundaries instead of
+    cutting mid-sentence. Overlap is clamped below chunk_size so the
+    sliding window always moves forward — an overlap >= chunk_size would
+    loop forever."""
+    sentences = split_sentences(doc.text)
     chunk_size = max(1, chunk_size)
     overlap = max(0, min(overlap, chunk_size - 1))
     step = chunk_size - overlap
@@ -37,13 +49,13 @@ def chunk_document(doc: Document, chunk_size: int, overlap: int) -> list[Chunk]:
     chunks: list[Chunk] = []
     i = 0
     idx = 0
-    while i < len(words):
-        piece = words[i : i + chunk_size]
+    while i < len(sentences):
+        piece = sentences[i : i + chunk_size]
         if not piece:
             break
         chunks.append(Chunk(doc_id=doc.id, doc_title=doc.title, index=idx, text=" ".join(piece)))
         idx += 1
-        if i + chunk_size >= len(words):
+        if i + chunk_size >= len(sentences):
             break
         i += step
     return chunks

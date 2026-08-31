@@ -8,8 +8,7 @@ const UNITS = [
   { href: "/genai/prompt-engineering", label: "Prompt Engineering", description: "Prompt A vs Prompt B, run identical test cases and compare." },
   { href: "/genai/structured-output", label: "Structured Output", description: "Natural language → JSON Schema → validation → structured output." },
   { href: "/genai/rag", label: "RAG", description: "Document → chunking → embedding → vector search → reranking → answer." },
-  { href: "/genai/tool-calling", label: "Tool Calling", description: "LLM → tool selection → tool execution → tool result → answer." },
-  { href: "/genai/agents", label: "Agents", description: "Goal → plan → tool → observation → next action → final answer." },
+  { href: "/genai/tool-calling", label: "Tool Calling & Agents", description: "One tool call, then a goal → plan → tool → observation → next action → final answer." },
   { href: "/genai/workflows", label: "Workflows", description: "Deterministic vs agentic — when is an agent actually useful?" },
 ];
 

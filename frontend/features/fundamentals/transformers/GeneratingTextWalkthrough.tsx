@@ -91,6 +91,20 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
       section: "12. From Vectors to the Next Word",
       title: "What you learn from this chapter",
       body: (
+        <div className="space-y-2">
+          <p>This chapter covers turning a vector into an actual word, then repeating that:</p>
+          <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+            <li><strong>From Vectors to the Next Word</strong> — scoring the last token&rsquo;s vector against every candidate word.</li>
+            <li><strong>Autoregressive Generation</strong> — looping that one-word prediction back in to write a sentence.</li>
+          </ol>
+        </div>
+      ),
+      visual: undefined,
+    },
+    {
+      section: "12. From Vectors to the Next Word",
+      title: "The big picture, before the details",
+      body: (
         <p>
           Every token now has a rich vector — but that&rsquo;s still just numbers, not a
           prediction. This chapter turns the last token&rsquo;s vector into an actual guess at

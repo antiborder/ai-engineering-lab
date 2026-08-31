@@ -74,6 +74,21 @@ export function TransformerBlockWalkthrough({
       section: "9. Residual Connections & Layer Norm",
       title: "What you learn from this chapter",
       body: (
+        <div className="space-y-2">
+          <p>This chapter covers how a token&rsquo;s vector actually gets updated and refined:</p>
+          <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+            <li><strong>Residual Connections &amp; Layer Norm</strong> — adding attention&rsquo;s output back onto the token, then normalizing.</li>
+            <li><strong>The Feed-Forward Network</strong> — a second sublayer applied to each token independently.</li>
+            <li><strong>Stacking Blocks</strong> — repeating attention + feed-forward several times.</li>
+          </ol>
+        </div>
+      ),
+      visual: undefined,
+    },
+    {
+      section: "9. Residual Connections & Layer Norm",
+      title: "The big picture, before the details",
+      body: (
         <p>
           The last chapter computed, for every token, an{" "}
           <Equation tex={"\\text{attn\\_output}"} display={false} /> — a vector blended from

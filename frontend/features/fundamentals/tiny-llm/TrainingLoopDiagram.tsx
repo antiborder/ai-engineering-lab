@@ -15,7 +15,7 @@ export function TrainingLoopDiagram() {
   const height = 336;
 
   const boxX = 40;
-  const boxW = 200;
+  const boxW = 210;
   const midX = boxX + boxW / 2;
   const loopX = 300;
 
@@ -47,7 +47,7 @@ export function TrainingLoopDiagram() {
   const box = (y: number, h: number, label: string, color: string, fill: string) => (
     <>
       <rect x={boxX} y={y} width={boxW} height={h} rx={6} fill={fill} stroke={color} strokeWidth={2} />
-      <text x={midX} y={y + h / 2 + 4} fontSize={10} textAnchor="middle" fill="#3f3f46">
+      <text x={midX} y={y + h / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
         {label}
       </text>
     </>
@@ -58,9 +58,9 @@ export function TrainingLoopDiagram() {
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
         {box(corpusY, corpusH, "Training text (corpus)", NEUTRAL, "rgba(161,161,170,0.12)")}
         {arrow(corpusY + corpusH, sampleY)}
-        {box(sampleY, sampleH, "Sample a chunk: input → target", CYAN, "rgba(8,145,178,0.1)")}
+        {box(sampleY, sampleH, "Sample input → target chunk", CYAN, "rgba(8,145,178,0.1)")}
         {arrow(sampleY + sampleH, modelY)}
-        {box(modelY, modelH, "Model predicts the next character", CYAN, "rgba(8,145,178,0.1)")}
+        {box(modelY, modelH, "Model predicts next character", CYAN, "rgba(8,145,178,0.1)")}
         {arrow(modelY + modelH, lossY)}
         {box(lossY, lossH, "Loss: how wrong was it?", ORANGE, "rgba(234,88,12,0.1)")}
         {arrow(lossY + lossH, backpropY)}
@@ -81,7 +81,7 @@ export function TrainingLoopDiagram() {
         <text
           x={loopX + 8}
           y={(updateY + updateH / 2 + sampleY + sampleH / 2) / 2}
-          fontSize={9}
+          fontSize={12}
           textAnchor="middle"
           fill={ORANGE}
           transform={`rotate(90 ${loopX + 8} ${(updateY + updateH / 2 + sampleY + sampleH / 2) / 2})`}
@@ -89,7 +89,7 @@ export function TrainingLoopDiagram() {
           repeat, thousands of times
         </text>
       </svg>
-      <p className="text-[11px] text-neutral-500 mt-1 text-center">
+      <p className="text-xs text-neutral-500 mt-1 text-center">
         One trip around this loop is one training step. Everything in it — attention, the
         feed-forward network, layer norm — is exactly the mechanism from Transformers; only the
         weights were fixed there. Here they actually move.

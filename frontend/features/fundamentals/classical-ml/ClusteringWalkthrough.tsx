@@ -70,13 +70,13 @@ function ElbowChart({ data }: { data: { k: number; inertia: number }[] }) {
         return (
           <g key={d.k}>
             <rect x={x + barW * 0.15} y={y} width={barW * 0.7} height={h} fill="#0891b2" rx={2} />
-            <text x={x + barW / 2} y={pad.top + innerH + 14} fontSize={10} textAnchor="middle" fill="rgba(23,23,23,0.7)">
+            <text x={x + barW / 2} y={pad.top + innerH + 15} fontSize={12} textAnchor="middle" fill="rgba(23,23,23,0.7)">
               {d.k}
             </text>
           </g>
         );
       })}
-      <text x={pad.left + innerW / 2} y={H - 2} fontSize={10} textAnchor="middle" fill="rgba(23,23,23,0.75)">
+      <text x={pad.left + innerW / 2} y={H - 1} fontSize={12} textAnchor="middle" fill="rgba(23,23,23,0.75)">
         k
       </text>
     </svg>
@@ -205,6 +205,22 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
 
   const steps: Step[] = [
     // ---------------------------------------------------------------
+    {
+      section: "Welcome",
+      title: "What you learn from this chapter",
+      body: (
+        <div className="space-y-2">
+          <p>This chapter covers finding groups in unlabeled data:</p>
+          <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+            <li><strong>The Data</strong> — points with no labels at all.</li>
+            <li><strong>Lloyd&rsquo;s Algorithm</strong> — the assign-then-average loop k-means uses.</li>
+            <li><strong>Choosing k</strong> — how many clusters to look for.</li>
+            <li><strong>Initialization Matters</strong> — why starting points affect the result.</li>
+          </ol>
+        </div>
+      ),
+      visual: undefined,
+    },
     {
       section: "Welcome",
       title: "Let's learn clustering together",

@@ -155,6 +155,26 @@ export function RegressionWalkthrough({
     // ---------------------------------------------------------------
     {
       section: "Welcome",
+      title: "What you learn from this chapter",
+      body: (
+        <div className="space-y-2">
+          <p>This chapter covers teaching a model to predict a number:</p>
+          <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+            <li><strong>The Data</strong> — the points we&rsquo;re fitting.</li>
+            <li><strong>Linear Model</strong> — fitting a straight line.</li>
+            <li><strong>A More Flexible Model</strong> — letting the curve bend.</li>
+            <li><strong>Overfitting</strong> — when flexibility goes too far.</li>
+            <li><strong>The Learning Rate Dial</strong> — how big each training step is.</li>
+            <li><strong>Noisy Data</strong> — fitting real, imperfect data.</li>
+            <li><strong>How Much to Hold Out</strong> — the train/test split.</li>
+            <li><strong>L2 Regularization</strong> — penalizing large weights.</li>
+          </ol>
+        </div>
+      ),
+      visual: undefined,
+    },
+    {
+      section: "Welcome",
       title: "Let's learn regression together",
       body: (
         <p>

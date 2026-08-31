@@ -109,8 +109,8 @@ def reset_documents(session: RagSession = Depends(get_rag_session)) -> list[Docu
 
 class RagQueryRequest(BaseModel):
     query: str = Field(min_length=1, max_length=500)
-    chunk_size: int = Field(default=60, ge=10, le=300)
-    overlap: int = Field(default=15, ge=0, le=200)
+    chunk_size: int = Field(default=2, ge=1, le=5)
+    overlap: int = Field(default=1, ge=0, le=4)
     top_k: int = Field(default=3, ge=1, le=10)
     similarity_threshold: float = Field(default=0.0, ge=0, le=1)
     use_reranking: bool = False

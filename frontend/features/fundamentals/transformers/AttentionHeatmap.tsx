@@ -48,7 +48,7 @@ export function AttentionHeatmap({
           x={LABEL_MARGIN - 6}
           y={LABEL_MARGIN + i * CELL + CELL / 2 + 4}
           textAnchor="end"
-          fontSize={11}
+          fontSize={12}
           fill="#525252"
         >
           {tok}
@@ -60,7 +60,7 @@ export function AttentionHeatmap({
           x={LABEL_MARGIN + j * CELL + CELL / 2}
           y={LABEL_MARGIN - 8}
           textAnchor="middle"
-          fontSize={11}
+          fontSize={12}
           fill="#525252"
           transform={`rotate(-45, ${LABEL_MARGIN + j * CELL + CELL / 2}, ${LABEL_MARGIN - 8})`}
         >
@@ -102,7 +102,7 @@ export function AttentionHeatmap({
         <text
           x={labelX}
           y={labelY}
-          fontSize={9}
+          fontSize={12}
           fontWeight={600}
           textAnchor="middle"
           fill="#ffffff"

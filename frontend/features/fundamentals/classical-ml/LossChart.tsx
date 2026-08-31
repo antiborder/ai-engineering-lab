@@ -60,7 +60,7 @@ export function LossChart({
           return (
             <g key={i}>
               <line x1={padding.left} x2={width - padding.right} y1={y} y2={y} stroke="currentColor" strokeOpacity={0.35} />
-              <text x={padding.left - 6} y={y + 3} fontSize={9} textAnchor="end" fill="currentColor">
+              <text x={padding.left - 6} y={y + 3} fontSize={12} textAnchor="end" fill="currentColor">
                 {t.toFixed(2)}
               </text>
             </g>
@@ -70,13 +70,13 @@ export function LossChart({
           <path key={s.label} d={toPath(s.values)} fill="none" stroke={s.color} strokeWidth={2} />
         ))}
         <line x1={padding.left} x2={width - padding.right} y1={axisY} y2={axisY} stroke="currentColor" strokeOpacity={0.5} />
-        <text x={padding.left} y={axisY + 14} fontSize={9} textAnchor="start" fill="currentColor">
+        <text x={padding.left} y={axisY + 15} fontSize={12} textAnchor="start" fill="currentColor">
           0
         </text>
-        <text x={width - padding.right} y={axisY + 14} fontSize={9} textAnchor="end" fill="currentColor">
+        <text x={width - padding.right} y={axisY + 15} fontSize={12} textAnchor="end" fill="currentColor">
           {lastStep}
         </text>
-        <text x={padding.left + innerW / 2} y={axisY + 27} fontSize={10} textAnchor="middle" fill="currentColor">
+        <text x={padding.left + innerW / 2} y={axisY + 29} fontSize={12} textAnchor="middle" fill="currentColor">
           {xLabel}
         </text>
       </svg>

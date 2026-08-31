@@ -3,16 +3,19 @@
 import { useState } from "react";
 import { ApiError } from "@/lib/api";
 import { callWithTools, type ToolCallResponse } from "../api";
+import { ToolCallingWalkthrough } from "./ToolCallingWalkthrough";
+import type { ChapterId } from "./ToolCallingAgentsPlayground";
 
 const PIPELINE = ["User", "LLM", "Tool Selection", "Tool Execution", "Tool Result", "LLM", "Answer"];
 const EXAMPLES = ["what is 15% of 240", "what's the weather in Berlin", "tell me about mount everest", "hello, how are you?"];
 
-export function ToolCallingLab() {
+export function ToolCallingLab({ onNavigateToChapter }: { onNavigateToChapter?: (chapter: ChapterId) => void }) {
   const [message, setMessage] = useState(EXAMPLES[0]);
   const [model] = useState("mock-small");
   const [result, setResult] = useState<ToolCallResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
 
   const handleSend = async () => {
     setLoading(true);
@@ -29,6 +32,26 @@ export function ToolCallingLab() {
   const usedTool = result?.tool_name != null;
 
   return (
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+          <span className="text-neutral-800 font-medium">Tool Calling</span> is one round trip:
+          the model decides whether it needs a tool, the tool runs, and the model answers using
+          the result.
+        </p>
+        <ToolCallingWalkthrough
+          onComplete={() => setWalkthroughComplete(true)}
+          onNavigateToChapter={onNavigateToChapter}
+        />
+      </div>
+
+      {walkthroughComplete && (
+      <div>
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 mb-4">
+          Everything from the walkthrough, now for real: send your own messages and see which
+          tool gets picked.
+        </p>
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-1.5 text-xs">
         {PIPELINE.map((stage, i) => {
@@ -104,12 +127,15 @@ export function ToolCallingLab() {
           </div>
         </div>
       )}
-      <p className="text-xs text-neutral-500 max-w-2xl">
+      <p className="text-sm text-neutral-500 max-w-2xl">
         Tool selection here is rule-based (mock provider — spec section 35), standing in for
         what a real model&rsquo;s function-calling would decide: try a math expression, a
         &ldquo;weather in &lt;city&gt;&rdquo; phrase, or a question, and notice which tool gets
         picked.
       </p>
+    </div>
+      </div>
+      )}
     </div>
   );
 }

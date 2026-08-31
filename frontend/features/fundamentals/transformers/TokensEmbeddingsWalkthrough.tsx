@@ -126,7 +126,7 @@ export function TokensEmbeddingsWalkthrough({
           </ol>
         </div>
       ),
-      visual: <TokenChips tokens={tokenize(DEFAULT_TEXT)} />,
+      visual: undefined,
     },
     {
       section: "Welcome",
@@ -161,16 +161,29 @@ export function TokensEmbeddingsWalkthrough({
       title: "What you learn from this Tokens & Embeddings chapter",
       body: (
         <div className="space-y-2">
+          <p>This chapter covers turning text into vectors a model can compute with:</p>
+          <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+            <li><strong>Tokenization</strong> — splitting a sentence into tokens.</li>
+            <li><strong>Embeddings</strong> — turning each token into a vector.</li>
+            <li><strong>Positional Encoding</strong> — adding word order back in with sine and cosine waves.</li>
+          </ol>
+        </div>
+      ),
+      visual: undefined,
+    },
+    {
+      section: "Welcome",
+      title: "The big picture, before the details",
+      body: (
+        <div className="space-y-2">
           <p>
             This chapter has plenty of new vocabulary, but the machinery underneath is familiar —
             an embedding is just the x₁/x₂-style input vector from earlier chapters, only longer.
-            You&rsquo;ll:
+            You&rsquo;ll split a sentence into <Term id="token">tokens</Term>, turn each token
+            into an <Term id="embedding">embedding</Term> vector, then fix a real gap — vectors
+            alone say nothing about word order — with a{" "}
+            <Term id="positional-encoding">positional encoding</Term>.
           </p>
-          <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>Split a sentence into <Term id="token">tokens</Term>.</li>
-            <li>Turn each token into an <Term id="embedding">embedding</Term> vector.</li>
-            <li>Fix a real gap — vectors alone say nothing about word order — by adding a <Term id="positional-encoding">positional encoding</Term> built out of sine and cosine waves.</li>
-          </ul>
           <p>
             By the end, every token has one vector that carries both its identity and its
             position. From there, later chapters compute <Term id="query">Query</Term>/

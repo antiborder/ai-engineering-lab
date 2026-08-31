@@ -63,7 +63,7 @@ def search_tool(query: str, documents: list) -> str:
     used there — a real (if simple) search, not a fabricated result."""
     from app.genai.rag import TfidfIndex, chunk_document, retrieve
 
-    chunks = [c for doc in documents for c in chunk_document(doc, chunk_size=60, overlap=10)]
+    chunks = [c for doc in documents for c in chunk_document(doc, chunk_size=2, overlap=1)]
     if not chunks:
         return "no documents available to search"
     index = TfidfIndex(chunks)

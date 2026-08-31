@@ -7,6 +7,7 @@ import { Slider } from "../../fundamentals/classical-ml/Slider";
 import { listDocuments, ragQuery, type RagDocument, type RagQueryResponse } from "../api";
 import { DocumentPanel } from "./DocumentPanel";
 import { RetrievedChunksList } from "./RetrievedChunksList";
+import { RagWalkthrough } from "./RagWalkthrough";
 
 const PIPELINE = [
   "Document", "Parsing", "Chunking", "Embedding", "Vector Search", "Top-K", "Reranking", "Context", "LLM", "Answer",
@@ -15,8 +16,8 @@ const PIPELINE = [
 export function RagLab() {
   const [documents, setDocuments] = useState<RagDocument[]>([]);
   const [query, setQuery] = useState("how does sourdough bread rise?");
-  const [chunkSize, setChunkSize] = useState(60);
-  const [overlap, setOverlap] = useState(15);
+  const [chunkSize, setChunkSize] = useState(2);
+  const [overlap, setOverlap] = useState(1);
   const [topK, setTopK] = useState(3);
   const [similarityThreshold, setSimilarityThreshold] = useState(0);
   const [useReranking, setUseReranking] = useState(false);
@@ -25,6 +26,7 @@ export function RagLab() {
   const [result, setResult] = useState<RagQueryResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
 
   useEffect(() => {
     listDocuments()
@@ -54,6 +56,24 @@ export function RagLab() {
   };
 
   return (
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+          <span className="text-neutral-800 font-medium">RAG</span> (Retrieval-Augmented
+          Generation) is searching your own documents for relevant pieces, then handing those to
+          the model as context before it answers — chunking, vector search, top-K, and
+          reranking.
+        </p>
+        <RagWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+      </div>
+
+      {walkthroughComplete && (
+      <div>
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 mb-4">
+          Everything from the walkthrough, now for real: ask questions about a real 6-document
+          corpus, adjust every parameter, and save your own AI Artifact.
+        </p>
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-1.5 text-xs text-neutral-500">
         {PIPELINE.map((stage, i) => (
@@ -121,8 +141,8 @@ export function RagLab() {
 
         <div className="space-y-4">
           <div className="text-sm text-neutral-600">Retrieval parameters</div>
-          <Slider label="Chunk size (words)" value={chunkSize} min={20} max={200} step={10} onChange={setChunkSize} />
-          <Slider label="Overlap (words)" value={overlap} min={0} max={Math.max(0, chunkSize - 10)} step={5} onChange={setOverlap} />
+          <Slider label="Chunk size (sentences)" value={chunkSize} min={1} max={5} step={1} onChange={setChunkSize} />
+          <Slider label="Overlap (sentences)" value={overlap} min={0} max={Math.max(0, chunkSize - 1)} step={1} onChange={setOverlap} />
           <Slider label="Top-K" value={topK} min={1} max={8} step={1} onChange={setTopK} />
           <Slider
             label="Similarity threshold"
@@ -150,6 +170,9 @@ export function RagLab() {
           </label>
         </div>
       </div>
+    </div>
+      </div>
+      )}
     </div>
   );
 }

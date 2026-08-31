@@ -45,7 +45,7 @@ export function HeadSplitOptionsDiagram() {
     <div className="w-full max-w-[460px] mx-auto grid grid-cols-2 gap-3">
       {OPTIONS.map((heads) => (
         <div key={heads} className="rounded-md border border-neutral-200 bg-white p-2">
-          <div className="text-[10px] font-semibold text-neutral-700 mb-1.5">
+          <div className="text-xs font-semibold text-neutral-700 mb-1.5">
             {heads} head{heads > 1 ? "s" : ""} — {D_MODEL / heads} dim{D_MODEL / heads > 1 ? "s" : ""} each
           </div>
           <SplitRow heads={heads} />

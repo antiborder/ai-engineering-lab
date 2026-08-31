@@ -12,7 +12,7 @@ export function EmbeddingVector({
   values,
   label,
   scale = 1.2,
-  cellSize = 30,
+  cellSize = 32,
 }: {
   values: number[];
   label?: string;
@@ -40,7 +40,7 @@ export function EmbeddingVector({
             <div
               key={i}
               style={{ width: cellSize }}
-              className="text-center text-[9px] font-mono text-neutral-500 tabular-nums pt-0.5"
+              className="text-center text-xs font-mono text-neutral-500 tabular-nums pt-0.5"
             >
               {v.toFixed(1)}
             </div>

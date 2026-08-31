@@ -20,7 +20,7 @@ export function BlockStackDiagram({
   return (
     <div className="w-full max-w-[300px] mx-auto">
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
-        <text x={width / 2} y={16} fontSize={11} textAnchor="middle" fill="#3f3f46">
+        <text x={width / 2} y={16} fontSize={12} textAnchor="middle" fill="#3f3f46">
           token vectors in
         </text>
         <line x1={width / 2} y1={22} x2={width / 2} y2={startY - 4} stroke="#a1a1aa" strokeWidth={2} />
@@ -47,7 +47,7 @@ export function BlockStackDiagram({
                 stroke={isHi ? "#0891b2" : "#7c3aed"}
                 strokeWidth={isHi ? 2.5 : 1.5}
               />
-              <text x={width / 2} y={y + boxH / 2 + 4} fontSize={11} textAnchor="middle" fill="#3f3f46">
+              <text x={width / 2} y={y + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
                 Transformer Block {i + 1}
               </text>
             </g>
@@ -62,7 +62,7 @@ export function BlockStackDiagram({
           stroke="#a1a1aa"
           strokeWidth={2}
         />
-        <text x={width / 2} y={height - 2} fontSize={11} textAnchor="middle" fill="#3f3f46">
+        <text x={width / 2} y={height - 2} fontSize={12} textAnchor="middle" fill="#3f3f46">
           refined token vectors out
         </text>
       </svg>

@@ -29,7 +29,7 @@ export function RetrievedChunksList({ chunks, reranked }: { chunks: RetrievedChu
                 style={{ width: `${(displayScore / maxScore) * 100}%` }}
               />
             </div>
-            <p className="text-xs text-neutral-600">{c.text}</p>
+            <p className="text-sm text-neutral-600">{c.text}</p>
           </li>
         );
       })}

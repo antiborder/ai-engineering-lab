@@ -114,7 +114,7 @@ export function WorkflowsLab() {
         </div>
       )}
 
-      <p className="text-xs text-neutral-500 max-w-2xl">
+      <p className="text-sm text-neutral-500 max-w-2xl">
         Try the math example: the deterministic workflow searches documents anyway (there&rsquo;s
         nothing about percentages in the corpus), while the agent recognizes it needs the
         calculator instead. That gap is the whole argument for agents — but notice the

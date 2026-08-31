@@ -58,7 +58,7 @@ export default function FundamentalsPage() {
             >
               <div className="font-medium text-neutral-400 flex items-center gap-2">
                 {s.label}
-                <span className="text-[10px] uppercase tracking-wide text-neutral-500 border border-neutral-200 rounded px-1.5 py-0.5">
+                <span className="text-xs uppercase tracking-wide text-neutral-500 border border-neutral-200 rounded px-1.5 py-0.5">
                   coming soon
                 </span>
               </div>

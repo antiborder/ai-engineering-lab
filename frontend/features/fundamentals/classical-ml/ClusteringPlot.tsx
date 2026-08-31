@@ -52,19 +52,19 @@ export function ClusteringPlot({
         </g>
       ))}
       {ticks.map((t, i) => (
-        <text key={`xt-${i}`} x={sx(t)} y={PAD.top + PLOT_H + 13} fontSize={9} textAnchor="middle" fill="rgba(23,23,23,0.65)">
+        <text key={`xt-${i}`} x={sx(t)} y={PAD.top + PLOT_H + 13} fontSize={12} textAnchor="middle" fill="rgba(23,23,23,0.65)">
           {t}
         </text>
       ))}
       {ticks.map((t, i) => (
-        <text key={`yt-${i}`} x={PAD.left - 5} y={sy(t) + 3} fontSize={9} textAnchor="end" fill="rgba(23,23,23,0.65)">
+        <text key={`yt-${i}`} x={PAD.left - 5} y={sy(t) + 3} fontSize={12} textAnchor="end" fill="rgba(23,23,23,0.65)">
           {t}
         </text>
       ))}
-      <text x={SIZE - 2} y={PAD.top + PLOT_H + 13} fontSize={10} textAnchor="end" fill="rgba(23,23,23,0.75)">
+      <text x={SIZE - 2} y={PAD.top + PLOT_H + 13} fontSize={12} textAnchor="end" fill="rgba(23,23,23,0.75)">
         x₁
       </text>
-      <text x={9} y={PAD.top + 8} fontSize={10} textAnchor="start" fill="rgba(23,23,23,0.75)">
+      <text x={9} y={PAD.top + 8} fontSize={12} textAnchor="start" fill="rgba(23,23,23,0.75)">
         x₂
       </text>
     </svg>

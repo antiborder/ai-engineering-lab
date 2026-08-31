@@ -109,6 +109,22 @@ export function AttentionWalkthrough({
       section: "5. Query, Key, Value",
       title: "What you learn from this chapter",
       body: (
+        <div className="space-y-2">
+          <p>This chapter covers how one token gathers information from every other token:</p>
+          <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+            <li><strong>Query, Key, Value</strong> — the three vectors attention computes from each token.</li>
+            <li><strong>Attention Scores</strong> — turning Query/Key comparisons into weights.</li>
+            <li><strong>Causal Masking</strong> — why a token can only look backward.</li>
+            <li><strong>Multi-Head Attention</strong> — running several attention patterns at once.</li>
+          </ol>
+        </div>
+      ),
+      visual: undefined,
+    },
+    {
+      section: "5. Query, Key, Value",
+      title: "The big picture, before the details",
+      body: (
         <p>
           This chapter is about one thing: figuring out how much attention each token should pay
           to every other token, then blending that into a single vector for each token — its{" "}
@@ -191,7 +207,7 @@ export function AttentionWalkthrough({
             <li>A token&rsquo;s query is compared against <em>every</em> token&rsquo;s key, not just one — every token gets its own relevance score.</li>
             <li>The <Equation tex={"\\text{attn\\_output}"} display={false} /> is never one value picked out — it&rsquo;s a blend of <em>every</em> token&rsquo;s value, weighted by how well each key matched.</li>
           </ul>
-          <p className="text-xs text-neutral-500">
+          <p>
             The picture below shows exactly this shape: one query, weighed against every
             key (line thickness = match strength), producing one blended{" "}
             <Equation tex={"\\text{attn\\_output}"} display={false} /> from every value in those
@@ -214,7 +230,7 @@ export function AttentionWalkthrough({
             of numbers, not a single one:
           </p>
           <Equation tex={"q = W_q \\cdot x"} />
-          <p className="text-xs text-neutral-500">
+          <p>
             Written out at the real size — {D_MODEL} dimensions, so {D_MODEL} rows and an{" "}
             {D_MODEL}×{D_MODEL} matrix ({"⋯"} skips the repeated middle entries):
           </p>

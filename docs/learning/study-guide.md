@@ -1,11 +1,12 @@
 # AI Playground 学習ガイド
 
-Fundamentals と GenAI Systems、全11ページを順番に進めるための学習ガイド。各ページで「何をするか」と
+Fundamentals・GenAI Systems・Evaluation、全13ページを順番に進めるための学習ガイド。各ページで「何をするか」と
 「そこで何がわかるようになるか」を、実際の画面構成（タブ・パイプライン・ステップ）に沿って書く。
 
 推奨の進め方は上から順番:
 Classical ML → Neural Networks → Transformers → Tiny LLM →
-LLM API → Prompt Engineering → Structured Output → RAG → Tool Calling → Agents → Workflows
+LLM API → Prompt Engineering → Structured Output → RAG → Tool Calling → Agents → Workflows →
+Evaluation Basics → Judging & Comparing
 
 特に Transformers → Tiny LLM、Classical ML → Neural Networks の流れは「同じ仕組みが発展していく」体験になっている。
 
@@ -116,3 +117,63 @@ LLM API → Prompt Engineering → Structured Output → RAG → Tool Calling �
 - **Deterministic Workflow（決定的ワークフロー）** — 入力の内容に関わらず、常に同じ2ステップ（検索してから答える）を実行する。
 - **Agentic Workflow（Agentic ワークフロー）** — 同じ入力に対して、Agentsページと同じ仕組みで、内容に応じた計画を動的に立てて実行する。
 - **左右比較** — 数式の質問を入れると、決定的ワークフローは無関係な文書を検索してしまう一方、Agentic側はちゃんと電卓を選ぶ。ただし画面下の注釈にもある通り、「決定的ワークフローの方がシンプルで安く、動作も完全に予測可能」というトレードオフも同時に強調されており、「Agentが常に優れているわけではない」という結論に導かれる。
+
+---
+
+## Evaluation — AIシステムが実際に機能しているかを測る
+
+この2ページは、他のページと違い**1本の物語**として繋がっている。クラウドストレージ製品のサポートアシスタントが
+「共有リンクは期限切れしません」と誤答した（実際は30日で失効する）というバグを、6つのChapterをかけて
+「検知→原因特定→修正→検証」していく。各Chapter末の「Next」ボタンはタブを自動で切り替えて次のChapterの
+先頭に進み、Unit境界（Basics→Judging & Comparing）も実リンクで接続されているので、**Next/Backボタンだけで
+最初から最後まで一気に読み進められる**（タブでの直接ジャンプも引き続き可能）。
+
+### 1. Evaluation Basics（`/evaluation/basics`）— 3 Chapter
+
+「1件の誤答だけでは不十分。このバグを検知できる仕組みを、一から作る」という筋。
+
+- **Dataset Builder** — 誤答をテストケース化するところから始まる。「期待される回答」と「参照文書」は
+  別物であること、手作業／インポートでのデータセット構築、似た角度の質問（edge case）を追加して
+  カバレッジを確保すること、期待される回答自体が間違っていたら元も子もない（label quality）ことを学ぶ。
+- **The Evaluation Pipeline** — 作ったデータセットを実際に流す。Artifact → Dataset → Run → Evaluation →
+  Score → Comparisonという6段階を、このバグのケースを使って一段ずつ確認する。章末は「どの指標が実際に
+  このバグを検知するのか」という問いを残したまま次章へ。
+- **Metrics** — 核心のChapter。exact matchやsemantic similarityでは、もっともらしく聞こえる誤答
+  （"30日"を"90日"と言い換えた亜種）を見逃しかねないことを実演し、faithfulness（参照文書との整合性
+  チェック）だけが確実にこのバグを検知できると明らかにする。retrieval qualityやコスト指標（latency/
+  tokens/price）も扱うが、これらはバグとは別系統の具体例を使っている。章末で「faithfulnessの計算には
+  文字列一致ではなく本物の判断力が要る」とJudging & Comparingへ橋渡しする。
+
+### 2. Judging & Comparing（`/evaluation/judging`）— 3 Chapter
+
+Evaluation Basicsの直接の続き。「判断力のあるjudgeを作り、実際にバグを直し、直った結果を検証する」。
+
+- **LLM-as-a-Judge** — Question/Answer/Reference → Judge → Score+Explanationという仕組みで、
+  元のバグと"90日"亜種の両方を実際に判定させる。判定理由（Explanation）があることでスコアだけでは
+  わからない「なぜ失敗したか」がわかること、judgeにもバイアス（もっともらしい誤答ほど騙されやすい等）
+  があることも扱う。
+- **Model Comparison** — 同じデータセット（バグのケース込み）を複数モデルに流して比較する。最速・
+  最安のモデルがこのバグをそのまま再現してしまい、「安いから」で選ぶと危険であることが core message。
+  ここでModel Bを選び、v2として出荷する、という展開になる。
+- **Regression Testing** — v1対v2の比較（Quality 88→84、Latency 900ms→650ms、Cost $0.004→$0.002）。
+  当初のバグ自体は直ったが、無関係な別の質問で品質が落ちていたことが判明し、「1つのバグを直しても、
+  他が壊れていないかは別途確認しないとわからない」という結論で、モジュール冒頭のインシデントに
+  明示的に立ち返って締めくくる。
+
+Evaluationモジュールは4 Unit構成で計画されており、`/evaluation`のUnit一覧には残り2つも
+カードとして表示されている（現時点では"Coming soon"のグレーアウト表示、リンク無効）。
+いずれも、Evaluation Basics／Judging & Comparingと同じ「1本の物語」形式で作る想定だが、
+現時点ではまだ着手していない。
+
+### 3. RAG Evaluation（未実装 — Coming soon）— 1 Chapter
+
+- **RAG Evaluation** — retrieval quality（検索の精度）・answer quality（回答の質）・faithfulness
+  （根拠との整合性）という3つの異なる問いを切り分けて評価する。検索の失敗か生成の失敗かを診断する
+  という視点は、Evaluation Basicsの「Metrics」Chapterで既に扱ったretrieval qualityの概念をRAGに
+  特化してさらに掘り下げる位置づけ。
+
+### 4. Agent Evaluation（未実装 — Coming soon）— 1 Chapter
+
+- **Agent Evaluation** — 最終回答だけでなく、プロセス全体（task success・tool selection・
+  tool execution）を評価する。誤ったツール選択・無限ループ・途中で迷子になるなど、エージェント
+  特有の失敗パターンも扱う。

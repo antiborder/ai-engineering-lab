@@ -13,7 +13,7 @@ export function GlobalNav() {
       <div className="mx-auto max-w-6xl px-3 sm:px-4 flex items-center gap-3 sm:gap-6 h-14">
         <Link
           href="/"
-          className="font-semibold text-xs sm:text-sm text-neutral-900 shrink-0 whitespace-nowrap"
+          className="font-semibold text-sm text-neutral-900 shrink-0 whitespace-nowrap"
         >
           {APP_NAME}
         </Link>

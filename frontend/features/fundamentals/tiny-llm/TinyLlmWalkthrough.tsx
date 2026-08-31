@@ -61,7 +61,7 @@ function ContextTargetStrip({ text }: { text: string }) {
   const target = chars.slice(1);
   const cell = (c: string, tone: "cyan" | "orange") => (
     <span
-      className={`w-6 h-6 flex items-center justify-center rounded text-[11px] font-mono border ${
+      className={`w-6 h-6 flex items-center justify-center rounded text-xs font-mono border ${
         tone === "cyan"
           ? "bg-cyan-50 border-cyan-600 text-cyan-800"
           : "bg-orange-50 border-orange-500 text-orange-800"
@@ -74,9 +74,9 @@ function ContextTargetStrip({ text }: { text: string }) {
     <div className="overflow-x-auto">
       <div className="inline-block">
         <div className="flex gap-0.5">{input.map((c, i) => <span key={i}>{cell(c, "cyan")}</span>)}</div>
-        <div className="text-[10px] text-neutral-500 mt-0.5 mb-1.5">↑ input (context)</div>
+        <div className="text-xs text-neutral-500 mt-0.5 mb-1.5">↑ input (context)</div>
         <div className="flex gap-0.5">{target.map((c, i) => <span key={i}>{cell(c, "orange")}</span>)}</div>
-        <div className="text-[10px] text-neutral-500 mt-0.5">↑ target — same text, shifted one character later</div>
+        <div className="text-xs text-neutral-500 mt-0.5">↑ target — same text, shifted one character later</div>
       </div>
     </div>
   );
@@ -115,6 +115,22 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
     {
       section: "Welcome",
       title: "What you learn from this chapter",
+      body: (
+        <div className="space-y-2">
+          <p>This chapter covers what it actually takes to train a model:</p>
+          <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+            <li><strong>From Toy to Real</strong> — same architecture as before, but on character-level text this time.</li>
+            <li><strong>The Training Loop</strong> — sample, measure the mistake, backprop, update — repeat.</li>
+            <li><strong>Watching It Learn</strong> — watching the loss actually drop over training.</li>
+            <li><strong>Generating Text: Temperature</strong> — sampling instead of always picking the best next character.</li>
+          </ol>
+        </div>
+      ),
+      visual: undefined,
+    },
+    {
+      section: "Welcome",
+      title: "The big picture",
       body: (
         <p>
           Everything in the Transformers Unit used fixed, random weights to show the mechanism

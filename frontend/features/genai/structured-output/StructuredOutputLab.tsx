@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ApiError } from "@/lib/api";
 import { generateStructuredOutput, type StructuredOutputResponse } from "../api";
+import { StructuredOutputWalkthrough } from "./StructuredOutputWalkthrough";
 
 const DEFAULT_SCHEMA = {
   type: "object",
@@ -25,6 +26,7 @@ export function StructuredOutputLab() {
   const [result, setResult] = useState<StructuredOutputResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
 
   const handleGenerate = async () => {
     let schema: Record<string, unknown>;
@@ -48,6 +50,23 @@ export function StructuredOutputLab() {
   };
 
   return (
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+          <span className="text-neutral-800 font-medium">Structured Output</span> is getting a
+          model&rsquo;s response back in a strict, checkable shape — a JSON Schema, validation,
+          and the newer approach of blocking invalid tokens outright.
+        </p>
+        <StructuredOutputWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+      </div>
+
+      {walkthroughComplete && (
+      <div>
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 mb-4">
+          Everything from the walkthrough, now for real: edit the schema, generate output, and
+          watch validation catch it when you deliberately break it.
+        </p>
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-1.5 text-xs text-neutral-500">
         {PIPELINE.map((stage, i) => (
@@ -129,12 +148,15 @@ export function StructuredOutputLab() {
           )}
         </div>
       </div>
-      <p className="text-xs text-neutral-500 max-w-2xl">
+      <p className="text-sm text-neutral-500 max-w-2xl">
         The generated values are fabricated from the schema&rsquo;s shape (mock provider — spec
         section 35), not extracted from real natural language. The point is the pipeline: a
         schema constrains the output shape, and a validator can catch when a response
         doesn&rsquo;t match it.
       </p>
+    </div>
+      </div>
+      )}
     </div>
   );
 }

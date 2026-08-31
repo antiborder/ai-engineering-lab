@@ -66,7 +66,7 @@ export function CatOnMatIllustration() {
           <line key={`r${i}`} x1={x} y1={y} x2={160} y2={y - 4 + i * 4} stroke={INK} strokeWidth={1} opacity={0.6} />
         ))}
       </svg>
-      <p className="text-[11px] text-neutral-500 mt-1 text-center">
+      <p className="text-xs text-neutral-500 mt-1 text-center">
         &ldquo;the cat sat on the mat&rdquo; — this chapter&rsquo;s running example.
       </p>
     </div>

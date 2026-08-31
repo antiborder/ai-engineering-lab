@@ -103,7 +103,7 @@ export function DecisionBoundaryCanvas({
     // Axis ticks (min / mid / max on each axis) and titles, drawn in the
     // margin so they never overlap the heatmap or points.
     ctx.fillStyle = "rgba(23,23,23,0.65)";
-    ctx.font = "9px sans-serif";
+    ctx.font = "11px sans-serif";
     ctx.textAlign = "center";
     [xMin, (xMin + xMax) / 2, xMax].forEach((t) => {
       ctx.fillText(t.toFixed(1), sx(t), PAD.top + PLOT_H + 12);
@@ -112,7 +112,7 @@ export function DecisionBoundaryCanvas({
     [yMin, (yMin + yMax) / 2, yMax].forEach((t) => {
       ctx.fillText(t.toFixed(1), PAD.left - 4, sy(t) + 3);
     });
-    ctx.font = "10px sans-serif";
+    ctx.font = "11px sans-serif";
     ctx.textAlign = "right";
     ctx.fillText(axisLabels[0], WIDTH - 2, PAD.top + PLOT_H + 12);
     ctx.save();

@@ -69,18 +69,18 @@ export function CausalMaskDiagram() {
                 stroke={isQuery ? CYAN : allowed ? CYAN : BLOCKED}
                 strokeWidth={isQuery ? 2 : 1.2}
               />
-              <text x={x} y={rowY + boxH / 2 + 4} fontSize={11} textAnchor="middle" fill={allowed ? "#3f3f46" : "#a3a3a3"}>
+              <text x={x} y={rowY + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill={allowed ? "#3f3f46" : "#a3a3a3"}>
                 {tok}
               </text>
             </g>
           );
         })}
 
-        <text x={qx} y={rowY + boxH + 18} fontSize={10} textAnchor="middle" fill={CYAN} fontWeight={700}>
+        <text x={qx} y={rowY + boxH + 18} fontSize={12} textAnchor="middle" fill={CYAN} fontWeight={700}>
           query token
         </text>
       </svg>
-      <p className="text-[11px] text-neutral-500 mt-1 text-center">
+      <p className="text-xs text-neutral-500 mt-1 text-center">
         &ldquo;sat&rdquo; may attend to itself and every earlier word (arcs) — never to words that
         come later (×). Every token follows this same rule, wherever it sits in the sentence.
       </p>

@@ -69,14 +69,14 @@ export function DocumentPanel({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Document title"
-              className="w-full bg-neutral-50 border border-neutral-300 rounded-md px-2 py-1 text-xs text-neutral-900"
+              className="w-full bg-neutral-50 border border-neutral-300 rounded-md px-2 py-1 text-sm text-neutral-900"
             />
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Paste document text…"
               rows={3}
-              className="w-full bg-neutral-50 border border-neutral-300 rounded-md px-2 py-1 text-xs text-neutral-900"
+              className="w-full bg-neutral-50 border border-neutral-300 rounded-md px-2 py-1 text-sm text-neutral-900"
             />
             <button
               onClick={handleAdd}

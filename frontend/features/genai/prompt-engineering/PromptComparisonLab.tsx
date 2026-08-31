@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ApiError } from "@/lib/api";
 import { complete } from "../api";
+import { PromptEngineeringWalkthrough } from "./PromptEngineeringWalkthrough";
 
 const DEFAULT_TEST_CASES = [
   "What is the capital of France?",
@@ -22,10 +23,12 @@ export function PromptComparisonLab() {
   const [testCases, setTestCases] = useState(DEFAULT_TEST_CASES);
   const [newCase, setNewCase] = useState("");
   const [model, setModel] = useState("mock-small");
+  const [tokenBudget, setTokenBudget] = useState(80);
   const [resultsA, setResultsA] = useState<CellResult[] | null>(null);
   const [resultsB, setResultsB] = useState<CellResult[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [walkthroughComplete, setWalkthroughComplete] = useState(false);
 
   const handleRun = async () => {
     setLoading(true);
@@ -45,6 +48,23 @@ export function PromptComparisonLab() {
   };
 
   return (
+    <div className="space-y-8">
+      <div className="space-y-3">
+        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+          <span className="text-neutral-800 font-medium">Prompt Engineering</span> is comparing
+          prompts on the same test cases instead of guessing — few-shot examples,
+          chain-of-thought, and a simple pass/fail rule to check the results with.
+        </p>
+        <PromptEngineeringWalkthrough onComplete={() => setWalkthroughComplete(true)} />
+      </div>
+
+      {walkthroughComplete && (
+      <div>
+        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-xs text-neutral-500 mb-4">
+          Everything from the walkthrough, now for real: write your own prompt variants, set a
+          token budget, and run the comparison.
+        </p>
     <div className="space-y-6">
       <div className="grid md:grid-cols-2 gap-4">
         <label className="block text-sm">
@@ -105,7 +125,7 @@ export function PromptComparisonLab() {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <select
           value={model}
           onChange={(e) => setModel(e.target.value)}
@@ -114,6 +134,16 @@ export function PromptComparisonLab() {
           <option value="mock-small">mock-small</option>
           <option value="mock-large">mock-large</option>
         </select>
+        <label className="flex items-center gap-1.5 text-sm text-neutral-600">
+          Pass rule: output tokens ≤
+          <input
+            type="number"
+            min={1}
+            value={tokenBudget}
+            onChange={(e) => setTokenBudget(Math.max(1, Number(e.target.value)))}
+            className="w-16 bg-white border border-neutral-200 rounded-md px-2 py-1 text-sm text-neutral-900"
+          />
+        </label>
         <button
           onClick={handleRun}
           disabled={loading || testCases.length === 0}
@@ -128,9 +158,12 @@ export function PromptComparisonLab() {
 
       {resultsA && resultsB && (
         <div className="grid md:grid-cols-2 gap-4">
-          <ResultColumn label="Prompt A" results={resultsA} testCases={testCases} />
-          <ResultColumn label="Prompt B" results={resultsB} testCases={testCases} />
+          <ResultColumn label="Prompt A" results={resultsA} testCases={testCases} tokenBudget={tokenBudget} />
+          <ResultColumn label="Prompt B" results={resultsB} testCases={testCases} tokenBudget={tokenBudget} />
         </div>
+      )}
+    </div>
+      </div>
       )}
     </div>
   );
@@ -140,13 +173,16 @@ function ResultColumn({
   label,
   results,
   testCases,
+  tokenBudget,
 }: {
   label: string;
   results: CellResult[];
   testCases: string[];
+  tokenBudget: number;
 }) {
   const avgLatency = results.reduce((s, r) => s + r.latencyMs, 0) / Math.max(1, results.length);
   const avgTokens = results.reduce((s, r) => s + r.outputTokens, 0) / Math.max(1, results.length);
+  const passCount = results.filter((r) => r.outputTokens <= tokenBudget).length;
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between text-sm">
@@ -155,12 +191,33 @@ function ResultColumn({
           avg {avgLatency.toFixed(0)}ms · {avgTokens.toFixed(0)} tokens
         </span>
       </div>
-      {results.map((r, i) => (
-        <div key={i} className="bg-white border border-neutral-200 rounded-md p-3">
-          <div className="text-xs text-neutral-500 mb-1">{testCases[i]}</div>
-          <div className="text-sm text-neutral-800">{r.text}</div>
-        </div>
-      ))}
+      <div
+        className={`text-xs font-medium rounded-md px-2 py-1 inline-block ${
+          passCount === results.length
+            ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
+            : "bg-amber-50 text-amber-800 border border-amber-300"
+        }`}
+      >
+        {passCount}/{results.length} passed (≤ {tokenBudget} output tokens)
+      </div>
+      {results.map((r, i) => {
+        const passed = r.outputTokens <= tokenBudget;
+        return (
+          <div key={i} className="bg-white border border-neutral-200 rounded-md p-3">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <div className="text-xs text-neutral-500">{testCases[i]}</div>
+              <span
+                className={`text-xs uppercase tracking-wide rounded px-1.5 py-0.5 shrink-0 ${
+                  passed ? "text-emerald-700 border border-emerald-300" : "text-amber-800 border border-amber-300"
+                }`}
+              >
+                {passed ? "pass" : "fail"} · {r.outputTokens} tok
+              </span>
+            </div>
+            <div className="text-sm text-neutral-800">{r.text}</div>
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -196,6 +196,25 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
     // ---------------------------------------------------------------
     {
       section: "Welcome",
+      title: "What you learn from this chapter",
+      body: (
+        <div className="space-y-2">
+          <p>This chapter covers stacking neurons into a network:</p>
+          <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+            <li><strong>The Data</strong> — the same dataset as Classification.</li>
+            <li><strong>Meet the Neuron</strong> — the basic building block.</li>
+            <li><strong>One Neuron Is a Linear Model</strong> — same math as before, wearing a new name.</li>
+            <li><strong>From One Neuron to a Network</strong> — stacking neurons into layers.</li>
+            <li><strong>Choosing an Architecture</strong> — how many layers, how many neurons.</li>
+            <li><strong>Activation Functions</strong> — sigmoid, tanh, ReLU.</li>
+            <li><strong>Familiar Dials Return</strong> — learning rate, regularization, overfitting still apply.</li>
+          </ol>
+        </div>
+      ),
+      visual: undefined,
+    },
+    {
+      section: "Welcome",
       title: "Let's learn neural networks together",
       body: (
         <p>

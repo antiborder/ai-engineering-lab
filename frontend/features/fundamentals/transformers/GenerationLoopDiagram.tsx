@@ -48,42 +48,42 @@ export function GenerationLoopDiagram() {
     <div className="w-full max-w-[340px] mx-auto">
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
         <rect x={boxX} y={seqY} width={boxW} height={seqH} rx={6} fill="rgba(161,161,170,0.12)" stroke={NEUTRAL} strokeWidth={2} />
-        <text x={midX} y={seqY + seqH / 2 + 4} fontSize={10} textAnchor="middle" fill="#3f3f46">
+        <text x={midX} y={seqY + seqH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
           Token sequence (so far)
         </text>
 
         {arrow(seqY + seqH, xformerY)}
 
         <rect x={boxX} y={xformerY} width={boxW} height={xformerH} rx={8} fill="none" stroke={NEUTRAL} strokeWidth={1.5} strokeDasharray="5,4" />
-        <text x={midX} y={xformerY + 17} fontSize={10} textAnchor="middle" fill="#3f3f46">
+        <text x={midX} y={xformerY + 17} fontSize={12} textAnchor="middle" fill="#3f3f46">
           Transformer Blocks
         </text>
-        <text x={midX} y={xformerY + 32} fontSize={8} textAnchor="middle" fill="#737373">
-          (attention + feed-forward, stacked — already covered)
+        <text x={midX} y={xformerY + 33} fontSize={12} textAnchor="middle" fill="#737373">
+          attention + FFN (covered)
         </text>
 
         {arrow(xformerY + xformerH, vecY)}
 
         <rect x={boxX} y={vecY} width={boxW} height={vecH} rx={6} fill="rgba(124,58,237,0.1)" stroke={PURPLE} strokeWidth={2} />
-        <text x={midX} y={vecY + vecH / 2 + 4} fontSize={10} textAnchor="middle" fill="#3f3f46">
+        <text x={midX} y={vecY + vecH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
           Last token&rsquo;s vector
         </text>
 
         {arrow(vecY + vecH, scoreY)}
 
         <rect x={boxX} y={scoreY} width={boxW} height={scoreH} rx={6} fill="rgba(8,145,178,0.1)" stroke={CYAN} strokeWidth={2} />
-        <text x={midX} y={scoreY + 18} fontSize={9.5} textAnchor="middle" fill="#3f3f46">
-          Compare vs every candidate word
+        <text x={midX} y={scoreY + 18} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          Score every candidate word
         </text>
-        <text x={midX} y={scoreY + 32} fontSize={9.5} textAnchor="middle" fill="#3f3f46">
+        <text x={midX} y={scoreY + 33} fontSize={12} textAnchor="middle" fill="#3f3f46">
           (dot product) → Softmax
         </text>
 
         {arrow(scoreY + scoreH, pickY)}
 
         <rect x={boxX} y={pickY} width={boxW} height={pickH} rx={6} fill="rgba(234,88,12,0.1)" stroke={ORANGE} strokeWidth={2} />
-        <text x={midX} y={pickY + pickH / 2 + 4} fontSize={10} textAnchor="middle" fill="#3f3f46">
-          Highest probability → new token
+        <text x={midX} y={pickY + pickH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          Highest probability → token
         </text>
 
         <path
@@ -99,7 +99,7 @@ export function GenerationLoopDiagram() {
         <text
           x={loopX + 8}
           y={(pickY + pickH / 2 + seqY + seqH / 2) / 2}
-          fontSize={9}
+          fontSize={12}
           textAnchor="middle"
           fill={ORANGE}
           transform={`rotate(90 ${loopX + 8} ${(pickY + pickH / 2 + seqY + seqH / 2) / 2})`}
@@ -107,7 +107,7 @@ export function GenerationLoopDiagram() {
           append, feed back in
         </text>
       </svg>
-      <p className="text-[11px] text-neutral-500 mt-1 text-center">
+      <p className="text-xs text-neutral-500 mt-1 text-center">
         One trip around this loop predicts one word. Autoregressive generation is just this loop,
         repeated — the sequence gets one token longer each time around.
       </p>
