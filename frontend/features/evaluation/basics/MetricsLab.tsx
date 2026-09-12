@@ -36,29 +36,29 @@ export function MetricsLab({
 
       {walkthroughComplete && (
         <div>
-          <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-          <p className="text-sm text-neutral-500 mb-4">
+          <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+          <p className="text-base text-neutral-500 mb-4">
             Try your own reference and candidate answer.
           </p>
 
           <div className="space-y-4 max-w-lg">
             <div>
-              <label className="text-xs text-neutral-500 block mb-1">Reference answer</label>
+              <label className="text-sm text-neutral-500 block mb-1">Reference answer</label>
               <input
                 value={reference}
                 onChange={(e) => setReference(e.target.value)}
-                className="w-full bg-white border border-neutral-200 rounded-md px-2.5 py-1.5 text-sm text-neutral-900"
+                className="w-full bg-white border border-neutral-200 rounded-md px-2.5 py-1.5 text-base text-neutral-900"
               />
             </div>
             <div>
-              <label className="text-xs text-neutral-500 block mb-1">Candidate answer</label>
+              <label className="text-sm text-neutral-500 block mb-1">Candidate answer</label>
               <input
                 value={candidate}
                 onChange={(e) => setCandidate(e.target.value)}
-                className="w-full bg-white border border-neutral-200 rounded-md px-2.5 py-1.5 text-sm text-neutral-900"
+                className="w-full bg-white border border-neutral-200 rounded-md px-2.5 py-1.5 text-base text-neutral-900"
               />
             </div>
-            <div className="bg-white border border-neutral-200 rounded-md p-3 text-sm space-y-1.5">
+            <div className="bg-white border border-neutral-200 rounded-md p-3 text-base space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-neutral-500">Exact match</span>
                 <span className={exact ? "text-emerald-700 font-medium" : "text-red-700 font-medium"}>{exact ? "✓ true" : "✗ false"}</span>

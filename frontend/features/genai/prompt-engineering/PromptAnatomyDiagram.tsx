@@ -42,7 +42,7 @@ export function PromptAnatomyDiagram({ highlight }: { highlight?: PromptPart[] }
           return (
             <g key={part.id} opacity={op(part.id)}>
               <rect x={boxX} y={y} width={boxW} height={boxH} rx={6} fill={part.fill} stroke={part.color} strokeWidth={sw(part.id, 2)} />
-              <text x={boxX + boxW / 2} y={y + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+              <text x={boxX + boxW / 2} y={y + boxH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
                 {part.label}
               </text>
               {i > 0 && (

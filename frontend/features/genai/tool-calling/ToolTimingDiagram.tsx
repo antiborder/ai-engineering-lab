@@ -31,7 +31,7 @@ export function ToolTimingDiagram({ mode }: { mode: "sequential" | "parallel" })
   return (
     <div className="w-full max-w-[320px] mx-auto">
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
-        <text x={padding.left - 6} y={rowAY + rowH / 2 + 4} fontSize={12} textAnchor="end" fill="#525252">
+        <text x={padding.left - 6} y={rowAY + rowH / 2 + 4} fontSize={14} textAnchor="end" fill="#525252">
           calculator
         </text>
         <rect
@@ -45,7 +45,7 @@ export function ToolTimingDiagram({ mode }: { mode: "sequential" | "parallel" })
           strokeWidth={1.5}
         />
 
-        <text x={padding.left - 6} y={rowBY + rowH / 2 + 4} fontSize={12} textAnchor="end" fill="#525252">
+        <text x={padding.left - 6} y={rowBY + rowH / 2 + 4} fontSize={14} textAnchor="end" fill="#525252">
           weather
         </text>
         <rect
@@ -61,15 +61,15 @@ export function ToolTimingDiagram({ mode }: { mode: "sequential" | "parallel" })
 
         <line x1={padding.left} x2={width - padding.right} y1={axisY} y2={axisY} stroke="#a3a3a3" strokeWidth={1.5} />
         {ticks.map((t) => (
-          <text key={t} x={padding.left + t * scale} y={axisY + 13} fontSize={12} textAnchor="middle" fill="#737373">
+          <text key={t} x={padding.left + t * scale} y={axisY + 13} fontSize={14} textAnchor="middle" fill="#737373">
             {t}ms
           </text>
         ))}
-        <text x={padding.left + innerW / 2} y={height - 2} fontSize={12} textAnchor="middle" fill="#525252">
+        <text x={padding.left + innerW / 2} y={height - 2} fontSize={14} textAnchor="middle" fill="#525252">
           time
         </text>
       </svg>
-      <p className="text-xs text-neutral-500 mt-1 text-center">
+      <p className="text-sm text-neutral-500 mt-1 text-center">
         Total time: <strong>{totalMs}ms</strong> {mode === "sequential" ? "(sum of both)" : "(the slower of the two)"}
       </p>
     </div>

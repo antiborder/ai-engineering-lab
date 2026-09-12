@@ -40,7 +40,7 @@ export function RegressionTestingWalkthrough({
   const resetToggle = () => setShowV2(false);
   const shownVersion = showV2 ? V2 : V1;
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
 
   interface Step {
     section: string;
@@ -53,7 +53,7 @@ export function RegressionTestingWalkthrough({
   }
 
   const versionRow = (label: string, v: VersionStat, tone: "neutral" | "down" | "up") => (
-    <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm">
+    <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base">
       <div className="text-neutral-500 font-medium mb-1">{label}</div>
       <div className="flex items-center justify-between">
         <span className="text-neutral-600">Quality</span>
@@ -89,7 +89,7 @@ export function RegressionTestingWalkthrough({
       section: "Welcome",
       title: "The Big Picture: Did v2 Actually Help?",
       story:
-        'Maya: "So v2 is live. Did it actually help?"\nPriya: "Let\'s compare v1 and v2, side by side, on the whole dataset."',
+        'Chloe: "So v2 is live. Did it actually help?"\nMaya: "Let\'s compare v1 and v2, side by side, on the whole dataset."',
       body: (
         <p>
           <Term id="regression-testing">Regression testing</Term> compares v1&rsquo;s scores
@@ -116,7 +116,7 @@ export function RegressionTestingWalkthrough({
         </p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-2 text-xs">
+        <div className="flex items-center justify-center gap-2 text-sm">
           <span className="px-3 py-1.5 rounded-full border border-neutral-300 bg-white text-neutral-700">v1</span>
           <span className="text-neutral-300">vs.</span>
           <span className="px-3 py-1.5 rounded-full border border-cyan-300 bg-cyan-50 text-cyan-800">v2</span>
@@ -127,7 +127,7 @@ export function RegressionTestingWalkthrough({
       section: "1. Reading a Regression",
       title: "The Bug Is Fixed",
       story:
-        'Priya: "Good news first — run the original bug and its 70% cousin through v2."\nMaya: "Both come back right."',
+        'Maya: "Good news first — run the original bug and its 70% cousin through v2."\nChloe: "Both come back right."',
       body: (
         <p>
           On the exact question that started this module, v2 is the fix: v1 said &ldquo;yes, full
@@ -136,7 +136,7 @@ export function RegressionTestingWalkthrough({
         </p>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto space-y-1">
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
           <div className="text-neutral-500">Q: &ldquo;Can I get a refund if I&rsquo;ve already worn the item?&rdquo;</div>
           <div className="text-red-700">v1: &ldquo;Yes, you&rsquo;ll get a full refund.&rdquo; — the original bug</div>
           <div className="text-emerald-700">v2: &ldquo;No — worn items only get a partial refund or store credit.&rdquo; — fixed</div>
@@ -159,7 +159,7 @@ export function RegressionTestingWalkthrough({
       section: "2. Trade-offs and Decisions",
       title: "A New Regression, Somewhere Else",
       story:
-        'Maya: "So what dropped, if not the refund question?"\nPriya: "A completely different one — refund timing. v2 got terser and lost a detail."',
+        'Chloe: "So what dropped, if not the refund question?"\nMaya: "A completely different one — refund timing. v2 got terser and lost a detail."',
       body: (
         <p>
           On a refund-timing question, v2&rsquo;s faster, terser style drops a detail v1
@@ -168,7 +168,7 @@ export function RegressionTestingWalkthrough({
         </p>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto space-y-1">
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
           <div className="text-neutral-500">Q: &ldquo;How long does a refund take once you get my item back?&rdquo;</div>
           <div className="text-emerald-700">v1: &ldquo;Refunds are issued to your original payment method within 5–7 business days after we receive and inspect the returned item.&rdquo;</div>
           <div className="text-amber-700">v2: &ldquo;Refunds take 5–7 business days.&rdquo; — correct, but drops &ldquo;original payment method&rdquo; and &ldquo;after we receive and inspect&rdquo;</div>
@@ -198,7 +198,7 @@ export function RegressionTestingWalkthrough({
         </p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-2 text-sm">
+        <div className="flex items-center justify-center gap-2 text-base">
           <span className="px-3 py-1.5 rounded-full border border-amber-300 bg-amber-50 text-amber-800">Minimum bar: 80/100</span>
           <span className="text-neutral-300">→</span>
           <span className="px-3 py-1.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-700">v2&rsquo;s 84 still clears it</span>
@@ -219,13 +219,13 @@ export function RegressionTestingWalkthrough({
         <div className="flex gap-2">
           <button
             onClick={() => setShowV2(false)}
-            className={`px-3 py-1.5 rounded-md text-sm border ${!showV2 ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"}`}
+            className={`px-3 py-1.5 rounded-md text-base border ${!showV2 ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"}`}
           >
             v1
           </button>
           <button
             onClick={() => setShowV2(true)}
-            className={`px-3 py-1.5 rounded-md text-sm border ${showV2 ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"}`}
+            className={`px-3 py-1.5 rounded-md text-base border ${showV2 ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"}`}
           >
             v2
           </button>
@@ -255,7 +255,7 @@ export function RegressionTestingWalkthrough({
       section: "4. Wrap-up",
       title: "Closing the Loop",
       story:
-        'Maya: "So we went from a customer getting a wrong answer, to catching that, to catching the next thing that broke too."\nPriya: "That\'s the whole point. It doesn\'t stop here — it just keeps running."\nSouthwear\'s AI support assistant is more trustworthy today than it was at the start of this module. Not because the work is finished, but because evaluation itself never stops running.',
+        'Chloe: "So we went from a customer getting a wrong answer, to catching that, to catching the next thing that broke too."\nMaya: "That\'s the whole point. It doesn\'t stop here — it just keeps running."\nSouthwear\'s AI support assistant is more trustworthy today than it was at the start of this module. Not because the work is finished, but because evaluation itself never stops running.',
       body: (
         <div className="space-y-2">
           <p>
@@ -298,12 +298,12 @@ export function RegressionTestingWalkthrough({
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst && !onBackToPreviousChapter}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -311,7 +311,7 @@ export function RegressionTestingWalkthrough({
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -325,8 +325,8 @@ export function RegressionTestingWalkthrough({
           </div>
         )}
 
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -334,7 +334,7 @@ export function RegressionTestingWalkthrough({
           </div>
         )}
         {current.resetAction && (
-          <button onClick={current.resetAction} className="text-xs text-neutral-500 hover:text-neutral-800">
+          <button onClick={current.resetAction} className="text-sm text-neutral-500 hover:text-neutral-800">
             ↺ Undo / reset this step
           </button>
         )}

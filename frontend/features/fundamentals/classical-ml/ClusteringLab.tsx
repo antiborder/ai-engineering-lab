@@ -24,7 +24,7 @@ export function ClusteringLab() {
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">Clustering</span> is unsupervised —
           there are no labels to learn from, only the points themselves. k-means groups points
           by finding <Term id="centroid">centroids</Term> that minimize{" "}
@@ -37,8 +37,8 @@ export function ClusteringLab() {
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Same idea, now with controls. Set k below or above the true number of groups to see
           under- and over-clustering.
         </p>
@@ -67,18 +67,18 @@ export function ClusteringLab() {
             <div className="flex items-center gap-3 pt-1">
               <button
                 onClick={() => setPlaying((p) => !p)}
-                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white"
+                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white"
               >
                 {playing ? "Pause" : "Resume"}
               </button>
               <button
                 onClick={() => setSeed((s) => s + 1)}
-                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
+                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-800"
               >
                 New dataset
               </button>
               {stats.converged && (
-                <span className="text-xs text-emerald-700">converged — assignments stopped changing</span>
+                <span className="text-sm text-emerald-700">converged — assignments stopped changing</span>
               )}
             </div>
           </div>
@@ -141,7 +141,7 @@ function ClusteringTrainer({
     <>
       <div className="space-y-4">
         <ClusteringPlot points={points} centroids={centroids} assignments={assignments} />
-        <p className="text-xs text-neutral-500">X marks are centroids · colors show cluster assignment</p>
+        <p className="text-sm text-neutral-500">X marks are centroids · colors show cluster assignment</p>
       </div>
       {children({ iteration, inertia, inertiaHistory, converged })}
     </>

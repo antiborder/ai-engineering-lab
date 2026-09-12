@@ -43,7 +43,7 @@ export function JudgingPlayground() {
               setPendingStep(undefined);
               setActiveChapter(c.id);
             }}
-            className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
+            className={`px-4 py-2 text-base font-medium border-b-2 -mb-px transition-colors ${
               activeChapter === c.id
                 ? "border-cyan-600 text-neutral-900"
                 : "border-transparent text-neutral-500 hover:text-neutral-400"

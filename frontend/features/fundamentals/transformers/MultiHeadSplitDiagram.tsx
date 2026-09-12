@@ -32,7 +32,7 @@ export function MultiHeadSplitDiagram() {
   return (
     <div className="w-full max-w-[460px] mx-auto">
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
-        <text x={width / 2} y={topY - 4} fontSize={12} fill="#525252" textAnchor="middle">
+        <text x={width / 2} y={topY - 4} fontSize={14} fill="#525252" textAnchor="middle">
           one token&rsquo;s Q (or K, or V) vector — {DIM} numbers
         </text>
         {Array.from({ length: DIM }, (_, i) => {
@@ -52,10 +52,10 @@ export function MultiHeadSplitDiagram() {
             <g key={h}>
               <line x1={groupCenterX} y1={topY + cellH} x2={groupCenterX} y2={headBoxY} stroke={color} strokeWidth={1.5} />
               <rect x={groupStartX} y={headBoxY} width={boxW} height={headBoxH} rx={6} fill={`${color}14`} stroke={color} strokeWidth={1.5} />
-              <text x={groupCenterX} y={headBoxY + headBoxH / 2 - 4} fontSize={12} fontWeight={700} textAnchor="middle" fill={color}>
+              <text x={groupCenterX} y={headBoxY + headBoxH / 2 - 4} fontSize={14} fontWeight={700} textAnchor="middle" fill={color}>
                 Head {h + 1} attention
               </text>
-              <text x={groupCenterX} y={headBoxY + headBoxH / 2 + 10} fontSize={12} textAnchor="middle" fill="#525252">
+              <text x={groupCenterX} y={headBoxY + headBoxH / 2 + 10} fontSize={14} textAnchor="middle" fill="#525252">
                 dims {h * HEAD_DIM}&ndash;{h * HEAD_DIM + HEAD_DIM - 1} only
               </text>
               <line x1={groupCenterX} y1={headBoxY + headBoxH} x2={groupCenterX} y2={outY} stroke={color} strokeWidth={1.5} />
@@ -69,7 +69,7 @@ export function MultiHeadSplitDiagram() {
             <rect key={`out-${i}`} x={cellX(i)} y={outY} width={cellW} height={cellH} rx={4} fill={`${color}1a`} stroke={color} strokeWidth={1.2} />
           );
         })}
-        <text x={width / 2} y={outY + cellH + 14} fontSize={12} fill="#525252" textAnchor="middle">
+        <text x={width / 2} y={outY + cellH + 14} fontSize={14} fill="#525252" textAnchor="middle">
           each head&rsquo;s own output — still {HEAD_DIM} numbers each
         </text>
 
@@ -90,7 +90,7 @@ export function MultiHeadSplitDiagram() {
             <rect key={`final-${i}`} x={cellX(i)} y={finalY} width={cellW} height={cellH} rx={4} fill={`${color}1a`} stroke={color} strokeWidth={1.2} />
           );
         })}
-        <text x={width / 2} y={finalY + cellH + 14} fontSize={12} fontWeight={700} fill={NEUTRAL} textAnchor="middle">
+        <text x={width / 2} y={finalY + cellH + 14} fontSize={14} fontWeight={700} fill={NEUTRAL} textAnchor="middle">
           concatenated — {DIM} numbers again, one output per token
         </text>
       </svg>

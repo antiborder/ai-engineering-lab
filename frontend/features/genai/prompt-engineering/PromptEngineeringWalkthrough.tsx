@@ -60,7 +60,7 @@ function PassFailPreview({ budget }: { budget: number }) {
   return (
     <div className="space-y-2">
       <div
-        className={`text-xs font-medium rounded-md px-2 py-1 inline-block ${
+        className={`text-sm font-medium rounded-md px-2 py-1 inline-block ${
           passCount === HARNESS_EXAMPLE_TOKENS.length
             ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
             : "bg-amber-50 text-amber-800 border border-amber-300"
@@ -73,9 +73,9 @@ function PassFailPreview({ budget }: { budget: number }) {
         return (
           <div key={i} className="bg-white border border-neutral-200 rounded-md p-2.5">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs text-neutral-500">{HARNESS_TEST_CASES[i]}</span>
+              <span className="text-sm text-neutral-500">{HARNESS_TEST_CASES[i]}</span>
               <span
-                className={`text-xs uppercase tracking-wide rounded px-1.5 py-0.5 shrink-0 ${
+                className={`text-sm uppercase tracking-wide rounded px-1.5 py-0.5 shrink-0 ${
                   passed ? "text-emerald-700 border border-emerald-300" : "text-amber-800 border border-amber-300"
                 }`}
               >
@@ -128,11 +128,11 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
   const [budget, setBudget] = useState(80);
   const resetBudget = () => setBudget(80);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const toggleBtn = (active: boolean) =>
-    `px-3 py-1.5 rounded-md text-sm border ${
+    `px-3 py-1.5 rounded-md text-base border ${
       active ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
     }`;
 
@@ -203,7 +203,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
         </p>
       ),
       visual: (
-        <div className="flex items-stretch justify-center gap-3 text-xs">
+        <div className="flex items-stretch justify-center gap-3 text-sm">
           <div className="flex-1 max-w-[130px] bg-white border border-purple-300 rounded-md p-2.5 text-center">
             <div className="font-medium text-purple-700 mb-1">Variant A</div>
             <div className="text-neutral-500">instructions A</div>
@@ -227,7 +227,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       body: (
         <p>
           A <Term id="delimiter">delimiter</Term> is a marker — like a tag such as{" "}
-          <code className="font-mono text-sm">&lt;instructions&gt;</code> — that separates your
+          <code className="font-mono text-base">&lt;instructions&gt;</code> — that separates your
           instructions from the content you hand the model to work on. It helps because a model
           reading one long block of text has to guess where instructions stop and content starts;
           a clear boundary makes that split explicit instead of relying on the model to infer it
@@ -235,7 +235,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
         </p>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {DELIMITER_EXAMPLE.tagged}
         </pre>
       ),
@@ -263,7 +263,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       ),
       resetAction: resetDelimiter,
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {DELIMITER_EXAMPLE[delimiterOn]}
         </pre>
       ),
@@ -304,7 +304,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       ),
       resetAction: resetFewShot,
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {FEW_SHOT_EXAMPLE[fewShotOn]}
         </pre>
       ),
@@ -350,7 +350,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       ),
       resetAction: resetCot,
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {COT_EXAMPLE[cotOn]}
         </pre>
       ),
@@ -390,7 +390,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       ),
       resetAction: resetPosition,
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {POSITION_EXAMPLE[positionOn]}
         </pre>
       ),
@@ -423,20 +423,20 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       ),
       controls: (
         <div className="grid grid-cols-2 gap-2 w-full max-w-[300px]">
-          <label className="block text-xs text-neutral-600">
+          <label className="block text-sm text-neutral-600">
             name
             <input
               value={templateName}
               onChange={(e) => setTemplateName(e.target.value)}
-              className="w-full mt-1 bg-white border border-neutral-200 rounded-md px-2 py-1 text-sm text-neutral-900"
+              className="w-full mt-1 bg-white border border-neutral-200 rounded-md px-2 py-1 text-base text-neutral-900"
             />
           </label>
-          <label className="block text-xs text-neutral-600">
+          <label className="block text-sm text-neutral-600">
             topic
             <input
               value={templateTopic}
               onChange={(e) => setTemplateTopic(e.target.value)}
-              className="w-full mt-1 bg-white border border-neutral-200 rounded-md px-2 py-1 text-sm text-neutral-900"
+              className="w-full mt-1 bg-white border border-neutral-200 rounded-md px-2 py-1 text-base text-neutral-900"
             />
           </label>
         </div>
@@ -444,10 +444,10 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       resetAction: resetTemplate,
       visual: (
         <div className="space-y-2">
-          <pre className="whitespace-pre-wrap text-sm text-neutral-500 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+          <pre className="whitespace-pre-wrap text-base text-neutral-500 bg-white border border-neutral-200 rounded-md p-3 font-mono">
             {TEMPLATE_BASE}
           </pre>
-          <pre className="whitespace-pre-wrap text-sm text-neutral-800 bg-cyan-50 border border-cyan-200 rounded-md p-3 font-mono">
+          <pre className="whitespace-pre-wrap text-base text-neutral-800 bg-cyan-50 border border-cyan-200 rounded-md p-3 font-mono">
             {TEMPLATE_BASE.replace("{{name}}", templateName || "{{name}}").replace("{{topic}}", templateTopic || "{{topic}}")}
           </pre>
         </div>
@@ -470,7 +470,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
         </p>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {DELIMITER_EXAMPLE.tagged}
         </pre>
       ),
@@ -496,7 +496,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
                 key={i}
                 onClick={() => setInjectionGuess(i)}
                 disabled={revealed}
-                className={`w-full text-left bg-white border rounded-md p-3 text-sm font-mono ${
+                className={`w-full text-left bg-white border rounded-md p-3 text-base font-mono ${
                   revealed && correct
                     ? "border-emerald-400 bg-emerald-50"
                     : revealed && guessed
@@ -506,7 +506,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
               >
                 {sample.text}
                 {revealed && correct && (
-                  <div className="mt-1 text-xs uppercase tracking-wide text-emerald-700">
+                  <div className="mt-1 text-sm uppercase tracking-wide text-emerald-700">
                     ← the injection attempt
                   </div>
                 )}
@@ -514,7 +514,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
             );
           })}
           {injectionGuess !== null && (
-            <p className="text-sm text-neutral-600">
+            <p className="text-base text-neutral-600">
               {INJECTION_SAMPLES[injectionGuess].malicious
                 ? "Correct — that line tries to override the original instructions."
                 : "Not this one — look for a line that tries to change what the model should do."}
@@ -538,12 +538,12 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
         </p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-3 text-xs">
+        <div className="flex items-center justify-center gap-3 text-sm">
           <div className="flex-1 max-w-[140px] bg-white border border-neutral-300 rounded-md p-3 text-center">
             <div className="font-medium text-neutral-700 mb-1">Eyeballing</div>
             <div className="text-neutral-500">&ldquo;feels better?&rdquo; — a judgment call</div>
           </div>
-          <span className="text-neutral-400 text-base">→</span>
+          <span className="text-neutral-400 text-lg">→</span>
           <div className="flex-1 max-w-[140px] bg-white border border-emerald-300 rounded-md p-3 text-center">
             <div className="font-medium text-emerald-700 mb-1">Pass / fail rule</div>
             <div className="text-neutral-500">a check anyone can run and count</div>
@@ -570,7 +570,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       body: <p>Drag the budget and watch which of these three example responses pass.</p>,
       controls: (
         <div className="w-full max-w-[300px]">
-          <label className="block text-sm">
+          <label className="block text-base">
             <div className="flex justify-between text-neutral-600 mb-1">
               <span>Token budget</span>
               <span className="text-neutral-800 tabular-nums">{budget}</span>
@@ -601,7 +601,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
         </p>
       ),
       visual: (
-        <div className="space-y-2 text-xs">
+        <div className="space-y-2 text-sm">
           <div className="bg-white border border-cyan-300 rounded-md p-2.5 flex items-center justify-between gap-2">
             <span className="text-neutral-700">This check: token budget</span>
             <span className="text-emerald-700 font-medium shrink-0">✓ narrow, but real</span>
@@ -669,12 +669,12 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -682,7 +682,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -694,8 +694,8 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -705,7 +705,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>

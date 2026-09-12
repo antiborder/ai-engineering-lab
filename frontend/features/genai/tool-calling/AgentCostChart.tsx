@@ -32,7 +32,7 @@ export function AgentCostChart() {
           return (
             <g key={i}>
               <line x1={padding.left} x2={width - padding.right} y1={y} y2={y} stroke="#e5e5e5" strokeWidth={1} />
-              <text x={padding.left - 6} y={y + 3} fontSize={12} textAnchor="end" fill="#737373">
+              <text x={padding.left - 6} y={y + 3} fontSize={14} textAnchor="end" fill="#737373">
                 ${t.toFixed(6)}
               </text>
             </g>
@@ -48,17 +48,17 @@ export function AgentCostChart() {
         })}
         <line x1={padding.left} x2={width - padding.right} y1={axisY} y2={axisY} stroke="#a3a3a3" strokeWidth={1.5} />
         {STEPS.map((s, i) => (
-          <text key={s} x={padding.left + i * barW + barW / 2} y={axisY + 14} fontSize={12} textAnchor="middle" fill="#525252">
+          <text key={s} x={padding.left + i * barW + barW / 2} y={axisY + 14} fontSize={14} textAnchor="middle" fill="#525252">
             {s}
           </text>
         ))}
-        <text x={padding.left + innerW / 2} y={height - 2} fontSize={12} textAnchor="middle" fill="#525252">
+        <text x={padding.left + innerW / 2} y={height - 2} fontSize={14} textAnchor="middle" fill="#525252">
           steps decided so far
         </text>
         <text
           x={10}
           y={padding.top + innerH / 2}
-          fontSize={12}
+          fontSize={14}
           textAnchor="middle"
           fill="#525252"
           transform={`rotate(-90, 10, ${padding.top + innerH / 2})`}
@@ -66,7 +66,7 @@ export function AgentCostChart() {
           cumulative cost
         </text>
       </svg>
-      <p className="text-xs text-neutral-500 mt-1 text-center">
+      <p className="text-sm text-neutral-500 mt-1 text-center">
         Illustrative: a step-by-step agent calling the model once per decision, at LLM
         API&rsquo;s own mock-small pricing.
       </p>

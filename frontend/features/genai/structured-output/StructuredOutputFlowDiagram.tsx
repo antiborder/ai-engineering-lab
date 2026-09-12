@@ -58,13 +58,13 @@ export function StructuredOutputFlowDiagram({
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
         <g opacity={op("task")}>
           <rect x={leftX} y={topY} width={inputW} height={boxH} rx={6} fill="rgba(124,58,237,0.1)" stroke={PURPLE} strokeWidth={sw("task", 2)} />
-          <text x={leftX + inputW / 2} y={topY + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          <text x={leftX + inputW / 2} y={topY + boxH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
             Natural language
           </text>
         </g>
         <g opacity={op("schema")}>
           <rect x={rightX} y={topY} width={inputW} height={boxH} rx={6} fill="rgba(5,150,105,0.1)" stroke={GREEN} strokeWidth={sw("schema", 2)} />
-          <text x={rightX + inputW / 2} y={topY + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          <text x={rightX + inputW / 2} y={topY + boxH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
             JSON Schema
           </text>
         </g>
@@ -86,7 +86,7 @@ export function StructuredOutputFlowDiagram({
 
         <g opacity={op("model")}>
           <rect x={modelX} y={modelY} width={modelW} height={modelH} rx={8} fill="rgba(234,88,12,0.08)" stroke={ORANGE} strokeWidth={sw("model", 2)} />
-          <text x={midX} y={modelY + modelH / 2 + 4} fontSize={12} fontWeight={700} textAnchor="middle" fill="#3f3f46">
+          <text x={midX} y={modelY + modelH / 2 + 4} fontSize={14} fontWeight={700} textAnchor="middle" fill="#3f3f46">
             Model
           </text>
         </g>
@@ -96,7 +96,7 @@ export function StructuredOutputFlowDiagram({
 
         <g opacity={op("output")}>
           <rect x={outputX} y={outputY} width={outputW} height={outputH} rx={6} fill="rgba(8,145,178,0.1)" stroke={CYAN} strokeWidth={sw("output", 2)} />
-          <text x={midX} y={outputY + outputH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          <text x={midX} y={outputY + outputH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
             Structured output
           </text>
         </g>
@@ -106,10 +106,10 @@ export function StructuredOutputFlowDiagram({
 
         <g opacity={op("validation")}>
           <rect x={validationX} y={validationY} width={validationW} height={validationH} rx={6} fill="rgba(161,161,170,0.1)" stroke={NEUTRAL} strokeWidth={sw("validation", 2)} />
-          <text x={validationX + 28} y={validationY + validationH / 2 + 6} fontSize={16} textAnchor="middle" fill={iconColor} fontWeight={700}>
+          <text x={validationX + 28} y={validationY + validationH / 2 + 6} fontSize={18} textAnchor="middle" fill={iconColor} fontWeight={700}>
             {icon}
           </text>
-          <text x={validationX + 52} y={validationY + validationH / 2 + 4} fontSize={12} fill="#3f3f46">
+          <text x={validationX + 52} y={validationY + validationH / 2 + 4} fontSize={14} fill="#3f3f46">
             Validation
           </text>
         </g>

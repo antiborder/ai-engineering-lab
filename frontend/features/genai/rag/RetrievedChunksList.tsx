@@ -2,7 +2,7 @@ import type { RetrievedChunk } from "../api";
 
 export function RetrievedChunksList({ chunks, reranked }: { chunks: RetrievedChunk[]; reranked: boolean }) {
   if (chunks.length === 0) {
-    return <p className="text-sm text-neutral-500">No chunks passed the similarity threshold.</p>;
+    return <p className="text-base text-neutral-500">No chunks passed the similarity threshold.</p>;
   }
   const maxScore = Math.max(...chunks.map((c) => (reranked ? c.rerank_score ?? c.score : c.score)), 0.001);
 
@@ -12,7 +12,7 @@ export function RetrievedChunksList({ chunks, reranked }: { chunks: RetrievedChu
         const displayScore = reranked ? c.rerank_score ?? c.score : c.score;
         return (
           <li key={i} className="bg-white border border-neutral-200 rounded-md p-3">
-            <div className="flex items-center justify-between text-xs mb-1.5">
+            <div className="flex items-center justify-between text-sm mb-1.5">
               <span className="text-neutral-400 font-medium">
                 {c.doc_title} <span className="text-neutral-600">#{c.chunk_index}</span>
               </span>
@@ -29,7 +29,7 @@ export function RetrievedChunksList({ chunks, reranked }: { chunks: RetrievedChu
                 style={{ width: `${(displayScore / maxScore) * 100}%` }}
               />
             </div>
-            <p className="text-sm text-neutral-600">{c.text}</p>
+            <p className="text-base text-neutral-600">{c.text}</p>
           </li>
         );
       })}

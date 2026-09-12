@@ -78,7 +78,7 @@ export function ReActLoopDiagram({
   return (
     <div className="w-full max-w-90 mx-auto">
       <div className="rounded-lg border-2 border-dashed border-neutral-300 p-2 pt-1 bg-white">
-        <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500 text-center mb-0.5">
+        <div className="text-sm font-semibold uppercase tracking-wide text-neutral-500 text-center mb-0.5">
           Agent — zoomed in
         </div>
         <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
@@ -89,15 +89,15 @@ export function ReActLoopDiagram({
           <polygon points={observe.head} fill={toolsColor} />
           {toolsOn ? (
             <>
-              <text x={205} y={toolsCy - 32} fontSize={14} fontWeight={700} textAnchor="middle" fill={ORANGE}>ACT</text>
-              <text x={205} y={toolsCy - 18} fontSize={12} textAnchor="middle" fill="#a3a3a3">(tool call)</text>
-              <text x={205} y={toolsCy + 20} fontSize={14} fontWeight={700} textAnchor="middle" fill={ORANGE}>OBSERVE</text>
-              <text x={205} y={toolsCy + 35} fontSize={12} textAnchor="middle" fill="#a3a3a3">(the result)</text>
+              <text x={205} y={toolsCy - 32} fontSize={16} fontWeight={700} textAnchor="middle" fill={ORANGE}>ACT</text>
+              <text x={205} y={toolsCy - 18} fontSize={14} textAnchor="middle" fill="#a3a3a3">(tool call)</text>
+              <text x={205} y={toolsCy + 20} fontSize={16} fontWeight={700} textAnchor="middle" fill={ORANGE}>OBSERVE</text>
+              <text x={205} y={toolsCy + 35} fontSize={14} textAnchor="middle" fill="#a3a3a3">(the result)</text>
             </>
           ) : (
             <>
-              <text x={205} y={toolsCy - 4} fontSize={12} textAnchor="middle" fill="#a3a3a3">also: call a tool</text>
-              <text x={205} y={toolsCy + 22} fontSize={12} textAnchor="middle" fill="#a3a3a3">gets a real Observe</text>
+              <text x={205} y={toolsCy - 4} fontSize={14} textAnchor="middle" fill="#a3a3a3">also: call a tool</text>
+              <text x={205} y={toolsCy + 22} fontSize={14} textAnchor="middle" fill="#a3a3a3">gets a real Observe</text>
             </>
           )}
 
@@ -108,21 +108,21 @@ export function ReActLoopDiagram({
           <polygon points={reads.head} fill={planColor} />
           {planOn ? (
             <>
-              <text x={205} y={planCy - 20} fontSize={14} fontWeight={700} textAnchor="middle" fill={PURPLE}>ACT</text>
-              <text x={205} y={planCy - 6} fontSize={12} textAnchor="middle" fill="#a3a3a3">(update the plan)</text>
-              <text x={205} y={planCy + 22} fontSize={14} fontWeight={700} textAnchor="middle" fill={PURPLE}>READS</text>
-              <text x={205} y={planCy + 37} fontSize={12} textAnchor="middle" fill="#a3a3a3">(informs next Decide)</text>
+              <text x={205} y={planCy - 20} fontSize={16} fontWeight={700} textAnchor="middle" fill={PURPLE}>ACT</text>
+              <text x={205} y={planCy - 6} fontSize={14} textAnchor="middle" fill="#a3a3a3">(update the plan)</text>
+              <text x={205} y={planCy + 22} fontSize={16} fontWeight={700} textAnchor="middle" fill={PURPLE}>READS</text>
+              <text x={205} y={planCy + 37} fontSize={14} textAnchor="middle" fill="#a3a3a3">(informs next Decide)</text>
             </>
           ) : (
             <>
-              <text x={205} y={planCy - 4} fontSize={12} textAnchor="middle" fill="#a3a3a3">also: update plan</text>
-              <text x={205} y={planCy + 22} fontSize={12} textAnchor="middle" fill="#a3a3a3">not an Observe</text>
+              <text x={205} y={planCy - 4} fontSize={14} textAnchor="middle" fill="#a3a3a3">also: update plan</text>
+              <text x={205} y={planCy + 22} fontSize={14} textAnchor="middle" fill="#a3a3a3">not an Observe</text>
             </>
           )}
 
           <rect x={llmX} y={llmY} width={llmW} height={llmH} rx={8} fill="rgba(8,145,178,0.1)" stroke={CYAN} strokeWidth={2} />
-          <text x={llmCx} y={llmY + llmH / 2 - 2} fontSize={16} fontWeight={700} textAnchor="middle" fill="#3f3f46">DECIDE</text>
-          <text x={llmCx} y={llmY + llmH / 2 + 15} fontSize={12} textAnchor="middle" fill="#737373">(the LLM)</text>
+          <text x={llmCx} y={llmY + llmH / 2 - 2} fontSize={18} fontWeight={700} textAnchor="middle" fill="#3f3f46">DECIDE</text>
+          <text x={llmCx} y={llmY + llmH / 2 + 15} fontSize={14} textAnchor="middle" fill="#737373">(the LLM)</text>
 
           <rect
             x={planX} y={planY} width={planW} height={planH} rx={8}
@@ -130,8 +130,8 @@ export function ReActLoopDiagram({
             stroke={planOn ? PURPLE : NEUTRAL}
             strokeWidth={planOn ? 2 : 1.5}
           />
-          <text x={planX + planW / 2} y={planY + planH / 2 - 3} fontSize={13} fontWeight={700} textAnchor="middle" fill={planOn ? "#3f3f46" : "#a3a3a3"}>Plan</text>
-          <text x={planX + planW / 2} y={planY + planH / 2 + 13} fontSize={12} textAnchor="middle" fill={planOn ? "#3f3f46" : "#a3a3a3"}>(to-do list)</text>
+          <text x={planX + planW / 2} y={planY + planH / 2 - 3} fontSize={15} fontWeight={700} textAnchor="middle" fill={planOn ? "#3f3f46" : "#a3a3a3"}>Plan</text>
+          <text x={planX + planW / 2} y={planY + planH / 2 + 13} fontSize={14} textAnchor="middle" fill={planOn ? "#3f3f46" : "#a3a3a3"}>(to-do list)</text>
 
           <rect
             x={toolsX} y={toolsY} width={toolsW} height={toolsH} rx={8}
@@ -139,20 +139,20 @@ export function ReActLoopDiagram({
             stroke={toolsOn ? ORANGE : NEUTRAL}
             strokeWidth={toolsOn ? 2 : 1.5}
           />
-          <text x={toolsX + toolsW / 2} y={toolsY + toolsH / 2 - 3} fontSize={13} fontWeight={700} textAnchor="middle" fill={toolsOn ? "#3f3f46" : "#a3a3a3"}>Tools</text>
-          <text x={toolsX + toolsW / 2} y={toolsY + toolsH / 2 + 13} fontSize={12} textAnchor="middle" fill={toolsOn ? "#3f3f46" : "#a3a3a3"}>(act)</text>
+          <text x={toolsX + toolsW / 2} y={toolsY + toolsH / 2 - 3} fontSize={15} fontWeight={700} textAnchor="middle" fill={toolsOn ? "#3f3f46" : "#a3a3a3"}>Tools</text>
+          <text x={toolsX + toolsW / 2} y={toolsY + toolsH / 2 + 13} fontSize={14} textAnchor="middle" fill={toolsOn ? "#3f3f46" : "#a3a3a3"}>(act)</text>
 
           {repeatBadge && (
             <>
               <rect x={15} y={6} width={172} height={24} rx={12} fill="#fff7ed" stroke={ORANGE} strokeWidth={1.5} />
-              <text x={101} y={22} fontSize={12} fontWeight={600} textAnchor="middle" fill="#9a3412">
+              <text x={101} y={22} fontSize={14} fontWeight={600} textAnchor="middle" fill="#9a3412">
                 once per planned tool
               </text>
             </>
           )}
         </svg>
       </div>
-      <p className="text-xs text-neutral-500 mt-1 text-center">
+      <p className="text-sm text-neutral-500 mt-1 text-center">
         {caption ?? (
           toolsOn ? (
             <>

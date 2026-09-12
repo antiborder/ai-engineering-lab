@@ -32,7 +32,7 @@ export function ConstrainedDecodingDiagram({ mode }: { mode: "checked" | "blocke
 
   return (
     <div className="space-y-2">
-      <div className="text-xs text-neutral-500">
+      <div className="text-sm text-neutral-500">
         Next token for <code className="font-mono text-neutral-700">&quot;role&quot;</code> — schema says{" "}
         <code className="font-mono text-neutral-700">enum: [admin, member, guest]</code>
       </div>
@@ -40,7 +40,7 @@ export function ConstrainedDecodingDiagram({ mode }: { mode: "checked" | "blocke
         {data.map((c) => {
           const blocked = mode === "blocked" && !c.allowed;
           return (
-            <div key={c.token} className="flex items-center gap-2 text-xs">
+            <div key={c.token} className="flex items-center gap-2 text-sm">
               <span
                 className={`w-24 shrink-0 font-mono truncate ${blocked ? "text-neutral-400 line-through" : "text-neutral-700"}`}
               >

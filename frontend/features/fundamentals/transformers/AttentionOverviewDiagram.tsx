@@ -38,16 +38,16 @@ export function AttentionOverviewDiagram() {
   return (
     <div className="w-full max-w-[460px] mx-auto">
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
-        <text x={queryX} y={headerY} fontSize={12} fontWeight={700} textAnchor="middle" fill={CYAN}>
+        <text x={queryX} y={headerY} fontSize={14} fontWeight={700} textAnchor="middle" fill={CYAN}>
           Query
         </text>
-        <text x={keyX} y={headerY} fontSize={12} fontWeight={700} textAnchor="middle" fill={PURPLE}>
+        <text x={keyX} y={headerY} fontSize={14} fontWeight={700} textAnchor="middle" fill={PURPLE}>
           Key
         </text>
-        <text x={valueX} y={headerY} fontSize={12} fontWeight={700} textAnchor="middle" fill={ORANGE}>
+        <text x={valueX} y={headerY} fontSize={14} fontWeight={700} textAnchor="middle" fill={ORANGE}>
           Value
         </text>
-        <text x={outX} y={headerY} fontSize={12} fontWeight={700} textAnchor="middle" fill={NEUTRAL}>
+        <text x={outX} y={headerY} fontSize={14} fontWeight={700} textAnchor="middle" fill={NEUTRAL}>
           Output
         </text>
 
@@ -65,22 +65,22 @@ export function AttentionOverviewDiagram() {
         ))}
 
         <rect x={queryX - 26} y={queryY - 16} width={52} height={32} rx={6} fill="rgba(8,145,178,0.12)" stroke={CYAN} strokeWidth={2} />
-        <text x={queryX} y={queryY + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+        <text x={queryX} y={queryY + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
           Query
         </text>
 
         {ROWS.map((row, i) => (
           <g key={`key-${i}`}>
             <rect x={keyX - 24} y={rowYs[i] - 14} width={48} height={28} rx={6} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={1.5} />
-            <text x={keyX} y={rowYs[i] + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+            <text x={keyX} y={rowYs[i] + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
               {row.label}
             </text>
-            <text x={keyX} y={rowYs[i] - 20} fontSize={12} textAnchor="middle" fill={CYAN}>
+            <text x={keyX} y={rowYs[i] - 20} fontSize={14} textAnchor="middle" fill={CYAN}>
               {Math.round(row.weight * 100)}%
             </text>
             <line x1={keyX + 24} y1={rowYs[i]} x2={valueX - 24} y2={rowYs[i]} stroke="#d4d4d8" strokeWidth={1} strokeDasharray="2,2" />
             <rect x={valueX - 24} y={rowYs[i] - 14} width={48} height={28} rx={6} fill="rgba(234,88,12,0.12)" stroke={ORANGE} strokeWidth={1.5} />
-            <text x={valueX} y={rowYs[i] + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+            <text x={valueX} y={rowYs[i] + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
               v{i + 1}
             </text>
             <line
@@ -96,14 +96,14 @@ export function AttentionOverviewDiagram() {
         ))}
 
         <rect x={outX - 26} y={outY - 18} width={52} height={36} rx={6} fill={`${NEUTRAL}1a`} stroke={NEUTRAL} strokeWidth={2} />
-        <text x={outX} y={outY - 3} fontSize={12} textAnchor="middle" fill="#3f3f46">
+        <text x={outX} y={outY - 3} fontSize={14} textAnchor="middle" fill="#3f3f46">
           output
         </text>
-        <text x={outX} y={outY + 10} fontSize={12} textAnchor="middle" fill="#3f3f46">
+        <text x={outX} y={outY + 10} fontSize={14} textAnchor="middle" fill="#3f3f46">
           blend
         </text>
       </svg>
-      <p className="text-xs text-neutral-500 mt-1 text-center">
+      <p className="text-sm text-neutral-500 mt-1 text-center">
         % = attention weight — how much of that key&rsquo;s value gets blended into the output.
         The four numbers always add up to 100%.
       </p>

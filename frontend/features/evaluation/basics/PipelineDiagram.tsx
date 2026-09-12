@@ -42,7 +42,7 @@ export function PipelineDiagram({ highlight }: { highlight?: PipelineStageId[] }
   const box = (id: PipelineStageId, y: number, label: string) => (
     <g opacity={op(id)}>
       <rect x={boxX} y={y} width={boxW} height={boxH} rx={6} fill="rgba(234,88,12,0.08)" stroke="#ea580c" strokeWidth={1.5} />
-      <text x={centerX} y={y + boxH / 2 + 4} fontSize={13} textAnchor="middle" fontWeight={600} fill="#3f3f46">
+      <text x={centerX} y={y + boxH / 2 + 4} fontSize={15} textAnchor="middle" fontWeight={600} fill="#3f3f46">
         {label}
       </text>
     </g>
@@ -51,7 +51,7 @@ export function PipelineDiagram({ highlight }: { highlight?: PipelineStageId[] }
   const pill = (id: PipelineStageId, x: number, y: number, w: number, h: number, label: string) => (
     <g opacity={op(id)}>
       <rect x={x} y={y} width={w} height={h} rx={h / 2} fill="rgba(8,145,178,0.08)" stroke="#0891b2" strokeWidth={1.5} />
-      <text x={x + w / 2} y={y + h / 2 + 4} fontSize={13} textAnchor="middle" fontWeight={600} fill="#0e7490">
+      <text x={x + w / 2} y={y + h / 2 + 4} fontSize={15} textAnchor="middle" fontWeight={600} fill="#0e7490">
         {label}
       </text>
     </g>

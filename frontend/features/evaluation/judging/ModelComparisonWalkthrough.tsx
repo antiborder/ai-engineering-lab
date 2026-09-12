@@ -54,7 +54,7 @@ export function ModelComparisonWalkthrough({
   const resetPriority = () => setPriority("quality");
   const winner = bestFor(priority);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
 
   interface Step {
     section: string;
@@ -68,7 +68,7 @@ export function ModelComparisonWalkthrough({
 
   const statTable = (highlight?: string) => (
     <div className="bg-white border border-neutral-200 rounded-md overflow-hidden max-w-md mx-auto">
-      <table className="w-full text-sm border-collapse">
+      <table className="w-full text-base border-collapse">
         <thead>
           <tr className="text-left text-neutral-500 bg-neutral-50">
             <th className="px-2.5 py-1.5 font-medium">Model</th>
@@ -110,7 +110,7 @@ export function ModelComparisonWalkthrough({
       section: "Welcome",
       title: "The Big Picture: Which Model Gets It Right?",
       story:
-        'Priya: "Three candidate models, same dataset. Let\'s see who actually avoids the bug."\nMaya: "And who repeats it."',
+        'Maya: "Three candidate models, same dataset. Let\'s see who actually avoids the bug."\nChloe: "And who repeats it."',
       body: (
         <p>
           The team runs the worn-item refund question through three candidate models for
@@ -136,7 +136,7 @@ export function ModelComparisonWalkthrough({
         </p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-2 text-xs flex-wrap">
+        <div className="flex items-center justify-center gap-2 text-sm flex-wrap">
           {MODELS.map((m) => (
             <span key={m.id} className="px-2.5 py-1.5 rounded-full border border-neutral-300 bg-white text-neutral-700">
               {m.label}
@@ -156,12 +156,12 @@ export function ModelComparisonWalkthrough({
         </p>
       ),
       visual: (
-        <div className="grid sm:grid-cols-3 gap-2 text-sm">
+        <div className="grid sm:grid-cols-3 gap-2 text-base">
           {MODELS.map((m) => (
             <div key={m.id} className="bg-white border border-neutral-200 rounded-md p-2.5">
               <div className="text-neutral-500 font-medium">{m.label}</div>
               <div className={`mt-0.5 ${m.correct ? "text-neutral-800" : "text-red-700"}`}>{m.answer}</div>
-              <div className={`mt-1 text-xs ${m.correct ? "text-emerald-700" : "text-red-700"}`}>
+              <div className={`mt-1 text-sm ${m.correct ? "text-emerald-700" : "text-red-700"}`}>
                 {m.correct ? "✓ faithful" : "✗ repeats the bug"}
               </div>
             </div>
@@ -173,7 +173,7 @@ export function ModelComparisonWalkthrough({
       section: "1. Comparing Systems",
       title: "The Wrong Model Fails in More Than One Way",
       story:
-        'Maya: "Wait, Model A said something different last time I checked."\nPriya: "It did — same underlying failure, different disguise."',
+        'Chloe: "Wait, Model A said something different last time I checked."\nMaya: "It did — same underlying failure, different disguise."',
       body: (
         <p>
           Model A doesn&rsquo;t always fail the same way. On one run it repeats the blunt
@@ -183,7 +183,7 @@ export function ModelComparisonWalkthrough({
         </p>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto space-y-1.5">
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1.5">
           <div>
             <div className="text-neutral-500 font-medium">Model A, run 1</div>
             <div className="text-red-700">&ldquo;Yes, you&rsquo;ll get a full refund.&rdquo;</div>
@@ -220,7 +220,7 @@ export function ModelComparisonWalkthrough({
         </p>
       ),
       visual: (
-        <div className="grid sm:grid-cols-2 gap-2 text-sm">
+        <div className="grid sm:grid-cols-2 gap-2 text-base">
           <div className="bg-white border border-neutral-200 rounded-md p-2.5 space-y-1">
             <div className="text-neutral-500 font-medium">Less deterministic — 3 runs</div>
             <div className="text-neutral-700">&ldquo;No — worn items only get a partial refund or store credit.&rdquo;</div>
@@ -240,7 +240,7 @@ export function ModelComparisonWalkthrough({
       section: "2. Consistency",
       title: "Picking a Candidate to Release",
       story:
-        'Priya: "A is disqualified — it\'s just wrong, however you slice it."\nMaya: "Between B and C, then?"\nPriya: "C is most thorough but slowest and priciest. B is faithful, clear, and cheaper. Let\'s go with B."',
+        'Maya: "A is disqualified — it\'s just wrong, however you slice it."\nChloe: "Between B and C, then?"\nMaya: "C is most thorough but slowest and priciest. B is faithful, clear, and cheaper. Let\'s go with B."',
       body: (
         <p>
           A is disqualified on correctness alone. Between B and C, the choice is a real
@@ -266,7 +266,7 @@ export function ModelComparisonWalkthrough({
             <button
               key={p}
               onClick={() => setPriority(p)}
-              className={`px-3 py-1.5 rounded-md text-sm border ${
+              className={`px-3 py-1.5 rounded-md text-base border ${
                 priority === p ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
               }`}
             >
@@ -279,7 +279,7 @@ export function ModelComparisonWalkthrough({
       visual: (
         <div className="space-y-2">
           {statTable(winner)}
-          <div className="text-center text-sm text-neutral-600">
+          <div className="text-center text-base text-neutral-600">
             Winner for <strong>{priority}</strong>: <span className="text-cyan-700 font-medium">Model {winner}</span>
             {winner === "A" && <span className="text-red-700"> — wrong answer, despite winning this axis.</span>}
           </div>
@@ -308,7 +308,7 @@ export function ModelComparisonWalkthrough({
       section: "4. Wrap-up",
       title: "Next: Release It and Check",
       story:
-        'Maya: "So we release Model B as v2. Does it actually help?"\nPriya: "That\'s exactly what we check next."',
+        'Chloe: "So we release Model B as v2. Does it actually help?"\nMaya: "That\'s exactly what we check next."',
       body: (
         <p>
           Everything above is also unlocked below — compare models by your own priority. Model B
@@ -347,12 +347,12 @@ export function ModelComparisonWalkthrough({
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst && !onBackToPreviousChapter}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -360,7 +360,7 @@ export function ModelComparisonWalkthrough({
             {isLast ? (onAdvanceToNextChapter ? "Continue: Regression Testing →" : "Finish") : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -374,8 +374,8 @@ export function ModelComparisonWalkthrough({
           </div>
         )}
 
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -383,7 +383,7 @@ export function ModelComparisonWalkthrough({
           </div>
         )}
         {current.resetAction && (
-          <button onClick={current.resetAction} className="text-xs text-neutral-500 hover:text-neutral-800">
+          <button onClick={current.resetAction} className="text-sm text-neutral-500 hover:text-neutral-800">
             ↺ Undo / reset this step
           </button>
         )}

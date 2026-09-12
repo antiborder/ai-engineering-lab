@@ -84,11 +84,11 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
   const [rerankOn, setRerankOn] = useState(false);
   const resetRerank = () => setRerankOn(false);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const toggleBtn = (active: boolean) =>
-    `px-3 py-1.5 rounded-md text-sm border ${
+    `px-3 py-1.5 rounded-md text-base border ${
       active ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
     }`;
 
@@ -138,19 +138,19 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       visual: (
         <div className="flex flex-col sm:flex-row gap-2 text-center">
           <div className="flex-1 bg-white border border-cyan-300 rounded-md p-3">
-            <div className="text-lg font-bold text-cyan-700">R</div>
-            <div className="text-xs font-medium text-neutral-800 mb-1">Retrieval</div>
-            <div className="text-xs text-neutral-500">Search your documents for relevant pieces</div>
+            <div className="text-xl font-bold text-cyan-700">R</div>
+            <div className="text-sm font-medium text-neutral-800 mb-1">Retrieval</div>
+            <div className="text-sm text-neutral-500">Search your documents for relevant pieces</div>
           </div>
           <div className="flex-1 bg-white border border-purple-300 rounded-md p-3">
-            <div className="text-lg font-bold text-purple-700">A</div>
-            <div className="text-xs font-medium text-neutral-800 mb-1">Augmented</div>
-            <div className="text-xs text-neutral-500">Add those pieces to what the model sees</div>
+            <div className="text-xl font-bold text-purple-700">A</div>
+            <div className="text-sm font-medium text-neutral-800 mb-1">Augmented</div>
+            <div className="text-sm text-neutral-500">Add those pieces to what the model sees</div>
           </div>
           <div className="flex-1 bg-white border border-orange-300 rounded-md p-3">
-            <div className="text-lg font-bold text-orange-700">G</div>
-            <div className="text-xs font-medium text-neutral-800 mb-1">Generation</div>
-            <div className="text-xs text-neutral-500">The model writes an answer using them</div>
+            <div className="text-xl font-bold text-orange-700">G</div>
+            <div className="text-sm font-medium text-neutral-800 mb-1">Generation</div>
+            <div className="text-sm text-neutral-500">The model writes an answer using them</div>
           </div>
         </div>
       ),
@@ -173,17 +173,17 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       visual: (
         <div className="space-y-2">
           <div className="bg-white border-2 border-red-300 rounded-md p-3">
-            <div className="text-xs font-medium text-red-700 mb-1">✗ Paste everything</div>
-            <div className="text-xs text-neutral-500">
+            <div className="text-sm font-medium text-red-700 mb-1">✗ Paste everything</div>
+            <div className="text-sm text-neutral-500">
               Your entire document library — usually bigger than any context window, and
               expensive and slow even on the rare occasion it fits.
             </div>
           </div>
           <div className="bg-white border-2 border-emerald-300 rounded-md p-3">
-            <div className="text-xs font-medium text-emerald-700 mb-1">
+            <div className="text-sm font-medium text-emerald-700 mb-1">
               ✓ Retrieve just the relevant pieces
             </div>
-            <div className="text-xs text-neutral-500">
+            <div className="text-sm text-neutral-500">
               A handful of chunks that actually answer the question — small, cheap, fast. This is
               what RAG does.
             </div>
@@ -203,7 +203,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
         </p>
       ),
       visual: (
-        <div className="flex flex-col sm:flex-row items-stretch gap-2 text-xs">
+        <div className="flex flex-col sm:flex-row items-stretch gap-2 text-sm">
           <div className="flex-1 bg-white border border-neutral-300 rounded-md p-3">
             <div className="font-medium text-neutral-700 mb-1">Your question</div>
             <div className="text-neutral-500">&ldquo;How does sourdough bread rise?&rdquo;</div>
@@ -263,7 +263,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       ),
       controls: (
         <div className="w-full max-w-75 space-y-3">
-          <label className="block text-sm">
+          <label className="block text-base">
             <div className="flex justify-between text-neutral-600 mb-1">
               <span>Chunk size (sentences)</span>
               <span className="text-neutral-800 tabular-nums">{chunkSize}</span>
@@ -278,7 +278,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
               className="w-full accent-cyan-600"
             />
           </label>
-          <label className="block text-sm">
+          <label className="block text-base">
             <div className="flex justify-between text-neutral-600 mb-1">
               <span>Overlap (sentences)</span>
               <span className="text-neutral-800 tabular-nums">{overlap}</span>
@@ -372,7 +372,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       ),
       controls: (
         <div className="w-full max-w-75 space-y-3">
-          <label className="block text-sm">
+          <label className="block text-base">
             <div className="flex justify-between text-neutral-600 mb-1">
               <span>Top-K</span>
               <span className="text-neutral-800 tabular-nums">{topK}</span>
@@ -387,7 +387,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
               className="w-full accent-cyan-600"
             />
           </label>
-          <label className="block text-sm">
+          <label className="block text-base">
             <div className="flex justify-between text-neutral-600 mb-1">
               <span>Similarity threshold</span>
               <span className="text-neutral-800 tabular-nums">{threshold.toFixed(2)}</span>
@@ -466,7 +466,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
         </ul>
       ),
       visual: (
-        <div className="grid grid-cols-2 gap-3 text-xs">
+        <div className="grid grid-cols-2 gap-3 text-sm">
           <div>
             <div className="text-neutral-500 mb-1 font-medium">Before reranking</div>
             <ol className="list-decimal list-inside space-y-1 text-neutral-700">
@@ -496,7 +496,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
         </p>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {CONTEXT_EXAMPLE}
         </pre>
       ),
@@ -539,7 +539,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
           {["Build", "Evaluate", "Optimize", "Deploy", "Monitor", "Improve"].map((stage, i, arr) => (
             <span key={stage} className="flex items-center gap-1.5">
               <span
-                className={`px-2 py-1 rounded-full border text-xs font-medium ${
+                className={`px-2 py-1 rounded-full border text-sm font-medium ${
                   stage === "Build"
                     ? "border-cyan-600 bg-cyan-50 text-cyan-800"
                     : "border-neutral-200 bg-white text-neutral-400"
@@ -565,7 +565,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
         </p>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {ARTIFACT_CONFIG_EXAMPLE}
         </pre>
       ),
@@ -627,12 +627,12 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -640,7 +640,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -652,8 +652,8 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -663,7 +663,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>

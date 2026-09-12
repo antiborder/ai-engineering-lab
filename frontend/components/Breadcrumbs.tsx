@@ -13,7 +13,7 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
   const all: Crumb[] = [{ label: APP_NAME, href: "/" }, ...items];
 
   return (
-    <nav aria-label="Breadcrumb" className="text-sm text-neutral-600 mb-4">
+    <nav aria-label="Breadcrumb" className="text-base text-neutral-600 mb-4">
       <ol className="flex flex-wrap items-center gap-1">
         {all.map((crumb, i) => (
           <Fragment key={i}>

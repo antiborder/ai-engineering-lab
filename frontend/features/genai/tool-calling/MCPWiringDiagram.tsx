@@ -88,7 +88,7 @@ export function MCPWiringDiagram({
         {apps.map((a, i) => (
           <g key={a}>
             <rect x={appX} y={colY(i, apps.length)} width={boxW} height={boxH} rx={5} fill="rgba(8,145,178,0.08)" stroke={CYAN} strokeWidth={1.5} />
-            <text x={appX + boxW / 2} y={colY(i, apps.length) + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+            <text x={appX + boxW / 2} y={colY(i, apps.length) + boxH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
               {a}
             </text>
           </g>
@@ -97,7 +97,7 @@ export function MCPWiringDiagram({
         {mode === "hub" && (
           <g>
             <rect x={hubX} y={hubY} width={boxW} height={boxH} rx={5} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={2} />
-            <text x={hubX + boxW / 2} y={hubY + boxH / 2 + 4} fontSize={12} fontWeight={700} textAnchor="middle" fill="#3f3f46">
+            <text x={hubX + boxW / 2} y={hubY + boxH / 2 + 4} fontSize={14} fontWeight={700} textAnchor="middle" fill="#3f3f46">
               MCP
             </text>
           </g>
@@ -106,13 +106,13 @@ export function MCPWiringDiagram({
         {tools.map((t, i) => (
           <g key={t}>
             <rect x={toolX} y={colY(i, tools.length)} width={boxW} height={boxH} rx={5} fill="rgba(234,88,12,0.08)" stroke="#ea580c" strokeWidth={1.5} />
-            <text x={toolX + boxW / 2} y={colY(i, tools.length) + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+            <text x={toolX + boxW / 2} y={colY(i, tools.length) + boxH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
               {t}
             </text>
           </g>
         ))}
 
-        <text x={width / 2} y={height - 16} fontSize={12} fontWeight={700} textAnchor="middle" fill={mode === "direct" ? "#dc2626" : "#059669"}>
+        <text x={width / 2} y={height - 16} fontSize={14} fontWeight={700} textAnchor="middle" fill={mode === "direct" ? "#dc2626" : "#059669"}>
           {connectionCount} {mode === "direct" ? "custom integrations" : "standard connections"}
         </text>
       </svg>

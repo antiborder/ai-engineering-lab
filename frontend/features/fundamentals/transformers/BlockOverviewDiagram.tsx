@@ -34,7 +34,7 @@ export function BlockOverviewDiagram() {
   return (
     <div className="w-full max-w-[320px] mx-auto">
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
-        <text x={midX} y={16} fontSize={12} textAnchor="middle" fill="#3f3f46">
+        <text x={midX} y={16} fontSize={14} textAnchor="middle" fill="#3f3f46">
           token in
         </text>
         <line x1={midX} y1={22} x2={midX} y2={topMargin - 4} stroke={NEUTRAL} strokeWidth={2} />
@@ -47,15 +47,15 @@ export function BlockOverviewDiagram() {
           return (
             <g key={b}>
               <rect x={blockX} y={top} width={blockW} height={blockH} rx={10} fill="none" stroke={NEUTRAL} strokeWidth={1.5} strokeDasharray="5,4" />
-              <text x={blockX + 10} y={top + 14} fontSize={12} fontWeight={700} fill="#525252">
+              <text x={blockX + 10} y={top + 14} fontSize={14} fontWeight={700} fill="#525252">
                 Block {b + 1}
               </text>
 
               <rect x={sublayerX} y={sub1Y} width={sublayerW} height={sublayerH} rx={6} fill="rgba(8,145,178,0.1)" stroke={CYAN} strokeWidth={2} />
-              <text x={midX} y={sub1Y + 18} fontSize={12} textAnchor="middle" fill="#3f3f46">
+              <text x={midX} y={sub1Y + 18} fontSize={14} textAnchor="middle" fill="#3f3f46">
                 Attention
               </text>
-              <text x={midX} y={sub1Y + 33} fontSize={12} textAnchor="middle" fill={ORANGE}>
+              <text x={midX} y={sub1Y + 33} fontSize={14} textAnchor="middle" fill={ORANGE}>
                 + residual, norm
               </text>
 
@@ -63,10 +63,10 @@ export function BlockOverviewDiagram() {
               <polygon points={`${midX - 3},${sub2Y - 4} ${midX + 3},${sub2Y - 4} ${midX},${sub2Y + 1}`} fill={NEUTRAL} />
 
               <rect x={sublayerX} y={sub2Y} width={sublayerW} height={sublayerH} rx={6} fill="rgba(8,145,178,0.1)" stroke={CYAN} strokeWidth={2} />
-              <text x={midX} y={sub2Y + 18} fontSize={12} textAnchor="middle" fill="#3f3f46">
+              <text x={midX} y={sub2Y + 18} fontSize={14} textAnchor="middle" fill="#3f3f46">
                 Feed-Forward
               </text>
-              <text x={midX} y={sub2Y + 33} fontSize={12} textAnchor="middle" fill={ORANGE}>
+              <text x={midX} y={sub2Y + 33} fontSize={14} textAnchor="middle" fill={ORANGE}>
                 + residual, norm
               </text>
 
@@ -85,11 +85,11 @@ export function BlockOverviewDiagram() {
 
         <line x1={midX} y1={lastBlockBottom} x2={midX} y2={height - 14} stroke={NEUTRAL} strokeWidth={2} />
         <polygon points={`${midX - 4},${height - 14} ${midX + 4},${height - 14} ${midX},${height - 8}`} fill={NEUTRAL} />
-        <text x={midX} y={height - 2} fontSize={12} textAnchor="middle" fill="#3f3f46">
+        <text x={midX} y={height - 2} fontSize={14} textAnchor="middle" fill="#3f3f46">
           richer vector out
         </text>
       </svg>
-      <p className="text-xs text-neutral-500 mt-1 text-center">
+      <p className="text-sm text-neutral-500 mt-1 text-center">
         Two Blocks shown — real stacks can go deeper (this app: up to 3).
       </p>
     </div>

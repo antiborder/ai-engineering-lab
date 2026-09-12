@@ -30,7 +30,7 @@ export default function GenAiPage() {
             className="block rounded-lg border border-neutral-200 bg-white p-4 hover:border-neutral-400 transition-colors"
           >
             <div className="font-medium text-neutral-900">{s.label}</div>
-            <p className="text-sm text-neutral-600 mt-1">{s.description}</p>
+            <p className="text-base text-neutral-600 mt-1">{s.description}</p>
           </Link>
         ))}
       </div>

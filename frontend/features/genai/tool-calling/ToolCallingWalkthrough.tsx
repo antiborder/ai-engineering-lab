@@ -52,11 +52,11 @@ export function ToolCallingWalkthrough({
   const [exampleIndex, setExampleIndex] = useState<number | null>(null);
   const resetExample = () => setExampleIndex(null);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const toggleBtn = (active: boolean) =>
-    `px-3 py-1.5 rounded-md text-sm border text-left ${
+    `px-3 py-1.5 rounded-md text-base border text-left ${
       active ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
     }`;
 
@@ -111,7 +111,7 @@ export function ToolCallingWalkthrough({
         </p>
       ),
       visual: (
-        <div className="flex flex-col sm:flex-row gap-2 text-xs">
+        <div className="flex flex-col sm:flex-row gap-2 text-sm">
           <div className="flex-1 bg-white border border-emerald-300 rounded-md p-3">
             <div className="font-medium text-emerald-700 mb-1">Good at</div>
             <div className="text-neutral-500">Language, general knowledge</div>
@@ -134,7 +134,7 @@ export function ToolCallingWalkthrough({
         </p>
       ),
       visual: (
-        <div className="flex flex-col sm:flex-row items-stretch gap-2 text-xs">
+        <div className="flex flex-col sm:flex-row items-stretch gap-2 text-sm">
           <div className="flex-1 bg-white border border-neutral-300 rounded-md p-3">
             <div className="font-medium text-neutral-700 mb-1">Model doesn&rsquo;t know</div>
             <div className="text-neutral-500">&ldquo;What&rsquo;s 15% of 240?&rdquo;</div>
@@ -209,7 +209,7 @@ export function ToolCallingWalkthrough({
         <p>Handles arithmetic and percentages exactly, instead of relying on the model&rsquo;s own math.</p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-3 text-xs">
+        <div className="flex items-center justify-center gap-3 text-sm">
           <span className="px-3 py-1.5 rounded-full border border-neutral-300 bg-white font-mono">15% of 240</span>
           <span className="text-neutral-400">→</span>
           <span className="px-3 py-1.5 rounded-full border border-cyan-300 bg-cyan-50 text-cyan-800 font-mono">36.0</span>
@@ -226,7 +226,7 @@ export function ToolCallingWalkthrough({
         </p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-3 text-xs">
+        <div className="flex items-center justify-center gap-3 text-sm">
           <span className="px-3 py-1.5 rounded-full border border-neutral-300 bg-white font-mono">Berlin</span>
           <span className="text-neutral-400">→</span>
           <span className="px-3 py-1.5 rounded-full border border-cyan-300 bg-cyan-50 text-cyan-800 font-mono">
@@ -245,7 +245,7 @@ export function ToolCallingWalkthrough({
         </p>
       ),
       visual: (
-        <div className="space-y-1.5 text-xs">
+        <div className="space-y-1.5 text-sm">
           <div className="text-center">
             <span className="px-3 py-1.5 rounded-full border border-neutral-300 bg-white font-mono">
               tell me about mount everest
@@ -270,7 +270,7 @@ export function ToolCallingWalkthrough({
         </p>
       ),
       visual: (
-        <div className="space-y-1.5 text-xs">
+        <div className="space-y-1.5 text-sm">
           <div className="bg-white border border-green-300 rounded-md p-2 font-mono text-neutral-700">
             weather(city: string)
           </div>
@@ -292,7 +292,7 @@ export function ToolCallingWalkthrough({
       ),
       visual: (
         <div className="overflow-x-auto">
-          <table className="w-full text-xs border-collapse">
+          <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="text-left text-neutral-500">
                 <th className="pb-1.5 pr-3 font-medium">Message contains</th>
@@ -365,7 +365,7 @@ export function ToolCallingWalkthrough({
       ),
       visual: (
         <div className="overflow-x-auto">
-          <table className="w-full text-xs border-collapse">
+          <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="text-left text-neutral-500">
                 <th className="pb-1.5 pr-3 font-medium"></th>
@@ -437,7 +437,7 @@ export function ToolCallingWalkthrough({
             skipTool={example !== null && example.tool === null}
           />
           {example && (
-            <div className="bg-white border border-neutral-200 rounded-md p-3 space-y-1 text-xs">
+            <div className="bg-white border border-neutral-200 rounded-md p-3 space-y-1 text-sm">
               {example.tool ? (
                 <>
                   <div className="text-neutral-600">
@@ -511,12 +511,12 @@ export function ToolCallingWalkthrough({
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -524,7 +524,7 @@ export function ToolCallingWalkthrough({
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -536,8 +536,8 @@ export function ToolCallingWalkthrough({
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -547,7 +547,7 @@ export function ToolCallingWalkthrough({
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>

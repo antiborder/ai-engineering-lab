@@ -55,8 +55,8 @@ export function ModelComparisonLab({
 
       {walkthroughComplete && (
         <div>
-          <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-          <p className="text-sm text-neutral-500 mb-4">
+          <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+          <p className="text-base text-neutral-500 mb-4">
             Edit the numbers, or add your own system, and see which one wins on each axis.
           </p>
 
@@ -66,34 +66,34 @@ export function ModelComparisonLab({
                 <input
                   value={c.label}
                   onChange={(e) => updateCandidate(i, "label", e.target.value)}
-                  className="flex-1 min-w-24 bg-white border border-neutral-200 rounded-md px-2 py-1 text-sm text-neutral-900"
+                  className="flex-1 min-w-24 bg-white border border-neutral-200 rounded-md px-2 py-1 text-base text-neutral-900"
                 />
-                <label className="text-xs text-neutral-500 flex items-center gap-1">
+                <label className="text-sm text-neutral-500 flex items-center gap-1">
                   Quality
                   <input
                     type="number"
                     value={c.quality}
                     onChange={(e) => updateCandidate(i, "quality", e.target.value)}
-                    className="w-16 bg-white border border-neutral-200 rounded-md px-1.5 py-1 text-sm text-neutral-900"
+                    className="w-16 bg-white border border-neutral-200 rounded-md px-1.5 py-1 text-base text-neutral-900"
                   />
                 </label>
-                <label className="text-xs text-neutral-500 flex items-center gap-1">
+                <label className="text-sm text-neutral-500 flex items-center gap-1">
                   Latency (ms)
                   <input
                     type="number"
                     value={c.latencyMs}
                     onChange={(e) => updateCandidate(i, "latencyMs", e.target.value)}
-                    className="w-20 bg-white border border-neutral-200 rounded-md px-1.5 py-1 text-sm text-neutral-900"
+                    className="w-20 bg-white border border-neutral-200 rounded-md px-1.5 py-1 text-base text-neutral-900"
                   />
                 </label>
-                <label className="text-xs text-neutral-500 flex items-center gap-1">
+                <label className="text-sm text-neutral-500 flex items-center gap-1">
                   Cost ($)
                   <input
                     type="number"
                     step="0.0001"
                     value={c.cost}
                     onChange={(e) => updateCandidate(i, "cost", e.target.value)}
-                    className="w-20 bg-white border border-neutral-200 rounded-md px-1.5 py-1 text-sm text-neutral-900"
+                    className="w-20 bg-white border border-neutral-200 rounded-md px-1.5 py-1 text-base text-neutral-900"
                   />
                 </label>
                 <button onClick={() => removeCandidate(i)} className="text-neutral-400 hover:text-red-600 shrink-0" aria-label="Remove system">✕</button>
@@ -101,13 +101,13 @@ export function ModelComparisonLab({
             ))}
             <button
               onClick={addCandidate}
-              className="px-3 py-1.5 rounded-md bg-white border border-neutral-200 hover:border-neutral-400 text-sm text-neutral-700"
+              className="px-3 py-1.5 rounded-md bg-white border border-neutral-200 hover:border-neutral-400 text-base text-neutral-700"
             >
               + Add a system
             </button>
 
             {candidates.length > 0 && (
-              <div className="bg-cyan-50 border border-cyan-200 rounded-md p-3 text-sm space-y-1">
+              <div className="bg-cyan-50 border border-cyan-200 rounded-md p-3 text-base space-y-1">
                 <div>Best quality: <span className="font-medium text-cyan-800">{candidates.find((c) => c.quality === bestQuality)?.label}</span> ({bestQuality})</div>
                 <div>Fastest: <span className="font-medium text-cyan-800">{candidates.find((c) => c.latencyMs === bestLatency)?.label}</span> ({bestLatency}ms)</div>
                 <div>Cheapest: <span className="font-medium text-cyan-800">{candidates.find((c) => c.cost === bestCost)?.label}</span> (${bestCost.toFixed(4)})</div>

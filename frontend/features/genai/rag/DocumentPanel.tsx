@@ -41,10 +41,10 @@ export function DocumentPanel({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <button onClick={() => setExpanded((e) => !e)} className="text-sm text-neutral-600 hover:text-neutral-800">
+        <button onClick={() => setExpanded((e) => !e)} className="text-base text-neutral-600 hover:text-neutral-800">
           {expanded ? "▾" : "▸"} Documents ({documents.length})
         </button>
-        <button onClick={handleReset} className="text-xs text-neutral-500 hover:text-neutral-400">
+        <button onClick={handleReset} className="text-sm text-neutral-500 hover:text-neutral-400">
           reset to demo corpus
         </button>
       </div>
@@ -53,7 +53,7 @@ export function DocumentPanel({
         <div className="space-y-3 border border-neutral-200 rounded-md p-3 bg-white">
           <ul className="space-y-1.5 max-h-48 overflow-y-auto">
             {documents.map((doc) => (
-              <li key={doc.id} className="flex items-start gap-2 text-xs">
+              <li key={doc.id} className="flex items-start gap-2 text-sm">
                 <div className="flex-1">
                   <div className="text-neutral-800 font-medium">{doc.title}</div>
                   <div className="text-neutral-500 truncate">{doc.text.slice(0, 100)}…</div>
@@ -69,19 +69,19 @@ export function DocumentPanel({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Document title"
-              className="w-full bg-neutral-50 border border-neutral-300 rounded-md px-2 py-1 text-sm text-neutral-900"
+              className="w-full bg-neutral-50 border border-neutral-300 rounded-md px-2 py-1 text-base text-neutral-900"
             />
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Paste document text…"
               rows={3}
-              className="w-full bg-neutral-50 border border-neutral-300 rounded-md px-2 py-1 text-sm text-neutral-900"
+              className="w-full bg-neutral-50 border border-neutral-300 rounded-md px-2 py-1 text-base text-neutral-900"
             />
             <button
               onClick={handleAdd}
               disabled={adding || !title.trim() || !text.trim()}
-              className="px-3 py-1 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-50 text-xs text-neutral-800"
+              className="px-3 py-1 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-50 text-sm text-neutral-800"
             >
               {adding ? "Adding…" : "Add document"}
             </button>

@@ -37,13 +37,13 @@ export function ChunkingDiagram({ chunkSize, overlap }: { chunkSize: number; ove
           else if (inChunk1) cls = "bg-cyan-50 text-cyan-800 border-cyan-300";
           else if (inChunk2) cls = "bg-purple-50 text-purple-800 border-purple-300";
           return (
-            <div key={i} className={`text-xs rounded-md border p-2 ${cls}`}>
+            <div key={i} className={`text-sm rounded-md border p-2 ${cls}`}>
               {s}
             </div>
           );
         })}
       </div>
-      <div className="flex flex-wrap gap-4 text-xs text-neutral-600">
+      <div className="flex flex-wrap gap-4 text-sm text-neutral-600">
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-cyan-50 border border-cyan-300 inline-block" /> chunk 1
         </span>

@@ -47,7 +47,7 @@ export default async function EvaluationPage({ searchParams }: PageProps<"/evalu
 
       {artifactName && (
         <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-4 max-w-2xl mb-6">
-          <p className="text-sm text-cyan-700">
+          <p className="text-base text-cyan-700">
             Selected artifact: <span className="font-mono">{artifactName} {artifactVersion}</span>
           </p>
         </div>
@@ -62,7 +62,7 @@ export default async function EvaluationPage({ searchParams }: PageProps<"/evalu
               className="block rounded-lg border border-neutral-200 bg-white p-4 hover:border-neutral-400 transition-colors"
             >
               <div className="font-medium text-neutral-900">{s.label}</div>
-              <p className="text-sm text-neutral-600 mt-1">{s.description}</p>
+              <p className="text-base text-neutral-600 mt-1">{s.description}</p>
             </Link>
           ) : (
             <div
@@ -71,11 +71,11 @@ export default async function EvaluationPage({ searchParams }: PageProps<"/evalu
             >
               <div className="flex items-center gap-2">
                 <div className="font-medium text-neutral-500">{s.label}</div>
-                <span className="text-xs uppercase tracking-wide text-neutral-400 border border-neutral-200 rounded px-1.5 py-0.5">
+                <span className="text-sm uppercase tracking-wide text-neutral-400 border border-neutral-200 rounded px-1.5 py-0.5">
                   Coming soon
                 </span>
               </div>
-              <p className="text-sm text-neutral-400 mt-1">{s.description}</p>
+              <p className="text-base text-neutral-400 mt-1">{s.description}</p>
             </div>
           )
         )}

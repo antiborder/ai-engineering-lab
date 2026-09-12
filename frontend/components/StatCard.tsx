@@ -16,8 +16,8 @@ export function StatCard({
   const t = TONE_CLASSES[tone];
   return (
     <div className={`rounded-md border px-3 py-2 ${t.border}`}>
-      <div className="text-xs text-neutral-500">{label}</div>
-      <div className={`text-lg font-mono ${t.text}`}>{value}</div>
+      <div className="text-sm text-neutral-500">{label}</div>
+      <div className={`text-xl font-mono ${t.text}`}>{value}</div>
     </div>
   );
 }

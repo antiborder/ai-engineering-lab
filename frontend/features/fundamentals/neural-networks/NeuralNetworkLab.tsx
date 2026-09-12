@@ -61,8 +61,8 @@ export function NeuralNetworkLab() {
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Same idea, now with controls. Try an oversized architecture on a small, noisy dataset
           to see it overfit.
         </p>
@@ -81,7 +81,7 @@ export function NeuralNetworkLab() {
               <StatCard label="Test accuracy" value={`${(stats.testAcc * 100).toFixed(1)}%`} warn={stats.overfitting} />
             </div>
             {stats.overfitting && (
-              <p className="text-xs text-amber-800 bg-amber-50 border border-amber-300 rounded-md px-3 py-2">
+              <p className="text-sm text-amber-800 bg-amber-50 border border-amber-300 rounded-md px-3 py-2">
                 Test loss is diverging from train loss. Larger networks can overfit just like
                 high-degree polynomials did in Classical ML.
               </p>
@@ -94,7 +94,7 @@ export function NeuralNetworkLab() {
             />
 
             <div className="space-y-3 pt-2">
-              <label className="block text-sm">
+              <label className="block text-base">
                 <div className="text-neutral-600 mb-1">Architecture</div>
                 <select
                   value={archIndex}
@@ -108,7 +108,7 @@ export function NeuralNetworkLab() {
                   ))}
                 </select>
               </label>
-              <label className="block text-sm">
+              <label className="block text-base">
                 <div className="text-neutral-600 mb-1">Activation</div>
                 <select
                   value={activation}
@@ -130,18 +130,18 @@ export function NeuralNetworkLab() {
             <div className="flex items-center gap-3 pt-1">
               <button
                 onClick={() => setPlaying((p) => !p)}
-                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white"
+                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white"
               >
                 {playing ? "Pause" : "Resume"} training
               </button>
               <button
                 onClick={() => setSeed((s) => s + 1)}
-                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
+                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-800"
               >
                 New dataset
               </button>
             </div>
-            <p className="text-xs text-neutral-500">epoch {stats.epoch} · backpropagation, lr={lr.toFixed(2)}</p>
+            <p className="text-sm text-neutral-500">epoch {stats.epoch} · backpropagation, lr={lr.toFixed(2)}</p>
           </div>
         )}
       </NetworkTrainer>
@@ -219,7 +219,7 @@ function NetworkTrainer({
       <div className="space-y-4">
         <NetworkDiagram config={config} weights={weights} activations={activations} />
         <DecisionBoundaryCanvas points={points} predict={predict} domain={DOMAIN} />
-        <div className="flex flex-wrap gap-3 text-xs text-neutral-600">
+        <div className="flex flex-wrap gap-3 text-sm text-neutral-600">
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-orange-600" /> class 0</span>
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-cyan-400" /> class 1</span>
           <span>node brightness = mean activation · edge color = weight sign</span>
@@ -233,8 +233,8 @@ function NetworkTrainer({
 function StatCard({ label, value, warn }: { label: string; value: string; warn?: boolean }) {
   return (
     <div className={`rounded-md border px-3 py-2 ${warn ? "border-amber-300 bg-amber-50" : "border-neutral-200 bg-white"}`}>
-      <div className="text-xs text-neutral-500">{label}</div>
-      <div className={`text-lg font-mono ${warn ? "text-amber-800" : "text-neutral-900"}`}>{value}</div>
+      <div className="text-sm text-neutral-500">{label}</div>
+      <div className={`text-xl font-mono ${warn ? "text-amber-800" : "text-neutral-900"}`}>{value}</div>
     </div>
   );
 }

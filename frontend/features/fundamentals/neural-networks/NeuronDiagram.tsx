@@ -50,40 +50,40 @@ export function NeuronDiagram({ stage, highlight }: { stage: NeuronStage; highli
             <line x1={x1.x + 14} y1={x1.y} x2={sumX - 30} y2={cy} stroke={NEUTRAL} strokeWidth={2} />
             <line x1={x2.x + 14} y1={x2.y} x2={sumX - 30} y2={cy} stroke={NEUTRAL} strokeWidth={2} />
             <circle cx={x1.x} cy={x1.y} r={14} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={2} />
-            <text x={x1.x} y={x1.y + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">x₁</text>
+            <text x={x1.x} y={x1.y + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">x₁</text>
             <circle cx={x2.x} cy={x2.y} r={14} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={2} />
-            <text x={x2.x} y={x2.y + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">x₂</text>
+            <text x={x2.x} y={x2.y + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">x₂</text>
             <circle cx={sumX} cy={cy} r={32} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={2.5} />
-            <text x={sumX} y={cy - 44} fontSize={12} textAnchor="middle" fill="#3f3f46">neuron</text>
+            <text x={sumX} y={cy - 44} fontSize={14} textAnchor="middle" fill="#3f3f46">neuron</text>
             <line x1={sumX + 32} y1={cy} x2={outX - 6} y2={cy} stroke={PURPLE} strokeWidth={2.5} />
             <polygon points={`${outX - 6},${cy - 5} ${outX + 6},${cy} ${outX - 6},${cy + 5}`} fill={PURPLE} />
-            <text x={outX + 12} y={cy + 4} fontSize={12} fill="#3f3f46">output</text>
+            <text x={outX + 12} y={cy + 4} fontSize={14} fill="#3f3f46">output</text>
           </>
         ) : (
           <>
             <g opacity={op("weights")}>
               <line x1={x1.x + 14} y1={x1.y} x2={sumX - 20} y2={cy} stroke={CYAN} strokeWidth={sw("weights", 2)} />
-              <text x={(x1.x + sumX) / 2 - 6} y={(x1.y + cy) / 2 - 8} fontSize={12} fontWeight={fw("weights")} fill={CYAN}>w₁</text>
+              <text x={(x1.x + sumX) / 2 - 6} y={(x1.y + cy) / 2 - 8} fontSize={14} fontWeight={fw("weights")} fill={CYAN}>w₁</text>
               <line x1={x2.x + 14} y1={x2.y} x2={sumX - 20} y2={cy} stroke={CYAN} strokeWidth={sw("weights", 2)} />
-              <text x={(x2.x + sumX) / 2 - 6} y={(x2.y + cy) / 2 + 17} fontSize={12} fontWeight={fw("weights")} fill={CYAN}>w₂</text>
+              <text x={(x2.x + sumX) / 2 - 6} y={(x2.y + cy) / 2 + 17} fontSize={14} fontWeight={fw("weights")} fill={CYAN}>w₂</text>
             </g>
 
             <g opacity={op("bias")}>
               <line x1={sumX} y1={cy - 50} x2={sumX} y2={cy - 22} stroke={ORANGE} strokeWidth={sw("bias", 2)} />
               <polygon points={`${sumX - 4},${cy - 22} ${sumX + 4},${cy - 22} ${sumX},${cy - 14}`} fill={ORANGE} />
-              <text x={sumX + 9} y={cy - 34} fontSize={12} fontWeight={fw("bias")} fill={ORANGE}>b</text>
+              <text x={sumX + 9} y={cy - 34} fontSize={14} fontWeight={fw("bias")} fill={ORANGE}>b</text>
             </g>
 
             <g opacity={op("inputs")}>
               <circle cx={x1.x} cy={x1.y} r={14} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={sw("inputs", 2)} />
-              <text x={x1.x} y={x1.y + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">x₁</text>
+              <text x={x1.x} y={x1.y + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">x₁</text>
               <circle cx={x2.x} cy={x2.y} r={14} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={sw("inputs", 2)} />
-              <text x={x2.x} y={x2.y + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">x₂</text>
+              <text x={x2.x} y={x2.y + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">x₂</text>
             </g>
 
             <g opacity={op("sum")}>
               <circle cx={sumX} cy={cy} r={20} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={sw("sum", 2)} />
-              <text x={sumX} y={cy + 5} fontSize={13} textAnchor="middle" fill="#3f3f46">Σ</text>
+              <text x={sumX} y={cy + 5} fontSize={15} textAnchor="middle" fill="#3f3f46">Σ</text>
             </g>
 
             {stage === "full" ? (
@@ -91,19 +91,19 @@ export function NeuronDiagram({ stage, highlight }: { stage: NeuronStage; highli
                 <line x1={sumX + 20} y1={cy} x2={actX - 18} y2={cy} stroke={NEUTRAL} strokeWidth={2} opacity={Math.min(op("sum"), op("activation"))} />
                 <g opacity={op("activation")}>
                   <circle cx={actX} cy={cy} r={18} fill="rgba(8,145,178,0.12)" stroke={CYAN} strokeWidth={sw("activation", 2)} />
-                  <text x={actX} y={cy + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">f</text>
+                  <text x={actX} y={cy + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">f</text>
                 </g>
                 <g opacity={op("output")}>
                   <line x1={actX + 18} y1={cy} x2={outX - 6} y2={cy} stroke={PURPLE} strokeWidth={sw("output", 2)} />
                   <polygon points={`${outX - 6},${cy - 5} ${outX + 6},${cy} ${outX - 6},${cy + 5}`} fill={PURPLE} />
-                  <text x={outX + 12} y={cy + 4} fontSize={12} fill="#3f3f46">output</text>
+                  <text x={outX + 12} y={cy + 4} fontSize={14} fill="#3f3f46">output</text>
                 </g>
               </>
             ) : (
               <g opacity={op("output")}>
                 <line x1={sumX + 20} y1={cy} x2={outX - 6} y2={cy} stroke={PURPLE} strokeWidth={sw("output", 2)} />
                 <polygon points={`${outX - 6},${cy - 5} ${outX + 6},${cy} ${outX - 6},${cy + 5}`} fill={PURPLE} />
-                <text x={outX + 12} y={cy + 4} fontSize={12} fill="#3f3f46">z</text>
+                <text x={outX + 12} y={cy + 4} fontSize={14} fill="#3f3f46">z</text>
               </g>
             )}
           </>

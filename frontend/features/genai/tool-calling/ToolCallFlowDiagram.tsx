@@ -44,7 +44,7 @@ export function ToolCallFlowDiagram({
           return (
             <span key={s.id + i} className="flex items-center gap-1.5">
               <span
-                className={`px-2 py-1 rounded-full border text-xs font-medium ${
+                className={`px-2 py-1 rounded-full border text-sm font-medium ${
                   dimmed
                     ? "border-neutral-100 bg-neutral-50 text-neutral-300 line-through"
                     : active(s.id)
@@ -60,7 +60,7 @@ export function ToolCallFlowDiagram({
         })}
       </div>
       {skipTool && (
-        <p className="text-xs text-neutral-500">No tool matched, so these steps are skipped entirely.</p>
+        <p className="text-sm text-neutral-500">No tool matched, so these steps are skipped entirely.</p>
       )}
     </div>
   );

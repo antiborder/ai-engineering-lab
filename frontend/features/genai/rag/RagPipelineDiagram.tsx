@@ -104,7 +104,7 @@ export function RagPipelineDiagram({ highlight }: { highlight?: string[] }) {
               className={`rounded-lg border p-2.5 space-y-2 ${ACCENT_WRAPPER[phase.accent]}`}
               style={{ opacity: phaseActive(phase) ? 1 : DIM }}
             >
-              <div className={`text-xs font-semibold uppercase tracking-wide ${ACCENT_TEXT[phase.accent]}`}>
+              <div className={`text-sm font-semibold uppercase tracking-wide ${ACCENT_TEXT[phase.accent]}`}>
                 {phase.label}
               </div>
               {phase.groups.map((group, gi) => (
@@ -113,12 +113,12 @@ export function RagPipelineDiagram({ highlight }: { highlight?: string[] }) {
                     className="rounded-md border border-neutral-200 bg-white p-2"
                     style={{ opacity: groupActive(group) ? 1 : DIM }}
                   >
-                    <div className="text-xs text-neutral-500 mb-1">{group.label}</div>
+                    <div className="text-sm text-neutral-500 mb-1">{group.label}</div>
                     <div className="flex flex-wrap items-center gap-1.5">
                       {group.stages.map((stage, si) => (
                         <span key={stage.id} className="flex items-center gap-1.5">
                           <span
-                            className={`px-2 py-1 rounded-full border text-xs font-medium ${
+                            className={`px-2 py-1 rounded-full border text-sm font-medium ${
                               stageActive(stage.id)
                                 ? "border-cyan-600 bg-cyan-50 text-cyan-800"
                                 : "border-neutral-200 bg-white text-neutral-400"
@@ -141,7 +141,7 @@ export function RagPipelineDiagram({ highlight }: { highlight?: string[] }) {
           </div>
         ))}
       </div>
-      <p className="text-xs text-neutral-500 mt-1.5 text-center">
+      <p className="text-sm text-neutral-500 mt-1.5 text-center">
         Purple = prepared once, ahead of time. Orange = repeated every time you ask a question.
       </p>
     </div>

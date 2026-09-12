@@ -61,7 +61,7 @@ function ContextTargetStrip({ text }: { text: string }) {
   const target = chars.slice(1);
   const cell = (c: string, tone: "cyan" | "orange") => (
     <span
-      className={`w-6 h-6 flex items-center justify-center rounded text-xs font-mono border ${
+      className={`w-6 h-6 flex items-center justify-center rounded text-sm font-mono border ${
         tone === "cyan"
           ? "bg-cyan-50 border-cyan-600 text-cyan-800"
           : "bg-orange-50 border-orange-500 text-orange-800"
@@ -74,9 +74,9 @@ function ContextTargetStrip({ text }: { text: string }) {
     <div className="overflow-x-auto">
       <div className="inline-block">
         <div className="flex gap-0.5">{input.map((c, i) => <span key={i}>{cell(c, "cyan")}</span>)}</div>
-        <div className="text-xs text-neutral-500 mt-0.5 mb-1.5">↑ input (context)</div>
+        <div className="text-sm text-neutral-500 mt-0.5 mb-1.5">↑ input (context)</div>
         <div className="flex gap-0.5">{target.map((c, i) => <span key={i}>{cell(c, "orange")}</span>)}</div>
-        <div className="text-xs text-neutral-500 mt-0.5">↑ target — same text, shifted one character later</div>
+        <div className="text-sm text-neutral-500 mt-0.5">↑ target — same text, shifted one character later</div>
       </div>
     </div>
   );
@@ -98,7 +98,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
   const [temperature, setTemperature] = useState(1);
   const resetTemperature = () => setTemperature(1);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
 
   interface Step {
     section: string;
@@ -139,7 +139,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
         </p>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           &ldquo;{OPENING_LINE}&rdquo;
         </pre>
       ),
@@ -175,11 +175,11 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       visual: (
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <div className="text-xs text-neutral-500 mb-1">Word-level (Transformers Unit)</div>
+            <div className="text-sm text-neutral-500 mb-1">Word-level (Transformers Unit)</div>
             <TokenChips tokens={["Alice", "was", "beginning"]} />
           </div>
           <div>
-            <div className="text-xs text-neutral-500 mb-1">Character-level (this Unit)</div>
+            <div className="text-sm text-neutral-500 mb-1">Character-level (this Unit)</div>
             <TokenChips tokens={["A", "l", "i", "c", "e", "␣", "w", "a", "s"]} />
           </div>
         </div>
@@ -196,7 +196,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
         </p>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           &ldquo;{OPENING_LINE}&rdquo;
         </pre>
       ),
@@ -302,7 +302,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
         </p>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono min-h-[3.5rem]">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono min-h-[3.5rem]">
           {TRAINING_STAGES[0].text}
         </pre>
       ),
@@ -318,7 +318,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
         </p>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono min-h-[3.5rem]">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono min-h-[3.5rem]">
           {TRAINING_STAGES[stageIndex].text}
         </pre>
       ),
@@ -429,12 +429,12 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -442,7 +442,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -454,8 +454,8 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -465,7 +465,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>

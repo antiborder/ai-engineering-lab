@@ -43,7 +43,7 @@ function ArcRow({ pairs, color }: { pairs: [number, number][]; color: string }) 
       {TOKENS.map((tok, i) => (
         <g key={i}>
           <rect x={cellX(i) - boxW / 2} y={rowY} width={boxW} height={boxH} rx={5} fill="white" stroke="#d4d4d8" strokeWidth={1} />
-          <text x={cellX(i)} y={rowY + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          <text x={cellX(i)} y={rowY + boxH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
             {tok}
           </text>
         </g>
@@ -62,14 +62,14 @@ export function MultiHeadIntuitionDiagram() {
   return (
     <div className="w-full max-w-[460px] mx-auto space-y-3">
       <div className="rounded-md border border-neutral-200 bg-white p-2">
-        <div className="text-xs font-semibold text-cyan-700 mb-1">Head A (illustrative): nearby words</div>
+        <div className="text-sm font-semibold text-cyan-700 mb-1">Head A (illustrative): nearby words</div>
         <ArcRow pairs={NEARBY_PAIRS} color={CYAN} />
       </div>
       <div className="rounded-md border border-neutral-200 bg-white p-2">
-        <div className="text-xs font-semibold text-violet-700 mb-1">Head B (illustrative): what a word refers to</div>
+        <div className="text-sm font-semibold text-violet-700 mb-1">Head B (illustrative): what a word refers to</div>
         <ArcRow pairs={REFERENCE_PAIRS} color={PURPLE} />
       </div>
-      <p className="text-xs text-neutral-500 text-center">
+      <p className="text-sm text-neutral-500 text-center">
         Illustrative patterns — real heads discover connections like these through training, not
         by design.
       </p>

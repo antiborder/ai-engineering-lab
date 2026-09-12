@@ -3,8 +3,8 @@
 const DIALOGUE_LINE = /^([^":]+):\s*"(.+)"$/;
 
 const SPEAKER_COLOR: Record<string, string> = {
-  Maya: "text-cyan-700",
-  Priya: "text-purple-700",
+  Chloe: "text-cyan-700",
+  Maya: "text-purple-700",
 };
 
 /** A lightweight, non-illustrated "scene" for a Chapter's story half: just
@@ -22,7 +22,7 @@ export function StoryLine({ text }: { text: string }) {
         const match = line.match(DIALOGUE_LINE);
         if (!match) {
           return (
-            <p key={i} className="text-sm text-neutral-800 italic">
+            <p key={i} className="text-base text-neutral-800 italic">
               {line}
             </p>
           );
@@ -30,7 +30,7 @@ export function StoryLine({ text }: { text: string }) {
         const [, speaker, quote] = match;
         const color = SPEAKER_COLOR[speaker.trim()] ?? "text-neutral-700";
         return (
-          <div key={i} className="bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm w-fit max-w-full">
+          <div key={i} className="bg-white border border-neutral-200 rounded-md px-3 py-2 text-base w-fit max-w-full">
             <span className={`font-semibold ${color}`}>{speaker}:</span>{" "}
             <span className="text-neutral-800">&ldquo;{quote}&rdquo;</span>
           </div>

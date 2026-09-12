@@ -35,7 +35,7 @@ export function AgentLab() {
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">An Agent</span> repeats tool calling in
           a loop. First, it plans every tool call that the goal needs. Then it runs the calls in
           order. Finally, it combines the results into one final answer.
@@ -45,8 +45,8 @@ export function AgentLab() {
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Everything from the walkthrough, now for real: describe your own goal and watch the
           plan and trace it produces.
         </p>
@@ -56,7 +56,7 @@ export function AgentLab() {
           <button
             key={ex}
             onClick={() => setGoal(ex)}
-            className="text-xs px-2 py-1 rounded-md border border-neutral-200 text-neutral-600 hover:text-neutral-900 hover:border-neutral-400"
+            className="text-sm px-2 py-1 rounded-md border border-neutral-200 text-neutral-600 hover:text-neutral-900 hover:border-neutral-400"
           >
             {ex}
           </button>
@@ -67,54 +67,54 @@ export function AgentLab() {
         <input
           value={goal}
           onChange={(e) => setGoal(e.target.value)}
-          className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900"
+          className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-2 text-base text-neutral-900"
           placeholder="Describe a goal…"
         />
         <button
           onClick={handleRun}
           disabled={loading || !goal}
-          className="px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
+          className="px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-base font-medium text-white"
         >
           {loading ? "Running…" : "Run agent"}
         </button>
       </div>
       {error && (
-        <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
+        <p className="text-base text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
       )}
 
       {result && (
         <div className="space-y-4">
           <div>
-            <div className="text-sm text-neutral-600 mb-2">Plan</div>
+            <div className="text-base text-neutral-600 mb-2">Plan</div>
             {result.plan.length > 0 ? (
               <ol className="space-y-1">
                 {result.plan.map((step, i) => (
-                  <li key={i} className="text-sm font-mono text-neutral-400">
+                  <li key={i} className="text-base font-mono text-neutral-400">
                     {i + 1}. {step}
                   </li>
                 ))}
               </ol>
             ) : (
-              <p className="text-sm text-neutral-500">No tools needed — answering directly.</p>
+              <p className="text-base text-neutral-500">No tools needed — answering directly.</p>
             )}
           </div>
 
           {result.steps.length > 0 && (
             <div>
-              <div className="text-sm text-neutral-600 mb-2">Execution trace</div>
+              <div className="text-base text-neutral-600 mb-2">Execution trace</div>
               <ol className="space-y-2">
                 {result.steps.map((step) => (
-                  <li key={step.step} className="bg-white border border-neutral-200 rounded-md p-3 text-sm">
+                  <li key={step.step} className="bg-white border border-neutral-200 rounded-md p-3 text-base">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-neutral-500">step {step.step}</span>
                       <span className="text-cyan-700 font-mono">{step.tool_name}</span>
                       {step.retried && (
-                        <span className="text-xs uppercase tracking-wide text-amber-800 border border-amber-300 rounded px-1.5 py-0.5">
+                        <span className="text-sm uppercase tracking-wide text-amber-800 border border-amber-300 rounded px-1.5 py-0.5">
                           retried
                         </span>
                       )}
                       {step.failed && (
-                        <span className="text-xs uppercase tracking-wide text-red-700 border border-red-300 rounded px-1.5 py-0.5">
+                        <span className="text-sm uppercase tracking-wide text-red-700 border border-red-300 rounded px-1.5 py-0.5">
                           failed
                         </span>
                       )}
@@ -129,8 +129,8 @@ export function AgentLab() {
           )}
 
           <div>
-            <div className="text-sm text-neutral-600 mb-1">Final answer</div>
-            <div className="bg-white border border-neutral-200 rounded-md p-3 text-sm text-neutral-800">
+            <div className="text-base text-neutral-600 mb-1">Final answer</div>
+            <div className="bg-white border border-neutral-200 rounded-md p-3 text-base text-neutral-800">
               {result.final_answer}
             </div>
           </div>

@@ -49,7 +49,7 @@ export default function FundamentalsPage() {
               className="block rounded-lg border border-neutral-200 bg-white p-4 hover:border-neutral-400 transition-colors"
             >
               <div className="font-medium text-neutral-900">{s.label}</div>
-              <p className="text-sm text-neutral-600 mt-1">{s.description}</p>
+              <p className="text-base text-neutral-600 mt-1">{s.description}</p>
             </Link>
           ) : (
             <div
@@ -58,11 +58,11 @@ export default function FundamentalsPage() {
             >
               <div className="font-medium text-neutral-400 flex items-center gap-2">
                 {s.label}
-                <span className="text-xs uppercase tracking-wide text-neutral-500 border border-neutral-200 rounded px-1.5 py-0.5">
+                <span className="text-sm uppercase tracking-wide text-neutral-500 border border-neutral-200 rounded px-1.5 py-0.5">
                   coming soon
                 </span>
               </div>
-              <p className="text-sm text-neutral-500 mt-1">{s.description}</p>
+              <p className="text-base text-neutral-500 mt-1">{s.description}</p>
             </div>
           )
         )}

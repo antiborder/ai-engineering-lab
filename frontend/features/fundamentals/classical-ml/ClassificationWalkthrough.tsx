@@ -111,7 +111,7 @@ export function ClassificationWalkthrough({
   const pct = (v: number) => `${(v * 100).toFixed(0)}%`;
   const num = (v: number, d = 3) => v.toFixed(d);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const trainBtn = (label: string, onClick: () => void) => (
@@ -715,7 +715,7 @@ export function ClassificationWalkthrough({
       controls: (
         <div className="space-y-2">
           <Slider label="Train ratio" value={ratioValue} min={0.1} max={0.9} step={0.05} onChange={(v) => { setRatioValue(v); setRatioWeights(undefined); setRatioHistory({ train: [], test: [] }); }} format={(v) => pct(v)} />
-          <p className="text-xs text-neutral-500">{ratioTrain.length} train points · {ratioTest.length} test points</p>
+          <p className="text-sm text-neutral-500">{ratioTrain.length} train points · {ratioTest.length} test points</p>
         </div>
       ),
     },
@@ -786,7 +786,7 @@ export function ClassificationWalkthrough({
         <div className="space-y-3">
           <Slider label="λ (regularization strength)" value={lambdaValue} min={0} max={0.5} step={0.01} onChange={setLambdaValue} format={(v) => v.toFixed(2)} />
           {trainBtn("Train 400 steps", () => setRegWeights(trainSteps(regModel, regTrain, 400)))}
-          <p className="text-xs text-neutral-500 font-mono">
+          <p className="text-sm text-neutral-500 font-mono">
             train acc {pct(regModel.accuracy(regTrain))} · test acc {pct(regModel.accuracy(regTest))}
           </p>
         </div>
@@ -878,12 +878,12 @@ export function ClassificationWalkthrough({
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -891,7 +891,7 @@ export function ClassificationWalkthrough({
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -903,8 +903,8 @@ export function ClassificationWalkthrough({
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -912,7 +912,7 @@ export function ClassificationWalkthrough({
             {current.resetAction && (
               <button
                 onClick={current.resetAction}
-                className="text-xs text-neutral-500 hover:text-neutral-800"
+                className="text-sm text-neutral-500 hover:text-neutral-800"
               >
                 ↺ Undo training on this step
               </button>

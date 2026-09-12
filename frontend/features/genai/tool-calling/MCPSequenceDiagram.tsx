@@ -35,10 +35,10 @@ export function MCPSequenceDiagram() {
   return (
     <div className="w-full max-w-[320px] mx-auto">
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
-        <text x={laneAX} y={16} fontSize={12} fontWeight={700} textAnchor="middle" fill={CYAN}>
+        <text x={laneAX} y={16} fontSize={14} fontWeight={700} textAnchor="middle" fill={CYAN}>
           Your App
         </text>
-        <text x={laneBX} y={16} fontSize={12} fontWeight={700} textAnchor="middle" fill={PURPLE}>
+        <text x={laneBX} y={16} fontSize={14} fontWeight={700} textAnchor="middle" fill={PURPLE}>
           MCP Server
         </text>
         <line x1={laneAX} y1={24} x2={laneAX} y2={height - 10} stroke={NEUTRAL} strokeWidth={1.5} strokeDasharray="3,3" />
@@ -61,14 +61,14 @@ export function MCPSequenceDiagram() {
                 }
                 fill={color}
               />
-              <text x={(x1 + x2) / 2} y={y - 6} fontSize={12} textAnchor="middle" fill="#3f3f46">
+              <text x={(x1 + x2) / 2} y={y - 6} fontSize={14} textAnchor="middle" fill="#3f3f46">
                 {m.label}
               </text>
             </g>
           );
         })}
       </svg>
-      <p className="text-xs text-neutral-500 mt-1 text-center">
+      <p className="text-sm text-neutral-500 mt-1 text-center">
         Before this: the model decided (via tool calling) that it needs the calendar. After
         this: your app hands the result back to the model.
       </p>

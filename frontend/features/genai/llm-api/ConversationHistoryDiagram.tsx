@@ -80,21 +80,21 @@ export function ConversationHistoryDiagram({ turn, cached = false }: { turn: num
   return (
     <div className="w-full max-w-[340px] mx-auto">
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
-        <text x={barX} y={barY - 10} fontSize={12} fill="#525252">
+        <text x={barX} y={barY - 10} fontSize={14} fill="#525252">
           Turn {turn} input, resent in full every call:
         </text>
         {rects}
-        <text x={barX} y={barY + barH + 16} fontSize={12} fill={NEUTRAL}>
+        <text x={barX} y={barY + barH + 16} fontSize={14} fill={NEUTRAL}>
           {turn > 1 ? `${cached ? "cached" : "resent, full price"} history` : "no history yet"}
         </text>
-        <text x={barX + barW} y={barY + barH + 16} fontSize={12} textAnchor="end" fill={CYAN}>
+        <text x={barX + barW} y={barY + barH + 16} fontSize={14} textAnchor="end" fill={CYAN}>
           new message
         </text>
 
-        <text x={barX} y={barY + barH + 42} fontSize={12} fontWeight={700} fill="#3f3f46">
+        <text x={barX} y={barY + barH + 42} fontSize={14} fontWeight={700} fill="#3f3f46">
           {inputTokens} input tokens
         </text>
-        <text x={barX} y={barY + barH + 58} fontSize={12} fill="#3f3f46">
+        <text x={barX} y={barY + barH + 58} fontSize={14} fill="#3f3f46">
           ≈ ${cost.toFixed(6)} this turn ({cached ? "cached" : "no caching"})
         </text>
       </svg>

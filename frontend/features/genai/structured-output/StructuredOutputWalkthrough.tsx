@@ -31,11 +31,11 @@ const ROLE_OPTIONS = ["admin", "member", "guest"] as const;
 function RoleChips({ selected }: { selected: string }) {
   return (
     <div className="flex items-center justify-center gap-3">
-      <span className="text-xs text-neutral-500 font-mono">role:</span>
+      <span className="text-sm text-neutral-500 font-mono">role:</span>
       {ROLE_OPTIONS.map((r) => (
         <span
           key={r}
-          className={`px-3 py-1.5 rounded-full text-sm font-mono border ${
+          className={`px-3 py-1.5 rounded-full text-base font-mono border ${
             r === selected
               ? "bg-cyan-600 border-cyan-600 text-white"
               : "bg-white border-neutral-200 text-neutral-400"
@@ -82,11 +82,11 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
   const [decodingMode, setDecodingMode] = useState<"checked" | "blocked">("checked");
   const resetDecodingMode = () => setDecodingMode("checked");
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const toggleBtn = (active: boolean) =>
-    `px-3 py-1.5 rounded-md text-sm border ${
+    `px-3 py-1.5 rounded-md text-base border ${
       active ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
     }`;
 
@@ -164,8 +164,8 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       body: (
         <p>
           Not inside the prompt text. Real APIs send the schema as its own request field —
-          OpenAI&rsquo;s <code className="font-mono text-sm">response_format</code>,
-          Gemini&rsquo;s <code className="font-mono text-sm">response_schema</code> — the same
+          OpenAI&rsquo;s <code className="font-mono text-base">response_format</code>,
+          Gemini&rsquo;s <code className="font-mono text-base">response_schema</code> — the same
           category as the <strong>configuration</strong> you already met in LLM API (temperature,
           max_tokens): something set alongside the prompt, not written into it. That&rsquo;s why
           the schema box below is green, the same color LLM API used for configuration —
@@ -186,14 +186,14 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
             has exactly six types:
           </p>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse">
+            <table className="w-full text-base border-collapse">
               <thead>
-                <tr className="text-left text-xs text-neutral-500">
+                <tr className="text-left text-sm text-neutral-500">
                   <th className="pb-1.5 pr-3 font-medium">Type</th>
                   <th className="pb-1.5 font-medium">Example</th>
                 </tr>
               </thead>
-              <tbody className="font-mono text-xs">
+              <tbody className="font-mono text-sm">
                 <tr className="border-t border-neutral-200">
                   <td className="py-1.5 pr-3 text-neutral-700">object</td>
                   <td className="py-1.5 text-neutral-700">{'{ "role": "member" }'}</td>
@@ -224,7 +224,7 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
         </div>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {JSON_EXAMPLE}
         </pre>
       ),
@@ -240,15 +240,15 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       ),
       visual: (
         <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse">
+          <table className="w-full text-base border-collapse">
             <thead>
-              <tr className="text-left text-xs text-neutral-500">
+              <tr className="text-left text-sm text-neutral-500">
                 <th className="pb-1.5 pr-3 font-medium">Field</th>
                 <th className="pb-1.5 pr-3 font-medium text-green-700">Schema says</th>
                 <th className="pb-1.5 font-medium text-cyan-700">Model supplies</th>
               </tr>
             </thead>
-            <tbody className="font-mono text-xs">
+            <tbody className="font-mono text-sm">
               <tr className="border-t border-neutral-200">
                 <td className="py-1.5 pr-3 text-neutral-700">name</td>
                 <td className="py-1.5 pr-3 text-neutral-500">string</td>
@@ -280,14 +280,14 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       title: "Types and Required Fields",
       body: (
         <p>
-          A schema lists each field&rsquo;s <code className="font-mono text-sm">type</code> —
+          A schema lists each field&rsquo;s <code className="font-mono text-base">type</code> —
           string, integer, boolean, object, array — and a{" "}
-          <code className="font-mono text-sm">required</code> list naming which fields must be
+          <code className="font-mono text-base">required</code> list naming which fields must be
           present. Anything not listed as required is optional.
         </p>
       ),
       visual: (
-        <pre className="whitespace-pre-wrap text-sm text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
+        <pre className="whitespace-pre-wrap text-base text-neutral-700 bg-white border border-neutral-200 rounded-md p-3 font-mono">
           {SCHEMA_EXCERPT}
         </pre>
       ),
@@ -297,10 +297,10 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       title: "Enums: Locking a Field to Exact Values",
       body: (
         <p>
-          An <code className="font-mono text-sm">enum</code> restricts a field to one of a fixed
-          set of exact values — here, <code className="font-mono text-sm">role</code> can only be{" "}
-          <code className="font-mono text-sm">admin</code>, <code className="font-mono text-sm">member</code>,
-          or <code className="font-mono text-sm">guest</code>. Nothing else counts as valid, no
+          An <code className="font-mono text-base">enum</code> restricts a field to one of a fixed
+          set of exact values — here, <code className="font-mono text-base">role</code> can only be{" "}
+          <code className="font-mono text-base">admin</code>, <code className="font-mono text-base">member</code>,
+          or <code className="font-mono text-base">guest</code>. Nothing else counts as valid, no
           matter how reasonable it sounds.
         </p>
       ),
@@ -341,7 +341,7 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       body: (
         <p>
           Same schema — one output matches it, the other has a{" "}
-          <code className="font-mono text-sm">role</code> field that&rsquo;s the wrong type
+          <code className="font-mono text-base">role</code> field that&rsquo;s the wrong type
           entirely.
         </p>
       ),
@@ -358,14 +358,14 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       visual: (
         <div className="space-y-2">
           <pre
-            className={`whitespace-pre-wrap text-xs rounded-md p-3 font-mono border ${
+            className={`whitespace-pre-wrap text-sm rounded-md p-3 font-mono border ${
               outputOn === "valid" ? "text-neutral-700 bg-white border-neutral-200" : "text-red-800 bg-red-50 border-red-300"
             }`}
           >
             {OUTPUT_EXAMPLE[outputOn]}
           </pre>
           <div
-            className={`text-xs font-medium rounded-md px-2 py-1 inline-block ${
+            className={`text-sm font-medium rounded-md px-2 py-1 inline-block ${
               outputOn === "valid"
                 ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
                 : "bg-red-50 text-red-700 border border-red-300"
@@ -426,7 +426,7 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       title: "Try it yourself: checked vs. blocked",
       body: (
         <p>
-          Same next-token choice for the <code className="font-mono text-sm">role</code> field —
+          Same next-token choice for the <code className="font-mono text-base">role</code> field —
           toggle between generation checking nothing and generation blocking invalid candidates
           outright.
         </p>
@@ -496,12 +496,12 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -509,7 +509,7 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -521,8 +521,8 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -532,7 +532,7 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>

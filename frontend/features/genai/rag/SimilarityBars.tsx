@@ -30,7 +30,7 @@ export function SimilarityBars({
         const withinTopK = topK === undefined || i < topK;
         const active = passesThreshold && withinTopK;
         return (
-          <div key={c.label} className={`flex items-center gap-2 text-xs ${active ? "" : "opacity-30"}`}>
+          <div key={c.label} className={`flex items-center gap-2 text-sm ${active ? "" : "opacity-30"}`}>
             <span className="w-32 shrink-0 truncate text-neutral-700 font-mono">{c.label}</span>
             <div className="flex-1 h-4 bg-neutral-200 rounded overflow-hidden">
               <div className="h-full bg-cyan-600" style={{ width: `${(displayScore / maxScore) * 100}%` }} />

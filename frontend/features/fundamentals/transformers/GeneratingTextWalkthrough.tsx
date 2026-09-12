@@ -49,25 +49,25 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
   const undoGenerate = () => setGenTokens((t) => (t.length > tokenize(DEFAULT_TEXT).length ? t.slice(0, -1) : t));
   const resetGenerate = () => setGenTokens(tokenize(DEFAULT_TEXT));
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const actionBtn = (label: string, onClick: () => void) => (
     <button onClick={onClick} className={nextBtn}>
       {label}
     </button>
   );
   const secondaryBtn = (label: string, onClick: () => void) => (
-    <button onClick={onClick} className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800">
+    <button onClick={onClick} className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-800">
       {label}
     </button>
   );
 
   const textInputControl = (
     <div className="space-y-2">
-      <label className="block text-xs text-neutral-500">Input text</label>
+      <label className="block text-sm text-neutral-500">Input text</label>
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-900 font-mono text-sm"
+        className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-900 font-mono text-base"
         maxLength={100}
       />
       <TokenChips tokens={tokens} />
@@ -255,12 +255,12 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -268,7 +268,7 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -280,8 +280,8 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -291,7 +291,7 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>

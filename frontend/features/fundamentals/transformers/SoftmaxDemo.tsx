@@ -42,7 +42,7 @@ export function SoftmaxDemo({
       </div>
       <div className="space-y-1.5">
         {probs.map((p, i) => (
-          <div key={i} className="flex items-center gap-2 text-xs">
+          <div key={i} className="flex items-center gap-2 text-sm">
             <span className="w-16 shrink-0 font-mono text-neutral-600 truncate">{labels[i]}</span>
             <div className="flex-1 h-4 bg-neutral-200 rounded overflow-hidden">
               <div className="h-full bg-cyan-600" style={{ width: `${p * 100}%` }} />

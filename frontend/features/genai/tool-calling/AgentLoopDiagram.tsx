@@ -11,7 +11,7 @@ export function AgentLoopDiagram({ highlight }: { highlight?: AgentStageId[] }) 
   const active = (id: AgentStageId) => noHighlight || highlight!.includes(id);
 
   const boxCls = (id: AgentStageId) =>
-    `rounded-md border p-2.5 text-center text-xs font-medium ${
+    `rounded-md border p-2.5 text-center text-sm font-medium ${
       active(id) ? "border-cyan-600 bg-cyan-50 text-cyan-800" : "border-neutral-200 bg-white text-neutral-400"
     }`;
   const arrow = (
@@ -31,10 +31,10 @@ export function AgentLoopDiagram({ highlight }: { highlight?: AgentStageId[] }) 
           active("tool-observation") ? "border-cyan-600 bg-cyan-50" : "border-neutral-200 bg-white"
         }`}
       >
-        <div className={`text-xs font-medium ${active("tool-observation") ? "text-cyan-800" : "text-neutral-400"}`}>
+        <div className={`text-sm font-medium ${active("tool-observation") ? "text-cyan-800" : "text-neutral-400"}`}>
           Act → Observe
         </div>
-        <div className="text-xs text-neutral-500 mt-0.5">repeat, up to 5 times</div>
+        <div className="text-sm text-neutral-500 mt-0.5">repeat, up to 5 times</div>
       </div>
       {arrow}
       <div className={boxCls("answer")}>Final Answer</div>

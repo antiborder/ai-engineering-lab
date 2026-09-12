@@ -58,19 +58,19 @@ export function RequestFlowDiagram({ highlight }: { highlight?: FlowPart[] }) {
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
         <g opacity={op("system")}>
           <rect x={leftX} y={sysY} width={boxW} height={boxH} rx={6} fill="rgba(124,58,237,0.1)" stroke={PURPLE} strokeWidth={sw("system", 2)} />
-          <text x={leftX + boxW / 2} y={sysY + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          <text x={leftX + boxW / 2} y={sysY + boxH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
             System prompt
           </text>
         </g>
         <g opacity={op("user")}>
           <rect x={leftX} y={userY} width={boxW} height={boxH} rx={6} fill="rgba(8,145,178,0.1)" stroke={CYAN} strokeWidth={sw("user", 2)} />
-          <text x={leftX + boxW / 2} y={userY + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          <text x={leftX + boxW / 2} y={userY + boxH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
             User prompt
           </text>
         </g>
         <g opacity={op("config")}>
           <rect x={leftX} y={configY} width={boxW} height={boxH} rx={6} fill="rgba(5,150,105,0.1)" stroke={GREEN} strokeWidth={sw("config", 2)} />
-          <text x={leftX + boxW / 2} y={configY + boxH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          <text x={leftX + boxW / 2} y={configY + boxH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
             Configuration
           </text>
         </g>
@@ -86,10 +86,10 @@ export function RequestFlowDiagram({ highlight }: { highlight?: FlowPart[] }) {
 
         <g opacity={op("model")}>
           <rect x={modelX} y={modelY} width={modelW} height={modelH} rx={8} fill="rgba(234,88,12,0.08)" stroke={ORANGE} strokeWidth={sw("model", 2)} />
-          <text x={modelX + modelW / 2} y={modelY + modelH / 2 - 2} fontSize={12} fontWeight={700} textAnchor="middle" fill="#3f3f46">
+          <text x={modelX + modelW / 2} y={modelY + modelH / 2 - 2} fontSize={14} fontWeight={700} textAnchor="middle" fill="#3f3f46">
             Model
           </text>
-          <text x={modelX + modelW / 2} y={modelY + modelH / 2 + 13} fontSize={12} textAnchor="middle" fill="#737373">
+          <text x={modelX + modelW / 2} y={modelY + modelH / 2 + 13} fontSize={14} textAnchor="middle" fill="#737373">
             everything from Fundamentals
           </text>
         </g>
@@ -103,7 +103,7 @@ export function RequestFlowDiagram({ highlight }: { highlight?: FlowPart[] }) {
 
         <g opacity={op("response")}>
           <rect x={respX} y={respY} width={respW} height={respH} rx={6} fill="rgba(124,58,237,0.1)" stroke={PURPLE} strokeWidth={sw("response", 2)} />
-          <text x={respX + respW / 2} y={respY + respH / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+          <text x={respX + respW / 2} y={respY + respH / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
             Response: text + tokens + latency + cost
           </text>
         </g>

@@ -48,7 +48,7 @@ export function LlmJudgeWalkthrough({
   const resetAnswer = () => setAnswer("Yes, as long as it's within 30 days, you'll get a full refund.");
   const verdict = judge(answer);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
 
   interface Step {
     section: string;
@@ -80,7 +80,7 @@ export function LlmJudgeWalkthrough({
       section: "Welcome",
       title: "The Big Picture: Computing Faithfulness for Real",
       story:
-        'Priya: "Faithfulness is the metric that catches this. But scoring it well takes real judgment, not a formula."\nMaya: "So who does the judging?"\nPriya: "Another model — an LLM judge."',
+        'Maya: "Faithfulness is the metric that catches this. But scoring it well takes real judgment, not a formula."\nChloe: "So who does the judging?"\nMaya: "Another model — an LLM judge."',
       body: (
         <p>
           Faithfulness needs judgment, not string matching — checking whether an answer really
@@ -91,7 +91,7 @@ export function LlmJudgeWalkthrough({
       ),
       visual: (
         <div className="space-y-2">
-          <div className="flex items-center justify-center gap-1.5 text-xs flex-wrap">
+          <div className="flex items-center justify-center gap-1.5 text-sm flex-wrap">
             <span className="px-2.5 py-1.5 rounded-full border border-neutral-300 bg-white text-neutral-700">Question</span>
             <span className="px-2.5 py-1.5 rounded-full border border-neutral-300 bg-white text-neutral-700">Answer</span>
             <span className="px-2.5 py-1.5 rounded-full border border-neutral-300 bg-white text-neutral-700">Reference</span>
@@ -109,7 +109,7 @@ export function LlmJudgeWalkthrough({
       section: "1. The Judge Loop",
       title: "Question, Answer, Reference In — Score and Explanation Out",
       story:
-        'Maya: "Run the original bug through it. Does the judge actually catch it?"\nPriya: "Watch."',
+        'Chloe: "Run the original bug through it. Does the judge actually catch it?"\nMaya: "Watch."',
       body: (
         <p>
           The judge is itself a model call: given the same three fields as any evaluation —
@@ -118,7 +118,7 @@ export function LlmJudgeWalkthrough({
         </p>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto space-y-1">
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
           <div className="text-neutral-500">Q: &ldquo;Can I get a refund if I&rsquo;ve already worn the item?&rdquo;</div>
           <div className="text-neutral-800">Answer: &ldquo;Yes, as long as it&rsquo;s within 30 days, you&rsquo;ll get a full refund.&rdquo;</div>
           <div className="text-purple-700">Reference: &ldquo;{REFERENCE}&rdquo;</div>
@@ -140,7 +140,7 @@ export function LlmJudgeWalkthrough({
         </p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-2 text-sm">
+        <div className="flex items-center justify-center gap-2 text-base">
           <span className="px-3 py-1.5 rounded-full border border-red-300 bg-red-50 text-red-700">Score: 0/100</span>
           <span className="text-neutral-300">alone →</span>
           <span className="px-3 py-1.5 rounded-full border border-neutral-300 bg-white text-neutral-500">&ldquo;...but why?&rdquo;</span>
@@ -152,7 +152,7 @@ export function LlmJudgeWalkthrough({
       section: "2. Judge Bias",
       title: "The Sneaky Cousin Is the Harder Test",
       story:
-        'Priya: "Now the harder one — the AI assistant\'s 70%-refund answer. Same judge."\nMaya: "That one sounds more convincing than the first."\nPriya: "Exactly why it\'s the harder test."',
+        'Maya: "Now the harder one — the AI assistant\'s 70%-refund answer. Same judge."\nChloe: "That one sounds more convincing than the first."\nMaya: "Exactly why it\'s the harder test."',
       body: (
         <p>
           Confidence can matter more than correctness. The blunt &ldquo;full refund&rdquo; is
@@ -162,7 +162,7 @@ export function LlmJudgeWalkthrough({
         </p>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto space-y-1.5">
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1.5">
           <div>
             <div className="text-neutral-800">&ldquo;Yes, you&rsquo;ll get a full refund.&rdquo;</div>
             <div className="text-amber-700">Bluntly wrong — easy to catch.</div>
@@ -185,7 +185,7 @@ export function LlmJudgeWalkthrough({
         </p>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto space-y-1.5">
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1.5">
           <div className="flex items-center justify-between">
             <span className="text-neutral-600">A first, B second</span>
             <span className="text-cyan-700 font-medium">&ldquo;A wins&rdquo;</span>
@@ -208,7 +208,7 @@ export function LlmJudgeWalkthrough({
         </p>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto space-y-1.5">
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1.5">
           <div className="flex items-center justify-between">
             <span className="text-neutral-600">Run 1</span>
             <span className="text-neutral-800">62/100 — &ldquo;partially supported&rdquo;</span>
@@ -232,7 +232,7 @@ export function LlmJudgeWalkthrough({
         </p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-3 text-sm">
+        <div className="flex items-center justify-center gap-3 text-base">
           <div className="bg-white border border-cyan-300 rounded-md p-2.5 text-center max-w-40">
             <div className="font-medium text-cyan-700 mb-0.5">LLM judge</div>
             <div className="text-neutral-600">high volume, low stakes, fast feedback</div>
@@ -256,7 +256,7 @@ export function LlmJudgeWalkthrough({
       ),
       controls: (
         <div className="w-full space-y-2">
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm">
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base">
             <div className="text-neutral-500">Reference</div>
             <div className="text-neutral-800">{REFERENCE}</div>
           </div>
@@ -264,13 +264,13 @@ export function LlmJudgeWalkthrough({
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             placeholder="Candidate answer"
-            className="w-full bg-white border border-neutral-200 rounded-md px-2.5 py-1.5 text-sm text-neutral-900"
+            className="w-full bg-white border border-neutral-200 rounded-md px-2.5 py-1.5 text-base text-neutral-900"
           />
         </div>
       ),
       resetAction: resetAnswer,
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto space-y-1">
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-neutral-500">Verdict</span>
             <span className={verdict.pass ? "text-emerald-700 font-medium" : "text-red-700 font-medium"}>
@@ -303,7 +303,7 @@ export function LlmJudgeWalkthrough({
       section: "5. Wrap-up",
       title: "Next: Which Model Avoids the Bug?",
       story:
-        'Priya: "We can now reliably catch this bug, wherever it shows up."\nMaya: "So which model actually avoids making it in the first place?"\nPriya: "Let\'s find out."',
+        'Maya: "We can now reliably catch this bug, wherever it shows up."\nChloe: "So which model actually avoids making it in the first place?"\nMaya: "Let\'s find out."',
       body: (
         <p>
           Everything above is also unlocked below if you want to judge your own candidate
@@ -337,19 +337,19 @@ export function LlmJudgeWalkthrough({
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           {isFirst ? (
             <a
               href="/evaluation/basics"
-              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-700"
+              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-700"
             >
               ← Back to Evaluation Basics
             </a>
           ) : (
             <button
               onClick={goBack}
-              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-700"
+              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-700"
             >
               Back
             </button>
@@ -358,7 +358,7 @@ export function LlmJudgeWalkthrough({
             {isLast ? (onAdvanceToNextChapter ? "Continue: Model Comparison →" : "Finish") : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -372,8 +372,8 @@ export function LlmJudgeWalkthrough({
           </div>
         )}
 
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -381,7 +381,7 @@ export function LlmJudgeWalkthrough({
           </div>
         )}
         {current.resetAction && (
-          <button onClick={current.resetAction} className="text-xs text-neutral-500 hover:text-neutral-800">
+          <button onClick={current.resetAction} className="text-sm text-neutral-500 hover:text-neutral-800">
             ↺ Undo / reset this step
           </button>
         )}

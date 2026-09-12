@@ -21,7 +21,7 @@ export function EmbeddingVector({
 }) {
   return (
     <div className="inline-flex items-start gap-2">
-      {label && <span className="text-xs font-mono text-neutral-500 w-14 shrink-0 pt-1.5">{label}</span>}
+      {label && <span className="text-sm font-mono text-neutral-500 w-14 shrink-0 pt-1.5">{label}</span>}
       <div>
         <div className="flex rounded-sm overflow-hidden border border-neutral-200">
           {values.map((v, i) => {
@@ -40,7 +40,7 @@ export function EmbeddingVector({
             <div
               key={i}
               style={{ width: cellSize }}
-              className="text-center text-xs font-mono text-neutral-500 tabular-nums pt-0.5"
+              className="text-center text-sm font-mono text-neutral-500 tabular-nums pt-0.5"
             >
               {v.toFixed(1)}
             </div>

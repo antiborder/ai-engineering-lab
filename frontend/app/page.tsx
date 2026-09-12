@@ -17,7 +17,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 mb-14 text-sm">
+      <div className="flex flex-wrap items-center gap-2 mb-14 text-base">
         {LIFECYCLE.map((stage, i) => (
           <div key={stage} className="flex items-center gap-2">
             <span className="px-3 py-1.5 rounded-full border border-neutral-200 bg-white text-neutral-400">
@@ -36,11 +36,11 @@ export default function Home() {
             href={`/${module.slug}`}
             className="rounded-lg border border-neutral-200 bg-white p-4 hover:border-neutral-400 transition-colors"
           >
-            <div className="text-xs text-neutral-500 mb-1">
+            <div className="text-sm text-neutral-500 mb-1">
               {i + 1}. {module.lifecycleStage}
             </div>
             <div className="font-medium text-neutral-900">{module.label}</div>
-            <p className="text-sm text-neutral-600 mt-1">{module.tagline}</p>
+            <p className="text-base text-neutral-600 mt-1">{module.tagline}</p>
           </Link>
         ))}
       </div>

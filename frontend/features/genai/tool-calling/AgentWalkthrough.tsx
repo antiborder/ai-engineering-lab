@@ -72,11 +72,11 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
   const [approval, setApproval] = useState<Approval>("pending");
   const resetApproval = () => setApproval("pending");
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const toggleBtn = (active: boolean) =>
-    `px-3 py-1.5 rounded-md text-sm border text-left ${
+    `px-3 py-1.5 rounded-md text-base border text-left ${
       active ? "bg-cyan-600 border-cyan-600 text-white" : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
     }`;
 
@@ -141,7 +141,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         </div>
       ),
       visual: (
-        <table className="w-full text-xs border-collapse">
+        <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="text-left text-neutral-500">
               <th className="pb-1.5 pr-3 font-medium"></th>
@@ -184,7 +184,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         </p>
       ),
       visual: (
-        <div className="flex flex-col sm:flex-row gap-2 text-xs">
+        <div className="flex flex-col sm:flex-row gap-2 text-sm">
           <div className="flex-1 bg-white border border-neutral-300 rounded-md p-3">
             <div className="font-medium text-neutral-700 mb-1">Tool calling</div>
             <div className="text-neutral-500">1 tool, 1 round trip</div>
@@ -280,7 +280,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <p>If a tool&rsquo;s result looks like an error, the agent tries that one call again before moving on.</p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-2 text-xs">
+        <div className="flex items-center justify-center gap-2 text-sm">
           <span className="px-3 py-1.5 rounded-full border border-neutral-300 bg-white font-mono">tool call</span>
           <span className="text-neutral-400">→</span>
           <span className="px-3 py-1.5 rounded-full border border-red-300 bg-red-50 text-red-700 font-mono">✗ error</span>
@@ -301,7 +301,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         </p>
       ),
       visual: (
-        <div className="space-y-1.5 text-xs">
+        <div className="space-y-1.5 text-sm">
           <div className="flex justify-center gap-2">
             <span className="px-2 py-1 rounded-full border border-neutral-300 bg-white font-mono">observation 1</span>
             <span className="px-2 py-1 rounded-full border border-neutral-300 bg-white font-mono">observation 2</span>
@@ -326,7 +326,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <p>The plan is capped at a set number of tool calls, so a goal can never make the agent loop forever.</p>
       ),
       visual: (
-        <div className="flex items-center justify-center gap-1.5 text-xs">
+        <div className="flex items-center justify-center gap-1.5 text-sm">
           {[1, 2, 3, 4, 5].map((n) => (
             <span key={n} className="w-7 h-7 flex items-center justify-center rounded-full border border-cyan-300 bg-cyan-50 text-cyan-800 font-mono">
               {n}
@@ -362,7 +362,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         </p>
       ),
       visual: (
-        <div className="space-y-1.5 text-xs">
+        <div className="space-y-1.5 text-sm">
           <div className="bg-white border border-neutral-200 rounded-md p-2.5 font-mono text-neutral-700 leading-relaxed">
             [Company Handbook] Employees get 15 vacation days per year.{" "}
             <span className="bg-red-100 text-red-700 px-1 rounded">
@@ -399,27 +399,27 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       ),
       resetAction: resetApproval,
       visual: (
-        <div className="space-y-1.5 text-xs">
+        <div className="space-y-1.5 text-sm">
           <ol className="space-y-1.5">
             {RISKY_PLAN.map((p, i) => (
               <li key={p.tool} className="bg-white border border-neutral-200 rounded-md p-2 flex items-center justify-between gap-2">
                 <span className="font-mono text-neutral-700">{i + 1}. {p.tool}</span>
                 {p.risky ? (
                   approval === "pending" ? (
-                    <span className="text-xs uppercase tracking-wide text-amber-800 border border-amber-300 rounded px-1.5 py-0.5 shrink-0">
+                    <span className="text-sm uppercase tracking-wide text-amber-800 border border-amber-300 rounded px-1.5 py-0.5 shrink-0">
                       ⏸ needs approval
                     </span>
                   ) : approval === "approved" ? (
-                    <span className="text-xs uppercase tracking-wide text-emerald-700 border border-emerald-300 rounded px-1.5 py-0.5 shrink-0">
+                    <span className="text-sm uppercase tracking-wide text-emerald-700 border border-emerald-300 rounded px-1.5 py-0.5 shrink-0">
                       ✓ approved
                     </span>
                   ) : (
-                    <span className="text-xs uppercase tracking-wide text-red-700 border border-red-300 rounded px-1.5 py-0.5 shrink-0">
+                    <span className="text-sm uppercase tracking-wide text-red-700 border border-red-300 rounded px-1.5 py-0.5 shrink-0">
                       ✗ denied
                     </span>
                   )
                 ) : (
-                  <span className="text-xs uppercase tracking-wide text-neutral-400 border border-neutral-200 rounded px-1.5 py-0.5 shrink-0">
+                  <span className="text-sm uppercase tracking-wide text-neutral-400 border border-neutral-200 rounded px-1.5 py-0.5 shrink-0">
                     not risky
                   </span>
                 )}
@@ -467,7 +467,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <div className="space-y-2">
           <AgentLoopDiagram highlight={example ? (example.plan.length > 0 ? ["goal", "plan", "tool-observation", "answer"] : ["goal", "answer"]) : undefined} />
           {example && (
-            <div className="space-y-2 text-xs">
+            <div className="space-y-2 text-sm">
               <div>
                 <div className="text-neutral-600 mb-1">Plan</div>
                 {example.plan.length > 0 ? (
@@ -513,7 +513,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
           {["Build", "Evaluate", "Optimize", "Deploy", "Monitor", "Improve"].map((stage, i, arr) => (
             <span key={stage} className="flex items-center gap-1.5">
               <span
-                className={`px-2 py-1 rounded-full border text-xs font-medium ${
+                className={`px-2 py-1 rounded-full border text-sm font-medium ${
                   stage === "Build"
                     ? "border-cyan-600 bg-cyan-50 text-cyan-800"
                     : "border-neutral-200 bg-white text-neutral-400"
@@ -586,12 +586,12 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -599,7 +599,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -611,8 +611,8 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -622,7 +622,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>

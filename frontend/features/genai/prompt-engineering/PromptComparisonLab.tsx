@@ -50,7 +50,7 @@ export function PromptComparisonLab() {
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">Prompt Engineering</span> is comparing
           prompts on the same test cases instead of guessing — few-shot examples,
           chain-of-thought, and a simple pass/fail rule to check the results with.
@@ -60,44 +60,44 @@ export function PromptComparisonLab() {
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Everything from the walkthrough, now for real: write your own prompt variants, set a
           token budget, and run the comparison.
         </p>
     <div className="space-y-6">
       <div className="grid md:grid-cols-2 gap-4">
-        <label className="block text-sm">
+        <label className="block text-base">
           <div className="text-neutral-600 mb-1">Prompt A (system instructions)</div>
           <textarea
             value={promptA}
             onChange={(e) => setPromptA(e.target.value)}
             rows={3}
-            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900 font-mono"
+            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-base text-neutral-900 font-mono"
           />
         </label>
-        <label className="block text-sm">
+        <label className="block text-base">
           <div className="text-neutral-600 mb-1">Prompt B (system instructions)</div>
           <textarea
             value={promptB}
             onChange={(e) => setPromptB(e.target.value)}
             rows={3}
-            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900 font-mono"
+            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-base text-neutral-900 font-mono"
           />
         </label>
       </div>
 
       <div>
-        <div className="text-sm text-neutral-600 mb-2">Test cases (same input sent to both prompts)</div>
+        <div className="text-base text-neutral-600 mb-2">Test cases (same input sent to both prompts)</div>
         <ul className="space-y-1.5">
           {testCases.map((tc, i) => (
             <li key={i} className="flex items-center gap-2">
-              <span className="flex-1 text-sm font-mono text-neutral-400 bg-white border border-neutral-200 rounded-md px-3 py-1.5">
+              <span className="flex-1 text-base font-mono text-neutral-400 bg-white border border-neutral-200 rounded-md px-3 py-1.5">
                 {tc}
               </span>
               <button
                 onClick={() => setTestCases((cases) => cases.filter((_, j) => j !== i))}
-                className="text-xs text-neutral-500 hover:text-red-700 px-2"
+                className="text-sm text-neutral-500 hover:text-red-700 px-2"
                 aria-label="Remove test case"
               >
                 ✕
@@ -110,7 +110,7 @@ export function PromptComparisonLab() {
             value={newCase}
             onChange={(e) => setNewCase(e.target.value)}
             placeholder="Add a test case…"
-            className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-1.5 text-sm text-neutral-900"
+            className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-1.5 text-base text-neutral-900"
           />
           <button
             onClick={() => {
@@ -118,7 +118,7 @@ export function PromptComparisonLab() {
               setTestCases((cases) => [...cases, newCase.trim()]);
               setNewCase("");
             }}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-800"
           >
             Add
           </button>
@@ -129,31 +129,31 @@ export function PromptComparisonLab() {
         <select
           value={model}
           onChange={(e) => setModel(e.target.value)}
-          className="bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-sm text-neutral-900"
+          className="bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-base text-neutral-900"
         >
           <option value="mock-small">mock-small</option>
           <option value="mock-large">mock-large</option>
         </select>
-        <label className="flex items-center gap-1.5 text-sm text-neutral-600">
+        <label className="flex items-center gap-1.5 text-base text-neutral-600">
           Pass rule: output tokens ≤
           <input
             type="number"
             min={1}
             value={tokenBudget}
             onChange={(e) => setTokenBudget(Math.max(1, Number(e.target.value)))}
-            className="w-16 bg-white border border-neutral-200 rounded-md px-2 py-1 text-sm text-neutral-900"
+            className="w-16 bg-white border border-neutral-200 rounded-md px-2 py-1 text-base text-neutral-900"
           />
         </label>
         <button
           onClick={handleRun}
           disabled={loading || testCases.length === 0}
-          className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
+          className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-base font-medium text-white"
         >
           {loading ? "Running…" : "Run comparison"}
         </button>
       </div>
       {error && (
-        <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
+        <p className="text-base text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
       )}
 
       {resultsA && resultsB && (
@@ -185,14 +185,14 @@ function ResultColumn({
   const passCount = results.filter((r) => r.outputTokens <= tokenBudget).length;
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center justify-between text-base">
         <span className="font-medium text-neutral-800">{label}</span>
-        <span className="text-xs text-neutral-500">
+        <span className="text-sm text-neutral-500">
           avg {avgLatency.toFixed(0)}ms · {avgTokens.toFixed(0)} tokens
         </span>
       </div>
       <div
-        className={`text-xs font-medium rounded-md px-2 py-1 inline-block ${
+        className={`text-sm font-medium rounded-md px-2 py-1 inline-block ${
           passCount === results.length
             ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
             : "bg-amber-50 text-amber-800 border border-amber-300"
@@ -205,16 +205,16 @@ function ResultColumn({
         return (
           <div key={i} className="bg-white border border-neutral-200 rounded-md p-3">
             <div className="flex items-center justify-between gap-2 mb-1">
-              <div className="text-xs text-neutral-500">{testCases[i]}</div>
+              <div className="text-sm text-neutral-500">{testCases[i]}</div>
               <span
-                className={`text-xs uppercase tracking-wide rounded px-1.5 py-0.5 shrink-0 ${
+                className={`text-sm uppercase tracking-wide rounded px-1.5 py-0.5 shrink-0 ${
                   passed ? "text-emerald-700 border border-emerald-300" : "text-amber-800 border border-amber-300"
                 }`}
               >
                 {passed ? "pass" : "fail"} · {r.outputTokens} tok
               </span>
             </div>
-            <div className="text-sm text-neutral-800">{r.text}</div>
+            <div className="text-base text-neutral-800">{r.text}</div>
           </div>
         );
       })}

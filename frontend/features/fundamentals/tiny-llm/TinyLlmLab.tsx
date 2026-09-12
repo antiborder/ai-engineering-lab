@@ -122,7 +122,7 @@ export function TinyLlmLab() {
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">Tiny LLM</span> is the same Transformer
           architecture from the last Unit, but real: a character-level model, trained live on the
           backend with PyTorch, so its weights actually learn instead of staying fixed and random.
@@ -132,16 +132,16 @@ export function TinyLlmLab() {
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Everything from the walkthrough, now for real: train this model, watch its loss drop,
           and generate from it.
         </p>
 
-        {loading && !state && <p className="text-neutral-500 text-sm">Loading Tiny LLM session…</p>}
+        {loading && !state && <p className="text-neutral-500 text-base">Loading Tiny LLM session…</p>}
 
         {error && !state && (
-          <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2 max-w-lg">
+          <p className="text-base text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2 max-w-lg">
             {error}
           </p>
         )}
@@ -149,14 +149,14 @@ export function TinyLlmLab() {
         {state && (
     <div className="space-y-6">
       {error && (
-        <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">
+        <p className="text-base text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">
           {error}
         </p>
       )}
 
-      <details className="text-sm">
+      <details className="text-base">
         <summary className="cursor-pointer text-neutral-600">Training text ({corpus.length} characters)</summary>
-        <pre className="mt-2 whitespace-pre-wrap text-xs text-neutral-500 bg-white border border-neutral-200 rounded-md p-3 max-h-40 overflow-y-auto">
+        <pre className="mt-2 whitespace-pre-wrap text-sm text-neutral-500 bg-white border border-neutral-200 rounded-md p-3 max-h-40 overflow-y-auto">
           {corpus}
         </pre>
       </details>
@@ -169,7 +169,7 @@ export function TinyLlmLab() {
           </div>
 
           <div className="space-y-3">
-            <label className="block text-sm">
+            <label className="block text-base">
               <div className="text-neutral-600 mb-1">Transformer blocks</div>
               <select
                 value={nLayer}
@@ -183,7 +183,7 @@ export function TinyLlmLab() {
                 ))}
               </select>
             </label>
-            <label className="block text-sm">
+            <label className="block text-base">
               <div className="text-neutral-600 mb-1">Attention heads</div>
               <select
                 value={nHead}
@@ -202,7 +202,7 @@ export function TinyLlmLab() {
 
           <button
             onClick={handleReinit}
-            className="w-full px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
+            className="w-full px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-800"
           >
             Reinitialize model (resets training)
           </button>
@@ -213,28 +213,28 @@ export function TinyLlmLab() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setPlaying((p) => !p)}
-              className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white"
+              className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white"
             >
               {playing ? "Pause" : "Train"}
             </button>
-            <p className="text-xs text-neutral-500">
+            <p className="text-sm text-neutral-500">
               step {state?.step ?? 0} · {N_EMBD}-dim embeddings, {BLOCK_SIZE}-char context
             </p>
           </div>
 
           <div className="space-y-3 pt-2 border-t border-neutral-200">
-            <div className="text-sm text-neutral-600">Generate</div>
+            <div className="text-base text-neutral-600">Generate</div>
             <div className="flex gap-2">
               <input
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-1.5 text-sm text-neutral-900 font-mono"
+                className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-1.5 text-base text-neutral-900 font-mono"
                 placeholder="prompt"
               />
               <button
                 onClick={handleGenerate}
                 disabled={generating || !prompt}
-                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
+                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-base font-medium text-white"
               >
                 {generating ? "Generating…" : "Generate"}
               </button>
@@ -244,11 +244,11 @@ export function TinyLlmLab() {
               <Slider label="Temperature" value={temperature} min={0.1} max={1.5} step={0.05} onChange={setTemperature} format={(v) => v.toFixed(2)} />
             </div>
             {generated && (
-              <pre className="whitespace-pre-wrap text-sm text-neutral-800 bg-white border border-neutral-200 rounded-md p-3 max-h-56 overflow-y-auto">
+              <pre className="whitespace-pre-wrap text-base text-neutral-800 bg-white border border-neutral-200 rounded-md p-3 max-h-56 overflow-y-auto">
                 {generated}
               </pre>
             )}
-            <p className="text-xs text-neutral-500">
+            <p className="text-sm text-neutral-500">
               Early in training this will look like noise. Train for a while and it should start
               producing recognizable words and quoted dialogue, since that&rsquo;s the pattern in
               the training text above.

@@ -47,7 +47,7 @@ export function TrainingLoopDiagram() {
   const box = (y: number, h: number, label: string, color: string, fill: string) => (
     <>
       <rect x={boxX} y={y} width={boxW} height={h} rx={6} fill={fill} stroke={color} strokeWidth={2} />
-      <text x={midX} y={y + h / 2 + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">
+      <text x={midX} y={y + h / 2 + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">
         {label}
       </text>
     </>
@@ -81,7 +81,7 @@ export function TrainingLoopDiagram() {
         <text
           x={loopX + 8}
           y={(updateY + updateH / 2 + sampleY + sampleH / 2) / 2}
-          fontSize={12}
+          fontSize={14}
           textAnchor="middle"
           fill={ORANGE}
           transform={`rotate(90 ${loopX + 8} ${(updateY + updateH / 2 + sampleY + sampleH / 2) / 2})`}
@@ -89,7 +89,7 @@ export function TrainingLoopDiagram() {
           repeat, thousands of times
         </text>
       </svg>
-      <p className="text-xs text-neutral-500 mt-1 text-center">
+      <p className="text-sm text-neutral-500 mt-1 text-center">
         One trip around this loop is one training step. Everything in it — attention, the
         feed-forward network, layer norm — is exactly the mechanism from Transformers; only the
         weights were fixed there. Here they actually move.

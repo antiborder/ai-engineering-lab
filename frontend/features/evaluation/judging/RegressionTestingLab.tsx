@@ -44,14 +44,14 @@ export function RegressionTestingLab({
     label: string,
     step: string
   ) => (
-    <label className="text-xs text-neutral-500 flex items-center gap-1">
+    <label className="text-sm text-neutral-500 flex items-center gap-1">
       {label}
       <input
         type="number"
         step={step}
         value={version[key]}
         onChange={(e) => setVersion({ ...version, [key]: Number(e.target.value) || 0 })}
-        className="w-20 bg-white border border-neutral-200 rounded-md px-1.5 py-1 text-sm text-neutral-900"
+        className="w-20 bg-white border border-neutral-200 rounded-md px-1.5 py-1 text-base text-neutral-900"
       />
     </label>
   );
@@ -66,14 +66,14 @@ export function RegressionTestingLab({
 
       {walkthroughComplete && (
         <div>
-          <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-          <p className="text-sm text-neutral-500 mb-4">
+          <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+          <p className="text-base text-neutral-500 mb-4">
             Edit either version&rsquo;s numbers and watch the comparison recompute.
           </p>
 
           <div className="space-y-3 max-w-lg">
             <div className="bg-white border border-neutral-200 rounded-md p-3 space-y-2">
-              <div className="text-sm font-medium text-neutral-700">v1</div>
+              <div className="text-base font-medium text-neutral-700">v1</div>
               <div className="flex gap-3 flex-wrap">
                 {field(v1, setV1, "quality", "Quality", "1")}
                 {field(v1, setV1, "latencyMs", "Latency (ms)", "1")}
@@ -81,7 +81,7 @@ export function RegressionTestingLab({
               </div>
             </div>
             <div className="bg-white border border-neutral-200 rounded-md p-3 space-y-2">
-              <div className="text-sm font-medium text-neutral-700">v2</div>
+              <div className="text-base font-medium text-neutral-700">v2</div>
               <div className="flex gap-3 flex-wrap">
                 {field(v2, setV2, "quality", "Quality", "1")}
                 {field(v2, setV2, "latencyMs", "Latency (ms)", "1")}
@@ -89,7 +89,7 @@ export function RegressionTestingLab({
               </div>
             </div>
 
-            <div className="bg-cyan-50 border border-cyan-200 rounded-md p-3 text-sm space-y-1">
+            <div className="bg-cyan-50 border border-cyan-200 rounded-md p-3 text-base space-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-neutral-600">Quality</span>
                 <Delta from={v1.quality} to={v2.quality} betterIsLower={false} />

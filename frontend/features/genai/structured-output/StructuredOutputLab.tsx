@@ -52,7 +52,7 @@ export function StructuredOutputLab() {
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">Structured Output</span> is getting a
           model&rsquo;s response back in a strict, checkable shape — a JSON Schema, validation,
           and the newer approach of blocking invalid tokens outright.
@@ -62,13 +62,13 @@ export function StructuredOutputLab() {
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Everything from the walkthrough, now for real: edit the schema, generate output, and
           watch validation catch it when you deliberately break it.
         </p>
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-1.5 text-xs text-neutral-500">
+      <div className="flex flex-wrap items-center gap-1.5 text-sm text-neutral-500">
         {PIPELINE.map((stage, i) => (
           <span key={stage} className="flex items-center gap-1.5">
             <span className="px-2 py-1 rounded-full border border-neutral-200 bg-white">{stage}</span>
@@ -79,18 +79,18 @@ export function StructuredOutputLab() {
 
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <div className="text-sm text-neutral-600">JSON Schema (editable)</div>
+          <div className="text-base text-neutral-600">JSON Schema (editable)</div>
           <textarea
             value={schemaText}
             onChange={(e) => setSchemaText(e.target.value)}
             rows={14}
             spellCheck={false}
-            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-xs text-neutral-900 font-mono"
+            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900 font-mono"
           />
-          {schemaError && <p className="text-xs text-red-700">{schemaError}</p>}
+          {schemaError && <p className="text-sm text-red-700">{schemaError}</p>}
 
           <div className="flex items-center gap-4 pt-1">
-            <label className="flex items-center gap-1.5 text-sm text-neutral-600">
+            <label className="flex items-center gap-1.5 text-base text-neutral-600">
               <input type="checkbox" checked={breakSchema} onChange={(e) => setBreakSchema(e.target.checked)} />
               deliberately break the output
             </label>
@@ -98,36 +98,36 @@ export function StructuredOutputLab() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSeed((s) => s + 1)}
-              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
+              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-800"
             >
               New sample
             </button>
             <button
               onClick={handleGenerate}
               disabled={loading}
-              className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
+              className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-base font-medium text-white"
             >
               {loading ? "Generating…" : "Generate"}
             </button>
           </div>
           {error && (
-            <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
+            <p className="text-base text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
           )}
         </div>
 
         <div className="space-y-2">
-          <div className="text-sm text-neutral-600">Output</div>
+          <div className="text-base text-neutral-600">Output</div>
           {result ? (
             <>
               <pre
-                className={`text-xs rounded-md p-3 border overflow-x-auto ${
+                className={`text-sm rounded-md p-3 border overflow-x-auto ${
                   result.valid ? "border-neutral-200 bg-white text-neutral-800" : "border-red-300 bg-red-50 text-red-800"
                 }`}
               >
                 {JSON.stringify(result.output, null, 2)}
               </pre>
               <div
-                className={`text-sm rounded-md px-3 py-2 border ${
+                className={`text-base rounded-md px-3 py-2 border ${
                   result.valid
                     ? "border-emerald-300 bg-emerald-50 text-emerald-700"
                     : "border-red-300 bg-red-50 text-red-700"
@@ -136,7 +136,7 @@ export function StructuredOutputLab() {
                 {result.valid ? "✓ Valid against schema" : `✗ ${result.errors.length} validation error(s)`}
               </div>
               {result.errors.length > 0 && (
-                <ul className="text-xs text-red-700 space-y-1 font-mono">
+                <ul className="text-sm text-red-700 space-y-1 font-mono">
                   {result.errors.map((e, i) => (
                     <li key={i}>{e}</li>
                   ))}
@@ -144,11 +144,11 @@ export function StructuredOutputLab() {
               )}
             </>
           ) : (
-            <p className="text-sm text-neutral-500">Generate to see output here.</p>
+            <p className="text-base text-neutral-500">Generate to see output here.</p>
           )}
         </div>
       </div>
-      <p className="text-sm text-neutral-500 max-w-2xl">
+      <p className="text-base text-neutral-500 max-w-2xl">
         The generated values are fabricated from the schema&rsquo;s shape (mock provider — spec
         section 35), not extracted from real natural language. The point is the pipeline: a
         schema constrains the output shape, and a validator can catch when a response

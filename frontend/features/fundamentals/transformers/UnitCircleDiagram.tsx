@@ -25,8 +25,8 @@ export function UnitCircleDiagram({
         <circle cx={cx} cy={cy} r={r} fill="none" stroke="#a1a1aa" strokeWidth={1.5} />
         <line x1={cx - r - 14} y1={cy} x2={cx + r + 14} y2={cy} stroke="#d4d4d8" strokeWidth={1} />
         <line x1={cx} y1={cy - r - 14} x2={cx} y2={cy + r + 14} stroke="#d4d4d8" strokeWidth={1} />
-        <text x={cx + r + 16} y={cy + 4} fontSize={12} fill="#a1a1aa">cos</text>
-        <text x={cx - 6} y={cy - r - 18} fontSize={12} fill="#a1a1aa">sin</text>
+        <text x={cx + r + 16} y={cy + 4} fontSize={14} fill="#a1a1aa">cos</text>
+        <text x={cx - 6} y={cy - r - 18} fontSize={14} fill="#a1a1aa">sin</text>
         {angles.map((angle, i) => {
           const p = point(angle, r, cx, cy);
           const color = colors[i % colors.length];
@@ -37,7 +37,7 @@ export function UnitCircleDiagram({
               <line x1={p.x} y1={p.y} x2={p.x} y2={cy} stroke={color} strokeWidth={1.5} strokeDasharray="3,3" />
               <line x1={p.x} y1={p.y} x2={cx} y2={p.y} stroke={color} strokeWidth={1.5} strokeDasharray="3,3" />
               <circle cx={p.x} cy={p.y} r={4.5} fill={color} />
-              <text x={p.x + (labelRight ? 9 : -9)} y={p.y - 7} fontSize={12} fontWeight={600} fill={color} textAnchor={labelRight ? "start" : "end"}>
+              <text x={p.x + (labelRight ? 9 : -9)} y={p.y - 7} fontSize={14} fontWeight={600} fill={color} textAnchor={labelRight ? "start" : "end"}>
                 {angle}°
               </text>
             </g>

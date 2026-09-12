@@ -46,16 +46,16 @@ export function PositionEffectDiagram() {
           );
         })}
         <line x1={0} y1={baseY} x2={width} y2={baseY} stroke={NEUTRAL} strokeWidth={1.5} />
-        <text x={gap + barW / 2} y={baseY + 16} fontSize={12} textAnchor="middle" fill="#525252">
+        <text x={gap + barW / 2} y={baseY + 16} fontSize={14} textAnchor="middle" fill="#525252">
           start
         </text>
-        <text x={width / 2} y={baseY + 16} fontSize={12} textAnchor="middle" fill="#525252">
+        <text x={width / 2} y={baseY + 16} fontSize={14} textAnchor="middle" fill="#525252">
           middle
         </text>
-        <text x={width - gap - barW / 2} y={baseY + 16} fontSize={12} textAnchor="middle" fill="#525252">
+        <text x={width - gap - barW / 2} y={baseY + 16} fontSize={14} textAnchor="middle" fill="#525252">
           end
         </text>
-        <text x={width / 2} y={20} fontSize={12} textAnchor="middle" fill="#737373">
+        <text x={width / 2} y={20} fontSize={14} textAnchor="middle" fill="#737373">
           bar height ≈ how much attention that position tends to get
         </text>
       </svg>

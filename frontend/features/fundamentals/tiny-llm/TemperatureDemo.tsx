@@ -50,7 +50,7 @@ export function TemperatureDemo({
       />
       <div className="space-y-1.5">
         {CANDIDATES.map((c, i) => (
-          <div key={c.ch} className="flex items-center gap-2 text-xs">
+          <div key={c.ch} className="flex items-center gap-2 text-sm">
             <span className="w-10 shrink-0 font-mono text-neutral-600 text-center bg-neutral-100 rounded px-1">
               {c.ch === " " ? "␣" : c.ch}
             </span>

@@ -38,7 +38,7 @@ export function LlmApiLab() {
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">LLM API</span> is the shape every AI
           application starts from: a model, a system prompt, a user prompt — and a response with
           its tokens, latency, and cost tracked.
@@ -48,37 +48,37 @@ export function LlmApiLab() {
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Everything from the walkthrough, now for real: write your own prompts and watch the
           call details update live.
         </p>
     <div className="grid md:grid-cols-[1fr_380px] gap-6">
       <div className="space-y-4">
-        <label className="block text-sm">
+        <label className="block text-base">
           <div className="text-neutral-600 mb-1">System prompt (optional)</div>
           <textarea
             value={system}
             onChange={(e) => setSystem(e.target.value)}
             rows={2}
-            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900 font-mono"
+            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-base text-neutral-900 font-mono"
             placeholder="You are a helpful assistant."
           />
         </label>
-        <label className="block text-sm">
+        <label className="block text-base">
           <div className="text-neutral-600 mb-1">Prompt</div>
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             rows={5}
-            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900 font-mono"
+            className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-base text-neutral-900 font-mono"
           />
         </label>
         <div className="flex items-center gap-3">
           <select
             value={model}
             onChange={(e) => setModel(e.target.value)}
-            className="bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-sm text-neutral-900"
+            className="bg-white border border-neutral-200 rounded-md px-2 py-1.5 text-base text-neutral-900"
           >
             {models.map((m) => (
               <option key={m} value={m}>
@@ -89,23 +89,23 @@ export function LlmApiLab() {
           <button
             onClick={handleRun}
             disabled={loading || !prompt}
-            className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
+            className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-base font-medium text-white"
           >
             {loading ? "Running…" : "Run"}
           </button>
         </div>
         {error && (
-          <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
+          <p className="text-base text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
         )}
         {result && (
-          <pre className="whitespace-pre-wrap text-sm text-neutral-800 bg-white border border-neutral-200 rounded-md p-3">
+          <pre className="whitespace-pre-wrap text-base text-neutral-800 bg-white border border-neutral-200 rounded-md p-3">
             {result.text}
           </pre>
         )}
       </div>
 
       <div className="space-y-3">
-        <div className="text-sm text-neutral-600">Call details</div>
+        <div className="text-base text-neutral-600">Call details</div>
         <div className="grid grid-cols-2 gap-3">
           <StatCard label="Model" value={result?.model ?? "—"} />
           <StatCard label="Latency" value={result ? `${result.latency_ms.toFixed(0)}ms` : "—"} />
@@ -114,7 +114,7 @@ export function LlmApiLab() {
           <StatCard label="Est. cost" value={result ? `$${result.estimated_cost.toFixed(6)}` : "—"} />
           <StatCard label="Request ID" value={result ? result.request_id.slice(0, 8) : "—"} />
         </div>
-        <p className="text-sm text-neutral-500">
+        <p className="text-base text-neutral-500">
           Provider is mocked (spec section 35) — deterministic per prompt+model, no API keys or
           network calls, but real token counts, latency, and cost accounting.
         </p>

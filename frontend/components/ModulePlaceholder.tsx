@@ -33,10 +33,10 @@ export function ModulePlaceholder({
 
       {artifact?.artifactName && (
         <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-4 max-w-2xl mb-4">
-          <p className="text-sm text-cyan-700">
+          <p className="text-base text-cyan-700">
             Selected artifact: <span className="font-mono">{artifact.artifactName} {artifact.artifactVersion}</span>
           </p>
-          <p className="text-xs text-neutral-500 mt-1">
+          <p className="text-sm text-neutral-500 mt-1">
             Artifact context was preserved from where you came from (spec section 3.3) — this
             module isn&rsquo;t built yet, but it already knows which artifact it would operate on.
           </p>
@@ -44,8 +44,8 @@ export function ModulePlaceholder({
       )}
 
       <div className="rounded-lg border border-dashed border-neutral-200 p-6 max-w-2xl">
-        <p className="text-sm text-neutral-600">{purpose}</p>
-        <p className="text-sm text-neutral-500 mt-3">
+        <p className="text-base text-neutral-600">{purpose}</p>
+        <p className="text-base text-neutral-500 mt-3">
           This module is not implemented yet. Development proceeds one module at a time,
           starting with Fundamentals — see{" "}
           <a href="/fundamentals" className="text-cyan-700 hover:underline">

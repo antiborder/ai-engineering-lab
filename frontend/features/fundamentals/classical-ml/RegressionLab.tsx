@@ -38,7 +38,7 @@ export function RegressionLab({
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">Regression</span> means predicting a
           number from an input — here, a y-value from an x-value. The model is a curve; training
           means adjusting that curve so its predictions are as close as possible to the real data,
@@ -53,8 +53,8 @@ export function RegressionLab({
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Same idea, now with controls. Try raising the polynomial degree past 8 — watch the gap
           between train and test loss open up.
         </p>
@@ -77,7 +77,7 @@ export function RegressionLab({
               <StatCard label="Test loss (MSE)" value={stats.testLoss.toFixed(4)} tone={stats.overfitting ? "warn" : "default"} />
             </div>
             {stats.overfitting && (
-              <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
+              <p className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
                 Test loss is much higher than train loss — the model is overfitting the
                 training points instead of learning the underlying function. Try lowering the
                 polynomial degree or raising the L2 regularization strength.
@@ -100,22 +100,22 @@ export function RegressionLab({
             <div className="flex items-center gap-3 pt-1">
               <button
                 onClick={() => setPlaying((p) => !p)}
-                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white"
+                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white"
               >
                 {playing ? "Pause" : "Resume"} training
               </button>
               <button
                 onClick={() => setSeed((s) => s + 1)}
-                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-700"
+                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-700"
               >
                 New dataset
               </button>
-              <label className="flex items-center gap-1.5 text-sm text-neutral-600 ml-auto">
+              <label className="flex items-center gap-1.5 text-base text-neutral-600 ml-auto">
                 <input type="checkbox" checked={showTrueFn} onChange={(e) => setShowTrueFn(e.target.checked)} />
                 show true function
               </label>
             </div>
-            <p className="text-xs text-neutral-500">epoch {stats.epoch} · gradient descent, lr={LR}</p>
+            <p className="text-sm text-neutral-500">epoch {stats.epoch} · gradient descent, lr={LR}</p>
           </div>
         )}
       </RegressionTrainer>
@@ -191,7 +191,7 @@ function RegressionTrainer({
     <>
       <div className="space-y-4">
         <RegressionPlot points={points} model={model} showTrueFn={showTrueFn} />
-        <div className="flex flex-wrap gap-3 text-xs text-neutral-600">
+        <div className="flex flex-wrap gap-3 text-sm text-neutral-600">
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-violet-600" /> train points</span>
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-orange-600" /> test points</span>
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-0.5 bg-cyan-600" /> model fit</span>

@@ -32,7 +32,7 @@ export function ClockDiagram() {
         <line x1={CX} y1={CY} x2={secondTip.x} y2={secondTip.y} stroke="#ea580c" strokeWidth={1.5} strokeLinecap="round" />
         <circle cx={CX} cy={CY} r={3.5} fill="#3f3f46" />
       </svg>
-      <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 text-xs text-neutral-600 mt-1.5">
+      <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm text-neutral-600 mt-1.5">
         <span className="flex items-center gap-1">
           <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: "#7c3aed" }} />
           hour (slowest)

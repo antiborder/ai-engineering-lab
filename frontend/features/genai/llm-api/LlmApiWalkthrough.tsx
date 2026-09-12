@@ -48,7 +48,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
   const [cacheOn, setCacheOn] = useState(false);
   const resetCache = () => setCacheOn(false);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
 
@@ -288,7 +288,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
             <button
               key={m}
               onClick={() => setCostModel(m)}
-              className={`px-3 py-1.5 rounded-md text-sm border ${
+              className={`px-3 py-1.5 rounded-md text-base border ${
                 costModel === m
                   ? "bg-cyan-600 border-cyan-600 text-white"
                   : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
@@ -390,7 +390,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       ),
       controls: (
         <div className="w-full max-w-[300px]">
-          <label className="block text-sm">
+          <label className="block text-base">
             <div className="flex justify-between text-neutral-600 mb-1">
               <span>Turn</span>
               <span className="text-neutral-800 tabular-nums">{turn}</span>
@@ -433,7 +433,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       ),
       controls: (
         <div className="w-full max-w-[300px] space-y-3">
-          <label className="block text-sm">
+          <label className="block text-base">
             <div className="flex justify-between text-neutral-600 mb-1">
               <span>Turn</span>
               <span className="text-neutral-800 tabular-nums">{turn}</span>
@@ -450,7 +450,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
           </label>
           <button
             onClick={() => setCacheOn((c) => !c)}
-            className={`px-3 py-1.5 rounded-md text-sm border ${
+            className={`px-3 py-1.5 rounded-md text-base border ${
               cacheOn
                 ? "bg-emerald-600 border-emerald-600 text-white"
                 : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
@@ -521,12 +521,12 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -534,7 +534,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -546,8 +546,8 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -557,7 +557,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>

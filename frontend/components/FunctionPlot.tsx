@@ -71,7 +71,7 @@ export function FunctionPlot({
             <text
               x={svgX}
               y={axisY + 13}
-              fontSize={12}
+              fontSize={14}
               textAnchor={i === 0 ? "start" : i === 4 ? "end" : "middle"}
               fill="currentColor"
             >
@@ -80,16 +80,16 @@ export function FunctionPlot({
           </g>
         );
       })}
-      <text x={padding.left + innerW / 2} y={height - 4} fontSize={12} textAnchor="middle" fill="currentColor">
+      <text x={padding.left + innerW / 2} y={height - 4} fontSize={14} textAnchor="middle" fill="currentColor">
         {xLabel}
       </text>
-      <text x={12} y={padding.top + innerH / 2} fontSize={12} textAnchor="middle" fill="currentColor" transform={`rotate(-90, 12, ${padding.top + innerH / 2})`}>
+      <text x={12} y={padding.top + innerH / 2} fontSize={14} textAnchor="middle" fill="currentColor" transform={`rotate(-90, 12, ${padding.top + innerH / 2})`}>
         {yLabel}
       </text>
-      <text x={padding.left - 4} y={padding.top + 8} fontSize={12} textAnchor="end" fill="currentColor">
+      <text x={padding.left - 4} y={padding.top + 8} fontSize={14} textAnchor="end" fill="currentColor">
         {yMax.toFixed(1)}
       </text>
-      <text x={padding.left - 4} y={axisY} fontSize={12} textAnchor="end" fill="currentColor">
+      <text x={padding.left - 4} y={axisY} fontSize={14} textAnchor="end" fill="currentColor">
         {yMin.toFixed(1)}
       </text>
     </svg>

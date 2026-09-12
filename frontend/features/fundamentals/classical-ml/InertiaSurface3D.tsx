@@ -159,7 +159,7 @@ export function InertiaSurface3D({
     const x1Label = project(1, -1, 0, yaw, pitch);
     const x2Label = project(-1, 1, 0, yaw, pitch);
     ctx.fillStyle = "rgba(64,64,64,0.85)";
-    ctx.font = "12px sans-serif";
+    ctx.font = "14px sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("x₁", x1Label.x, x1Label.y + 16);
     ctx.fillText("x₂", x2Label.x, x2Label.y + 16);
@@ -176,14 +176,14 @@ export function InertiaSurface3D({
         className="bg-white rounded-md border border-neutral-200 w-full h-auto touch-none cursor-grab active:cursor-grabbing"
         {...bind}
       />
-      <span className="pointer-events-none absolute bottom-1.5 left-2 text-xs text-neutral-400">
+      <span className="pointer-events-none absolute bottom-1.5 left-2 text-sm text-neutral-400">
         drag to rotate
       </span>
       {!isDefault && (
         <button
           type="button"
           onClick={reset}
-          className="absolute bottom-1.5 right-2 text-xs text-neutral-500 hover:text-neutral-800 bg-white/80 px-1.5 py-0.5 rounded"
+          className="absolute bottom-1.5 right-2 text-sm text-neutral-500 hover:text-neutral-800 bg-white/80 px-1.5 py-0.5 rounded"
         >
           ↺ reset view
         </button>

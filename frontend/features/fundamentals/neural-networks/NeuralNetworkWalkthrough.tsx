@@ -172,7 +172,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
 
   const pct = (v: number) => `${(v * 100).toFixed(0)}%`;
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
   const actionBtn = (label: string, onClick: () => void) => (
@@ -373,10 +373,10 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <div className="space-y-2">
           <p>Compare the two, side by side:</p>
-          <p className="text-xs text-neutral-500">Classification&rsquo;s linear boundary:</p>
+          <p className="text-sm text-neutral-500">Classification&rsquo;s linear boundary:</p>
           <Equation tex={"z = w_0 + w_1 x_1 + w_2 x_2"} />
           <Equation tex={"P(y{=}1\\mid x) = \\sigma(z)"} />
-          <p className="text-xs text-neutral-500">One neuron:</p>
+          <p className="text-sm text-neutral-500">One neuron:</p>
           <Equation tex={"z = w_1 x_1 + w_2 x_2 + b"} />
           <Equation tex={"\\text{output} = \\sigma(z)"} />
           <p>
@@ -663,7 +663,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
         <div className="space-y-3">
           <Slider label={`Architecture: ${ARCH_OPTIONS[archIndex].label}`} value={archIndex} min={0} max={ARCH_OPTIONS.length - 1} step={1} onChange={(v) => { setArchIndex(v); resetArch(); }} />
           {actionBtn("Train 400 steps", () => trainArch(400))}
-          <p className="text-xs text-neutral-500 font-mono">
+          <p className="text-sm text-neutral-500 font-mono">
             train acc {pct(accuracy(archModelWeights, archConfig, archTrainSamples))} · test acc {pct(accuracy(archModelWeights, archConfig, archTestSamples))}
           </p>
         </div>
@@ -816,7 +816,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
               <button
                 key={f}
                 onClick={() => { setActFn(f); resetAct(); }}
-                className={`px-3 py-1.5 rounded-md text-sm ${actFn === f ? "bg-cyan-600 text-white" : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"}`}
+                className={`px-3 py-1.5 rounded-md text-base ${actFn === f ? "bg-cyan-600 text-white" : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"}`}
               >
                 {f === "tanh" ? "tanh" : "ReLU"}
               </button>
@@ -890,7 +890,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
           <Slider label="Noise" value={dialNoise} min={0} max={0.4} step={0.02} onChange={(v) => { setDialNoise(v); resetDial(); }} format={(v) => v.toFixed(2)} />
           <Slider label="Train ratio" value={dialRatio} min={0.1} max={0.9} step={0.05} onChange={(v) => { setDialRatio(v); resetDial(); }} format={(v) => pct(v)} />
           <div className="col-span-2">{actionBtn("Train 200 steps", () => trainDial(200))}</div>
-          <p className="col-span-2 text-xs text-neutral-500">{dialTrain.length} train points · {dialTest.length} test points</p>
+          <p className="col-span-2 text-sm text-neutral-500">{dialTrain.length} train points · {dialTest.length} test points</p>
         </div>
       ),
       resetAction: resetDial,
@@ -961,12 +961,12 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -974,7 +974,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -986,8 +986,8 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -995,7 +995,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
             {current.resetAction && (
               <button
                 onClick={current.resetAction}
-                className="text-xs text-neutral-500 hover:text-neutral-800"
+                className="text-sm text-neutral-500 hover:text-neutral-800"
               >
                 ↺ Undo / reset this step
               </button>

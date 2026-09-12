@@ -2,11 +2,14 @@
 
 /** Segmented progress bar for step-by-step walkthroughs: one short pill per
  * subsection (grouped from consecutive steps sharing the same `section`
- * label), rather than one bar for the whole walkthrough. A subsection
- * that's fully behind the current step is solid; the current subsection is
- * partially filled left-to-right by how far through *it* the user is;
- * subsections not yet reached are empty. Clicking anywhere on a segment
- * jumps to the step at that horizontal position within that subsection. */
+ * label), rather than one bar for the whole walkthrough. Each segment's
+ * width is proportional to how many Steps it contains, not an equal split —
+ * a 2-Step subsection reads as visibly shorter than a 10-Step one. A
+ * subsection that's fully behind the current step is solid; the current
+ * subsection is partially filled left-to-right by how far through *it* the
+ * user is; subsections not yet reached are empty. Clicking anywhere on a
+ * segment jumps to the step at that horizontal position within that
+ * subsection. */
 export function SegmentedProgressBar({
   sections,
   currentStep,
@@ -26,6 +29,7 @@ export function SegmentedProgressBar({
       segments.push({ section, start: i, end: i + 1 });
     }
   });
+  const total = sections.length;
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>, start: number, end: number) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -54,7 +58,8 @@ export function SegmentedProgressBar({
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") onSelectStep(seg.start);
             }}
-            className="flex-1 h-1.5 rounded-full bg-neutral-200 overflow-hidden cursor-pointer"
+            style={{ width: `${(segLen / total) * 100}%` }}
+            className="shrink-0 h-1.5 rounded-full bg-neutral-200 overflow-hidden cursor-pointer"
           >
             <div
               className="h-full bg-cyan-600 transition-all"

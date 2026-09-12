@@ -27,7 +27,7 @@ function curvedArrow(x1: number, y1: number, x2: number, y2: number, bow: number
 
 function Pill({ label, tone }: { label: ReactNode; tone: "cyan" | "emerald" }) {
   const cls = tone === "cyan" ? "border-cyan-300 bg-cyan-50 text-cyan-800" : "border-emerald-300 bg-emerald-50 text-emerald-700";
-  return <div className={`px-3 py-1.5 rounded-md border text-xs font-medium text-center ${cls}`}>{label}</div>;
+  return <div className={`px-3 py-1.5 rounded-md border text-sm font-medium text-center ${cls}`}>{label}</div>;
 }
 
 function Down() {
@@ -85,7 +85,7 @@ export function AgentSystemDiagram() {
       <Pill label={<>Your Goal<br />(typed in)</>} tone="cyan" />
       <Down />
       <div className="rounded-lg border-2 border-dashed border-neutral-300 p-2 pt-1">
-        <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500 text-center mb-0.5">
+        <div className="text-sm font-semibold uppercase tracking-wide text-neutral-500 text-center mb-0.5">
           Agent
         </div>
         <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
@@ -108,8 +108,8 @@ export function AgentSystemDiagram() {
               </>
             );
           })()}
-          <text x={labelX} y={toolsCy - 6} fontSize={12} fill="#737373">tool call</text>
-          <text x={labelX} y={toolsCy + 10} fontSize={12} fill="#737373">observation</text>
+          <text x={labelX} y={toolsCy - 6} fontSize={14} fill="#737373">tool call</text>
+          <text x={labelX} y={toolsCy + 10} fontSize={14} fill="#737373">observation</text>
 
           {/* LLM <-> Plan: same two-separate-arcs treatment */}
           {(() => {
@@ -124,22 +124,22 @@ export function AgentSystemDiagram() {
               </>
             );
           })()}
-          <text x={labelX} y={planCy - 6} fontSize={12} fill="#737373">reads</text>
-          <text x={labelX} y={planCy + 10} fontSize={12} fill="#737373">updates</text>
+          <text x={labelX} y={planCy - 6} fontSize={14} fill="#737373">reads</text>
+          <text x={labelX} y={planCy + 10} fontSize={14} fill="#737373">updates</text>
 
           <rect x={llmX} y={llmY} width={llmW} height={llmH} rx={6} fill="rgba(8,145,178,0.1)" stroke={CYAN} strokeWidth={2} />
-          <text x={llmCx} y={llmY + llmH / 2 - 2} fontSize={12} fontWeight={700} textAnchor="middle" fill="#3f3f46">LLM</text>
-          <text x={llmCx} y={llmY + llmH / 2 + 12} fontSize={12} textAnchor="middle" fill="#3f3f46">(decide)</text>
+          <text x={llmCx} y={llmY + llmH / 2 - 2} fontSize={14} fontWeight={700} textAnchor="middle" fill="#3f3f46">LLM</text>
+          <text x={llmCx} y={llmY + llmH / 2 + 12} fontSize={14} textAnchor="middle" fill="#3f3f46">(decide)</text>
 
           <rect x={planX} y={planY} width={planW} height={planH} rx={6} fill="rgba(124,58,237,0.1)" stroke={PURPLE} strokeWidth={2} />
-          <text x={planX + planW / 2} y={planY + planH / 2 - 2} fontSize={12} fontWeight={700} textAnchor="middle" fill="#3f3f46">Plan</text>
-          <text x={planX + planW / 2} y={planY + planH / 2 + 12} fontSize={12} textAnchor="middle" fill="#3f3f46">(to-do list)</text>
+          <text x={planX + planW / 2} y={planY + planH / 2 - 2} fontSize={14} fontWeight={700} textAnchor="middle" fill="#3f3f46">Plan</text>
+          <text x={planX + planW / 2} y={planY + planH / 2 + 12} fontSize={14} textAnchor="middle" fill="#3f3f46">(to-do list)</text>
 
           <rect x={toolsX} y={toolsY} width={toolsW} height={toolsH} rx={6} fill="rgba(234,88,12,0.1)" stroke={ORANGE} strokeWidth={2} />
-          <text x={toolsX + toolsW / 2} y={toolsY + toolsH / 2 - 2} fontSize={12} fontWeight={700} textAnchor="middle" fill="#3f3f46">Tools</text>
-          <text x={toolsX + toolsW / 2} y={toolsY + toolsH / 2 + 12} fontSize={12} textAnchor="middle" fill="#3f3f46">(act)</text>
+          <text x={toolsX + toolsW / 2} y={toolsY + toolsH / 2 - 2} fontSize={14} fontWeight={700} textAnchor="middle" fill="#3f3f46">Tools</text>
+          <text x={toolsX + toolsW / 2} y={toolsY + toolsH / 2 + 12} fontSize={14} textAnchor="middle" fill="#3f3f46">(act)</text>
         </svg>
-        <p className="text-xs text-neutral-500 text-center mt-1">
+        <p className="text-sm text-neutral-500 text-center mt-1">
           Each turn, the LLM picks Tools <em>or</em> Plan — never a fixed order — and repeats
           until it has enough to answer, or hits a set limit.
         </p>

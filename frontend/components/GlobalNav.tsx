@@ -13,7 +13,7 @@ export function GlobalNav() {
       <div className="mx-auto max-w-6xl px-3 sm:px-4 flex items-center gap-3 sm:gap-6 h-14">
         <Link
           href="/"
-          className="font-semibold text-sm text-neutral-900 shrink-0 whitespace-nowrap"
+          className="font-semibold text-base text-neutral-900 shrink-0 whitespace-nowrap"
         >
           {APP_NAME}
         </Link>
@@ -24,7 +24,7 @@ export function GlobalNav() {
               <Link
                 key={module.id}
                 href={`/${module.slug}`}
-                className={`px-3 py-2 sm:py-1.5 rounded-md text-sm whitespace-nowrap transition-colors ${
+                className={`px-3 py-2 sm:py-1.5 rounded-md text-base whitespace-nowrap transition-colors ${
                   isActive
                     ? "bg-neutral-100 text-neutral-900"
                     : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50"

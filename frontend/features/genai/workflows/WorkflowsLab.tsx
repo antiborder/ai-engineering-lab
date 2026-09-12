@@ -45,7 +45,7 @@ export function WorkflowsLab() {
           <button
             key={ex}
             onClick={() => setInput(ex)}
-            className="text-xs px-2 py-1 rounded-md border border-neutral-200 text-neutral-600 hover:text-neutral-900 hover:border-neutral-400"
+            className="text-sm px-2 py-1 rounded-md border border-neutral-200 text-neutral-600 hover:text-neutral-900 hover:border-neutral-400"
           >
             {ex}
           </button>
@@ -55,39 +55,39 @@ export function WorkflowsLab() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900"
+          className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-2 text-base text-neutral-900"
         />
         <button
           onClick={handleRun}
           disabled={loading || !input}
-          className="px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
+          className="px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-base font-medium text-white"
         >
           {loading ? "Running…" : "Run both"}
         </button>
       </div>
       {error && (
-        <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
+        <p className="text-base text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
       )}
 
       {deterministic && agentic && (
         <div className="grid md:grid-cols-2 gap-4">
           <div className="space-y-3">
-            <div className="flex items-center gap-1.5 text-xs">
+            <div className="flex items-center gap-1.5 text-sm">
               <span className="px-2 py-1 rounded-full border border-neutral-200 bg-white text-neutral-600">Retrieve</span>
               <span className="text-neutral-400">→</span>
               <span className="px-2 py-1 rounded-full border border-neutral-200 bg-white text-neutral-600">Answer</span>
             </div>
-            <p className="text-xs text-neutral-500">
+            <p className="text-sm text-neutral-500">
               Deterministic workflow — always the same two steps, regardless of what the input
               actually needs.
             </p>
-            <div className="bg-white border border-neutral-200 rounded-md p-3 text-sm text-neutral-800">
+            <div className="bg-white border border-neutral-200 rounded-md p-3 text-base text-neutral-800">
               {deterministic.answer}
             </div>
           </div>
 
           <div className="space-y-3">
-            <div className="flex items-center gap-1.5 text-xs flex-wrap">
+            <div className="flex items-center gap-1.5 text-sm flex-wrap">
               {agentic.plan.length === 0 ? (
                 <span className="px-2 py-1 rounded-full border border-neutral-200 bg-white text-neutral-600">
                   Answer directly
@@ -103,18 +103,18 @@ export function WorkflowsLab() {
                 ))
               )}
             </div>
-            <p className="text-xs text-neutral-500">
+            <p className="text-sm text-neutral-500">
               Agentic workflow — the plan is decided from the input itself, so it only does the
               steps this particular input actually needs.
             </p>
-            <div className="bg-white border border-neutral-200 rounded-md p-3 text-sm text-neutral-800">
+            <div className="bg-white border border-neutral-200 rounded-md p-3 text-base text-neutral-800">
               {agentic.final_answer}
             </div>
           </div>
         </div>
       )}
 
-      <p className="text-sm text-neutral-500 max-w-2xl">
+      <p className="text-base text-neutral-500 max-w-2xl">
         Try the math example: the deterministic workflow searches documents anyway (there&rsquo;s
         nothing about percentages in the corpus), while the agent recognizes it needs the
         calculator instead. That gap is the whole argument for agents — but notice the

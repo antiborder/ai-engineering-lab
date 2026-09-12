@@ -62,17 +62,17 @@ export function AttentionWalkthrough({
   const [softmaxScores, setSoftmaxScores] = useState([2, 0.5, -1, 1]);
   const resetSoftmax = () => setSoftmaxScores([2, 0.5, -1, 1]);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
 
   const textInputControl = (
     <div className="space-y-2">
-      <label className="block text-xs text-neutral-500">Input text</label>
+      <label className="block text-sm text-neutral-500">Input text</label>
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-900 font-mono text-sm"
+        className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-900 font-mono text-base"
         maxLength={100}
       />
       <TokenChips tokens={tokens} highlight={clampedTokenIndex} />
@@ -162,9 +162,9 @@ export function AttentionWalkthrough({
             vectors. Each one answers a different question:
           </p>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse">
+            <table className="w-full text-base border-collapse">
               <thead>
-                <tr className="text-left text-xs text-neutral-500">
+                <tr className="text-left text-sm text-neutral-500">
                   <th className="pb-1.5 pr-3 font-medium"></th>
                   <th className="pb-1.5 pr-3 font-medium">Question it answers</th>
                   <th className="pb-1.5 font-medium">Search-engine analogy</th>
@@ -309,7 +309,7 @@ export function AttentionWalkthrough({
         </p>
       ),
       chart: (
-        <p className="text-sm text-neutral-600">
+        <p className="text-base text-neutral-600">
           Recall from math class: a dot product adds up each pair of matching components — it{" "}
           <em>extracts what two vectors have in common</em>. Large in the same components as each
           other, on the same sign, and the products stack up into a big positive number; pointing
@@ -391,7 +391,7 @@ export function AttentionWalkthrough({
       visual: (
         <div className="space-y-1.5">
           {tokens.map((tok, j) => (
-            <div key={j} className="flex items-center gap-2 text-xs">
+            <div key={j} className="flex items-center gap-2 text-sm">
               <span className="w-14 shrink-0 font-mono text-neutral-600 truncate">{tok}</span>
               <div className="flex-1 h-4 bg-neutral-200 rounded overflow-hidden">
                 <div className="h-full bg-cyan-600" style={{ width: `${(lastAttnWeights[j] ?? 0) * 100}%` }} />
@@ -516,7 +516,7 @@ export function AttentionWalkthrough({
         <div className="space-y-3">
           {result.layers[0].attnByHead.slice(0, 2).map((attn, h) => (
             <div key={h}>
-              <div className="text-xs text-neutral-500 mb-1">Head {h + 1}</div>
+              <div className="text-sm text-neutral-500 mb-1">Head {h + 1}</div>
               <AttentionHeatmap tokens={tokens} attn={attn} />
             </div>
           ))}
@@ -545,7 +545,7 @@ export function AttentionWalkthrough({
               free to specialize differently.
             </li>
           </ul>
-          <p className="text-xs text-neutral-500">
+          <p className="text-sm text-neutral-500">
             Neither is simply &ldquo;better&rdquo; — real models fix a head count as a
             hyperparameter before training, not something decided per token.
           </p>
@@ -569,7 +569,7 @@ export function AttentionWalkthrough({
         <div className="space-y-3">
           {result.layers[0].attnByHead.map((attn, h) => (
             <div key={h}>
-              <div className="text-xs text-neutral-500 mb-1">Head {h + 1}</div>
+              <div className="text-sm text-neutral-500 mb-1">Head {h + 1}</div>
               <AttentionHeatmap tokens={tokens} attn={attn} />
             </div>
           ))}
@@ -638,12 +638,12 @@ export function AttentionWalkthrough({
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -651,7 +651,7 @@ export function AttentionWalkthrough({
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -663,8 +663,8 @@ export function AttentionWalkthrough({
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -674,7 +674,7 @@ export function AttentionWalkthrough({
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>

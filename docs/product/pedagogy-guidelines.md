@@ -34,12 +34,41 @@ and when reviewing/fixing an existing one.
   familiarity with this Chapter's own vocabulary just because it's connected to something
   they've already learned.
 
+## Dialogue
+
+- **Every line should carry a genuine reaction, not just relay information.** The student
+  character reacts with surprise, resistance, or relief; the teacher character explains calmly.
+  A line that only restates a fact, with no emotional beat, reads as filler.
+- **Dialogue sets up the question; the Step's body answers it.** Keep precise definitions,
+  formulas, and technical detail out of dialogue — dialogue should create curiosity or tension
+  that the body then resolves. If a line of dialogue is doing the technical explaining itself,
+  move that content into the body instead.
+- **One speaker turn per line, plain sentences only.** The dialogue renderer treats each line as
+  one speaker's quote and cannot render a multi-line list inside one turn. If a character needs
+  to lay out several items, either fold them into one flowing sentence or move them into the
+  Step's body as a real list.
+- **Voice the reader's likely wrong assumption before correcting it.** Have a character ask the
+  natural-but-incorrect question a real learner would have (e.g. "isn't it obviously the same
+  AI?") before the other character corrects it — this catches a misconception the reader may
+  already hold, rather than only ever explaining the right answer with nothing to contrast it
+  against.
+
 ## Subject matter
 
 - **Teach the real-world, industry-standard concept as of August 2026 — not this app's own
   implementation.** A walkthrough's subject (AI, an agent, an LLM, RAG, evaluation, a metric,
   etc.) is a real thing that exists in the industry; teach that thing, its actual mechanisms,
   and its real trade-offs, not a guided tour of this app's mock/simplified version of it.
+- **Match verbs to what's actually happening.** Don't describe a Step as "building" or
+  "constructing" something the characters are only using or running through — an imprecise verb
+  quietly teaches the wrong mental model of the mechanism.
+- **Reuse the Chapter's own running example across its Steps**, rather than introducing a new,
+  unrelated example each time. Switch to a different domain only when deliberately generalizing
+  a concept before returning to the running example.
+- **Show a concrete failure scenario, not just the abstract rule.** When a Step explains why
+  something matters, illustrate what actually goes wrong when it's skipped or done incorrectly —
+  a specific case, a specific wrong score, a specific bug that slips through — rather than only
+  stating the rule in the abstract.
 - A Step should still make sense to someone who has never opened this app. If a Step only makes
   sense by reference to "how this app does X," rewrite it around the real concept instead.
 - **Confine any disclosure that this app's version is simplified to the Chapter's "Try it
@@ -74,9 +103,9 @@ and when reviewing/fixing an existing one.
 
 ## Font sizes
 
-- **Minimum font size, anywhere in the app, in prose or in a diagram: 13px.**
+- **Minimum font size, anywhere in the app, in prose or in a diagram: 15px.**
 - **Exception — deliberately secondary/supplementary text** (a caption, an axis tick label, a
-  small status badge, a footnote-style aside): minimum **12px**. Never smaller than that, even
+  small status badge, a footnote-style aside): minimum **14px**. Never smaller than that, even
   when the text is meant to read as de-emphasized.
 - **Exception — subscripts, superscripts, and exponents**, where being smaller than the
   surrounding text is the whole point: no minimum: leave these as-is.
@@ -105,6 +134,22 @@ and when reviewing/fixing an existing one.
   appears, rather than inventing a new name for either side in each place it comes up.
 - This is the prose counterpart of the [Notation](#notation) rule above: that section keeps
   mathematical symbols consistent, this one keeps the words consistent.
+- **Never use a term before the Step that introduces it.** Before writing a line that names a
+  concept, check whether an earlier Step — in this Chapter or an earlier one — already defined
+  it. If so, treat it as familiar; don't reintroduce it as new.
+
+## Consistency checks
+
+- **The reason a Step's dialogue gives for something must be the same reason its body explains.**
+  If dialogue justifies a concept one way (e.g. "fixing one thing might break another"), the body
+  below it must expand on that same justification — not a different, only loosely related one
+  (e.g. general topic coverage). Re-read dialogue and body together after writing both.
+- **Before reusing an example, check that it actually illustrates the point being made.** An
+  example chosen to show "the same question worded differently" must actually be a paraphrase —
+  not an unrelated edge case that happens to sit nearby.
+- **Check for unintentional duplication across Steps and Chapters.** Before finishing a Step,
+  check whether its explanation already exists elsewhere, worded almost the same way; if so, give
+  the new Step a distinct angle instead of repeating the old one.
 
 ## Interactivity
 

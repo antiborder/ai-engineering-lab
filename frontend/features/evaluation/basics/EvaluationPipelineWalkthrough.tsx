@@ -3,7 +3,6 @@
 import { useState, type ReactNode } from "react";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { StoryLine } from "@/components/StoryLine";
-import { Term } from "@/components/Term";
 import { PipelineDiagram } from "./PipelineDiagram";
 
 interface PresetCase {
@@ -18,21 +17,14 @@ const PRESET: PresetCase = {
   actual: "Yes, as long as it's within 30 days, you'll get a full refund.",
 };
 
-function wordOverlap(a: string, b: string): number {
-  const wordsA = new Set(a.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).filter(Boolean));
-  const wordsB = new Set(b.toLowerCase().replace(/[^\w\s]/g, "").split(/\s+/).filter(Boolean));
-  if (wordsA.size === 0 || wordsB.size === 0) return 0;
-  let shared = 0;
-  wordsA.forEach((w) => { if (wordsB.has(w)) shared += 1; });
-  return shared / Math.max(wordsA.size, wordsB.size);
-}
-
-/** Module 3 (Evaluation), Unit "Evaluation Basics", Chapter 2 of 3. Picks
- * up right where Chapter 1 left off: we have a dataset containing the
- * worn-item refund bug. This Chapter runs it through the six-stage
- * pipeline (Artifact → Dataset → Run → Evaluation → Score → Comparison)
- * as a general 2026 concept, and ends on a cliffhanger Chapter 3 resolves:
- * which metric actually flags this bug as wrong? */
+/** Module 3 (Evaluation), Unit "Evaluation Basics", Chapter 2 of 3. Split
+ * out of what used to be a single merged "Evaluation Pipeline" Chapter, per
+ * the user's explicit request — the dataset-building arc now lives entirely
+ * in the "Dataset" Chapter that precedes this one. This Chapter picks up
+ * right after that dataset is built, and runs it through the six-stage
+ * pipeline (Artifact, Dataset, Run, Evaluation, Score, Comparison). Ends on
+ * a cliffhanger the Metrics Chapter resolves: which metric actually flags
+ * this bug as wrong? */
 export function EvaluationPipelineWalkthrough({
   onComplete,
   initialStep,
@@ -44,17 +36,7 @@ export function EvaluationPipelineWalkthrough({
   onAdvanceToNextChapter?: () => void;
   onBackToPreviousChapter?: () => void;
 }) {
-  const [ran, setRan] = useState(false);
-  const [evaluated, setEvaluated] = useState(false);
-  const reset = () => {
-    setRan(false);
-    setEvaluated(false);
-  };
-
-  const exact = PRESET.actual.trim().toLowerCase() === PRESET.expected.trim().toLowerCase();
-  const overlap = wordOverlap(PRESET.actual, PRESET.expected);
-
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
 
   interface Step {
     section: string;
@@ -62,21 +44,24 @@ export function EvaluationPipelineWalkthrough({
     story?: string;
     body: ReactNode;
     visual: ReactNode;
-    controls?: ReactNode;
-    resetAction?: () => void;
   }
 
   const steps: Step[] = [
+    // -------------------- Welcome --------------------
     {
       section: "Welcome",
       title: "What you learn from this chapter",
+      story:
+        'Chloe: "Wait, what?! Our battle is just getting started?!"\nMaya: "Relax, the hard part\'s over."\nChloe: "I see. So what\'s left to do?"\nMaya: "You just run the dataset you built through the evaluation pipeline."\nChloe: "Evaluation pipeline?"\nMaya: "It\'s a system that automatically evaluates the AI."',
       body: (
         <div className="space-y-2">
-          <p>We already have a dataset with the bug in it. This chapter runs it, stage by stage:</p>
+          <p>With the dataset built, this chapter runs it through the pipeline:</p>
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
-            <li><strong>The Six Stages</strong> — Artifact, Dataset, Run, Evaluation, Score, Comparison.</li>
-            <li><strong>Why the Pipeline, Not Just a Metric</strong> — a dataset alone, or a metric alone, isn&rsquo;t evaluation.</li>
-            <li><strong>Try It Yourself</strong> — run the bug&rsquo;s test case through the whole pipeline.</li>
+            <li><strong>Artifact</strong> — what&rsquo;s actually under test.</li>
+            <li><strong>Dataset</strong> — the questions and answers it&rsquo;s tested against.</li>
+            <li><strong>Run</strong> — collecting outputs, nothing judged yet.</li>
+            <li><strong>Evaluation &amp; Score</strong> — comparing outputs, then scoring them.</li>
+            <li><strong>Comparison</strong> — a score only means something next to another one.</li>
           </ol>
         </div>
       ),
@@ -84,74 +69,115 @@ export function EvaluationPipelineWalkthrough({
     },
     {
       section: "Welcome",
-      title: "The Big Picture",
+      title: "The Big Picture of an Evaluation Pipeline",
       story:
-        'Priya: "Okay, we have a dataset with the bug in it. Let\'s find out if running it actually catches anything."\nMaya: "Through what, exactly?"\nPriya: "The evaluation pipeline — six stages, start to finish."',
+        'Maya: "Let me show you the overall map of evaluation."\nChloe: "Ooh."\nMaya: "Here\'s the rundown:"\nMaya: "1. Give the Dataset and Artifact to the AI to run inference."\nMaya: "2. Evaluate the result to get a Score."\nMaya: "3. Compare that Score across multiple AIs to decide which one to use."',
       body: (
-        <p>
-          Evaluation is a pipeline, not a single step: the <Term id="ai-artifact">AI artifact</Term>{" "}
-          answers every question in the dataset, those outputs get scored, and the score only
-          means something once it&rsquo;s compared against something else. Skip a stage and the
-          worn-item bug could still slip through unnoticed.
-        </p>
+        <ol className="list-decimal list-inside space-y-1 text-neutral-700">
+          <li>Give the Dataset and Artifact to the AI to run inference.</li>
+          <li>Evaluate the result, and it produces a Score.</li>
+          <li>Compare that Score across multiple AIs to decide which one to use.</li>
+        </ol>
       ),
       visual: <PipelineDiagram />,
     },
-    // -------------------- 1. The Six Stages --------------------
+    // -------------------- 1. Artifact --------------------
     {
-      section: "1. The Six Stages",
+      section: "1. Artifact",
       title: "An AI Artifact Is What You're Testing",
       story:
-        'Maya: "So what exactly is being tested here — the AI assistant itself?"\nPriya: "Sort of. One specific, saved version of it: the model, the prompt, the docs it\'s allowed to use. A saved bundle like that is called an AI artifact."',
+        'Chloe: "Okay, so what exactly is being tested here — the AI assistant itself, as a whole thing?"\nMaya: "Sort of, but more specific than that. One saved, version-tracked snapshot of it."\nChloe: "So... a snapshot?"\nMaya: "Basically. A saved bundle like that even has a name — it\'s called an AI artifact."',
       body: (
-        <div className="space-y-2">
-          <p>
-            In simple terms, an AI artifact is whatever single, specific configuration is
-            saved and version-tracked as the thing under test.
-          </p>
-          <p>
-            It can be a prompt, a RAG setup, an agent, a model choice — any of these, not
-            just one type. Evaluation always measures one specific, reproducible AI
-            artifact, so a later score can be traced back to exactly what produced it.
-          </p>
-        </div>
+        <p>
+          In simple terms, an AI artifact is whatever single, specific configuration is
+          saved and version-tracked as the thing under test.
+        </p>
       ),
       visual: (
         <div className="space-y-2">
           <PipelineDiagram highlight={["artifact"]} />
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto text-cyan-700">
-            AI artifact: Southwear&rsquo;s AI support assistant — 1 model, 1 system prompt, the return-policy docs.
-          </div>
         </div>
       ),
     },
     {
-      section: "1. The Six Stages",
+      section: "1. Artifact",
+      title: "What's Actually Inside an Artifact?",
+      story:
+        'Chloe: "Wait, \'artifact\'? What is that, actually?"\nMaya: "Let\'s get concrete. For Southwear\'s assistant, it\'s two things."\nChloe: "Like what?"\nMaya: "First, the model — whichever LLM is actually answering."\nChloe: "Okay, and the second thing?"\nMaya: "The system prompt — the instructions it\'s given, including the return policy text itself. Southwear sets that once, not the customer."\nChloe: "Ah, so those two together are the artifact."\nMaya: "Exactly."',
+      body: (
+        <div className="space-y-2">
+          <p>For Southwear&rsquo;s support assistant, the artifact is exactly two things:</p>
+          <ul className="list-disc list-inside space-y-1 text-neutral-700">
+            <li>The model — which LLM is answering.</li>
+            <li>
+              The system prompt — the instructions it&rsquo;s given, including the return
+              policy text itself, set once by Southwear, not by the customer.
+            </li>
+          </ul>
+          <p>
+            More generally, an artifact can be a prompt, a RAG setup, an agent, a model
+            choice — any of these, not just one type. Evaluation always measures one
+            specific, reproducible AI artifact, so a later score can be traced back to
+            exactly what produced it.
+          </p>
+          <p>
+            If a system retrieves documents at answer time instead of having them written
+            into the prompt — a RAG setup — that retrievable document set becomes a third,
+            separately version-tracked part of the artifact, alongside the model and prompt.
+          </p>
+        </div>
+      ),
+      visual: (
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto text-cyan-700">
+          AI artifact: Southwear&rsquo;s AI support assistant — 1 model, 1 system prompt (return policy included).
+        </div>
+      ),
+    },
+    {
+      section: "1. Artifact",
+      title: "Why Pin Down the Artifact?",
+      story:
+        'Chloe: "Wait, why do we even need a fancy name for it? Isn\'t it just... the AI assistant?"\nMaya: "Because \'the AI assistant\' can quietly change. Tweak the prompt, swap the model — and it\'s a different artifact, even if you still call it by the same name."\nChloe: "Okay, but does that actually matter?"\nMaya: "It matters the moment you compare two scores. Say last week\'s run scored 91, and today\'s scores 84 — was that from your fix, or did someone change the prompt in between?"\nChloe: "Oh. So without pinning it down, you can\'t even tell what caused the drop."',
+      body: (
+        <div className="space-y-2">
+          <p>
+            Without a pinned-down artifact, a score change is ambiguous: it could reflect a
+            real improvement or regression, or it could just mean something else was swapped in
+            between runs — a different prompt, or a different model.
+          </p>
+          <p>Version-tracking the artifact is what makes a score traceable back to one specific cause.</p>
+        </div>
+      ),
+      visual: (
+        <div className="bg-white border border-red-200 rounded-md p-2.5 text-base max-w-sm mx-auto">
+          <div className="text-neutral-500">Last week: prompt v1 → 91/100</div>
+          <div className="text-neutral-500">This week: prompt v2, untracked → 84/100</div>
+          <div className="text-red-700 mt-1">Did the fix help or hurt? With no pinned artifact, there&rsquo;s no way to tell.</div>
+        </div>
+      ),
+    },
+    {
+      section: "2. Dataset",
       title: "A Dataset Gives It Something to Answer",
       story:
-        'Priya: "Next, the AI artifact needs something to answer."\nMaya: "That\'s the dataset from before — the one with the bug\'s test case in it?"\nPriya: "That one exactly."',
+        'Chloe: "Next up is Dataset, right?"\nMaya: "Good news — we already built that dataset. Now it finally gets to do its job."\nChloe: "Wow! Amazing! ...Though I already knew that."\nMaya: "Well, you did just build it."\nChloe: "Questions, each paired with an expected answer and a reference to back it up, right?"\nMaya: "That\'s right!"',
       body: (
         <p>
-          Next, the dataset supplies the questions the AI artifact will answer, along with the
-          expected answer for each one — including the test case built from the bug that went
-          live.
+          The dataset we built supplies the questions the AI artifact will answer, along with
+          the expected answer for each one — starting with the worn-item bug&rsquo;s test case.
         </p>
       ),
       visual: (
         <div className="space-y-2">
           <PipelineDiagram highlight={["dataset"]} />
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto">
-            <div className="text-neutral-700">Question: &ldquo;{PRESET.question}&rdquo;</div>
-            <div className="text-cyan-700 mt-1">Expected: &ldquo;{PRESET.expected}&rdquo;</div>
-          </div>
         </div>
       ),
     },
     {
-      section: "1. The Six Stages",
+      section: "3. Run",
       title: "A Run Produces Outputs, Nothing Else Yet",
       story:
-        'Maya: "So we just... ask the AI assistant the question and see what it says?"\nPriya: "That\'s a run. Nothing\'s graded yet — we\'re only collecting what it actually said."',
+        'Chloe: "So we just... ask the AI assistant the question and see what it says?"\nMaya: "Pretty much, yeah. That\'s called a run. Nothing\'s graded yet — we\'re only collecting what it actually said."\nChloe: "Feels almost anticlimactic."\nMaya: "Just wait."',
       body: (
         <p>
           A run sends every test case&rsquo;s question through the AI artifact and records whatever
@@ -162,18 +188,33 @@ export function EvaluationPipelineWalkthrough({
       visual: (
         <div className="space-y-2">
           <PipelineDiagram highlight={["run"]} />
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto">
-            <div className="text-neutral-700">Output: &ldquo;{PRESET.actual}&rdquo;</div>
-            <div className="text-neutral-400 mt-1">(the bug — not judged yet)</div>
-          </div>
         </div>
       ),
     },
     {
-      section: "1. The Six Stages",
+      section: "3. Run",
+      title: "One Run, Many Cases",
+      story:
+        'Chloe: "So a run is just... asking it this one question?"\nMaya: "No — a run sends every case in the dataset through the artifact, all 100 of them. This one bug is just the case we\'re following closely."\nChloe: "Oh, so behind the scenes it\'s actually answering a hundred different questions right now?"\nMaya: "Exactly. We actually get an output back from the AI for all 100 questions right here."',
+      body: (
+        <p>
+          A run isn&rsquo;t limited to one question — it sends every test case in the dataset
+          through the artifact and records an output for each. This chapter keeps following
+          the worn-item bug&rsquo;s case specifically, but in a real run, all 100 cases get
+          answered at once.
+        </p>
+      ),
+      visual: (
+        <div className="space-y-2">
+          <PipelineDiagram highlight={["run"]} />
+        </div>
+      ),
+    },
+    {
+      section: "4. Evaluation & Score",
       title: "Evaluation Compares the Output",
       story:
-        'Maya: "So does the pipeline catch it here?"\nPriya: "Almost — first, evaluation compares what the AI assistant said to what it should have said."',
+        'Chloe: "So next, you evaluate the output that came back from the AI?"\nMaya: "That\'s right! First, evaluation compares what the AI assistant actually said to what it should have said."\nChloe: "So you\'re checking whether it actually got the answer right?"\nMaya: "And that comparison produces a score. Right now it\'s about as simple as it gets — a flat pass or fail."',
       body: (
         <p>
           Evaluation takes each actual output and checks it against its expected answer, using
@@ -184,7 +225,7 @@ export function EvaluationPipelineWalkthrough({
       visual: (
         <div className="space-y-2">
           <PipelineDiagram highlight={["evaluation"]} />
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto">
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto">
             <div className="text-neutral-700">Actual: &ldquo;{PRESET.actual}&rdquo;</div>
             <div className="text-cyan-700 mt-1">Expected: &ldquo;{PRESET.expected}&rdquo;</div>
           </div>
@@ -192,21 +233,43 @@ export function EvaluationPipelineWalkthrough({
       ),
     },
     {
-      section: "1. The Six Stages",
-      title: "The Score: How Well It Matched",
+      section: "4. Evaluation & Score",
+      title: "From Per-Case Scores to a Run Score",
       story:
-        'Priya: "And that comparison produces a score. Right now, it\'s a flat pass or fail."\nMaya: "And this one fails."',
+        'Chloe: "Like, what about the question from the other day?"\nMaya: "Oh, the worn-item refund question? Run it through the current artifact, and that one comes back a fail."\nChloe: "So the run\'s score is... fail? That doesn\'t sound like a very useful number."\nMaya: "Right, because that\'s just one case\'s score. The run\'s actual score comes from combining all 100 — say, how many passed out of the total."\nChloe: "Ah, so one number for the whole batch."\nMaya: "Exactly — that\'s the number people usually mean when they say \'the score.\'"',
       body: (
         <p>
-          A score is evaluation&rsquo;s output: a number or label summarizing how well the
-          actual answer matched. Exact match already scores this output as a fail — but exact
-          match would flag any differently-worded answer too, right or wrong.
+          Evaluation scores every case individually — this one failed. A run&rsquo;s overall
+          score combines every case&rsquo;s result into one number, often the percentage that
+          passed. That combined number, not any single case&rsquo;s result, is what people
+          usually mean by &ldquo;the score.&rdquo;
+        </p>
+      ),
+      visual: (
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto">
+          <div className="text-red-700">This case: ✗ fail</div>
+          <div className="text-neutral-700 mt-1">Combined with the other 99 cases&rsquo; results...</div>
+          <div className="text-cyan-700 font-medium mt-1">Run score: 84/100 passed</div>
+        </div>
+      ),
+    },
+    {
+      section: "4. Evaluation & Score",
+      title: "The Score: How Well It Matched",
+      story:
+        'Chloe: "So if the AI gets it wrong, we\'ll find out right here?"\nMaya: "That mistake is exactly what shows up in the Score — it\'s Evaluation\'s result, output for the artifact."\nChloe: "So this is where we finally find out which model is best, right?"\nMaya: "Not quite. This stage only produces the Score — figuring out which model is best comes later."\nChloe: "Huh? A Score alone doesn\'t decide that?"\nMaya: "Not until you compare Scores across artifacts."',
+      body: (
+        <p>
+          A score is evaluation&rsquo;s output: a number or a pass/fail-style category
+          summarizing how well the actual answer matched. Exact match already scores this
+          output as a fail — but exact match would flag any differently-worded answer too,
+          right or wrong.
         </p>
       ),
       visual: (
         <div className="space-y-2">
           <PipelineDiagram highlight={["score"]} />
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto">
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto">
             <div className="text-red-700">Exact match: ✗ fail</div>
             <div className="text-neutral-400 mt-1">Is that the right metric for a policy question like this? The Metrics chapter covers the fix.</div>
           </div>
@@ -214,142 +277,70 @@ export function EvaluationPipelineWalkthrough({
       ),
     },
     {
-      section: "1. The Six Stages",
+      section: "5. Comparison",
       title: "Comparison: One Run Isn't Enough on Its Own",
       story:
-        'Priya: "Run every case in the dataset, not just this one, and average the scores — now you get one overall number for the whole run."\nMaya: "Say, 84 out of 100. Is that good?"\nPriya: "No idea yet — on its own, a score doesn\'t mean anything."',
+        'Maya: "Suppose our AI assistant got the score 84 out of 100. Is that good or bad?"\nChloe: "Bad... isn\'t it? I mean, it\'s not a perfect score."\nMaya: "Not necessarily. If you always held out for a perfect 100, you\'d never actually ship anything."\nChloe: "Huh? So 84 is fine, then?"\nMaya: "Not exactly \'fine\' — but realistically, there are cases where nothing you do gets you all the way to 100."\nMaya: "The honest answer is: you can\'t judge it from that number alone."',
       body: (
-        <div className="space-y-2">
-          <p>
-            A run&rsquo;s overall score summarizes every test case in the dataset, not just
-            this one bug.
-          </p>
-          <p>
-            But even that single number says little by itself. 84 out of 100 means nothing
-            without something to compare it against: an earlier version, a different model, a
-            minimum bar the system needs to clear.
-          </p>
-        </div>
+        <p>
+          A run&rsquo;s score means little by itself. 84 out of 100 says nothing without
+          something to compare it against: an earlier version, a different model, a minimum
+          bar the system needs to clear.
+        </p>
       ),
       visual: (
         <div className="space-y-2">
           <PipelineDiagram highlight={["comparison"]} />
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto">
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto">
             <div className="text-neutral-700">This run: 84/100 — last week: 91/100</div>
             <div className="text-neutral-400 mt-1">Comparison reveals it got worse.</div>
           </div>
         </div>
       ),
     },
-    // -------------------- 2. Why the Pipeline, Not Just a Metric --------------------
     {
-      section: "2. Why the Pipeline, Not Just a Metric",
-      title: "Why You Need All Three",
+      section: "5. Comparison",
+      title: "Three Things to Compare a Score Against",
       story:
-        'Priya: "Take away any one piece and this whole thing falls apart."\nMaya: "Show me."',
-      body: (
-        <p>
-          Without a dataset containing this exact case, without a run to produce the wrong
-          answer, and without evaluation to actually check it, this bug goes live unnoticed —
-          exactly what happened the first time.
-        </p>
-      ),
-      visual: (
-        <div className="space-y-2">
-          <PipelineDiagram />
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm max-w-sm mx-auto space-y-1 text-neutral-700">
-            <div>No dataset: the return-policy docs alone aren&rsquo;t test cases.</div>
-            <div>No run: nothing to score.</div>
-            <div>No evaluation: a wrong answer never gets flagged.</div>
-          </div>
-        </div>
-      ),
-    },
-    // -------------------- 3. Try It Yourself --------------------
-    {
-      section: "3. Try It Yourself",
-      title: "Try it yourself: run the bug through the pipeline",
-      story: 'Priya: "See it end to end — run the case, then evaluate what comes back."',
-      body: (
-        <p>
-          Here is the bug&rsquo;s test case. Click Run to see what the AI assistant actually
-          answered, then click Evaluate to score that output against the expected answer.
-        </p>
-      ),
-      controls: (
-        <div className="w-full space-y-2">
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm">
-            <div className="text-neutral-500">Question</div>
-            <div className="text-neutral-800">{PRESET.question}</div>
-            <div className="text-neutral-500 mt-1.5">Expected answer</div>
-            <div className="text-cyan-700">{PRESET.expected}</div>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={() => setRan(true)} disabled={ran} className={`${nextBtn} disabled:opacity-40`}>
-              Run
-            </button>
-            <button onClick={() => setEvaluated(true)} disabled={!ran || evaluated} className={`${nextBtn} disabled:opacity-40`}>
-              Evaluate
-            </button>
-          </div>
-        </div>
-      ),
-      resetAction: reset,
-      visual: (
-        <div className="space-y-2">
-          {ran && (
-            <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm">
-              <div className="text-neutral-500">Actual output</div>
-              <div className="text-neutral-800">{PRESET.actual}</div>
-            </div>
-          )}
-          {evaluated && (
-            <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-sm space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="text-neutral-500">Exact match</span>
-                <span className={exact ? "text-emerald-700 font-medium" : "text-red-700 font-medium"}>{exact ? "✓ true" : "✗ false"}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-neutral-500">Word overlap</span>
-                <span className="text-cyan-700 font-medium">{Math.round(overlap * 100)}%</span>
-              </div>
-            </div>
-          )}
-        </div>
-      ),
-    },
-    // -------------------- Wrap-up --------------------
-    {
-      section: "4. Wrap-up",
-      title: "What you just learned",
+        'Chloe: "Wait, then what\'s the point of it?"\nMaya: "It only means something when compared with something."\nChloe: "Huh. Like what, for example?"\nMaya: "For instance, when you change the system prompt."\nChloe: "Oh, so by comparing them, you can tell which prompt was better?"\nMaya: "Right. Another case is when you change the model itself."\nChloe: "Like, training it further with additional data?"\nMaya: "Exactly! There\'s also comparing it against a fixed bar you decided on ahead of time."\nChloe: "I see. So a score like 84 only means something once you compare it to something else."',
       body: (
         <div className="space-y-2">
-          <p>A quick recap:</p>
+          <p>A score only means something once you compare it to something else. Three common comparisons:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>Evaluation is a pipeline: Artifact → Dataset → Run → Evaluation → Score → Comparison.</li>
-            <li>An AI artifact is the specific, reproducible configuration under test.</li>
-            <li>A run only collects outputs — nothing is judged until evaluation.</li>
-            <li>Evaluation compares each output against what was expected; the score is the result.</li>
-            <li>A score means little without a comparison to judge it against.</li>
-            <li>Exact match flagged this bug — but it would flag any differently-worded answer too.</li>
+            <li><strong>A different system prompt</strong> — did the wording change help or hurt?</li>
+            <li><strong>A different model</strong> — which model actually scores higher on the same test?</li>
+            <li><strong>A minimum bar</strong> — a threshold fixed in advance, like &ldquo;must score at least 90 before shipping.&rdquo;</li>
           </ul>
         </div>
       ),
-      visual: undefined,
-    },
-    {
-      section: "4. Wrap-up",
-      title: "Next: Which Metric Actually Catches It?",
-      story:
-        'Priya: "Exact match caught it, but only because the wording was way off."\nMaya: "What if someone writes a wrong answer that sounds a lot more like the real one?"\nPriya: "Then we need a smarter metric. Let\'s go find it."',
-      body: (
-        <p>
-          Everything above is also unlocked below if you want to run your own test case. The
-          pipeline ran. Exact match flagged the bug, but it would flag a correct paraphrase too
-          — not a targeted signal. Which metric actually would have caught this, and only this?
-        </p>
+      visual: (
+        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1.5">
+          <div className="text-neutral-700 font-medium">This run (prompt v2): 84/100</div>
+          <div className="text-neutral-500">vs. prompt v1 (91): the older prompt was better</div>
+          <div className="text-neutral-500">vs. a different model (92): the other model wins</div>
+          <div className="text-neutral-500">vs. the minimum bar (90): fails</div>
+        </div>
       ),
-      visual: undefined,
+    },
+    // -------------------- 6. Wrap-up --------------------
+    {
+      section: "6. Wrap-up",
+      title: "What you just learned",
+      story:
+        'Maya: "That\'s the whole flow of the Evaluation Pipeline. So, how was it?"\nChloe: "Phew, that was a long one."\nMaya: "Good work."\nChloe: "I get the overall flow now, but..."\nChloe: "I still don\'t actually know how evaluation works."\nMaya: "Ah, right — we\'ve been skipping over that part this whole time."\nChloe: "Wait, is that what\'s coming up next?"\nMaya: "Nope. Starting tomorrow."\nChloe: "Ha, of course you\'d say that — you really know how to work a cliffhanger!"',
+      body: (
+        <div className="space-y-2">
+          <p>Evaluation is a pipeline:</p>
+          <ul className="list-disc list-inside space-y-1 text-neutral-700">
+            <li><strong>AI artifact</strong> — the specific, reproducible configuration under test.</li>
+            <li><strong>Run</strong> — every case in the dataset gets answered.</li>
+            <li><strong>Evaluation</strong> — each output is compared against what was expected.</li>
+            <li><strong>Score</strong> — the overall result of evaluating an artifact.</li>
+            <li><strong>Comparison</strong> — a score only means something next to another one.</li>
+          </ul>
+        </div>
+      ),
+      visual: <PipelineDiagram />,
     },
   ];
 
@@ -381,12 +372,12 @@ export function EvaluationPipelineWalkthrough({
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst && !onBackToPreviousChapter}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -394,7 +385,7 @@ export function EvaluationPipelineWalkthrough({
             {isLast ? (onAdvanceToNextChapter ? "Continue: Metrics →" : "Finish") : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -408,19 +399,8 @@ export function EvaluationPipelineWalkthrough({
           </div>
         )}
 
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
-
-        {current.controls && (
-          <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
-            {current.controls}
-          </div>
-        )}
-        {current.resetAction && (
-          <button onClick={current.resetAction} className="text-xs text-neutral-500 hover:text-neutral-800">
-            ↺ Undo / reset this step
-          </button>
-        )}
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         <div className="space-y-3">{current.visual}</div>
       </div>

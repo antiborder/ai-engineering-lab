@@ -41,7 +41,7 @@ export function AgentDecisionDiagram() {
     <div className="w-full max-w-[320px] mx-auto">
       <svg viewBox={`0 0 ${width} ${height}`} className="bg-white rounded-md border border-neutral-200 w-full h-auto">
         <rect x={goalX} y={goalY} width={goalW} height={goalH} rx={6} fill="rgba(8,145,178,0.1)" stroke={CYAN} strokeWidth={2} />
-        <text x={goalX + goalW / 2} y={goalY + goalH / 2 + 4} fontSize={12} fontWeight={700} textAnchor="middle" fill="#3f3f46">
+        <text x={goalX + goalW / 2} y={goalY + goalH / 2 + 4} fontSize={14} fontWeight={700} textAnchor="middle" fill="#3f3f46">
           Goal
         </text>
 
@@ -72,7 +72,7 @@ export function AgentDecisionDiagram() {
             <text
               x={branchCenterX(i)}
               y={branchY + branchH / 2 + 4}
-              fontSize={12}
+              fontSize={14}
               textAnchor="middle"
               fill={b.chosen ? "#3f3f46" : "#a3a3a3"}
             >
@@ -81,7 +81,7 @@ export function AgentDecisionDiagram() {
           </g>
         ))}
       </svg>
-      <p className="text-xs text-neutral-500 mt-1 text-center">
+      <p className="text-sm text-neutral-500 mt-1 text-center">
         Solid = the path actually taken. Dashed = paths that were genuinely possible, but
         weren&rsquo;t chosen this time.
       </p>

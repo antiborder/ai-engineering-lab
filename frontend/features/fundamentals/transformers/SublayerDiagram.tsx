@@ -42,32 +42,32 @@ export function SublayerDiagram({
             stroke={ORANGE}
             strokeWidth={sw("residual", 2)}
           />
-          <text x={(inX + addX) / 2} y={cy - 56} fontSize={12} textAnchor="middle" fill={ORANGE}>
+          <text x={(inX + addX) / 2} y={cy - 56} fontSize={14} textAnchor="middle" fill={ORANGE}>
             + old_x (residual)
           </text>
         </g>
 
         <g opacity={op("input")}>
           <rect x={inX - 22} y={cy - 16} width={44} height={32} rx={6} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={sw("input", 2)} />
-          <text x={inX} y={cy + 4} fontSize={12} textAnchor="middle" fill="#3f3f46">old_x</text>
+          <text x={inX} y={cy + 4} fontSize={14} textAnchor="middle" fill="#3f3f46">old_x</text>
         </g>
 
         <line x1={inX + 22} y1={cy} x2={subX - 48} y2={cy} stroke={NEUTRAL} strokeWidth={2} opacity={Math.min(op("input"), op("sublayer"))} />
         <g opacity={op("sublayer")}>
           <rect x={subX - 48} y={cy - 18} width={96} height={36} rx={6} fill="rgba(8,145,178,0.12)" stroke={CYAN} strokeWidth={sw("sublayer", 2)} />
-          <text x={subX} y={cy + 5} fontSize={12} textAnchor="middle" fill="#3f3f46">{sublayerLabel}</text>
+          <text x={subX} y={cy + 5} fontSize={14} textAnchor="middle" fill="#3f3f46">{sublayerLabel}</text>
         </g>
 
         <line x1={subX + 48} y1={cy} x2={addX - 15} y2={cy} stroke={NEUTRAL} strokeWidth={2} opacity={Math.min(op("sublayer"), op("residual"))} />
         <g opacity={op("residual")}>
           <circle cx={addX} cy={cy} r={15} fill="rgba(234,88,12,0.12)" stroke={ORANGE} strokeWidth={sw("residual", 2)} />
-          <text x={addX} y={cy + 5} fontSize={14} textAnchor="middle" fill="#3f3f46">+</text>
+          <text x={addX} y={cy + 5} fontSize={16} textAnchor="middle" fill="#3f3f46">+</text>
         </g>
 
         <line x1={addX + 15} y1={cy} x2={normX - 40} y2={cy} stroke={NEUTRAL} strokeWidth={2} opacity={Math.min(op("residual"), op("norm"))} />
         <g opacity={op("norm")}>
           <rect x={normX - 40} y={cy - 18} width={80} height={36} rx={6} fill="rgba(124,58,237,0.12)" stroke={PURPLE} strokeWidth={sw("norm", 2)} />
-          <text x={normX} y={cy + 5} fontSize={12} textAnchor="middle" fill="#3f3f46">LayerNorm</text>
+          <text x={normX} y={cy + 5} fontSize={14} textAnchor="middle" fill="#3f3f46">LayerNorm</text>
         </g>
 
         <g opacity={op("output")}>

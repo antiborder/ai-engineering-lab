@@ -29,16 +29,16 @@ export function QKVDiagram({ highlight }: { highlight?: QKVPart[] }) {
       >
         <g opacity={op("input")}>
           <rect x={inX - 30} y={cy - 16} width={60} height={32} rx={6} fill="rgba(124,58,237,0.12)" stroke="#7c3aed" strokeWidth={sw("input", 2)} />
-          <text x={inX} y={cy + 5} fontSize={12} fill="#3f3f46" textAnchor="middle">x</text>
+          <text x={inX} y={cy + 5} fontSize={14} fill="#3f3f46" textAnchor="middle">x</text>
         </g>
         {rows.map((row) => (
           <g key={row.part} opacity={op(row.part)}>
             <line x1={inX + 30} y1={cy} x2={outX - 40} y2={row.y} stroke={row.color} strokeWidth={sw(row.part, 2)} />
-            <text x={(inX + outX) / 2 - 4} y={(cy + row.y) / 2 - 8} fontSize={12} fill={row.color} textAnchor="middle">
+            <text x={(inX + outX) / 2 - 4} y={(cy + row.y) / 2 - 8} fontSize={14} fill={row.color} textAnchor="middle">
               {row.wLabel}
             </text>
             <rect x={outX - 40} y={row.y - 16} width={80} height={32} rx={6} fill={`${row.color}1f`} stroke={row.color} strokeWidth={sw(row.part, 2)} />
-            <text x={outX} y={row.y + 5} fontSize={12} fill="#3f3f46" textAnchor="middle">
+            <text x={outX} y={row.y + 5} fontSize={14} fill="#3f3f46" textAnchor="middle">
               {row.label}
             </text>
           </g>

@@ -68,7 +68,7 @@ export function TransformerLab() {
             <button
               key={c.id}
               onClick={() => setActiveChapter(c.id)}
-              className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors ${
+              className={`px-4 py-2 text-base font-medium border-b-2 -mb-px transition-colors ${
                 activeChapter === c.id
                   ? "border-cyan-600 text-neutral-900"
                   : "border-transparent text-neutral-500 hover:text-neutral-400"
@@ -94,11 +94,11 @@ export function TransformerLab() {
 
       {walkthroughComplete && (
       <div className="space-y-6">
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 -mt-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 -mt-4">
           Same pipeline, now with full controls. Type any text and inspect every layer and head.
         </p>
-      <div className="flex flex-wrap items-center gap-1.5 text-xs text-neutral-500">
+      <div className="flex flex-wrap items-center gap-1.5 text-sm text-neutral-500">
         {PIPELINE.map((stage, i) => (
           <span key={stage} className="flex items-center gap-1.5">
             <span className="px-2 py-1 rounded-full border border-neutral-200 bg-white">
@@ -110,16 +110,16 @@ export function TransformerLab() {
       </div>
 
       <div className="space-y-2">
-        <label className="block text-sm text-neutral-600">Input text</label>
+        <label className="block text-base text-neutral-600">Input text</label>
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-900 font-mono text-sm"
+          className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-900 font-mono text-base"
           maxLength={120}
         />
         <TokenChips tokens={tokens} />
         {tokens.length === 0 && (
-          <p className="text-xs text-neutral-500">Type something to tokenize it.</p>
+          <p className="text-sm text-neutral-500">Type something to tokenize it.</p>
         )}
       </div>
 
@@ -127,7 +127,7 @@ export function TransformerLab() {
         <div className="grid lg:grid-cols-[auto_1fr] gap-6">
           <div className="space-y-4">
             <div>
-              <div className="text-sm text-neutral-600 mb-2">
+              <div className="text-base text-neutral-600 mb-2">
                 Attention — layer {clampedLayer + 1} of {numLayers}, head {clampedHead + 1} of{" "}
                 {numHeads}
               </div>
@@ -135,7 +135,7 @@ export function TransformerLab() {
                 tokens={tokens}
                 attn={result.layers[clampedLayer].attnByHead[clampedHead]}
               />
-              <p className="text-xs text-neutral-500 mt-2 max-w-md">
+              <p className="text-sm text-neutral-500 mt-2 max-w-md">
                 Rows are the query token, columns are the key token. Brighter = more attention.
                 Dark red cells are causally masked — a token can never attend to a token that
                 comes after it, since that would leak the answer during generation.
@@ -145,7 +145,7 @@ export function TransformerLab() {
 
           <div className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
-              <label className="block text-sm">
+              <label className="block text-base">
                 <div className="text-neutral-600 mb-1">Layer</div>
                 <select
                   value={clampedLayer}
@@ -159,7 +159,7 @@ export function TransformerLab() {
                   ))}
                 </select>
               </label>
-              <label className="block text-sm">
+              <label className="block text-base">
                 <div className="text-neutral-600 mb-1">Head</div>
                 <select
                   value={clampedHead}
@@ -173,7 +173,7 @@ export function TransformerLab() {
                   ))}
                 </select>
               </label>
-              <label className="block text-sm">
+              <label className="block text-base">
                 <div className="text-neutral-600 mb-1">Number of heads</div>
                 <select
                   value={numHeads}
@@ -187,7 +187,7 @@ export function TransformerLab() {
                   ))}
                 </select>
               </label>
-              <label className="block text-sm">
+              <label className="block text-base">
                 <div className="text-neutral-600 mb-1">Transformer blocks</div>
                 <select
                   value={numLayers}
@@ -205,17 +205,17 @@ export function TransformerLab() {
 
             <button
               onClick={() => setSeed((s) => s + 1)}
-              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
+              className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-800"
             >
               Reinitialize weights
             </button>
 
             <div>
-              <div className="text-sm text-neutral-600 mb-2">
+              <div className="text-base text-neutral-600 mb-2">
                 Next-token prediction (from &ldquo;{tokens.at(-1)}&rdquo;)
               </div>
               <NextTokenBars predictions={result.nextTokenLogits} />
-              <p className="text-xs text-neutral-500 mt-2 max-w-md">
+              <p className="text-sm text-neutral-500 mt-2 max-w-md">
                 These weights are randomly initialized, not trained — so this distribution is
                 close to uniform, not meaningful text prediction. It&rsquo;s a real softmax over real
                 vectors, though: the Tiny LLM section trains a model like this one so the

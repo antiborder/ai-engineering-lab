@@ -58,7 +58,7 @@ export function RagLab() {
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">RAG</span> (Retrieval-Augmented
           Generation) is searching your own documents for relevant pieces, then handing those to
           the model as context before it answers — chunking, vector search, top-K, and
@@ -69,13 +69,13 @@ export function RagLab() {
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Everything from the walkthrough, now for real: ask questions about a real 6-document
           corpus, adjust every parameter, and save your own AI Artifact.
         </p>
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-1.5 text-xs text-neutral-500">
+      <div className="flex flex-wrap items-center gap-1.5 text-sm text-neutral-500">
         {PIPELINE.map((stage, i) => (
           <span key={stage} className="flex items-center gap-1.5">
             <span className="px-2 py-1 rounded-full border border-neutral-200 bg-white">{stage}</span>
@@ -92,33 +92,33 @@ export function RagLab() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900"
+              className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-2 text-base text-neutral-900"
               placeholder="Ask a question about the documents…"
             />
             <button
               onClick={handleAsk}
               disabled={loading || !query}
-              className="px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
+              className="px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-base font-medium text-white"
             >
               {loading ? "Asking…" : "Ask"}
             </button>
           </div>
           {error && (
-            <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
+            <p className="text-base text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
           )}
 
           {result && (
             <>
               <div>
-                <div className="text-sm text-neutral-600 mb-2">
+                <div className="text-base text-neutral-600 mb-2">
                   Retrieved chunks {result.retrieved.length > 0 && `(top ${result.retrieved.length})`}
                 </div>
                 <RetrievedChunksList chunks={result.retrieved} reranked={useReranking} />
               </div>
 
               <div>
-                <div className="text-sm text-neutral-600 mb-2">Answer</div>
-                <div className="bg-white border border-neutral-200 rounded-md p-3 text-sm text-neutral-800">
+                <div className="text-base text-neutral-600 mb-2">Answer</div>
+                <div className="bg-white border border-neutral-200 rounded-md p-3 text-base text-neutral-800">
                   {result.answer}
                 </div>
               </div>
@@ -140,7 +140,7 @@ export function RagLab() {
         </div>
 
         <div className="space-y-4">
-          <div className="text-sm text-neutral-600">Retrieval parameters</div>
+          <div className="text-base text-neutral-600">Retrieval parameters</div>
           <Slider label="Chunk size (sentences)" value={chunkSize} min={1} max={5} step={1} onChange={setChunkSize} />
           <Slider label="Overlap (sentences)" value={overlap} min={0} max={Math.max(0, chunkSize - 1)} step={1} onChange={setOverlap} />
           <Slider label="Top-K" value={topK} min={1} max={8} step={1} onChange={setTopK} />
@@ -153,11 +153,11 @@ export function RagLab() {
             onChange={setSimilarityThreshold}
             format={(v) => v.toFixed(2)}
           />
-          <label className="flex items-center gap-1.5 text-sm text-neutral-600">
+          <label className="flex items-center gap-1.5 text-base text-neutral-600">
             <input type="checkbox" checked={useReranking} onChange={(e) => setUseReranking(e.target.checked)} />
             reranking
           </label>
-          <label className="block text-sm">
+          <label className="block text-base">
             <div className="text-neutral-600 mb-1">Model</div>
             <select
               value={model}

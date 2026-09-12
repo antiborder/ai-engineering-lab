@@ -38,7 +38,7 @@ export function ClassificationLab({
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">Classification</span> means predicting
           which of two (or more) categories an input belongs to. Instead of fitting a curve to
           numbers, the model draws a boundary through 2D space — everything on one side is
@@ -54,8 +54,8 @@ export function ClassificationLab({
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Same idea, now with controls — including L2 regularization, which the walkthrough
           doesn&rsquo;t cover. Try raising the polynomial degree to see the boundary overfit.
         </p>
@@ -74,7 +74,7 @@ export function ClassificationLab({
               <StatCard label="Test accuracy" value={`${(stats.testAcc * 100).toFixed(1)}%`} tone={stats.overfitting ? "warn" : "default"} />
             </div>
             {stats.overfitting && (
-              <p className="text-xs text-amber-800 bg-amber-50 border border-amber-300 rounded-md px-3 py-2">
+              <p className="text-sm text-amber-800 bg-amber-50 border border-amber-300 rounded-md px-3 py-2">
                 The decision boundary is fitting noise in the training set — test loss is much
                 higher than train loss. Try a lower polynomial degree or more L2 regularization.
               </p>
@@ -96,18 +96,18 @@ export function ClassificationLab({
             <div className="flex items-center gap-3 pt-1">
               <button
                 onClick={() => setPlaying((p) => !p)}
-                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white"
+                className="px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white"
               >
                 {playing ? "Pause" : "Resume"} training
               </button>
               <button
                 onClick={() => setSeed((s) => s + 1)}
-                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-sm text-neutral-800"
+                className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 text-base text-neutral-800"
               >
                 New dataset
               </button>
             </div>
-            <p className="text-xs text-neutral-500">epoch {stats.epoch} · gradient descent, lr={LR}</p>
+            <p className="text-sm text-neutral-500">epoch {stats.epoch} · gradient descent, lr={LR}</p>
           </div>
         )}
       </ClassificationTrainer>
@@ -180,7 +180,7 @@ function ClassificationTrainer({
     <>
       <div className="space-y-4">
         <DecisionBoundaryCanvas points={points} predict={predict} domain={DOMAIN} />
-        <div className="flex flex-wrap gap-3 text-xs text-neutral-600">
+        <div className="flex flex-wrap gap-3 text-sm text-neutral-600">
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-orange-600" /> class 0</span>
           <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-cyan-400" /> class 1</span>
           <span>solid = train, outlined = test</span>

@@ -9,7 +9,7 @@ export function NextTokenBars({
   return (
     <div className="space-y-1.5">
       {top.map((p) => (
-        <div key={p.token} className="flex items-center gap-2 text-xs">
+        <div key={p.token} className="flex items-center gap-2 text-sm">
           <span className="w-16 shrink-0 font-mono text-neutral-600 truncate">{p.token}</span>
           <div className="flex-1 h-4 bg-neutral-200 rounded overflow-hidden">
             <div

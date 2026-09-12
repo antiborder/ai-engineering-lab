@@ -34,7 +34,7 @@ export function ToolCallingLab({ onNavigateToChapter }: { onNavigateToChapter?: 
   return (
     <div className="space-y-8">
       <div className="space-y-3">
-        <p className="text-sm text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">Tool Calling</span> is one round trip:
           the model decides whether it needs a tool, the tool runs, and the model answers using
           the result.
@@ -47,13 +47,13 @@ export function ToolCallingLab({ onNavigateToChapter }: { onNavigateToChapter?: 
 
       {walkthroughComplete && (
       <div>
-        <h3 className="text-sm font-medium text-neutral-800 mb-1">Explore it yourself</h3>
-        <p className="text-xs text-neutral-500 mb-4">
+        <h3 className="text-base font-medium text-neutral-800 mb-1">Explore it yourself</h3>
+        <p className="text-sm text-neutral-500 mb-4">
           Everything from the walkthrough, now for real: send your own messages and see which
           tool gets picked.
         </p>
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-1.5 text-xs">
+      <div className="flex flex-wrap items-center gap-1.5 text-sm">
         {PIPELINE.map((stage, i) => {
           const isToolStage = i >= 2 && i <= 4;
           const dim = result !== null && isToolStage && !usedTool;
@@ -77,7 +77,7 @@ export function ToolCallingLab({ onNavigateToChapter }: { onNavigateToChapter?: 
           <button
             key={ex}
             onClick={() => setMessage(ex)}
-            className="text-xs px-2 py-1 rounded-md border border-neutral-200 text-neutral-600 hover:text-neutral-900 hover:border-neutral-400"
+            className="text-sm px-2 py-1 rounded-md border border-neutral-200 text-neutral-600 hover:text-neutral-900 hover:border-neutral-400"
           >
             {ex}
           </button>
@@ -88,24 +88,24 @@ export function ToolCallingLab({ onNavigateToChapter }: { onNavigateToChapter?: 
         <input
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-2 text-sm text-neutral-900"
+          className="flex-1 bg-white border border-neutral-200 rounded-md px-3 py-2 text-base text-neutral-900"
         />
         <button
           onClick={handleSend}
           disabled={loading || !message}
-          className="px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-sm font-medium text-white"
+          className="px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 text-base font-medium text-white"
         >
           {loading ? "Sending…" : "Send"}
         </button>
       </div>
       {error && (
-        <p className="text-sm text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
+        <p className="text-base text-red-700 bg-red-50 border border-red-300 rounded-md px-3 py-2">{error}</p>
       )}
 
       {result && (
         <div className="space-y-3">
           {usedTool ? (
-            <div className="bg-white border border-neutral-200 rounded-md p-3 space-y-1.5 text-sm">
+            <div className="bg-white border border-neutral-200 rounded-md p-3 space-y-1.5 text-base">
               <div className="text-neutral-600">
                 Tool selected: <span className="text-cyan-700 font-mono">{result.tool_name}</span>
               </div>
@@ -117,17 +117,17 @@ export function ToolCallingLab({ onNavigateToChapter }: { onNavigateToChapter?: 
               </div>
             </div>
           ) : (
-            <p className="text-sm text-neutral-500">No tool was needed for this message.</p>
+            <p className="text-base text-neutral-500">No tool was needed for this message.</p>
           )}
           <div>
-            <div className="text-sm text-neutral-600 mb-1">Answer</div>
-            <div className="bg-white border border-neutral-200 rounded-md p-3 text-sm text-neutral-800">
+            <div className="text-base text-neutral-600 mb-1">Answer</div>
+            <div className="bg-white border border-neutral-200 rounded-md p-3 text-base text-neutral-800">
               {result.answer}
             </div>
           </div>
         </div>
       )}
-      <p className="text-sm text-neutral-500 max-w-2xl">
+      <p className="text-base text-neutral-500 max-w-2xl">
         Tool selection here is rule-based (mock provider — spec section 35), standing in for
         what a real model&rsquo;s function-calling would decide: try a math expression, a
         &ldquo;weather in &lt;city&gt;&rdquo; phrase, or a question, and notice which tool gets

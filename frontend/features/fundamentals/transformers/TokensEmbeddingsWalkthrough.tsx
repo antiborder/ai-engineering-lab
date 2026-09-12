@@ -52,17 +52,17 @@ export function TokensEmbeddingsWalkthrough({
 
   const resetText = () => setText(DEFAULT_TEXT);
 
-  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-sm font-medium text-white";
+  const nextBtn = "px-3 py-1.5 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white";
   const chapterLinkBtn =
     "inline bg-transparent p-0 m-0 border-b border-dotted border-cyan-600 text-cyan-700 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-cyan-500 rounded-sm font-semibold";
 
   const textInputControl = (
     <div className="space-y-2">
-      <label className="block text-xs text-neutral-500">Input text</label>
+      <label className="block text-sm text-neutral-500">Input text</label>
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-900 font-mono text-sm"
+        className="w-full bg-white border border-neutral-200 rounded-md px-3 py-2 text-neutral-900 font-mono text-base"
         maxLength={100}
       />
       <TokenChips tokens={tokens} highlight={clampedTokenIndex} />
@@ -404,7 +404,7 @@ export function TokensEmbeddingsWalkthrough({
       ),
       visual: <FunctionPlot fn={Math.sin} xMin={0} xMax={20} xLabel="word position" yLabel="sin(position)" />,
       chart: (
-        <div className="flex flex-wrap gap-3 text-xs font-mono">
+        <div className="flex flex-wrap gap-3 text-sm font-mono">
           {[0, 1, 2, 3, 4, 5, 6].map((pos) => (
             <div key={pos} className="rounded-md border border-neutral-200 bg-white px-2 py-1 text-center">
               <div className="text-neutral-400">pos {pos}</div>
@@ -469,7 +469,7 @@ export function TokensEmbeddingsWalkthrough({
         </div>
       ),
       visual: (
-        <div className="flex flex-wrap gap-3 text-xs font-mono">
+        <div className="flex flex-wrap gap-3 text-sm font-mono">
           {[0, 1, 2, 3].map((i) => (
             <div key={i} className="rounded-md border border-neutral-200 bg-white px-2 py-1 text-center">
               <div className="text-neutral-400">i = {i}</div>
@@ -480,7 +480,7 @@ export function TokensEmbeddingsWalkthrough({
         </div>
       ),
       chart: (
-        <p className="text-sm text-neutral-600">
+        <p className="text-base text-neutral-600">
           <Equation tex="i" display={false} /> only goes up to 3 here — four speeds in total, since
           our embeddings have {D_MODEL} dimensions and, as the next two steps show, each speed is
           about to fill <em>two</em> of them, not just one.
@@ -502,7 +502,7 @@ export function TokensEmbeddingsWalkthrough({
       ),
       visual: <UnitCircleDiagram angles={[30, 150]} />,
       chart: (
-        <div className="flex flex-wrap gap-3 text-xs font-mono">
+        <div className="flex flex-wrap gap-3 text-sm font-mono">
           <div className="rounded-md border border-neutral-200 bg-white px-2 py-1 text-center">
             <div className="text-orange-600">30°</div>
             <div className="text-neutral-800 tabular-nums">sin 0.50</div>
@@ -638,12 +638,12 @@ export function TokensEmbeddingsWalkthrough({
   return (
     <div className="rounded-lg border border-cyan-200 bg-cyan-50/40 p-5 space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-center sm:text-left">
-        <span className="text-xs uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
+        <span className="text-sm uppercase tracking-wide text-cyan-700 sm:flex-1">{current.section}</span>
         <div className="flex items-center justify-center gap-2">
           <button
             onClick={goBack}
             disabled={isFirst}
-            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-sm text-neutral-700"
+            className="px-3 py-1.5 rounded-md bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 text-base text-neutral-700"
           >
             Back
           </button>
@@ -651,7 +651,7 @@ export function TokensEmbeddingsWalkthrough({
             {isLast ? "Finish" : "Next"}
           </button>
         </div>
-        <span className="text-xs text-neutral-500 sm:flex-1 sm:text-right">
+        <span className="text-sm text-neutral-500 sm:flex-1 sm:text-right">
           Step {step + 1} of {total}
         </span>
       </div>
@@ -663,8 +663,8 @@ export function TokensEmbeddingsWalkthrough({
       />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-neutral-900">{current.title}</h3>
-        <div className="text-sm text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
+        <h3 className="text-xl font-medium text-neutral-900">{current.title}</h3>
+        <div className="text-base text-neutral-600 leading-relaxed space-y-3">{current.body}</div>
 
         {current.controls && (
           <div className="rounded-md border border-neutral-200 bg-neutral-50 p-3 flex flex-col items-start gap-2">
@@ -674,7 +674,7 @@ export function TokensEmbeddingsWalkthrough({
         {current.resetAction && (
           <button
             onClick={current.resetAction}
-            className="text-xs text-neutral-500 hover:text-neutral-800"
+            className="text-sm text-neutral-500 hover:text-neutral-800"
           >
             ↺ Undo / reset this step
           </button>
