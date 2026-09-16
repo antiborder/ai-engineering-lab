@@ -160,20 +160,53 @@ Evaluation Basicsの直接の続き。「判断力のあるjudgeを作り、実�
   他が壊れていないかは別途確認しないとわからない」という結論で、モジュール冒頭のインシデントに
   明示的に立ち返って締めくくる。
 
-Evaluationモジュールは4 Unit構成で計画されており、`/evaluation`のUnit一覧には残り2つも
-カードとして表示されている（現時点では"Coming soon"のグレーアウト表示、リンク無効）。
-いずれも、Evaluation Basics／Judging & Comparingと同じ「1本の物語」形式で作る想定だが、
-現時点ではまだ着手していない。
+Evaluationモジュールは4 Unit構成で、`/evaluation`のUnit一覧には4つとも実装済みとして表示される。
+RAG EvaluationとAgent Evaluationも、Evaluation Basics／Judging & Comparingと同じSouthwearの
+「1本の物語」の続きとして作られており、Next/Backボタンで4 Unitを通しで読み進められる。
 
-### 3. RAG Evaluation（未実装 — Coming soon）— 1 Chapter
+### 3. RAG Evaluation（`/evaluation/rag`）— 1 Chapter
 
-- **RAG Evaluation** — retrieval quality（検索の精度）・answer quality（回答の質）・faithfulness
-  （根拠との整合性）という3つの異なる問いを切り分けて評価する。検索の失敗か生成の失敗かを診断する
-  という視点は、Evaluation Basicsの「Metrics」Chapterで既に扱ったretrieval qualityの概念をRAGに
-  特化してさらに掘り下げる位置づけ。
+Southwearの支援アシスタントが、プロンプトに焼き込んだ1件のポリシーだけで答える方式から、
+複数の文書を検索してから答えるRAG方式に切り替わったことで生まれる、新しい種類のバグを扱う。
 
-### 4. Agent Evaluation（未実装 — Coming soon）— 1 Chapter
+- **Diagnosing the Failure** — 「International orders qualify for free shipping over $50?」への
+  誤答（正しくは$75）が、生成の失敗（前Unitのバグ）ではなく検索の失敗であることを、実際に検索で
+  返ってきた文書を見て突き止める。誤答は取得した文書（Domestic Shipping Policy）に対しては
+  完全にfaithfulである、という「間違った文書に対して忠実」なケースが核心。
+- **Retrieval Quality** — retrieval precision（取得した文書のうち関連するものの割合）と
+  retrieval recall（本来関連する文書のうち実際に取得できた割合）を、最終回答の中身とは切り離して
+  検索ステップ単体で測る。
+- **Beyond Retrieval** — 正しい文書さえ取得できていれば十分ではなく、生成側にも誤読・省略などの
+  別の失敗があり得ること、そしてfaithfulnessは取得した文書に対する整合性しか見ないため、
+  間違った文書を取得したこと自体は検知できないことを示す。
+- **Diagnosing in Practice** — 誤答が出たら、まずretrieval qualityを確認し、それが問題なければ
+  初めてfaithfulnessを生成側の問題として疑う、という診断の順序をまとめる。
 
-- **Agent Evaluation** — 最終回答だけでなく、プロセス全体（task success・tool selection・
-  tool execution）を評価する。誤ったツール選択・無限ループ・途中で迷子になるなど、エージェント
-  特有の失敗パターンも扱う。
+### 4. Agent Evaluation（`/evaluation/agents`）— 1 Chapter
+
+Southwearの支援アシスタントが、検索して答えるだけでなく、注文のキャンセルや返金といった
+複数ステップのtool callを自分で計画・実行するエージェントに進化したことで生まれる、
+最終回答だけを見ていては検知できないバグを扱う。Evaluation Basics（Metrics Chapter）で
+導入したTP/FP/FNとprecision/recall/faithfulnessの枠組みを、そのままtrajectory（実行した
+tool callの並び）に適用し直す構成になっている。
+
+- **Diagnosing the Failure** — 注文キャンセル＋返金のチケットが「解決済み」として閉じられて
+  いても、実際のtrajectoryを見るとreturn eligibilityの確認ステップが丸ごと抜けていた、という
+  ケースを扱う。顧客から見た結果は完全に正しいが、プロセスは壊れている。
+  outcome（最終結果）だけを見る評価では検知できない失敗であることが核心。
+- **Evaluating the Trajectory** — 実際のtrajectoryを、そのタスクが本来必要とするreference
+  trajectoryと突き合わせ、step precision（実行したcallのうち必要だったものの割合）と
+  step recall（必要だったcallのうち実際に実行できた割合）を求め、trajectory F1として統合する。
+  F1が0.89のように高く出ても、それが閾値をすり抜けてしまう危険があることも扱う。
+- **Task Success vs. Trajectory Correctness** — task success（顧客の要求が満たされたか）と
+  trajectory correctness（プロセスが正しかったか）は別々に測定され、両方向にずれ得ることを示す
+  （近道をして結果だけ成功する場合、逆に完璧なプロセスの最後の1手が外部要因で失敗する場合）。
+- **What Precision and Recall Still Miss** — 呼び出したtool callの集合が正しくても、
+  実行順序が誤っている場合（例: 注文キャンセルより先に返金してしまう）や、同じcallを
+  無駄に繰り返すループの場合は、precision/recallでは検知できないことを示す。さらに、
+  アシスタント自身の説明（クロージングメッセージ）が実際のtool call履歴と食い違う
+  ケースを、faithfulnessの考え方をtrajectoryの「発言」側に転用した
+  trajectory faithfulnessとして扱う。
+- **Diagnosing in Practice** — task success → trajectory precision/recall → 実行順序・重複の
+  確認 → trajectory faithfulness、という4段階の診断順序をまとめ、Evaluationモジュール全体を
+  締めくくる。

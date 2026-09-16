@@ -4,7 +4,6 @@ import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { StoryLine } from "@/components/StoryLine";
-import { Term } from "@/components/Term";
 import { Equation } from "@/components/Equation";
 
 const REFERENCE = "Worn or tag-removed items only get a partial refund or store credit, not a full refund.";
@@ -75,6 +74,46 @@ export function MetricsWalkthrough({
     );
   };
 
+  /** The TP/FP/FN/TN idea as an actual 2x2 table — candidate columns
+   * against expected-answer rows — with different cells dimmed per Step,
+   * same highlight/dim technique as PipelineDiagram. TN stays permanently
+   * dimmed: claims-based scoring never uses it (there&rsquo;s no fixed list
+   * of "things neither text mentions" to count). */
+  const claimGrid = (focus: Array<"TP" | "FP" | "FN">) => {
+    const dim = (key: "TP" | "FP" | "FN") => (focus.includes(key) ? "" : "opacity-30");
+    return (
+      <div className="max-w-sm mx-auto space-y-1">
+        <div className="flex items-center gap-1 text-sm text-neutral-500">
+          <div className="w-32" />
+          <div className="flex-1 text-center">In candidate</div>
+          <div className="flex-1 text-center">Not in candidate</div>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-32 text-sm text-neutral-500 text-right pr-1">In expected answer</div>
+          <div className={`flex-1 bg-emerald-50 border border-emerald-300 rounded-md p-2 text-center text-base ${dim("TP")}`}>
+            <div className="font-semibold text-emerald-700">TP</div>
+            <div className="text-neutral-600 text-sm">in both</div>
+          </div>
+          <div className={`flex-1 bg-red-50 border border-red-300 rounded-md p-2 text-center text-base ${dim("FN")}`}>
+            <div className="font-semibold text-red-700">FN</div>
+            <div className="text-neutral-600 text-sm">expected only</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-32 text-sm text-neutral-500 text-right pr-1">Not in expected answer</div>
+          <div className={`flex-1 bg-amber-50 border border-amber-300 rounded-md p-2 text-center text-base ${dim("FP")}`}>
+            <div className="font-semibold text-amber-700">FP</div>
+            <div className="text-neutral-600 text-sm">candidate only</div>
+          </div>
+          <div className="flex-1 bg-neutral-50 border border-neutral-300 rounded-md p-2 text-center text-base opacity-30">
+            <div className="font-semibold text-neutral-700">TN</div>
+            <div className="text-neutral-600 text-sm">not used</div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const steps: Step[] = [
     {
       section: "Welcome",
@@ -85,7 +124,7 @@ export function MetricsWalkthrough({
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
             <li><strong>Matching Metrics</strong> — exact match and semantic similarity, and where each is blind.</li>
             <li><strong>Judging Correctness</strong> — correctness, faithfulness, and relevancy: three different questions, three different formulas.</li>
-            <li><strong>Measuring the Pipeline</strong> — retrieval precision and recall, and cost.</li>
+            <li><strong>Cost</strong> — latency, tokens, and price, measured separately from quality.</li>
             <li><strong>Choosing a Metric</strong> — matching the metric to the task.</li>
           </ol>
         </div>
@@ -121,7 +160,7 @@ export function MetricsWalkthrough({
         'Chloe: "Okay, run the original bug through it — does exact match even catch it?"\nMaya: "It does. But watch closely — I don\'t think it\'s catching it for the reason you\'d expect."',
       body: (
         <p>
-          <Term id="exact-match">Exact match</Term> checks whether the output is
+          Exact match checks whether the output is
           character-for-character identical to the expected answer. It flagged the bug that went
           live — but it would just as easily flag a correctly-worded paraphrase. It isn&rsquo;t a
           targeted signal for this kind of bug.
@@ -143,7 +182,7 @@ export function MetricsWalkthrough({
         <div className="space-y-2">
           <p>
             Semantic similarity scores meaning over exact wording. Each answer is turned into an{" "}
-            <Term id="cosine-similarity">embedding</Term> — a list of numbers — and the two
+            embedding — a list of numbers — and the two
             embeddings&rsquo; angle is compared:
           </p>
           <Equation tex={"\\text{similarity}(A,B) = \\frac{A \\cdot B}{\\|A\\| \\, \\|B\\|}"} />
@@ -165,73 +204,85 @@ export function MetricsWalkthrough({
     // -------------------- 2. Judging Correctness --------------------
     {
       section: "2. Judging Correctness",
-      title: "Predicted vs. Actual: Four Possible Outcomes",
+      title: "Breaking the Candidate Into Claims",
       story:
-        'Maya: "Similarity likes that 70% answer. It shouldn\'t."\nChloe: "So what actually catches it?"\nMaya: "A few different things — but before the formula, let\'s back up. Any time you\'re checking whether something is right or wrong, there are only four ways it can go."\nChloe: "Only four?"\nMaya: "Every time. Compare what was predicted to what actually happened, and it\'s always one of these four."',
+        'Maya: "Similarity likes that 70% answer. It shouldn\'t."\nChloe: "So what actually catches it?"\nMaya: "Hmm — before we can compare them, we need to break this down into smaller pieces first."\nChloe: "Break down the AI\'s answer, you mean?"\nMaya: "Right. Take the sentence Worn items get a 70% refund, not a full refund. That one sentence contains two separate claims:\\n• Worn items do not get a full refund.\\n• Worn items get a 70% refund."\nChloe: "Huh, now that you mention it."\nMaya: "Compare it as one mixed blob, and you can\'t compare it accurately."',
       body: (
         <p>
-          Compare what was predicted against what&rsquo;s actually true, and there are exactly
-          four outcomes — the same four, no matter the task:
+          When the AI&rsquo;s answer (the <strong>candidate</strong>) or the expected answer
+          mixes several claims together, they can&rsquo;t be compared accurately. Break each one
+          down into individual <strong>claims</strong> first.
         </p>
       ),
       visual: (
-        <div className="max-w-sm mx-auto space-y-1">
-          <div className="flex items-center gap-1 text-sm text-neutral-500">
-            <div className="w-24" />
-            <div className="flex-1 text-center">Predicted: yes</div>
-            <div className="flex-1 text-center">Predicted: no</div>
+        <div className="max-w-sm mx-auto space-y-2">
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-center text-base text-neutral-700">
+            &ldquo;Worn items get a 70% refund, not a full refund.&rdquo;
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-24 text-sm text-neutral-500 text-right pr-1">Actual: yes</div>
-            <div className="flex-1 bg-emerald-50 border border-emerald-300 rounded-md p-2 text-center text-base">
-              <div className="font-semibold text-emerald-700">TP</div>
-              <div className="text-neutral-600 text-sm">Correctly predicted yes</div>
-            </div>
-            <div className="flex-1 bg-red-50 border border-red-300 rounded-md p-2 text-center text-base">
-              <div className="font-semibold text-red-700">FN</div>
-              <div className="text-neutral-600 text-sm">Missed a real yes</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-24 text-sm text-neutral-500 text-right pr-1">Actual: no</div>
-            <div className="flex-1 bg-amber-50 border border-amber-300 rounded-md p-2 text-center text-base">
-              <div className="font-semibold text-amber-700">FP</div>
-              <div className="text-neutral-600 text-sm">Wrongly predicted yes</div>
-            </div>
-            <div className="flex-1 bg-neutral-50 border border-neutral-300 rounded-md p-2 text-center text-base">
-              <div className="font-semibold text-neutral-700">TN</div>
-              <div className="text-neutral-600 text-sm">Correctly predicted no</div>
-            </div>
+          <div className="text-center text-neutral-300">↓ split into claims</div>
+          <div className="grid sm:grid-cols-2 gap-2">
+            <div className="bg-white border border-neutral-200 rounded-md p-2 text-center text-base text-neutral-700">Worn items do not get a full refund.</div>
+            <div className="bg-white border border-neutral-200 rounded-md p-2 text-center text-base text-neutral-700">Worn items get a 70% refund.</div>
           </div>
         </div>
       ),
     },
     {
       section: "2. Judging Correctness",
-      title: "Candidate, Reference, Claim: The Vocabulary",
+      title: "Breaking the Expected Answer Into Claims",
       story:
-        'Chloe: "Okay, but our answers aren\'t just a yes or no. What does TP even mean for a sentence?"\nMaya: "Let\'s define a few words first — candidate, reference, claim."',
+        'Chloe: "So the expected answer should get split up too, right?"\nMaya: "Right. It was: No — worn items only qualify for a partial refund or store credit, not a full refund. How would you split that one?"\nChloe: "Um... let\'s see:\\n• Worn items do not get a full refund.\\n• Worn items qualify for a partial refund.\\n• Worn items qualify for store credit.\\nLike that?"\nMaya: "Yeah, that works. Splitting it that way means you can catch it separately if the AI mentions partial refund but leaves out store credit entirely, say."\nChloe: "Oh, I see."',
       body: (
-        <div className="space-y-2">
-          <p>
-            The <strong>candidate</strong> is the answer being scored — what the AI actually
-            said. A <strong>claim</strong> is one factual statement pulled out of an answer — a
-            single sentence often breaks into more than one.
-          </p>
-          <p>
-            Two different things to check those claims against: the{" "}
-            <strong>expected answer</strong> (the one correct answer written for this exact
-            question) and the <strong>reference</strong> (the actual source doc). Correctness
-            uses the first; faithfulness, next, uses the second.
-          </p>
-        </div>
+        <p>
+          The expected answer gets the same treatment — broken down into its own individual
+          claims.
+        </p>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
-          <div className="text-neutral-500">Candidate: &ldquo;Worn items get a 70% refund, not a full refund.&rdquo;</div>
-          <div className="text-neutral-700">Claims: (1) &ldquo;not a full refund&rdquo; (2) &ldquo;70% refund&rdquo;</div>
-          <div className="text-cyan-700 mt-1">Expected answer: &ldquo;No — worn items only qualify for a partial refund or store credit, not a full refund.&rdquo;</div>
-          <div className="text-purple-700 mt-1">Reference (the doc): &ldquo;...partial refund or store credit, not a full refund, at Southwear&rsquo;s discretion.&rdquo;</div>
+        <div className="max-w-sm mx-auto space-y-2">
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-center text-base text-neutral-700">
+            &ldquo;No — worn items only qualify for a partial refund or store credit, not a full refund.&rdquo;
+          </div>
+          <div className="text-center text-neutral-300">↓ split into claims</div>
+          <div className="grid sm:grid-cols-3 gap-2">
+            <div className="bg-white border border-neutral-200 rounded-md p-2 text-center text-base text-neutral-700">Worn items do not get a full refund.</div>
+            <div className="bg-white border border-neutral-200 rounded-md p-2 text-center text-base text-neutral-700">Worn items qualify for a partial refund.</div>
+            <div className="bg-white border border-neutral-200 rounded-md p-2 text-center text-base text-neutral-700">Worn items qualify for store credit.</div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      section: "2. Judging Correctness",
+      title: "Matching Claims Between the Two",
+      story:
+        'Maya: "Now that we\'ve split both into independent claims, let\'s match the AI\'s answer, the candidate, against the expected answer."\nChloe: "So now we can finally compare them."\nMaya: "Right. The candidate has: Worn items do not get a full refund, and Worn items get a 70% refund."\nChloe: "And the expected answer has: Worn items do not get a full refund, Worn items qualify for a partial refund, and Worn items qualify for store credit."\nMaya: "See a claim that shows up on both sides?"\nChloe: "Oh — do not get a full refund! That\'s the part the AI actually got right."\nMaya: "Exactly."',
+      body: (
+        <p>
+          Matching each claim against the other side reveals which ones the candidate actually
+          got right — and which ones don&rsquo;t line up at all.
+        </p>
+      ),
+      visual: (
+        <div className="max-w-md mx-auto space-y-2">
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-center text-base text-neutral-700">
+            &ldquo;Worn items get a 70% refund, not a full refund.&rdquo;
+          </div>
+          <div className="text-center text-neutral-300">↓</div>
+          <div className="grid sm:grid-cols-2 gap-2">
+            <div className="bg-emerald-50 border border-emerald-300 rounded-md p-2 text-center text-base text-neutral-700">Worn items do not get a full refund.</div>
+            <div className="bg-amber-50 border border-amber-300 rounded-md p-2 text-center text-base text-neutral-700">Worn items get a 70% refund.</div>
+          </div>
+          <div className="text-center text-emerald-700 font-medium">↕ match</div>
+          <div className="grid sm:grid-cols-3 gap-2">
+            <div className="bg-emerald-50 border border-emerald-300 rounded-md p-2 text-center text-base text-neutral-700">Worn items do not get a full refund.</div>
+            <div className="bg-white border border-neutral-200 rounded-md p-2 text-center text-base text-neutral-700">Worn items qualify for a partial refund.</div>
+            <div className="bg-white border border-neutral-200 rounded-md p-2 text-center text-base text-neutral-700">Worn items qualify for store credit.</div>
+          </div>
+          <div className="text-center text-neutral-300">↑</div>
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-center text-base text-neutral-700">
+            &ldquo;No — worn items only qualify for a partial refund or store credit, not a full refund.&rdquo;
+          </div>
         </div>
       ),
     },
@@ -239,43 +290,20 @@ export function MetricsWalkthrough({
       section: "2. Judging Correctness",
       title: "TP, FP, FN: Applying It to Claims",
       story:
-        'Maya: "Now, same idea as that grid — just applied to claims instead of a plain yes or no."\nChloe: "Oh! So a made-up claim is basically a false positive?"\nMaya: "Exactly that."',
+        'Chloe: "What about a claim that\'s only on one side? Does that automatically mean it\'s wrong?"\nMaya: "That\'s exactly what needs sorting out next."\nMaya: "Let\'s sort our example by which side each claim is on:\\n1. In both: Worn items do not get a full refund.\\n2. In the expected answer but not the candidate: Worn items qualify for a partial refund, and Worn items qualify for store credit.\\n3. In the candidate but not the expected answer: Worn items get a 70% refund."\nChloe: "So claims that show up on both sides are ones the AI answered correctly, right?"\nMaya: "Exactly. Those fall into a category called TP — True Positive."\nChloe: "In our example, that\'s Worn items do not get a full refund."',
       body: (
-        <div className="space-y-2">
-          <p>
-            The same predicted-vs-actual idea applies — except there&rsquo;s no meaningful TN.
-            There&rsquo;s no fixed list of &ldquo;things neither text mentions&rdquo; to count,
-            so claims-based scoring only uses three of the four:
-          </p>
-          <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li><strong>TP</strong> — a claim both the candidate and the expected answer make.</li>
-            <li><strong>FP</strong> — a claim only the candidate makes: it invented something.</li>
-            <li><strong>FN</strong> — a claim only the expected answer makes: the candidate missed it.</li>
-          </ul>
-        </div>
+        <p>
+          <strong>TP</strong> stands for True Positive: a claim that shows up in both the
+          candidate and the expected answer — the part the AI actually got right.
+        </p>
       ),
-      visual: (
-        <div className="flex items-center justify-center gap-2 text-base">
-          <div className="bg-emerald-50 border border-emerald-300 rounded-md p-2 text-center max-w-32">
-            <div className="font-semibold text-emerald-700">TP</div>
-            <div className="text-neutral-600 text-sm">in both</div>
-          </div>
-          <div className="bg-amber-50 border border-amber-300 rounded-md p-2 text-center max-w-32">
-            <div className="font-semibold text-amber-700">FP</div>
-            <div className="text-neutral-600 text-sm">candidate only</div>
-          </div>
-          <div className="bg-red-50 border border-red-300 rounded-md p-2 text-center max-w-32">
-            <div className="font-semibold text-red-700">FN</div>
-            <div className="text-neutral-600 text-sm">expected only</div>
-          </div>
-        </div>
-      ),
+      visual: claimGrid(["TP"]),
     },
     {
       section: "2. Judging Correctness",
       title: "Precision: Of What It Claimed, How Much Was Right?",
       story:
-        'Chloe: "So... do we just count the TPs?"\nMaya: "Not quite. TP alone doesn\'t say whether the candidate was careful or reckless — for that we need two ratios, starting with precision."',
+        'Chloe: "So then, more TP is better?"\nMaya: "Close, but it\'s not simply \'more TP is better.\'"\nMaya: "It\'s not just about answering correctly — not answering incorrectly matters too."\nChloe: "Huh? Aren\'t those the same thing?"\nMaya: "Let\'s untangle that. In the table below, a correct claim is TP, and a wrong one is FP."\nChloe: "So saying something not in the expected answer, like Worn items get a 70% refund, that\'s FP?"\nMaya: "Right. And the share of everything the AI said that\'s actually correct — that\'s Precision."',
       body: (
         <div className="space-y-2">
           <p>
@@ -289,10 +317,13 @@ export function MetricsWalkthrough({
         </div>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
-          <div className="text-neutral-500">&ldquo;Worn items get a 70% refund, not a full refund.&rdquo;</div>
-          <div className="text-neutral-700">TP: 1 (&ldquo;not a full refund&rdquo;) · FP: 1 (&ldquo;70%&rdquo;)</div>
-          <div className="text-cyan-700 font-medium">Precision: 1 / (1 + 1) = 0.5</div>
+        <div className="space-y-2">
+          {claimGrid(["TP", "FP"])}
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
+            <div className="text-neutral-500">&ldquo;Worn items get a 70% refund, not a full refund.&rdquo;</div>
+            <div className="text-neutral-700">TP: 1 (&ldquo;not a full refund&rdquo;) · FP: 1 (&ldquo;70%&rdquo;)</div>
+            <div className="text-cyan-700 font-medium">Precision: 1 / (1 + 1) = 0.5</div>
+          </div>
         </div>
       ),
     },
@@ -300,7 +331,7 @@ export function MetricsWalkthrough({
       section: "2. Judging Correctness",
       title: "Recall: Of What It Should Have Said, How Much Made It In?",
       story:
-        'Maya: "Recall asks the opposite question — not about what it said, but what it left out."\nChloe: "So... the misses."',
+        'Chloe: "So then, we just need to raise precision?"\nMaya: "Here\'s the thing — precision alone isn\'t enough."\nChloe: "Huh? There\'s more?"\nMaya: "Think about it — if the AI only says the things it\'s absolutely sure are correct, and stays silent on everything else, precision comes out to a perfect 100."\nChloe: "Being careful makes you go quiet, huh."\nMaya: "Same for an AI assistant. So keeping down what\'s written in the expected answer but the AI never said — that matters too."\nChloe: "Oh, in the diagram, that\'s FN."\nMaya: "Right. And the share of everything in the expected answer that the AI actually said — that\'s recall."\nChloe: "So it\'s how much the AI actually remembered to say."',
       body: (
         <div className="space-y-2">
           <p>
@@ -315,10 +346,13 @@ export function MetricsWalkthrough({
         </div>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
-          <div className="text-neutral-500">&ldquo;Worn items get a 70% refund, not a full refund.&rdquo;</div>
-          <div className="text-neutral-700">TP: 1 (&ldquo;not a full refund&rdquo;) · FN: 1 (&ldquo;partial refund or store credit&rdquo;)</div>
-          <div className="text-cyan-700 font-medium">Recall: 1 / (1 + 1) = 0.5</div>
+        <div className="space-y-2">
+          {claimGrid(["TP", "FN"])}
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
+            <div className="text-neutral-500">&ldquo;Worn items get a 70% refund, not a full refund.&rdquo;</div>
+            <div className="text-neutral-700">TP: 1 (&ldquo;not a full refund&rdquo;) · FN: 2 (&ldquo;partial refund&rdquo;, &ldquo;store credit&rdquo;)</div>
+            <div className="text-cyan-700 font-medium">Recall: 1 / (1 + 2) ≈ 0.33</div>
+          </div>
         </div>
       ),
     },
@@ -326,7 +360,7 @@ export function MetricsWalkthrough({
       section: "2. Judging Correctness",
       title: "Correctness: Turning Precision and Recall Into One Score",
       story:
-        'Chloe: "So which one do we actually use — precision or recall?"\nMaya: "Neither alone. Precision alone ignores misses, recall alone ignores invented claims."\nChloe: "So... use both at once somehow?"\nMaya: "Exactly — combine them into one score."',
+        'Chloe: "So we need to raise both precision and recall?"\nMaya: "Right. But an AI is just like a person here — answer more assertively, and mistakes creep in, dragging precision down."\nMaya: "And play it safe to avoid mistakes, and it says less, dragging recall down instead."\nChloe: "Wow, that\'s so human! Can\'t we just raise both at once?"\nMaya: "Well, it comes down to which one you prioritize — but the commonly used approach is a metric that splits the difference between the two: F1."',
       body: (
         <div className="space-y-2">
           <p>
@@ -341,10 +375,13 @@ export function MetricsWalkthrough({
         </div>
       ),
       visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
-          <div className="text-neutral-500">&ldquo;Worn items get a 70% refund, not a full refund.&rdquo;</div>
-          <div className="text-neutral-700">Precision: 0.5 · Recall: 0.5</div>
-          <div className="text-cyan-700 font-medium">Correctness (F1): 0.5 — partial credit</div>
+        <div className="space-y-2">
+          {claimGrid(["TP", "FP", "FN"])}
+          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
+            <div className="text-neutral-500">&ldquo;Worn items get a 70% refund, not a full refund.&rdquo;</div>
+            <div className="text-neutral-700">Precision: 0.5 · Recall: 0.33</div>
+            <div className="text-cyan-700 font-medium">Correctness (F1): 0.4 — partial credit</div>
+          </div>
         </div>
       ),
     },
@@ -492,82 +529,15 @@ export function MetricsWalkthrough({
         </div>
       ),
     },
-    // -------------------- 3. Measuring the Pipeline --------------------
+    // -------------------- 3. Cost --------------------
     {
-      section: "3. Measuring the Pipeline",
-      title: "Retrieval Quality, Measured Separately",
-      story:
-        'Chloe: "Wait, all of this was assuming the AI writes its own answer. What if it retrieves documents first, like a RAG system?"\nMaya: "Then there\'s a whole extra thing to measure — whether it even found the right document in the first place."\nChloe: "Before we even get to whether the answer is any good?"\nMaya: "Exactly. Retrieval quality is measured completely separately from answer quality."',
-      body: (
-        <p>
-          For a system that retrieves documents before answering, <Term id="retrieval-quality">retrieval
-          quality</Term> measures whether it found the right documents, independent of the final
-          answer. A different question can retrieve the wrong doc entirely — a separate failure
-          from getting the wording wrong.
-        </p>
-      ),
-      visual: (
-        <div className="space-y-2">
-          <div className="flex items-center justify-center gap-2 text-sm">
-            <span className="px-2.5 py-1.5 rounded-full border border-purple-300 bg-purple-50 text-purple-800">Retrieval quality</span>
-            <span className="text-neutral-300">≠</span>
-            <span className="px-2.5 py-1.5 rounded-full border border-cyan-300 bg-cyan-50 text-cyan-800">Answer quality</span>
-          </div>
-          <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto">
-            <div className="text-neutral-700">Q: &ldquo;What happens if I return a worn item?&rdquo;</div>
-            <div className="text-red-700 mt-1">Retrieved: &ldquo;Refund payment methods&rdquo; (wrong — matched on &ldquo;refund&rdquo;)</div>
-            <div className="text-neutral-500 mt-1">Should have retrieved: &ldquo;Return condition requirements&rdquo;</div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      section: "3. Measuring the Pipeline",
-      title: "Retrieval Precision: How Much of It Was Useful?",
-      story:
-        'Chloe: "So how do we actually measure that?"\nMaya: "Two ways. First: of what it retrieved, how much was even relevant?"',
-      body: (
-        <div className="space-y-2">
-          <p>Precision looks only at what was retrieved, and asks how much of it was relevant:</p>
-          <Equation tex={"\\text{Precision} = \\frac{\\text{relevant chunks retrieved}}{\\text{total chunks retrieved}}"} />
-        </div>
-      ),
-      visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
-          <div className="text-neutral-700">Retrieved 3 docs: &ldquo;Refund payment methods&rdquo;, &ldquo;Return condition requirements&rdquo;, &ldquo;Refund timing&rdquo;</div>
-          <div className="text-neutral-500">Only 1 of 3 is actually relevant to this question.</div>
-          <div className="text-cyan-700 font-medium">Precision: 1/3 ≈ 0.33</div>
-        </div>
-      ),
-    },
-    {
-      section: "3. Measuring the Pipeline",
-      title: "Retrieval Recall: Did It Even Get the Right Doc?",
-      story:
-        'Maya: "Second: of everything actually relevant out there, how much did it find?"\nChloe: "And here, it found none of it."',
-      body: (
-        <div className="space-y-2">
-          <p>Recall looks at everything relevant that exists, and asks how much made it in:</p>
-          <Equation tex={"\\text{Recall} = \\frac{\\text{relevant chunks retrieved}}{\\text{total relevant chunks that exist}}"} />
-          <p>A low precision still has the right doc buried in there somewhere. A low recall means it was never retrieved at all — the harder failure.</p>
-        </div>
-      ),
-      visual: (
-        <div className="bg-white border border-neutral-200 rounded-md p-2.5 text-base max-w-sm mx-auto space-y-1">
-          <div className="text-neutral-700">Only 1 doc is relevant: &ldquo;Return condition requirements&rdquo;</div>
-          <div className="text-red-700">It was never retrieved at all — &ldquo;Refund payment methods&rdquo; came back instead.</div>
-          <div className="text-purple-700 font-medium">Recall: 0/1 = 0.0</div>
-        </div>
-      ),
-    },
-    {
-      section: "3. Measuring the Pipeline",
+      section: "3. Cost",
       title: "Cost Metrics: Latency, Tokens, Price",
       story:
-        'Chloe: "Okay, faithfulness, correctness, retrieval... is that everything?"\nMaya: "Everything about whether the answer is good, sure. But a perfect answer that takes ten seconds and costs a fortune isn\'t shippable either."\nChloe: "Oh — so quality isn\'t the only thing being measured."\nMaya: "Right. Cost matters too, and it\'s measured completely separately."',
+        'Chloe: "Okay, faithfulness, correctness, relevancy... is that everything?"\nMaya: "Everything about whether the answer is good, sure. But a perfect answer that takes ten seconds and costs a fortune isn\'t shippable either."\nChloe: "Oh — so quality isn\'t the only thing being measured."\nMaya: "Right. Cost matters too, and it\'s measured completely separately."',
       body: (
         <p>
-          Fixing the bug shouldn&rsquo;t blow the budget. Latency, <Term id="token">token</Term>{" "}
+          Fixing the bug shouldn&rsquo;t blow the budget. Latency, token{" "}
           usage, and price all affect whether a system is usable in production, alongside
           whether it&rsquo;s faithful.
         </p>
@@ -605,7 +575,7 @@ export function MetricsWalkthrough({
             <li><strong>Fixed-format</strong> (a category, a number) — exact match.</li>
             <li><strong>Open-ended writing</strong> — semantic similarity, plus faithfulness if it draws on a source.</li>
             <li><strong>Is it on-topic?</strong> — answer relevancy, alongside correctness and faithfulness.</li>
-            <li><strong>Retrieval-based systems</strong> — precision and recall, measured on their own.</li>
+            <li><strong>Retrieval-based systems</strong> — a different set of checks entirely, covered in the RAG Evaluation Unit.</li>
             <li><strong>Every system</strong> — cost metrics too, alongside quality.</li>
           </ul>
         </div>
@@ -674,7 +644,6 @@ export function MetricsWalkthrough({
             <li>Correctness (an F1 over claims) gives partial credit for overlap with the expected answer — not strict enough on its own.</li>
             <li>Faithfulness (supported claims ÷ total claims — precision, checked against the reference) doesn&rsquo;t depend on the expected answer being written correctly, unlike correctness.</li>
             <li>Answer relevancy catches a true answer that doesn&rsquo;t actually address the question asked.</li>
-            <li>Retrieval precision and recall are two different failure modes — noisy results vs. missing the right doc entirely.</li>
             <li>Cost metrics (latency, tokens, price) matter too, measured separately from quality.</li>
             <li>The right metric depends on the task — this policy question needed faithfulness specifically.</li>
           </ul>

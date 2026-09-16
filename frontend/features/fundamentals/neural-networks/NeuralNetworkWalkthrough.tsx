@@ -3,7 +3,6 @@
 import { useCallback, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { Equation } from "@/components/Equation";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { generateMoonsData, type ClassificationPoint } from "../classical-ml/data";
 import { DecisionBoundaryCanvas } from "@/components/DecisionBoundaryCanvas";
@@ -219,7 +218,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Last stop in Fundamentals! This chapter introduces a couple of genuinely new words —{" "}
-          <Term id="neuron">neuron</Term> and <Term id="layer">layer</Term> — but everything
+          neuron and layer — but everything
           underneath them is exactly what you already trained in Classification: weighted sums,
           sigmoid, cross-entropy loss, gradient descent. Same friendly pace, one small idea per
           step.
@@ -245,12 +244,12 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Our plan",
       body: (
         <p>
-          First, meet the <Term id="neuron">neuron</Term> — the one new building block this whole
+          First, meet the neuron — the one new building block this whole
           chapter is made of — and see that a single neuron is secretly the exact model you
-          already trained. Then we&rsquo;ll stack neurons into <Term id="layer">layers</Term>,
+          already trained. Then we&rsquo;ll stack neurons into layers,
           see why that only works with a nonlinear{" "}
-          <Term id="activation-function">activation function</Term>, train the whole thing with{" "}
-          <Term id="gradient-descent">gradient descent</Term> via backpropagation, and finish by
+          activation function, train the whole thing with{" "}
+          gradient descent via backpropagation, and finish by
           exploring the new dials a network gives us: how big to build it, and which activation to
           use.
         </p>
@@ -264,7 +263,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Every neural network — no matter how large — is built out of one simple, repeated part
-          called a <Term id="neuron">neuron</Term>. A neuron takes in some numbers and produces
+          called a neuron. A neuron takes in some numbers and produces
           one number out. The rest of this section is just: which numbers go in, and exactly how
           it turns them into that one output.
         </p>
@@ -279,7 +278,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
           The numbers a neuron receives are its inputs — here, the same{" "}
           <Equation tex="x_1" display={false} /> and <Equation tex="x_2" display={false} /> you
           already know from this dataset. Together, all the inputs feeding a network are called
-          its input <Term id="layer">layer</Term> — the two dots on the left of the diagram.
+          its input layer — the two dots on the left of the diagram.
         </p>
       ),
       visual: <NeuronDiagram stage="sum" highlight={["inputs"]} />,
@@ -304,7 +303,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Bias: a constant nudge",
       body: (
         <p>
-          One more number: the <Term id="bias">bias</Term>, added on top of the weighted inputs no
+          One more number: the bias, added on top of the weighted inputs no
           matter what they are. The full weighted sum a neuron computes is:
           <Equation tex={"z = w_1 x_1 + w_2 x_2 + b"} />
           Look closely — this is exactly the raw score <Equation tex="z" display={false} /> from
@@ -321,8 +320,8 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
         <p>
           A weighted sum <Equation tex="z" display={false} /> can be any number — it isn&rsquo;t a
           probability yet. A neuron passes <Equation tex="z" display={false} /> through an{" "}
-          <Term id="activation-function">activation function</Term> to produce its real output.
-          We&rsquo;ll start with one you already know, <Term id="sigmoid">sigmoid</Term>:
+          activation function to produce its real output.
+          We&rsquo;ll start with one you already know, sigmoid:
           <Equation tex={"\\sigma(z) = \\frac{1}{1+e^{-z}}"} />
           Same S-curve, squashing any score into <Equation tex="(0, 1)" display={false} />.
         </p>
@@ -396,8 +395,8 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Since a neuron&rsquo;s output is a probability between 0 and 1, we measure how wrong it
-          is exactly the way we did in Classification — <Term id="cross-entropy">cross-entropy
-          loss</Term>:
+          is exactly the way we did in Classification — cross-entropy
+          loss:
           <Equation tex={"\\text{Loss} = -\\frac{1}{n}\\sum_{i=1}^{n}\\big[y_i\\log p_i + (1-y_i)\\log(1-p_i)\\big]"} />
           <Equation tex="n" display={false} /> is how many data points we have;{" "}
           <Equation tex="y_i" display={false} /> is point <Equation tex="i" display={false} />
@@ -415,7 +414,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Train it — you already know how",
       body: (
         <p>
-          Click below to run 150 <Term id="gradient-descent">gradient descent</Term> steps — the
+          Click below to run 150 gradient descent steps — the
           exact same update rule as before, now including the bias as one more weight to adjust:
           <Equation tex={"w_i \\leftarrow w_i - \\eta \\, \\frac{\\partial \\, \\text{Loss}}{\\partial w_i}"} />
         </p>
@@ -452,7 +451,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Instead of one neuron, use several, arranged in a{" "}
-          <Term id="hidden-layer">hidden layer</Term> — each one computing its own weighted sum
+          hidden layer — each one computing its own weighted sum
           and activation from the exact same inputs, independently of the others. Their outputs
           then all feed into one more neuron that makes the final call.
         </p>
@@ -465,7 +464,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Meet the network diagram",
       body: (
         <p>
-          Circles are neurons — each column is one <Term id="layer">layer</Term>. Brighter =
+          Circles are neurons — each column is one layer. Brighter =
           more active right now. Lines are weights: cyan for positive, orange for negative,
           thicker means stronger. Same weights-and-activations idea as the single neuron, just
           drawn as a graph instead of one equation.
@@ -542,7 +541,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
         <p>
           The network&rsquo;s final neuron still outputs one probability between 0 and 1, so we
           measure how wrong the <em>whole network</em> is with the exact same{" "}
-          <Term id="cross-entropy">cross-entropy loss</Term> as before, applied to that one final
+          cross-entropy loss as before, applied to that one final
           probability:
           <Equation tex={"\\text{Loss} = -\\frac{1}{n}\\sum_{i=1}^{n}\\big[y_i\\log p_i + (1-y_i)\\log(1-p_i)\\big]"} />
           Same <Equation tex="n" display={false} /> data points, same true labels{" "}
@@ -574,7 +573,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Backpropagation: the chain rule, layer by layer",
       body: (
         <p>
-          <Term id="backpropagation">Backpropagation</Term> computes each weight&rsquo;s gradient
+          Backpropagation computes each weight&rsquo;s gradient
           by passing the output error backward through the network, one layer at a time, using
           the chain rule — each layer asks &ldquo;how much am I to blame?&rdquo; based on how much
           the layer <em>after</em> it was to blame. No new math beyond gradient descent, just an
@@ -640,7 +639,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Networks add a new capacity knob polynomials didn&rsquo;t have: how many neurons per{" "}
-          <Term id="layer">layer</Term>, and how many layers. More of either means more
+          layer, and how many layers. More of either means more
           flexibility — and, just like polynomial degree, that cuts both ways.
         </p>
       ),
@@ -738,7 +737,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "The same fix still works: L2",
       body: (
         <p>
-          <Term id="regularization">L2 regularization</Term> penalizes large weights here exactly
+          L2 regularization penalizes large weights here exactly
           like it did for polynomials. Raise <Equation tex={"\\lambda"} display={false} /> on this
           same oversized network and watch the train/test gap close back up.
         </p>
@@ -759,7 +758,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Size is a dial, not a one-way switch",
       body: (
         <p>
-          Same lesson as <Term id="polynomial-degree">polynomial degree</Term>: too small
+          Same lesson as polynomial degree: too small
           underfits, too big overfits (unless reined in), and the right size depends on how much
           data you actually have.
         </p>
@@ -788,7 +787,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "A new option: ReLU",
       body: (
         <p>
-          <Term id="relu">ReLU</Term> is a different, blunter nonlinearity:
+          ReLU is a different, blunter nonlinearity:
           <Equation tex={"\\text{ReLU}(z) = \\max(0, z)"} />
           Zero for any negative score, passed straight through unchanged otherwise — a flat line
           that suddenly turns into a rising diagonal at <Equation tex="z=0" display={false} />.
@@ -904,21 +903,21 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>A <Term id="neuron">neuron</Term> combines its inputs via weights and a{" "}
-              <Term id="bias">bias</Term> into one weighted sum, then passes it through an{" "}
-              <Term id="activation-function">activation function</Term>.</li>
-            <li>A <Term id="layer">layer</Term> is a group of neurons computing from the same
+            <li>A neuron combines its inputs via weights and a{" "}
+              bias into one weighted sum, then passes it through an{" "}
+              activation function.</li>
+            <li>A layer is a group of neurons computing from the same
               inputs, side by side.</li>
             <li>A single neuron with sigmoid <em>is</em> Classification&rsquo;s linear model —
               same equation, same loss, same training rule.</li>
             <li>Without a nonlinear activation between layers, stacking is pointless — it
               collapses back to one linear boundary.</li>
-            <li><Term id="backpropagation">Backpropagation</Term> is gradient descent&rsquo;s
+            <li>Backpropagation is gradient descent&rsquo;s
               chain rule, applied layer by layer — same update rule as before.</li>
             <li>Network size (width and depth) is a new capacity dial, with the same under/
-              <Term id="overfitting">overfitting</Term> tradeoff as polynomial degree.</li>
-            <li>Learning rate, noise, train ratio, and <Term id="regularization">L2
-              regularization</Term> all carry over unchanged.</li>
+              overfitting tradeoff as polynomial degree.</li>
+            <li>Learning rate, noise, train ratio, and L2
+              regularization all carry over unchanged.</li>
           </ul>
         </div>
       ),

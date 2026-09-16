@@ -18,8 +18,14 @@ practitioner or infra engineer need this" test belongs here instead.
 
 ## Content moved from AI Playground's original spec
 
-### Module A — ML Serving & Systems
+### Module A — ML Serving & Systems — SUPERSEDED
+
 (was: AI Playground Module 4 "Inference", spec.txt sections 19.1-19.8 — moved in full)
+
+**Reversed**: this content is being built directly in AI Playground as its own Module 4
+"Inference" instead of moved here — see `docs/product/module-4-inference.md`. Duplicating it
+into a separate app later, if this app is ever split, was judged easier than maintaining two
+copies now. The rest of this document (Modules B/C/D) is unaffected.
 
 - Unit: Model Serving
 - Unit: vLLM

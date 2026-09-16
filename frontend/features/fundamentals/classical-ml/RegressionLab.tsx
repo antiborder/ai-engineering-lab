@@ -8,7 +8,6 @@ import { RegressionWalkthrough } from "./RegressionWalkthrough";
 import { LossChart } from "./LossChart";
 import { Slider } from "./Slider";
 import { StatCard } from "@/components/StatCard";
-import { Term } from "@/components/Term";
 import type { ChapterId } from "./ClassicalMlPlayground";
 
 const MAX_HISTORY = 120;
@@ -42,8 +41,8 @@ export function RegressionLab({
           <span className="text-neutral-800 font-medium">Regression</span> means predicting a
           number from an input — here, a y-value from an x-value. The model is a curve; training
           means adjusting that curve so its predictions are as close as possible to the real data,
-          measured by a <Term id="loss">loss</Term> function, without memorizing the training
-          points so exactly that it fails on new ones (<Term id="overfitting">overfitting</Term>).
+          measured by a loss function, without memorizing the training
+          points so exactly that it fails on new ones (overfitting).
         </p>
         <RegressionWalkthrough
           onComplete={() => setWalkthroughComplete(true)}

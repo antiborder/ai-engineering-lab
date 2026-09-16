@@ -2,7 +2,6 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { PromptAnatomyDiagram } from "./PromptAnatomyDiagram";
 import { PositionEffectDiagram } from "./PositionEffectDiagram";
@@ -186,7 +185,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       body: (
         <p>
           Prompt engineering is the practice of writing and refining the instructions you give a
-          model — mainly the <Term id="system-prompt">system prompt</Term> you already met in LLM
+          model — mainly the system prompt you already met in LLM
           API: the role, tone, and constraints it should follow for the whole call.
         </p>
       ),
@@ -226,7 +225,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       title: "Delimiters: Marking Where Instructions End and Content Begins",
       body: (
         <p>
-          A <Term id="delimiter">delimiter</Term> is a marker — like a tag such as{" "}
+          A delimiter is a marker — like a tag such as{" "}
           <code className="font-mono text-base">&lt;instructions&gt;</code> — that separates your
           instructions from the content you hand the model to work on. It helps because a model
           reading one long block of text has to guess where instructions stop and content starts;
@@ -274,7 +273,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       title: "Few-Shot Prompting: Give the Model Examples",
       body: (
         <p>
-          <Term id="few-shot-prompting">Few-shot prompting</Term> is adding a handful of example
+          Few-shot prompting is adding a handful of example
           input → output pairs to the prompt before the real task, so the model can match the
           demonstrated pattern instead of inferring it from instructions alone. It helps because
           showing a model exactly what a good answer looks like — its format, tone, level of
@@ -315,7 +314,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       title: "Chain-of-Thought Prompting: Ask the Model to Reason First",
       body: (
         <p>
-          <Term id="chain-of-thought">Chain-of-thought prompting</Term> is asking the model to
+          Chain-of-thought prompting is asking the model to
           work through a problem step by step before giving a final answer, instead of jumping
           straight to one. It helps on multi-step problems because writing out the intermediate
           steps gives the model a chance to catch its own arithmetic or logical mistakes along
@@ -335,7 +334,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
           answer, instead of producing the answer directly from the question in one shot — more
           steps written down means more chances to self-correct along the way. This is an
           explicit instruction any model can follow, different from a reasoning model&rsquo;s own
-          hidden <Term id="reasoning-effort">reasoning effort</Term>, which thinks regardless of
+          hidden reasoning effort, which thinks regardless of
           what the prompt says.
         </p>
       ),
@@ -361,7 +360,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       title: "Lost in the Middle: Position Affects Attention",
       body: (
         <p>
-          <Term id="lost-in-the-middle">Lost in the middle</Term> is the tendency for a model to
+          Lost in the middle is the tendency for a model to
           pay more attention to the start and end of a long prompt than to the middle. It&rsquo;s
           an observed pattern across many models, not a hard rule — but the practical effect is
           the same either way: a critical instruction buried in paragraph six of ten is easy for
@@ -401,7 +400,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       title: "Prompt Templates: Reusing One Prompt Across Many Inputs",
       body: (
         <p>
-          A <Term id="prompt-template">prompt template</Term> is a fixed prompt with open slots
+          A prompt template is a fixed prompt with open slots
           that get filled in with different values at request time, instead of writing a
           brand-new prompt for every input. Every comparison so far in this chapter reused one
           fixed system prompt across several different test cases — that fixed prompt was already
@@ -459,7 +458,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       title: "Prompt Injection: When Embedded Text Tries to Hijack the Model",
       body: (
         <p>
-          <Term id="prompt-injection">Prompt injection</Term> is text hidden inside content the
+          Prompt injection is text hidden inside content the
           model reads — a document, a tool result, a user message — that carries instructions of
           its own, trying to override what you actually asked for. The tagged article example
           back in &ldquo;Structuring the Prompt&rdquo; hid exactly this: a line reading
@@ -623,11 +622,11 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>Compare prompts on the same test cases, side by side — not one at a time.</li>
             <li>Delimiters keep instructions and content visibly separate.</li>
-            <li><Term id="few-shot-prompting">Few-shot prompting</Term> adds example input → output pairs before the real task.</li>
-            <li><Term id="chain-of-thought">Chain-of-thought prompting</Term> asks the model to reason step by step before answering.</li>
-            <li>Put critical instructions at the start and/or end of a long prompt — the <Term id="lost-in-the-middle">middle</Term> gets less attention.</li>
-            <li>A <Term id="prompt-template">prompt template</Term> has open slots filled in at request time, not hardcoded text.</li>
-            <li><Term id="prompt-injection">Prompt injection</Term> is inserted content trying to override your instructions — never trust it blindly.</li>
+            <li>Few-shot prompting adds example input → output pairs before the real task.</li>
+            <li>Chain-of-thought prompting asks the model to reason step by step before answering.</li>
+            <li>Put critical instructions at the start and/or end of a long prompt — the middle gets less attention.</li>
+            <li>A prompt template has open slots filled in at request time, not hardcoded text.</li>
+            <li>Prompt injection is inserted content trying to override your instructions — never trust it blindly.</li>
             <li>A pass/fail rule (like a token budget) turns eyeballing into counting — a first, narrow step toward real evaluation.</li>
           </ul>
         </div>

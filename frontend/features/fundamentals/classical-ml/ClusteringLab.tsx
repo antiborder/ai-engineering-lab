@@ -8,7 +8,6 @@ import { ClusteringWalkthrough } from "./ClusteringWalkthrough";
 import { LossChart } from "./LossChart";
 import { Slider } from "./Slider";
 import { StatCard } from "@/components/StatCard";
-import { Term } from "@/components/Term";
 
 const TICK_MS = 400;
 
@@ -27,10 +26,10 @@ export function ClusteringLab() {
         <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">Clustering</span> is unsupervised —
           there are no labels to learn from, only the points themselves. k-means groups points
-          by finding <Term id="centroid">centroids</Term> that minimize{" "}
-          <Term id="inertia">inertia</Term>, but it does this with a different procedure than
+          by finding centroids that minimize{" "}
+          inertia, but it does this with a different procedure than
           regression and classification: no gradient descent, just repeated exact recomputation
-          (<Term id="lloyds-algorithm">Lloyd&rsquo;s algorithm</Term>).
+          (Lloyd&rsquo;s algorithm).
         </p>
         <ClusteringWalkthrough onComplete={() => setWalkthroughComplete(true)} />
       </div>

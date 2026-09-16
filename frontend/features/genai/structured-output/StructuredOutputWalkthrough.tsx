@@ -2,7 +2,6 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { StructuredOutputFlowDiagram } from "./StructuredOutputFlowDiagram";
 import { ConstrainedDecodingDiagram } from "./ConstrainedDecodingDiagram";
@@ -150,7 +149,7 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       title: "JSON Schema: A Contract for the Output's Shape",
       body: (
         <p>
-          A <Term id="json-schema">JSON Schema</Term> is a specification, written as JSON itself,
+          A JSON Schema is a specification, written as JSON itself,
           that describes the exact shape a piece of data must have. Sent alongside the task, it
           tells the model — and, downstream, a validator — exactly what fields, types, and
           structure the output must have.
@@ -395,7 +394,7 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       title: "Constrained Decoding: Making Invalid Tokens Impossible",
       body: (
         <p>
-          <Term id="constrained-decoding">Constrained decoding</Term> restricts which tokens the
+          Constrained decoding restricts which tokens the
           model is allowed to produce at each step, so schema-invalid output can&rsquo;t be
           generated in the first place — not just caught afterward. Real 2026 APIs use this: OpenAI&rsquo;s
           strict JSON Schema mode, Anthropic&rsquo;s tool-use-based structured output, and
@@ -452,10 +451,10 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>Free-form text alone isn&rsquo;t reliable enough for code that needs a fixed shape.</li>
-            <li>A <Term id="json-schema">JSON Schema</Term> specifies types, required fields, and enums for the output.</li>
+            <li>A JSON Schema specifies types, required fields, and enums for the output.</li>
             <li>The schema fixes the shape; the model still supplies the actual values.</li>
             <li>Validation checks generated output against the schema after the fact.</li>
-            <li><Term id="constrained-decoding">Constrained decoding</Term> blocks schema-invalid tokens during generation itself, making invalid output structurally impossible rather than merely caught.</li>
+            <li>Constrained decoding blocks schema-invalid tokens during generation itself, making invalid output structurally impossible rather than merely caught.</li>
           </ul>
         </div>
       ),

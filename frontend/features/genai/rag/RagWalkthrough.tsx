@@ -2,7 +2,6 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
-import { Term } from "@/components/Term";
 import { Equation } from "@/components/Equation";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { RagPipelineDiagram } from "./RagPipelineDiagram";
@@ -164,7 +163,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
           own files or anything that happened since, which is the gap Retrieval fills. But even
           once you have the right documents, you can&rsquo;t just paste your entire library into
           every prompt: every model has a fixed{" "}
-          <Term id="context-window">context window</Term> — a hard limit on tokens per call — and
+          context window — a hard limit on tokens per call — and
           a longer prompt also costs more and answers slower, as you saw in LLM API. RAG&rsquo;s
           whole point is searching for just the relevant pieces first, instead of sending
           everything.
@@ -305,7 +304,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           To compare a question against thousands of chunks, both need to become{" "}
-          <Term id="embedding">vectors</Term> — lists of numbers — so &ldquo;how similar are
+          vectors — lists of numbers — so &ldquo;how similar are
           these two pieces of text&rdquo; becomes a math question a computer can answer directly,
           instead of a comparison a person has to make by reading. This happens twice: once for
           every chunk, ahead of time, and once for the question itself — the &ldquo;Query&rdquo;
@@ -322,7 +321,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <div className="space-y-2">
           <p>
             Vector search scores every chunk by{" "}
-            <Term id="cosine-similarity">cosine similarity</Term> to the question&rsquo;s own
+            cosine similarity to the question&rsquo;s own
             vector — a number from -1 to 1, higher meaning more shared, rarity-weighted words.
           </p>
           <Equation tex={"\\text{similarity} = \\frac{\\vec{q}\\cdot\\vec{c}}{\\lVert\\vec{q}\\rVert\\,\\lVert\\vec{c}\\rVert}"} />
@@ -520,7 +519,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <div className="space-y-2">
           <p>
-            An <Term id="ai-artifact">AI Artifact</Term> is a saved configuration you can reuse
+            An AI Artifact is a saved configuration you can reuse
             and compare against later versions.
           </p>
           <p>
@@ -581,12 +580,12 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
             <li><strong>RAG</strong> (Retrieval-Augmented Generation) searches your documents, then hands the model what it found before it answers.</li>
             <li>Preparing your documents (chunking, embedding) happens once; answering a question happens every time you ask.</li>
             <li>Chunking splits documents into fixed-size pieces; overlap protects ideas sitting on a chunk boundary.</li>
-            <li>This app&rsquo;s vectors are <Term id="tfidf">TF-IDF</Term> — real, but word-counting, not meaning-aware like a trained embedding.</li>
-            <li><Term id="cosine-similarity">Cosine similarity</Term> ranks chunks against the question&rsquo;s own vector.</li>
+            <li>This app&rsquo;s vectors are TF-IDF — real, but word-counting, not meaning-aware like a trained embedding.</li>
+            <li>Cosine similarity ranks chunks against the question&rsquo;s own vector.</li>
             <li>Top-K and a similarity threshold both trim the ranked list, in different ways.</li>
             <li>Reranking re-scores the survivors with a second, more careful pass, and can reorder them.</li>
             <li>Retrieved chunks are assembled into the model&rsquo;s context, with an instruction to answer only from it.</li>
-            <li>Saving as an <Term id="ai-artifact">AI Artifact</Term> is what carries this setup into Evaluation, scored and compared against earlier versions.</li>
+            <li>Saving as an AI Artifact is what carries this setup into Evaluation, scored and compared against earlier versions.</li>
           </ul>
         </div>
       ),

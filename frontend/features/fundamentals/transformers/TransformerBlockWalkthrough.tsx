@@ -2,7 +2,6 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 import { Equation } from "@/components/Equation";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { tokenize } from "./tokenize";
 import { forward, initWeights, layerNorm, type TransformerConfig } from "./transformer";
@@ -147,7 +146,7 @@ export function TransformerBlockWalkthrough({
       title: "The fix: add, don't replace",
       body: (
         <p>
-          A <Term id="residual-connection">residual connection</Term> keeps the old vector and
+          A residual connection keeps the old vector and
           adds the <Equation tex={"\\text{attn\\_output}"} display={false} /> on top, instead of
           replacing it:
           <Equation tex={"\\text{new\\_x} = \\text{old\\_x} + \\text{attn\\_output}"} />
@@ -167,7 +166,7 @@ export function TransformerBlockWalkthrough({
           There&rsquo;s a catch with residual connections: repeatedly adding new information on
           top of old, layer after layer, can make a token&rsquo;s numbers drift — growing large
           or uneven across dimensions, since nothing ever shrinks them back down.{" "}
-          <Term id="layer-normalization">Layer normalization</Term> is the fix: it resets that
+          Layer normalization is the fix: it resets that
           after every addition, rescaling each token&rsquo;s own vector so its numbers land in a
           consistent, predictable range — mean 0, spread (standard deviation) 1:
           <Equation tex={"\\text{LayerNorm}(x) = \\frac{x - \\mu}{\\sigma}"} />
@@ -196,7 +195,7 @@ export function TransformerBlockWalkthrough({
         <p>
           What we walked through: start from the token&rsquo;s vector, run it through
           attention to get <Equation tex={"\\text{attn\\_output}"} display={false} />, add that
-          back onto the vector, then normalize. A <Term id="sublayer">sublayer</Term> is just
+          back onto the vector, then normalize. A sublayer is just
           whatever gets wrapped this way — attention is one; the feed-forward network
           you&rsquo;ll meet next is the other. This exact wrapper appears twice in every
           Transformer block, once around each.
@@ -212,7 +211,7 @@ export function TransformerBlockWalkthrough({
         <p>
           Once attention finishes mixing information <em>between</em> tokens, each token&rsquo;s
           vector independently passes through a{" "}
-          <Term id="feed-forward-network">feed-forward network</Term>:
+          feed-forward network:
           <Equation tex={"\\text{FFN}(x) = W_2 \\, \\text{ReLU}(W_1 x + b_1) + b_2"} />
           Linear → ReLU → Linear — exactly the one-hidden-layer network from the Neural Networks
           chapter (one hidden layer, two weight matrices), reused as-is, just without a final
@@ -240,7 +239,7 @@ export function TransformerBlockWalkthrough({
       title: "One Transformer block, start to finish",
       body: (
         <p>
-          A <Term id="transformer-block">Transformer block</Term> is exactly these two wrapped
+          A Transformer block is exactly these two wrapped
           sublayers, back to back: attention first (tokens exchange information), then the
           feed-forward network (each token processes what it gathered, on its own).
         </p>
@@ -303,14 +302,14 @@ export function TransformerBlockWalkthrough({
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li><Term id="residual-connection">Residual connections</Term> add a sublayer&rsquo;s
+            <li>Residual connections add a sublayer&rsquo;s
               input back onto its output, instead of replacing it.</li>
-            <li><Term id="layer-normalization">Layer normalization</Term> keeps every
+            <li>Layer normalization keeps every
               token&rsquo;s numbers in a stable, predictable range.</li>
-            <li>A <Term id="feed-forward-network">feed-forward network</Term> then processes each
+            <li>A feed-forward network then processes each
               token&rsquo;s vector independently.</li>
             <li>Attention sublayer + feed-forward sublayer = one{" "}
-              <Term id="transformer-block">Transformer block</Term>; stacking several adds
+              Transformer block; stacking several adds
               capacity.</li>
           </ul>
           <p>

@@ -3,7 +3,6 @@
 import { useState, type ReactNode } from "react";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { StoryLine } from "@/components/StoryLine";
-import { Term } from "@/components/Term";
 
 const REFERENCE = "Items that are worn or missing tags may only receive a partial refund or store credit, at Southwear's discretion.";
 
@@ -85,7 +84,7 @@ export function LlmJudgeWalkthrough({
         <p>
           Faithfulness needs judgment, not string matching — checking whether an answer really
           agrees with a reference isn&rsquo;t a fixed formula. An{" "}
-          <Term id="llm-judge">LLM judge</Term> reads a question, an answer, and a reference,
+          LLM judge reads a question, an answer, and a reference,
           then returns a score and an explanation, doing that judgment for every test case.
         </p>
       ),

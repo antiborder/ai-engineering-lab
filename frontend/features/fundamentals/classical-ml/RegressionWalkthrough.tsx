@@ -2,7 +2,6 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 import { Equation } from "@/components/Equation";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { generateRegressionData, type RegressionPoint } from "./data";
 import { PolynomialRegressor } from "./models";
@@ -220,7 +219,7 @@ export function RegressionWalkthrough({
       body: (
         <p>
           We&rsquo;ll start with the simplest possible curve — a straight line — and teach it to fit this
-          data using an algorithm called <Term id="gradient-descent">gradient descent</Term>. Once you&rsquo;ve
+          data using an algorithm called gradient descent. Once you&rsquo;ve
           seen how that works, we&rsquo;ll reuse the exact same recipe on curvier models and explore what can
           go right, and wrong, along the way.
         </p>
@@ -238,7 +237,7 @@ export function RegressionWalkthrough({
           <Equation tex={"\\hat{y} = w_0 + w_1 x"} />
           Given an <Equation tex="x" display={false} />, the model&rsquo;s prediction is{" "}
           <Equation tex="\hat{y}" display={false} />. We call <Equation tex="w_0" display={false} /> and{" "}
-          <Equation tex="w_1" display={false} /> the model&rsquo;s <Term id="weights">weights</Term>.
+          <Equation tex="w_1" display={false} /> the model&rsquo;s weights.
         </p>
       ),
       visual: <RegressionPlot points={basePoints} model={linModel} showTrueFn={false} />,
@@ -319,7 +318,7 @@ export function RegressionWalkthrough({
         <p>
           To judge the whole line at once, not just one point, we square every error (so misses in either
           direction count as positive, and big misses count extra) and average them. This is called{" "}
-          <Term id="mse">Mean Squared Error</Term>:
+          Mean Squared Error:
           <Equation tex={"\\text{MSE} = \\frac{1}{n}\\sum_{i=1}^{n} (\\hat{y}_i - y_i)^2"} />
           Right now, with the flat line, MSE ={" "}
           <span className="text-neutral-900 font-mono">{num(linModel.loss(basePoints), 4)}</span>. That single
@@ -337,7 +336,7 @@ export function RegressionWalkthrough({
         <p>
           Now we can say exactly what we&rsquo;re after: find the values of{" "}
           <Equation tex="w_0" display={false} /> and <Equation tex="w_1" display={false} /> that make{" "}
-          <Term id="mse">MSE</Term> as small as possible — in other words, find the lowest point in that
+          MSE as small as possible — in other words, find the lowest point in that
           landscape. That&rsquo;s the entire job of training.
         </p>
       ),
@@ -350,7 +349,7 @@ export function RegressionWalkthrough({
       body: (
         <p>
           For each weight, we can ask: if I nudge it up slightly, does MSE go up or down? That direction —
-          and how steep it is — is called the <Term id="gradient">gradient</Term>. If nudging{" "}
+          and how steep it is — is called the gradient. If nudging{" "}
           <Equation tex="w_1" display={false} /> up would increase MSE, we should move it down instead, and
           vice versa. Geometrically: feel which way the landscape slopes downhill from where we&rsquo;re
           standing, and step that way.
@@ -364,10 +363,10 @@ export function RegressionWalkthrough({
       title: "The update rule",
       body: (
         <p>
-          <Term id="gradient-descent">Gradient descent</Term> turns that idea into a repeatable formula —
+          Gradient descent turns that idea into a repeatable formula —
           every weight, every step:
           <Equation tex={"w_i \\leftarrow w_i - \\eta \\, \\frac{\\partial \\, \\text{MSE}}{\\partial w_i}"} />
-          <Equation tex={"\\eta"} display={false} /> is the <Term id="learning-rate">learning rate</Term> — how
+          <Equation tex={"\\eta"} display={false} /> is the learning rate — how
           big a step to take. We&rsquo;ll explore that dial later; for now it&rsquo;s fixed at a sensible value.
         </p>
       ),
@@ -400,7 +399,7 @@ export function RegressionWalkthrough({
       body: (
         <p>
           One step barely moves the line. Training is just this same update, over and over — each repetition
-          is one <Term id="epoch">step</Term>. Click below to run 150 steps and watch the dot walk all the way
+          is one step. Click below to run 150 steps and watch the dot walk all the way
           down into the valley.
         </p>
       ),
@@ -452,8 +451,8 @@ export function RegressionWalkthrough({
           Let&rsquo;s add two more terms, <Equation tex="x^2" display={false} /> and{" "}
           <Equation tex="x^3" display={false} />, each with its own weight:
           <Equation tex={"\\hat{y} = w_0 + w_1 x + w_2 x^2 + w_3 x^3"} />
-          That&rsquo;s the only change. <Term id="mse">MSE</Term>,{" "}
-          <Term id="gradient-descent">gradient descent</Term>, the update rule — all identical to before.
+          That&rsquo;s the only change. MSE,{" "}
+          gradient descent, the update rule — all identical to before.
         </p>
       ),
       visual: <RegressionPlot points={basePoints} model={cubModel} showTrueFn={false} />,
@@ -619,7 +618,7 @@ export function RegressionWalkthrough({
         <p>
           A model that has <em>memorized</em> its training points will always look perfect on those exact
           points. To find out whether it actually learned anything general, we need to test it on data it
-          has never seen — a <Term id="train-test-split">train/test split</Term>.
+          has never seen — a train/test split.
         </p>
       ),
       visual: <RegressionPlot points={ofTrain} model={ofModel} showTrueFn />,
@@ -687,7 +686,7 @@ export function RegressionWalkthrough({
       title: "That gap has a name",
       body: (
         <p>
-          This is <Term id="overfitting">overfitting</Term>: the model got very good at the training data
+          This is overfitting: the model got very good at the training data
           but worse at new data, because it started fitting the noise and quirks specific to those exact
           points instead of the general pattern.
         </p>
@@ -708,7 +707,7 @@ export function RegressionWalkthrough({
       title: "Degree is a dial, not a one-way switch",
       body: (
         <p>
-          Too low a <Term id="polynomial-degree">degree</Term> and the model can&rsquo;t bend enough
+          Too low a degree and the model can&rsquo;t bend enough
           (underfitting, back in &ldquo;Linear Model&rdquo;). Too high and it bends to fit noise
           (overfitting, right here). Somewhere in between — around degree 3 for this data — is the sweet
           spot.
@@ -723,7 +722,7 @@ export function RegressionWalkthrough({
       body: (
         <p>
           Back in &ldquo;Linear Model&rdquo; we fixed <Equation tex={"\\eta"} display={false} />, the{" "}
-          <Term id="learning-rate">learning rate</Term>, without exploring it. It controls how big a jump
+          learning rate, without exploring it. It controls how big a jump
           each gradient descent update takes. Let&rsquo;s see what happens when we change it.
         </p>
       ),
@@ -971,7 +970,7 @@ export function RegressionWalkthrough({
       title: "The idea: penalize large weights",
       body: (
         <p>
-          <Term id="regularization">L2 regularization</Term> adds a penalty term to the loss, proportional
+          L2 regularization adds a penalty term to the loss, proportional
           to the size of the weights:
           <Equation tex={"\\text{Loss} = \\text{MSE} + \\lambda \\sum_i w_i^2"} />
           <Equation tex={"\\lambda"} display={false} /> controls how strongly big weights are punished.
@@ -1034,10 +1033,10 @@ export function RegressionWalkthrough({
         <div className="space-y-2">
           <p>Ranking the four knobs we&rsquo;ve explored, from biggest overfitting risk to smallest:</p>
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
-            <li><Term id="polynomial-degree">Polynomial degree</Term> — directly sets how much the model is capable of wiggling. The single biggest lever.</li>
+            <li>Polynomial degree — directly sets how much the model is capable of wiggling. The single biggest lever.</li>
             <li>Too little training data (a low train ratio) — few points are trivial for a flexible model to memorize outright.</li>
             <li>Noise — gives the model misleading detail to latch onto, but only bites once there&rsquo;s enough capacity (degree) to fit it.</li>
-            <li><Term id="regularization">L2 regularization</Term> — the odd one out: turning it <em>up</em> fights overfitting rather than causing it.</li>
+            <li>L2 regularization — the odd one out: turning it <em>up</em> fights overfitting rather than causing it.</li>
           </ol>
         </div>
       ),
@@ -1053,11 +1052,11 @@ export function RegressionWalkthrough({
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>A model predicts <Equation tex="\hat{y}" display={false} /> from <Equation tex="x" display={false} /> using weights.</li>
-            <li><Term id="mse">MSE</Term> measures how wrong those predictions are.</li>
-            <li><Term id="gradient-descent">Gradient descent</Term> repeatedly nudges the weights to lower it.</li>
-            <li>More flexible models (higher <Term id="polynomial-degree">degree</Term>) fit better — up to a point, past which they <Term id="overfitting">overfit</Term>.</li>
-            <li>A <Term id="train-test-split">train/test split</Term> reveals overfitting that training error alone hides.</li>
-            <li>The <Term id="learning-rate">learning rate</Term>, noise, and <Term id="regularization">L2 regularization</Term> are all dials that shape how training behaves.</li>
+            <li>MSE measures how wrong those predictions are.</li>
+            <li>Gradient descent repeatedly nudges the weights to lower it.</li>
+            <li>More flexible models (higher degree) fit better — up to a point, past which they overfit.</li>
+            <li>A train/test split reveals overfitting that training error alone hides.</li>
+            <li>The learning rate, noise, and L2 regularization are all dials that shape how training behaves.</li>
           </ul>
         </div>
       ),

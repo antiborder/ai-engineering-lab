@@ -2,7 +2,6 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 import { Equation } from "@/components/Equation";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { tokenize } from "./tokenize";
 import { forward, initWeights, type TransformerConfig } from "./transformer";
@@ -139,7 +138,7 @@ export function AttentionWalkthrough({
       title: "A new idea: attention",
       body: (
         <p>
-          Every token now has a vector. <Term id="softmax">Attention</Term> is the operation that
+          Every token now has a vector. Attention is the operation that
           lets each token gather information from <em>other</em> tokens&rsquo; vectors, weighted
           by how relevant each one is — instead of only ever looking at itself. Think about how
           you read a sentence yourself: you don&rsquo;t weigh every word equally — your attention
@@ -172,17 +171,17 @@ export function AttentionWalkthrough({
               </thead>
               <tbody>
                 <tr className="border-t border-neutral-200">
-                  <td className="py-1.5 pr-3 font-medium text-cyan-700"><Term id="query">Query</Term></td>
+                  <td className="py-1.5 pr-3 font-medium text-cyan-700">Query</td>
                   <td className="py-1.5 pr-3 text-neutral-700">What am I looking for?</td>
                   <td className="py-1.5 text-neutral-700">Your search text</td>
                 </tr>
                 <tr className="border-t border-neutral-200">
-                  <td className="py-1.5 pr-3 font-medium text-violet-700"><Term id="key">Key</Term></td>
+                  <td className="py-1.5 pr-3 font-medium text-violet-700">Key</td>
                   <td className="py-1.5 pr-3 text-neutral-700">What do I offer?</td>
                   <td className="py-1.5 text-neutral-700">Each page&rsquo;s indexed keywords</td>
                 </tr>
                 <tr className="border-t border-neutral-200">
-                  <td className="py-1.5 pr-3 font-medium text-orange-700"><Term id="value">Value</Term></td>
+                  <td className="py-1.5 pr-3 font-medium text-orange-700">Value</td>
                   <td className="py-1.5 pr-3 text-neutral-700">What do I actually contain?</td>
                   <td className="py-1.5 text-neutral-700">The page content you actually read</td>
                 </tr>
@@ -338,7 +337,7 @@ export function AttentionWalkthrough({
       title: "Turning scores into weights: softmax",
       body: (
         <p>
-          <Term id="softmax">Softmax</Term> turns a list of raw scores into positive numbers that
+          Softmax turns a list of raw scores into positive numbers that
           sum to 1 — a probability distribution over &ldquo;how much attention to pay to each
           token&rdquo;:
           <Equation tex={"\\text{softmax}(z_i) = \\frac{e^{z_i}}{\\sum_j e^{z_j}}"} />
@@ -439,7 +438,7 @@ export function AttentionWalkthrough({
       title: "Only attend to the past",
       body: (
         <p>
-          <Term id="causal-masking">Causal masking</Term> closes that shortcut: token{" "}
+          Causal masking closes that shortcut: token{" "}
           <Equation tex="i" display={false} /> may only attend to itself and to tokens before it —
           never to a token after it. Below: our real sentence&rsquo;s actual attention matrix, with
           exactly that rule applied.
@@ -479,7 +478,7 @@ export function AttentionWalkthrough({
             it.
           </p>
           <p>
-            <Term id="multi-head-attention">Multi-head attention</Term>&rsquo;s fix: instead of
+            Multi-head attention&rsquo;s fix: instead of
             computing attention once, compute it several times in parallel, letting each
             &ldquo;head&rdquo; specialize in a different kind of relationship — illustrated (not
             real data) below.
@@ -595,13 +594,13 @@ export function AttentionWalkthrough({
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>Each token computes a <Term id="query">Query</Term>, <Term id="key">Key</Term>, and{" "}
-              <Term id="value">Value</Term> vector.</li>
-            <li><Term id="softmax">Attention</Term> scores every query against every key, then
+            <li>Each token computes a Query, Key, and{" "}
+              Value vector.</li>
+            <li>Attention scores every query against every key, then
               blends values together in those proportions.</li>
-            <li><Term id="causal-masking">Causal masking</Term> stops a token from attending to
+            <li>Causal masking stops a token from attending to
               the future.</li>
-            <li><Term id="multi-head-attention">Multi-head attention</Term> runs several of these
+            <li>Multi-head attention runs several of these
               in parallel, on separate slices of the vector.</li>
           </ul>
           <p>

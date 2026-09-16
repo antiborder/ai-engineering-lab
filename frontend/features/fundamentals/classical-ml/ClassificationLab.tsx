@@ -8,7 +8,6 @@ import { ClassificationWalkthrough } from "./ClassificationWalkthrough";
 import { LossChart } from "./LossChart";
 import { Slider } from "./Slider";
 import { StatCard } from "@/components/StatCard";
-import { Term } from "@/components/Term";
 import type { ChapterId } from "./ClassicalMlPlayground";
 
 const MAX_HISTORY = 120;
@@ -43,8 +42,8 @@ export function ClassificationLab({
           which of two (or more) categories an input belongs to. Instead of fitting a curve to
           numbers, the model draws a boundary through 2D space — everything on one side is
           predicted class 0, everything on the other is class 1. It&rsquo;s trained the same way
-          as regression: define a <Term id="loss">loss</Term>, then reduce it with{" "}
-          <Term id="gradient-descent">gradient descent</Term>.
+          as regression: define a loss, then reduce it with{" "}
+          gradient descent.
         </p>
         <ClassificationWalkthrough
           onComplete={() => setWalkthroughComplete(true)}

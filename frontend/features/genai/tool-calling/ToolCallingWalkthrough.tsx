@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { ToolCallFlowDiagram, type ToolCallStageId } from "./ToolCallFlowDiagram";
 import { MCPWiringDiagram } from "./MCPWiringDiagram";
@@ -128,7 +127,7 @@ export function ToolCallingWalkthrough({
       title: "A Tool Is a Function the Model Can Call",
       body: (
         <p>
-          A <Term id="tool-calling">tool</Term> is ordinary code — a calculator, a weather
+          A tool is ordinary code — a calculator, a weather
           lookup, a document search — that the model calls when it needs an answer it
           can&rsquo;t produce on its own.
         </p>
@@ -158,7 +157,7 @@ export function ToolCallingWalkthrough({
       title: "Tool Calling: One Exchange, Three Moves",
       body: (
         <p>
-          <Term id="tool-calling">Tool calling</Term> is this whole round trip — decide, run,
+          Tool calling is this whole round trip — decide, run,
           answer — happening in a single exchange with the model.
         </p>
       ),
@@ -339,7 +338,7 @@ export function ToolCallingWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            Without <Term id="mcp">MCP</Term>, your app has to translate each tool call into
+            Without MCP, your app has to translate each tool call into
             that service&rsquo;s actual API request itself. With MCP, that translation step
             moves inside the MCP server instead. What this buys you:
           </p>
@@ -467,7 +466,7 @@ export function ToolCallingWalkthrough({
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>Models can&rsquo;t reliably do exact math, don&rsquo;t know live data, and can&rsquo;t see your documents.</li>
-            <li><Term id="tool-calling">Tool calling</Term> is one round trip: decide, run the tool, answer using the result.</li>
+            <li>Tool calling is one round trip: decide, run the tool, answer using the result.</li>
             <li>If no tool matches, the model skips straight to answering.</li>
             <li>This app has three tools: calculator, weather, and search (which reuses RAG&rsquo;s retrieval).</li>
             <li>Real APIs pick a tool via a structured, schema-matched call; this app pattern-matches instead, as a disclosed simplification.</li>

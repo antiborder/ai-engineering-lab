@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { StoryLine } from "@/components/StoryLine";
-import { Term } from "@/components/Term";
 
 interface VersionStat {
   quality: number;
@@ -92,7 +92,7 @@ export function RegressionTestingWalkthrough({
         'Chloe: "So v2 is live. Did it actually help?"\nMaya: "Let\'s compare v1 and v2, side by side, on the whole dataset."',
       body: (
         <p>
-          <Term id="regression-testing">Regression testing</Term> compares v1&rsquo;s scores
+          Regression testing compares v1&rsquo;s scores
           against v2&rsquo;s, side by side. v2 fixes the worn-item refund bug — but the overall
           quality score still went down. The next Steps explain why.
         </p>
@@ -265,6 +265,12 @@ export function RegressionTestingWalkthrough({
             process that keeps catching what changes next.
           </p>
           <p>Everything above is also unlocked below — toggle between versions yourself.</p>
+          <Link
+            href="/evaluation/rag"
+            className="inline-block px-4 py-2 rounded-md bg-cyan-600 hover:bg-cyan-700 text-base font-medium text-white"
+          >
+            Continue to RAG Evaluation →
+          </Link>
         </div>
       ),
       visual: undefined,

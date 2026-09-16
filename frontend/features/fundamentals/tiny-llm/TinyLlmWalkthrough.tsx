@@ -2,7 +2,6 @@
 
 import { useState, type ReactNode } from "react";
 import { Equation } from "@/components/Equation";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { Slider } from "../classical-ml/Slider";
 import { LossChart } from "../classical-ml/LossChart";
@@ -234,7 +233,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
         <div className="space-y-2">
           <p>
             At every position, softmax turns the model&rsquo;s scores into a probability for each
-            possible next character. <Term id="cross-entropy">Cross-entropy loss</Term> checks the
+            possible next character. Cross-entropy loss checks the
             probability it assigned to the <em>actual</em> next character — the one true answer —
             against certainty:
           </p>
@@ -254,7 +253,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       title: "Backprop through the whole stack",
       body: (
         <p>
-          Exactly the same <Term id="backpropagation">backpropagation</Term> from Neural
+          Exactly the same backpropagation from Neural
           Networks — the chain rule, applied layer by layer — except now the &ldquo;layers&rdquo;
           include every attention sublayer and feed-forward sublayer in every stacked block. One
           call computes how much <em>every</em> weight in the whole network contributed to the
@@ -268,7 +267,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       title: "A smarter step: AdamW",
       body: (
         <p>
-          Same idea as <Term id="gradient-descent">gradient descent</Term> — move every weight
+          Same idea as gradient descent — move every weight
           against its gradient — but instead of one fixed learning rate for every weight, AdamW
           adapts each weight&rsquo;s step size using that weight&rsquo;s own recent gradient
           history. In practice: trains faster and more reliably than plain gradient descent,
@@ -355,7 +354,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       title: "Temperature: a dial on randomness",
       body: (
         <p>
-          <Term id="temperature">Temperature</Term> divides every score before that softmax. Low
+          Temperature divides every score before that softmax. Low
           temperature sharpens the distribution — closer to always picking the top candidate.
           High temperature flattens it — weaker candidates get a real shot, output gets more
           varied, and more prone to mistakes.
@@ -388,10 +387,10 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
               connections, layer norm, stacked into blocks — just with real, trained weights.</li>
             <li>This model tokenizes at the <em>character</em> level, not the word level.</li>
             <li>Training is a loop: sample text, predict the next character, measure{" "}
-              <Term id="cross-entropy">cross-entropy loss</Term>, backpropagate, update every
+              cross-entropy loss, backpropagate, update every
               weight with AdamW — repeated thousands of times.</li>
             <li>Generation <em>samples</em> from the probability distribution rather than always
-              taking the top choice; <Term id="temperature">temperature</Term> controls how sharp
+              taking the top choice; temperature controls how sharp
               or flat that distribution is.</li>
           </ul>
         </div>

@@ -2,7 +2,6 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 import { Equation } from "@/components/Equation";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { tokenize } from "./tokenize";
 import { forward, initWeights, positionalEncoding, tokenEmbedding, type TransformerConfig } from "./transformer";
@@ -179,16 +178,16 @@ export function TokensEmbeddingsWalkthrough({
           <p>
             This chapter has plenty of new vocabulary, but the machinery underneath is familiar —
             an embedding is just the x₁/x₂-style input vector from earlier chapters, only longer.
-            You&rsquo;ll split a sentence into <Term id="token">tokens</Term>, turn each token
-            into an <Term id="embedding">embedding</Term> vector, then fix a real gap — vectors
+            You&rsquo;ll split a sentence into tokens, turn each token
+            into an embedding vector, then fix a real gap — vectors
             alone say nothing about word order — with a{" "}
-            <Term id="positional-encoding">positional encoding</Term>.
+            positional encoding.
           </p>
           <p>
             By the end, every token has one vector that carries both its identity and its
-            position. From there, later chapters compute <Term id="query">Query</Term>/
-            <Term id="key">Key</Term>/<Term id="value">Value</Term> vectors, score and blend
-            tokens together with <Term id="softmax">attention</Term>, repeat that with several
+            position. From there, later chapters compute Query/
+            Key/Value vectors, score and blend
+            tokens together with attention, repeat that with several
             heads at once, wrap it all in residual connections and layer normalization, run it
             through a small feed-forward network, stack several of these blocks, and finally
             predict the next word — then do the whole thing again to generate a second word, and a
@@ -221,7 +220,7 @@ export function TokensEmbeddingsWalkthrough({
       title: "Splitting text into tokens",
       body: (
         <p>
-          A <Term id="token">token</Term> is a chunk of text a model treats as one unit — here,
+          A token is a chunk of text a model treats as one unit — here,
           roughly one word or punctuation mark. &ldquo;{DEFAULT_TEXT}&rdquo; becomes{" "}
           {tokenize(DEFAULT_TEXT).length} separate tokens, shown below as chips.
         </p>
@@ -254,9 +253,9 @@ export function TokensEmbeddingsWalkthrough({
       body: (
         <p>
           A model can&rsquo;t compute with the string &ldquo;cat&rdquo; — it needs numbers. An{" "}
-          <Term id="embedding">embedding</Term> is just that: a list of numbers standing in for a
+          embedding is just that: a list of numbers standing in for a
           token, exactly like the x₁/x₂ inputs from earlier chapters, just with more of them. Each
-          number&rsquo;s spot in that list is called a <Term id="dimension">dimension</Term> — our
+          number&rsquo;s spot in that list is called a dimension — our
           embeddings here have {D_MODEL} numbers, so we say they have {D_MODEL} dimensions; &ldquo;the
           3rd dimension&rdquo; just means &ldquo;the 3rd number in the list&rdquo;. Here&rsquo;s the
           token &ldquo;{firstToken}&rdquo;&rsquo;s embedding — the numbers themselves are printed
@@ -596,10 +595,10 @@ export function TokensEmbeddingsWalkthrough({
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>Text is split into <Term id="token">tokens</Term>.</li>
-            <li>Each token maps to a fixed <Term id="embedding">embedding</Term> vector.</li>
+            <li>Text is split into tokens.</li>
+            <li>Each token maps to a fixed embedding vector.</li>
             <li>
-              A <Term id="positional-encoding">positional encoding</Term> — built from sine and
+              A positional encoding — built from sine and
               cosine waves at different speeds — is added on top, so the final vector carries both
               identity and position.
             </li>

@@ -3,7 +3,6 @@
 import { useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { Equation } from "@/components/Equation";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { generateBlobsData, type Point2D } from "./data";
 import { initCentroids, kmeansStep } from "./models";
@@ -262,7 +261,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       title: "Our plan",
       body: (
         <p>
-          We&rsquo;ll learn <Term id="lloyds-algorithm">Lloyd&rsquo;s algorithm</Term> — the
+          We&rsquo;ll learn Lloyd&rsquo;s algorithm — the
           classic recipe behind k-means — one step at a time, then look at two ways it can go
           wrong: picking the wrong number of groups, and bad luck in where it starts.
         </p>
@@ -275,7 +274,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       title: "The idea: centroids",
       body: (
         <p>
-          A <Term id="centroid">centroid</Term> is just the average position of a group of
+          A centroid is just the average position of a group of
           points — its center of mass. k-means&rsquo; whole strategy is: guess some centroids,
           then improve the guess, over and over.
         </p>
@@ -332,7 +331,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       title: "Measuring badness: inertia",
       body: (
         <p>
-          k-means&rsquo; objective, called <Term id="inertia">inertia</Term>, is the total
+          k-means&rsquo; objective, called inertia, is the total
           squared distance from every point to its assigned centroid:
           <Equation tex={"J = \\sum_{i=1}^{n} \\lVert x_i - \\mu_{c(i)} \\rVert^2"} />
           <Equation tex={"\\mu_{c(i)}"} display={false} /> is the centroid point{" "}
@@ -475,7 +474,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
         <p>
           Since there&rsquo;s no labeled &ldquo;right answer&rdquo; to check against, we need a
           different kind of evidence. One standard tool: the{" "}
-          <Term id="elbow-method">elbow method</Term>.
+          elbow method.
         </p>
       ),
       visual: <ClusteringPlot points={kPoints} centroids={kDisplayCentroids} assignments={kAssignments} />,
@@ -566,7 +565,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       body: (
         <p>
           If you tried a few times, some runs likely landed on a noticeably higher final inertia
-          than others — a <Term id="local-optimum">local optimum</Term> the algorithm couldn&rsquo;t
+          than others — a local optimum the algorithm couldn&rsquo;t
           escape from, even though a better grouping existed.
         </p>
       ),
@@ -608,11 +607,11 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>Clustering is <em>unsupervised</em> — no labels, only the shape of the data.</li>
-            <li>A <Term id="centroid">centroid</Term> is the mean position of its assigned points.</li>
-            <li><Term id="inertia">Inertia</Term> measures how tightly points cluster around their centroids.</li>
-            <li><Term id="lloyds-algorithm">Lloyd&rsquo;s algorithm</Term> alternates assign and move — no gradient descent needed.</li>
-            <li>The <Term id="elbow-method">elbow method</Term> helps choose k when there&rsquo;s no labeled answer.</li>
-            <li>Different starting points can converge to different <Term id="local-optimum">local optima</Term> — worth trying more than once.</li>
+            <li>A centroid is the mean position of its assigned points.</li>
+            <li>Inertia measures how tightly points cluster around their centroids.</li>
+            <li>Lloyd&rsquo;s algorithm alternates assign and move — no gradient descent needed.</li>
+            <li>The elbow method helps choose k when there&rsquo;s no labeled answer.</li>
+            <li>Different starting points can converge to different local optima — worth trying more than once.</li>
           </ul>
         </div>
       ),

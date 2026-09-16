@@ -137,6 +137,16 @@ and when reviewing/fixing an existing one.
 - **Never use a term before the Step that introduces it.** Before writing a line that names a
   concept, check whether an earlier Step — in this Chapter or an earlier one — already defined
   it. If so, treat it as familiar; don't reintroduce it as new.
+- **Prefer the literal term over a metaphor when a literal term is equally short and equally
+  clear.** Don't reach for a metaphorical word (e.g. "budget" for a fixed memory capacity, or
+  "spend"/"borrow" for using it up) when the literal term (e.g. "VRAM capacity") says the same
+  thing just as concisely — a metaphor makes the reader do a translation step ("budget must mean
+  the memory limit here") that a literal term skips entirely, even after the metaphor is defined
+  on first use. Defining a metaphor clearly is not the same fix as not needing one. Reserve
+  metaphor for cases where no literal term exists, or where drawing the comparison is itself the
+  point being taught (e.g. explicitly teaching that GPU memory paging resembles OS virtual
+  memory). When unsure, ask: could this sentence just say the literal thing instead? If yes, say
+  the literal thing.
 
 ## Consistency checks
 

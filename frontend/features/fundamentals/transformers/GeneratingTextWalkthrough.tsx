@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState, type ReactNode } from "react";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { tokenize } from "./tokenize";
 import { forward, initWeights, type TransformerConfig } from "./transformer";
@@ -160,7 +159,7 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
       title: "Generating a whole sentence, one word at a time",
       body: (
         <p>
-          <Term id="autoregressive">Autoregressive generation</Term> is just this next-token step,
+          Autoregressive generation is just this next-token step,
           repeated: predict the next token, append it to the sequence, then feed the whole thing
           back in to predict the token after <em>that</em>. Every sentence a language model
           &ldquo;writes&rdquo; was produced one single-token step at a time.
@@ -209,15 +208,15 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>Text is split into <Term id="token">tokens</Term>, each mapped to an <Term id="embedding">embedding</Term> plus a <Term id="positional-encoding">positional encoding</Term>.</li>
-            <li>Each token computes a <Term id="query">Query</Term>, <Term id="key">Key</Term>, and <Term id="value">Value</Term> — three linear layers, same weighted-sum math as Neural Networks.</li>
-            <li>Attention scores queries against keys, scales them, and turns them into weights with <Term id="softmax">softmax</Term>; the output is a weighted blend of values.</li>
-            <li><Term id="causal-masking">Causal masking</Term> stops a token from attending to the future.</li>
-            <li><Term id="multi-head-attention">Multi-head attention</Term> runs several attentions in parallel, on separate slices of the vector.</li>
-            <li><Term id="residual-connection">Residual connections</Term> and <Term id="layer-normalization">layer normalization</Term> wrap every sublayer, keeping deep stacks trainable.</li>
-            <li>A <Term id="feed-forward-network">feed-forward network</Term> — the same network from Neural Networks — processes each token afterward.</li>
-            <li>Attention sublayer + feed-forward sublayer = one <Term id="transformer-block">Transformer block</Term>; stacking several adds capacity, same idea as network depth.</li>
-            <li><Term id="autoregressive">Autoregressive generation</Term> repeats the next-token step to produce a whole sequence.</li>
+            <li>Text is split into tokens, each mapped to an embedding plus a positional encoding.</li>
+            <li>Each token computes a Query, Key, and Value — three linear layers, same weighted-sum math as Neural Networks.</li>
+            <li>Attention scores queries against keys, scales them, and turns them into weights with softmax; the output is a weighted blend of values.</li>
+            <li>Causal masking stops a token from attending to the future.</li>
+            <li>Multi-head attention runs several attentions in parallel, on separate slices of the vector.</li>
+            <li>Residual connections and layer normalization wrap every sublayer, keeping deep stacks trainable.</li>
+            <li>A feed-forward network — the same network from Neural Networks — processes each token afterward.</li>
+            <li>Attention sublayer + feed-forward sublayer = one Transformer block; stacking several adds capacity, same idea as network depth.</li>
+            <li>Autoregressive generation repeats the next-token step to produce a whole sequence.</li>
           </ul>
         </div>
       ),

@@ -20,13 +20,13 @@ const UNITS = [
     href: "/evaluation/rag",
     label: "RAG Evaluation",
     description: "Separating retrieval quality, answer quality, and faithfulness — and diagnosing which one failed.",
-    live: false,
+    live: true,
   },
   {
     href: "/evaluation/agents",
     label: "Agent Evaluation",
     description: "Evaluating the whole process, not just the final answer — task success, tool selection, failure modes.",
-    live: false,
+    live: true,
   },
 ];
 

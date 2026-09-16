@@ -2,7 +2,6 @@
 
 import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { Equation } from "@/components/Equation";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { generateMoonsData, type ClassificationPoint } from "./data";
 import { LogisticRegressor } from "./models";
@@ -201,7 +200,7 @@ export function ClassificationWalkthrough({
       body: (
         <p>
           Same recipe as Regression: start with the simplest possible boundary — a straight line —
-          train it with <Term id="gradient-descent">gradient descent</Term>, then reuse the exact
+          train it with gradient descent, then reuse the exact
           same technique on a curvier model once we see where the line falls short.
         </p>
       ),
@@ -228,7 +227,7 @@ export function ClassificationWalkthrough({
       body: (
         <p>
           A raw score isn&rsquo;t a probability yet — it can be any number. The{" "}
-          <Term id="sigmoid">sigmoid function</Term> squashes it into a clean 0–1 range. We write
+          sigmoid function squashes it into a clean 0–1 range. We write
           the result <Equation tex="P(y=1 \mid x)" display={false} /> — read aloud as{" "}
           <em>&ldquo;the probability y is 1, given x&rdquo;</em>, where{" "}
           <Equation tex={"\\mid"} display={false} /> just means &ldquo;given&rdquo;:
@@ -295,7 +294,7 @@ export function ClassificationWalkthrough({
       title: "Measuring how wrong: cross-entropy",
       body: (
         <p>
-          <Term id="cross-entropy">Cross-entropy loss</Term> checks each point&rsquo;s predicted
+          Cross-entropy loss checks each point&rsquo;s predicted
           probability of its <em>correct</em> class against certainty:
           <Equation tex={"\\text{Loss} = -\\frac{1}{n}\\sum_{i=1}^{n}\\big[y_i\\log p_i + (1-y_i)\\log(1-p_i)\\big]"} />
           <Equation tex="n" display={false} /> is how many data points we have;{" "}
@@ -328,11 +327,11 @@ export function ClassificationWalkthrough({
       title: "The update rule",
       body: (
         <p>
-          Exactly the same <Term id="gradient-descent">gradient descent</Term> rule as Regression
+          Exactly the same gradient descent rule as Regression
           — only the loss changed:
           <Equation tex={"w_i \\leftarrow w_i - \\eta \\, \\frac{\\partial \\, \\text{Loss}}{\\partial w_i}"} />
           <Equation tex={"\\eta"} display={false} /> is the{" "}
-          <Term id="learning-rate">learning rate</Term>, fixed for now.
+          learning rate, fixed for now.
         </p>
       ),
       visual: <DecisionBoundaryCanvas points={basePoints} predict={linPredict} domain={DOMAIN} highlightErrors />,
@@ -545,7 +544,7 @@ export function ClassificationWalkthrough({
       body: (
         <p>
           To know whether it generalizes, we need to test it on points it has never seen — a{" "}
-          <Term id="train-test-split">train/test split</Term>.
+          train/test split.
         </p>
       ),
       visual: <DecisionBoundaryCanvas points={ofTrain} predict={ofPredict} domain={DOMAIN} />,
@@ -605,7 +604,7 @@ export function ClassificationWalkthrough({
       title: "That gap has a name",
       body: (
         <p>
-          This is <Term id="overfitting">overfitting</Term>: great on training data, worse on new
+          This is overfitting: great on training data, worse on new
           data, because the model latched onto quirks of these exact points instead of the general
           shape.
         </p>
@@ -617,7 +616,7 @@ export function ClassificationWalkthrough({
       title: "Degree is a dial, not a one-way switch",
       body: (
         <p>
-          Too low a <Term id="polynomial-degree">degree</Term> and it can&rsquo;t bend enough
+          Too low a degree and it can&rsquo;t bend enough
           (underfitting, back at the straight line). Too high and it bends to fit noise
           (overfitting, right here). Somewhere around degree 3 was the sweet spot for this data.
         </p>
@@ -630,7 +629,7 @@ export function ClassificationWalkthrough({
       title: "One more knob: how big a step",
       body: (
         <p>
-          The <Term id="learning-rate">learning rate</Term>{" "}
+          The learning rate{" "}
           <Equation tex={"\\eta"} display={false} /> controls how big each gradient descent update
           is. Let&rsquo;s see what happens when we change it.
         </p>
@@ -770,7 +769,7 @@ export function ClassificationWalkthrough({
       title: "The idea: penalize large weights",
       body: (
         <p>
-          <Term id="regularization">L2 regularization</Term> adds a penalty for big weights:
+          L2 regularization adds a penalty for big weights:
           <Equation tex={"\\text{Loss} = \\text{Cross-entropy} + \\lambda \\sum_i w_i^2"} />
           Large weights are what let the boundary wiggle wildly, so shrinking them smooths it out.
         </p>
@@ -812,8 +811,8 @@ export function ClassificationWalkthrough({
       title: "Same four dials as Regression",
       body: (
         <p>
-          <Term id="polynomial-degree">Degree</Term>, data split, noise, and{" "}
-          <Term id="regularization">L2 regularization</Term> affect overfitting here exactly the
+          Degree, data split, noise, and{" "}
+          L2 regularization affect overfitting here exactly the
           way they did there — degree is the biggest lever, and regularization is the one dial
           that fights overfitting instead of causing it.
         </p>
@@ -828,11 +827,11 @@ export function ClassificationWalkthrough({
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>A raw score <Equation tex="z" display={false} /> becomes a probability via the <Term id="sigmoid">sigmoid</Term>.</li>
-            <li><Term id="cross-entropy">Cross-entropy loss</Term> measures how wrong the predicted probabilities are.</li>
-            <li><Term id="gradient-descent">Gradient descent</Term> — the exact same update rule as Regression — reduces it.</li>
-            <li>More flexible boundaries fit better, up to the point they <Term id="overfitting">overfit</Term>.</li>
-            <li>A <Term id="train-test-split">train/test split</Term>, learning rate, noise, and L2 regularization all shape training the same way they did for Regression.</li>
+            <li>A raw score <Equation tex="z" display={false} /> becomes a probability via the sigmoid.</li>
+            <li>Cross-entropy loss measures how wrong the predicted probabilities are.</li>
+            <li>Gradient descent — the exact same update rule as Regression — reduces it.</li>
+            <li>More flexible boundaries fit better, up to the point they overfit.</li>
+            <li>A train/test split, learning rate, noise, and L2 regularization all shape training the same way they did for Regression.</li>
           </ul>
         </div>
       ),

@@ -3,7 +3,6 @@
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { Equation } from "@/components/Equation";
-import { Term } from "@/components/Term";
 import { StatCard } from "@/components/StatCard";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { TokenChips } from "../../fundamentals/transformers/TokenChips";
@@ -112,7 +111,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Part one of the request: the system prompt",
       body: (
         <p>
-          The <Term id="system-prompt">system prompt</Term> sets the model&rsquo;s role for the
+          The system prompt sets the model&rsquo;s role for the
           whole call — &ldquo;you are a helpful assistant,&rdquo; for example. It&rsquo;s optional,
           and it isn&rsquo;t the actual question.
         </p>
@@ -164,7 +163,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Temperature: how random the output is",
       body: (
         <p>
-          You already met <Term id="temperature">temperature</Term> in Tiny LLM — it&rsquo;s the
+          You already met temperature in Tiny LLM — it&rsquo;s the
           exact same dial, just now something you set on every request instead of a slider in a
           sandbox.
         </p>
@@ -189,7 +188,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           Some models can spend extra, usually-invisible &ldquo;thinking&rdquo; tokens before
-          answering — <Term id="reasoning-effort">reasoning effort</Term> controls how much.
+          answering — reasoning effort controls how much.
           Higher effort can mean a better answer, but those thinking tokens are still billed as
           output.
         </p>
@@ -327,7 +326,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           A real model typically samples its next token, the same idea as Tiny LLM&rsquo;s{" "}
-          <Term id="temperature">temperature</Term> — so calling it twice, even with identical
+          temperature — so calling it twice, even with identical
           inputs, can give back two different answers.
         </p>
       ),
@@ -417,7 +416,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <p>
           Real providers notice when a request&rsquo;s beginning is byte-for-byte the same as one
           they just processed — the growing history, almost always — and bill those{" "}
-          <Term id="cached-tokens">cached tokens</Term> at a fraction of the normal input price,
+          cached tokens at a fraction of the normal input price,
           instead of full price every single turn.
         </p>
       ),
@@ -474,12 +473,12 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>A call has a <Term id="system-prompt">system prompt</Term> (role/instructions) and a user prompt (the actual question).</li>
-            <li>Requests also carry configuration: <Term id="temperature">temperature</Term>, max output length, and — on some models — <Term id="reasoning-effort">reasoning effort</Term>.</li>
-            <li>Both the request and the response are measured in <Term id="token">tokens</Term>.</li>
+            <li>A call has a system prompt (role/instructions) and a user prompt (the actual question).</li>
+            <li>Requests also carry configuration: temperature, max output length, and — on some models — reasoning effort.</li>
+            <li>Both the request and the response are measured in tokens.</li>
             <li>Latency is time-to-response; cost is input tokens and output tokens, priced separately, per 1,000.</li>
             <li>This app&rsquo;s mock model is deterministic; real models usually sample, so output varies.</li>
-            <li>The model has no memory — every turn resends the whole conversation, so cost grows with it, unless <Term id="cached-tokens">cached tokens</Term> keep the repeated part cheap.</li>
+            <li>The model has no memory — every turn resends the whole conversation, so cost grows with it, unless cached tokens keep the repeated part cheap.</li>
             <li>Every response carries a request ID and timestamp for tracing later.</li>
           </ul>
         </div>

@@ -2,7 +2,6 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
-import { Term } from "@/components/Term";
 import { SegmentedProgressBar } from "@/components/SegmentedProgressBar";
 import { AgentLoopDiagram } from "./AgentLoopDiagram";
 import { AgentSystemDiagram } from "./AgentSystemDiagram";
@@ -116,7 +115,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "The big picture",
       body: (
         <p>
-          You give an <Term id="agent">agent</Term> a goal, in plain language. The agent wraps
+          You give an agent a goal, in plain language. The agent wraps
           that goal in a prompt and sends it to an LLM. From there, it loops — decide, act,
           observe, repeat — calling tools and reading or rewriting a plan along the way, until it
           has enough to give a final answer. This chapter covers how that loop works, what it
@@ -131,7 +130,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "An Agent, at a Glance",
       body: (
         <div className="space-y-2">
-          <p>A few things have to be true before something counts as an <Term id="agent">agent</Term>:</p>
+          <p>A few things have to be true before something counts as an agent:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>It receives a goal, not just a prompt — the agent wraps the goal into a prompt itself.</li>
             <li>It decides its own next action at each step, not a fixed sequence.</li>
@@ -226,11 +225,11 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Real Agents Often Decide One Step at a Time",
       body: (
         <p>
-          More advanced agents follow the <Term id="react-pattern">ReAct</Term> loop: Decide one
+          More advanced agents follow the ReAct loop: Decide one
           action, Act on it, Observe the result, then Decide again using what was just learned —
           able to adapt mid-task in a way a fixed upfront plan can&rsquo;t. This app runs a
           simpler version of that Act → Observe step: for each tool in the plan, it acts by
-          calling the tool, observes the result (its <Term id="observation">observation</Term>),
+          calling the tool, observes the result (its observation),
           then moves to the next tool in order, until the plan is done.
         </p>
       ),
@@ -253,7 +252,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <div className="space-y-2">
           <p>
-            Real agent systems implement updating the <Term id="plan">plan</Term> one of two
+            Real agent systems implement updating the plan one of two
             ways, listed from most common to least common:
           </p>
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
@@ -357,7 +356,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           A tool&rsquo;s result — a search hit, a webpage, a file — can itself contain text
-          trying to hijack the agent: the same <Term id="prompt-injection">prompt injection</Term>{" "}
+          trying to hijack the agent: the same prompt injection{" "}
           risk from Prompt Engineering, now arriving through a tool instead of a document.
         </p>
       ),
@@ -504,7 +503,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Saving a Goal as an AI Artifact",
       body: (
         <p>
-          A working agent goal can be saved as an <Term id="ai-artifact">AI Artifact</Term>, the
+          A working agent goal can be saved as an AI Artifact, the
           same mechanism RAG used, to reuse or compare it later.
         </p>
       ),
@@ -535,16 +534,16 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>You give an <Term id="agent">agent</Term> a goal; it wraps that goal in a prompt and sends it to an LLM.</li>
+            <li>You give an agent a goal; it wraps that goal in a prompt and sends it to an LLM.</li>
             <li>An agent decides its own next action — not a fixed script — and can call a tool or update its plan at each step.</li>
-            <li>Real agents often follow a <Term id="react-pattern">ReAct</Term> loop: decide one step at a time, using each new observation, with an editable plan alongside.</li>
+            <li>Real agents often follow a ReAct loop: decide one step at a time, using each new observation, with an editable plan alongside.</li>
             <li>Each planned tool runs in order; a failed one gets retried once; a hard cap stops infinite loops.</li>
             <li>All observations combine into a single final answer, not one answer per tool.</li>
             <li>More steps means more model calls, and more cost, for an agent that decides at every step.</li>
             <li>A tool&rsquo;s result is untrusted content — it can carry a hidden prompt injection.</li>
             <li>Risky actions should pause for a human&rsquo;s approval before running.</li>
             <li>Real APIs can run several tool calls in parallel, not just one at a time.</li>
-            <li>A goal can be saved as an <Term id="ai-artifact">AI Artifact</Term>, same as RAG.</li>
+            <li>A goal can be saved as an AI Artifact, same as RAG.</li>
             <li>A script with if/else branches still isn&rsquo;t an agent — only when nothing decided those branches in advance.</li>
           </ul>
         </div>
