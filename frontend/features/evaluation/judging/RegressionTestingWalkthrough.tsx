@@ -111,7 +111,8 @@ export function RegressionTestingWalkthrough({
       body: (
         <p>
           Regression testing re-runs the same dataset and metrics against a new version of one
-          system, and compares the two score sets side by side — so a change that helps one thing
+          system. It compares the two score sets side by side. That way, a change that helps one
+          thing
           while quietly breaking another gets caught before it goes live.
         </p>
       ),
@@ -130,7 +131,7 @@ export function RegressionTestingWalkthrough({
         'Maya: "Good news first — run the original bug and its 70% cousin through v2."\nChloe: "Both come back right."',
       body: (
         <p>
-          On the exact question that started this module, v2 is the fix: v1 said &ldquo;yes, full
+          On the exact question that started this module, v2 is the fix. v1 said &ldquo;yes, full
           refund&rdquo;; v2 correctly says partial refund or store credit. The same holds for the
           70%-refund cousin — v2 gets both right.
         </p>
@@ -163,8 +164,9 @@ export function RegressionTestingWalkthrough({
       body: (
         <p>
           On a refund-timing question, v2&rsquo;s faster, terser style drops a detail v1
-          included — a small faithfulness loss on a different case, unrelated to the worn-item
-          fix, that pulled the overall average down.
+          included. That&rsquo;s a small faithfulness loss on a different case, unrelated to the
+          worn-item
+          fix. It pulled the overall average down.
         </p>
       ),
       visual: (
@@ -192,8 +194,9 @@ export function RegressionTestingWalkthrough({
       title: "Setting a Minimum Bar",
       body: (
         <p>
-          A regression isn&rsquo;t automatically disqualifying — it depends on whether the new
-          score still clears the minimum bar the system needs to meet, and whether the trade-off
+          A regression isn&rsquo;t automatically disqualifying. It depends on whether the new
+          score still clears the minimum bar the system needs to meet. It also depends on
+          whether the trade-off
           is one the team actually wants.
         </p>
       ),

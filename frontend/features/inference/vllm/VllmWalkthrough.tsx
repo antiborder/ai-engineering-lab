@@ -197,7 +197,8 @@ export function VllmWalkthrough({
         <div className="space-y-2">
           <p>
             Model Serving showed the request path and why traffic at scale is hard. This chapter
-            meets vLLM, the real system most deployments actually run, and three of its tricks
+            meets vLLM, the real system most deployments actually run. It covers three of its
+            tricks
             for serving far more traffic on the same hardware:
           </p>
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
@@ -219,12 +220,14 @@ export function VllmWalkthrough({
         <div className="space-y-2">
           <p>
             vLLM is real, widely-used open-source software, originally built by researchers at UC
-            Berkeley, for running the &ldquo;inference server&rdquo; stage from Model Serving —
+            Berkeley. It runs the &ldquo;inference server&rdquo; stage from Model Serving.
+            That&rsquo;s
             the software layer around a model that decides how requests share the GPU.
           </p>
           <p>
             The name is short for <strong>virtual LLM</strong>. &ldquo;Virtual&rdquo; is a nod to{" "}
-            <strong>virtual memory</strong>, an idea explained fully — from scratch, no prior
+            <strong>virtual memory</strong>. That&rsquo;s an idea explained fully — from scratch,
+            no prior
             knowledge assumed — in the PagedAttention Section coming up.
           </p>
         </div>
@@ -237,8 +240,8 @@ export function VllmWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            vLLM is an ordinary running program — a server process, written mostly in Python,
-            with its most performance-critical parts written in C++ and CUDA.
+            vLLM is an ordinary running program — a server process, written mostly in Python.
+            Its most performance-critical parts are written in C++ and CUDA.
           </p>
           <p>
             The GPU driver and CUDA sit below it, executing whatever calculations vLLM sends
@@ -276,17 +279,19 @@ export function VllmWalkthrough({
         <div className="space-y-2">
           <p>
             A <strong>serving engine</strong> is the software that actually decides which
-            requests run right now and manages the model&rsquo;s memory while doing it — the real
+            requests run right now. It manages the model&rsquo;s memory while doing it.
+            That&rsquo;s the real
             implementation of the inference-server stage from Model Serving. Without one, the
             simplest version just calls the model directly, one request at a time.
           </p>
           <p>
-            The GPU unit showed a GPU can run huge numbers of simple calculations at once — but
-            only when there is enough data to keep all those cores busy.
+            The GPU unit showed a GPU can run huge numbers of simple calculations at once. But
+            that&rsquo;s only true when there is enough data to keep all those cores busy.
           </p>
           <p>
             Serving one request at a time gives the GPU only one word&rsquo;s worth of work to do
-            at each step — nowhere near enough data to fill thousands of cores. Most of them sit
+            at each step. That&rsquo;s nowhere near enough data to fill thousands of cores. Most
+            of them sit
             idle, instead of working on other requests at the same time.
           </p>
         </div>
@@ -303,8 +308,8 @@ export function VllmWalkthrough({
             second. Higher throughput means more users served on the same hardware.
           </p>
           <p>
-            On that same GPU: without a serving engine, running one request at a time leaves most
-            cores idle — throughput is only 1×. With vLLM, running many requests together keeps
+            On that same GPU, without a serving engine, running one request at a time leaves most
+            cores idle. Throughput is only 1×. With vLLM, running many requests together keeps
             those cores busy, and throughput goes up to about 24× that.
           </p>
         </div>
@@ -343,16 +348,18 @@ export function VllmWalkthrough({
           <p>
             Picture any Transformer, running on vLLM or anything else, generating &ldquo;The cat
             sat on the ___&rdquo; one word at a time. To choose the next word, it looks back at
-            every word written so far and asks how relevant each one is — the same attention
+            every word written so far, and asks how relevant each one is. That&rsquo;s the same
+            attention
             mechanism from Fundamentals&rsquo; Transformers Unit.
           </p>
           <p>
-            For every earlier word, attention compares against that word&rsquo;s Key and Value —
-            two small vectors computed once, the moment that word was generated.
+            For every earlier word, attention compares against that word&rsquo;s Key and Value.
+            Those are
+            two small vectors, computed once, the moment that word was generated.
           </p>
           <p className="text-sm text-neutral-500">
             Query works differently: computed once for a word&rsquo;s own turn, then never needed
-            again — unlike Key and Value, which later words keep looking back at.
+            again. That&rsquo;s unlike Key and Value, which later words keep looking back at.
           </p>
         </div>
       ),
@@ -365,7 +372,8 @@ export function VllmWalkthrough({
         <div className="space-y-2">
           <p>
             Without saving anything, generating one more word means recomputing every earlier
-            word&rsquo;s Key and Value from scratch — even though those words already had their
+            word&rsquo;s Key and Value from scratch. That happens even though those words already
+            had their
             turn and never change again.
           </p>
           <p>
@@ -405,8 +413,8 @@ export function VllmWalkthrough({
             </li>
             <li>
               <strong>More concurrent requests</strong> — the cache is never shared between
-              different requests, so two customers talking to the assistant at the same time each
-              need their own separate cache, all held in GPU memory together.
+              different requests. So two customers talking to the assistant at the same time each
+              need their own separate cache. All of that is held in GPU memory together.
             </li>
           </ul>
         </div>
@@ -479,17 +487,18 @@ export function VllmWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            Every server needs to store this cache somewhere in GPU memory, and for a long time
-            most did it the same wasteful way: reserving one continuous chunk for each
+            Every server needs to store this cache somewhere in GPU memory. For a long time,
+            most did it the same wasteful way. They reserved one continuous chunk for each
             request&rsquo;s KV cache.
           </p>
           <p>
-            That chunk was sized for the longest response the request might ever generate —
-            before knowing how long the real response would actually be.
+            That chunk was sized for the longest response the request might ever generate.
+            That&rsquo;s before knowing how long the real response would actually be.
           </p>
           <p>
-            Picture a hotel that reserves 32 adjacent rooms for one guest, sized for the most
-            rooms that guest might ever need — before knowing how many they&rsquo;ll actually
+            Picture a hotel that reserves 32 adjacent rooms for one guest. That&rsquo;s sized for
+            the most
+            rooms that guest might ever need, before knowing how many they&rsquo;ll actually
             use. If they only end up needing 2, the other 30 sit empty, unusable by anyone else.
           </p>
         </div>
@@ -510,13 +519,15 @@ export function VllmWalkthrough({
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>
               <strong>Internal fragmentation</strong> — most guests only end up needing a couple
-              of rooms, so most of what was reserved for them sits empty: space reserved but
+              of rooms. So most of what was reserved for them sits empty: space reserved but
               never used.
             </li>
             <li>
               <strong>External fragmentation</strong> — as different-sized reservations come and
-              go, the hotel is left with scattered single free rooms, not enough next to each
-              other for the next big reservation, even though plenty of rooms are free overall.
+              go, the hotel is left with scattered single free rooms. Those aren&rsquo;t enough
+              next to each
+              other for the next big reservation. That&rsquo;s true even though plenty of rooms
+              are free overall.
             </li>
           </ul>
           <p>vLLM&rsquo;s own published measurements found this wastes 60&ndash;80% of a GPU&rsquo;s KV cache memory.</p>
@@ -539,7 +550,7 @@ export function VllmWalkthrough({
             room at a time, only as the guest actually needs another one.
           </p>
           <p>
-            And those rooms do not need to sit next to each other — the front desk just keeps a
+            And those rooms do not need to sit next to each other. The front desk just keeps a
             list of which room belongs to which guest. The same rooms that used to sit wasted are
             now genuinely free, ready for other guests.
           </p>
@@ -570,10 +581,12 @@ export function VllmWalkthrough({
           <p>
             Computer memory gets divided into small, equal-sized blocks the same way — each block
             is called a <strong>page</strong>. Whenever a program needs its next chunk of data
-            stored, it goes into whatever page happens to be free, anywhere in memory.
+            stored, it goes into whatever page happens to be free. That page can be anywhere
+            in memory.
           </p>
           <p>
-            A <strong>page table</strong> is just a list, exactly like the front desk&rsquo;s:
+            A <strong>page table</strong> is just a list, exactly like the front desk&rsquo;s. It
+            tracks
             which page holds which piece of the program&rsquo;s data. The program itself never
             checks memory addresses directly — it only ever asks the page table.
           </p>
@@ -596,12 +609,13 @@ export function VllmWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            The program only ever sees one clean, continuous stretch of memory, even though its
+            The program only ever sees one clean, continuous stretch of memory. That&rsquo;s true
+            even though its
             real pages sit scattered all over physical memory.
           </p>
           <p>
-            That illusion — a program acting as if it has one tidy block, when the real thing is
-            scattered pieces stitched together by a page table — is what{" "}
+            A program acts as if it has one tidy block. The real thing is scattered pieces,
+            stitched together by a page table. That illusion is what{" "}
             <strong>virtual memory</strong> means.
           </p>
         </div>
@@ -615,8 +629,9 @@ export function VllmWalkthrough({
         <div className="space-y-2">
           <p>
             PagedAttention is vLLM&rsquo;s version of exactly
-            this idea, applied to the KV cache: each request&rsquo;s Key/Value data is split into
-            small fixed-size blocks — {BLOCK_SIZE} tokens each — allocated only as new words are
+            this idea, applied to the KV cache. Each request&rsquo;s Key/Value data is split into
+            small fixed-size blocks — {BLOCK_SIZE} tokens each. Those blocks are allocated only
+            as new words are
             actually generated, and stored wherever there is room.
           </p>
           <p>The same published measurements found this cuts memory waste to under 4%.</p>
@@ -691,7 +706,7 @@ export function VllmWalkthrough({
             </li>
             <li>
               <strong>A growing conversation</strong> — LLM API&rsquo;s Conversations &amp; Memory
-              Section showed that every new turn resends the whole history so far, so each
+              Section showed that every new turn resends the whole history so far. So each
               turn&rsquo;s request shares an identical, ever-growing beginning with the one right
               before it.
             </li>
@@ -715,7 +730,8 @@ export function VllmWalkthrough({
         <p>
           Because PagedAttention already stores the KV cache as small blocks — separate rooms,
           not 32 reserved upfront — a block holding an identical shared beginning can simply
-          be shared by more than one request, instead of every request computing and storing its
+          be shared by more than one request. That&rsquo;s instead of every request computing and
+          storing its
           own separate copy. vLLM calls this prefix caching.
         </p>
       ),
@@ -727,7 +743,8 @@ export function VllmWalkthrough({
       body: (
         <p>
           For the second and later requests that share a prefix, the model skips recomputing that
-          shared part entirely and starts from where it ends — cutting the work down to exactly
+          shared part entirely. It starts from where the shared part ends. That cuts the work
+          down to exactly
           the part of the request that was actually new.
         </p>
       ),
@@ -739,8 +756,9 @@ export function VllmWalkthrough({
       title: "One Word, One Full Run",
       body: (
         <p>
-          Generating text one word at a time means running the whole model once per word — a
-          20-word answer means 20 separate full runs. Each run only predicts one word, so most of
+          Generating text one word at a time means running the whole model once per word.
+          A 20-word answer means 20 separate full runs. Each run only predicts one word, so most
+          of
           the GPU&rsquo;s parallel capacity goes unused every time.
         </p>
       ),
@@ -759,7 +777,7 @@ export function VllmWalkthrough({
       body: (
         <p>
           Speculative decoding adds a small, fast draft model that guesses several words ahead on
-          its own — for &ldquo;The Eiffel Tower is ___,&rdquo; maybe &ldquo;in&rdquo;,
+          its own. For &ldquo;The Eiffel Tower is ___,&rdquo; it might guess &ldquo;in&rdquo;,
           &ldquo;Paris&rdquo;, &ldquo;France&rdquo;. The large model then checks all three guesses
           at once, instead of generating them one at a time.
         </p>
@@ -779,9 +797,10 @@ export function VllmWalkthrough({
       title: "Checking Guesses Costs About the Same as Making One",
       body: (
         <p>
-          The large model checks all three guesses in one run, not three — using the same spare
+          The large model checks all three guesses in one run, not three. That uses the same
+          spare
           GPU capacity from the previous Step. Checking whether a guess is right is far cheaper
-          than generating a word from nothing, which is where the speedup comes from.
+          than generating a word from nothing. That&rsquo;s where the speedup comes from.
         </p>
       ),
       visual: (
@@ -811,10 +830,10 @@ export function VllmWalkthrough({
       title: "Accept or Reject: The Same Output, Faster",
       body: (
         <p>
-          The large model checks each guess in order — say it accepts &ldquo;in&rdquo; and
+          The large model checks each guess in order. Say it accepts &ldquo;in&rdquo; and
           &ldquo;Paris&rdquo; but rejects &ldquo;France,&rdquo; generating the correct word itself
           instead. Either way, the output is exactly what the large model alone would have
-          produced, just faster, since multiple words got confirmed in one pass.
+          produced, just faster. Multiple words got confirmed in one pass.
         </p>
       ),
       visual: <StatCard label="Typical speedup, when guesses are good" value="~2–3×" tone="good" />,
@@ -827,12 +846,12 @@ export function VllmWalkthrough({
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>Serving one request at a time wastes the GPU&rsquo;s parallel power — published benchmarks show vLLM reaching up to 24× the throughput of that naive baseline.</li>
+            <li>Serving one request at a time wastes the GPU&rsquo;s parallel power. Published benchmarks show vLLM reaching up to 24× the throughput of that naive baseline.</li>
             <li>vLLM combines continuous batching (its own Unit) with PagedAttention, prefix caching, and speculative decoding.</li>
-            <li>The KV cache saves every earlier word&rsquo;s Key and Value so generating a new word never needs to recompute them from scratch — but it grows with both context length and how many requests run at once.</li>
-            <li>Naive KV cache reservation wastes 60&ndash;80% of memory to internal and external fragmentation; PagedAttention&rsquo;s fixed-size blocks — the same idea as OS virtual memory paging — cut that to under 4%.</li>
-            <li>Prefix caching shares a block holding an identical beginning (like a system prompt) across requests, instead of recomputing it every time.</li>
-            <li>Speculative decoding uses a small draft model to guess several words ahead, which the large model verifies in one pass — producing the exact same output, just faster.</li>
+            <li>The KV cache saves every earlier word&rsquo;s Key and Value, so generating a new word never needs to recompute them from scratch. But it grows with both context length and how many requests run at once.</li>
+            <li>Naive KV cache reservation wastes 60&ndash;80% of memory to internal and external fragmentation. PagedAttention&rsquo;s fixed-size blocks — the same idea as OS virtual memory paging — cut that to under 4%.</li>
+            <li>Prefix caching shares a block holding an identical beginning (like a system prompt) across requests. That&rsquo;s instead of recomputing it every time.</li>
+            <li>Speculative decoding uses a small draft model to guess several words ahead. The large model verifies them in one pass, producing the exact same output, just faster.</li>
           </ul>
         </div>
       ),
@@ -844,8 +863,9 @@ export function VllmWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            Continuous batching — the one piece of vLLM this chapter only mapped — is next,
-            followed by quantization, performance metrics (and the hosted-vs-self-hosted decision
+            Continuous batching — the one piece of vLLM this chapter only mapped — is next.
+            After that comes quantization, performance metrics (and the hosted-vs-self-hosted
+            decision
             they feed), and GPU hardware itself.
           </p>
           <Link

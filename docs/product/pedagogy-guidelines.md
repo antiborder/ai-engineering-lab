@@ -96,6 +96,10 @@ and when reviewing/fixing an existing one.
   more concisely. Never let conciseness make it harder to
   understand than the longer version would have been — clarity always wins over the character
   count when the two are in tension.
+- **No sentence longer than 20 words.** Count from the start of the sentence to its period. If a
+  sentence would run past 20 words, split it into two or more shorter sentences instead of
+  keeping it as one long sentence — this applies even when the sentence already fits within the
+  ~50-word unbroken-run limit above.
 - Place **one or two graphs, 3D visualizations, or diagrams** per Step.
 - **3D figures must be user-rotatable.**
 - **Graphs must label both axes** (x and y).

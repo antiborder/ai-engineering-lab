@@ -27,16 +27,22 @@ two Chapters, see below):
   (still-placeholder) modules via URL params — confirmed working end-to-end in the browser.
 - **Tool Calling & Agents** (`/genai/tool-calling`) — one Unit, two Chapters via a tab switcher
   (`ToolCallingAgentsPlayground.tsx`), since Agents is Tool Calling's exact mechanism, looped
-  with a plan on top — not two unrelated ideas. No walkthrough yet for either Chapter (Lab-only,
-  same as every GenAI Systems Unit before LLM API got its walkthrough this session).
-  - **Tool Calling** — a message goes through selection → execution → result → final answer.
-    Tool selection is rule-based (regex triggers for arithmetic, "weather in `<city>`", and
-    question phrasing) since the mock LLM can't actually reason — documented as a deliberate
-    simplification, not hidden as if it were real function-calling.
-  - **Agents** — a goal is decomposed into a plan (possibly multiple tool calls), each step
-    executes with an observation, failures get one retry, and a final answer synthesizes all
-    observations. No hidden chain-of-thought is exposed, only plan + tool calls + observations
-    (spec section 15).
+  with a plan on top — not two unrelated ideas. Both Chapters now have a guided walkthrough.
+  - **Tool Calling** (`ToolCallingWalkthrough.tsx`, 22 Steps across Welcome + 4 Sections +
+    Wrap-up) — a message goes through selection → execution → result → final answer. Tool
+    selection is rule-based (regex triggers for arithmetic, "weather in `<city>`", and question
+    phrasing) since the mock LLM can't actually reason — documented as a deliberate
+    simplification, not hidden as if it were real function-calling. Section 4 ("Choosing a
+    Tool") also covers MCP (Model Context Protocol) at concept-only scope — closing gap-check
+    item 9 below.
+  - **Agents** (`AgentWalkthrough.tsx`, 19 Steps across Welcome + 5 Sections + Wrap-up) — a goal
+    is decomposed into a plan (possibly multiple tool calls), each step executes with an
+    observation, failures get one retry, and a final answer synthesizes all observations. No
+    hidden chain-of-thought is exposed, only plan + tool calls + observations (spec section 15).
+    Also covers: prompt injection arriving through an untrusted tool result ("Every Tool Result
+    Is Untrusted Content" — closing gap-check item 10's injection-detection half), an
+    interactive approve/deny gate before a risky tool call runs (closing item 10's
+    approval-gate half), and a parallel-tool-calls timeline diagram (closing item 7).
 - **Workflows** — the same input run through a fixed 2-step pipeline (always retrieve, always
   answer) versus the adaptive agent, side by side, so the "when is an agent worth it" trade-off
   is something you can see rather than just read about. Deliberately stayed a separate, final
@@ -106,11 +112,15 @@ as any `/api/artifacts` call).
 A chapter-by-chapter review (prompted by auditing LLM API for gaps like configuration
 parameters, multi-turn conversations, and cached tokens — see `LlmApiWalkthrough.tsx`) found
 further gaps across the rest of the module. Ranked by usefulness × implementation cost × fit
-with this app's interactive-visualization teaching style; not yet implemented. Two topics were
-judged lower priority and are deliberately excluded from this pass: **agentic/iterative RAG**
-(overlaps heavily with item 1's structured-workflow middle tier — better folded in there than
-built separately) and **multi-agent orchestration** (agents calling other agents — a real 2026
-topic, but a step beyond this Chapter's single-agent teaching scope).
+with this app's interactive-visualization teaching style. Two topics were judged lower priority
+and are deliberately excluded from this pass: **agentic/iterative RAG** (overlaps heavily with
+item 1's structured-workflow middle tier — better folded in there than built separately) and
+**multi-agent orchestration** (agents calling other agents — a real 2026 topic, but a step
+beyond this Chapter's single-agent teaching scope).
+
+Items 7, 9, and 10 (parallel tool calls, MCP, and guardrails/approval gates) were built as part
+of `AgentWalkthrough.tsx`/`ToolCallingWalkthrough.tsx` and are no longer open — see the Tool
+Calling & Agents bullet above. Remaining items are not yet implemented.
 
 1. **Workflows — the missing middle tier: structured/graph workflows.** Highest priority.
    `WorkflowsLab.tsx` only shows two extremes: a fixed pipeline vs. a free agent. The
@@ -147,26 +157,37 @@ topic, but a step beyond this Chapter's single-agent teaching scope).
    priority/cost. Scope must stay narrow — real evaluation (statistical significance, regression
    suites, LLM-as-judge) is Module 3 (Evaluation)'s job, not this Chapter's; this addition should
    explicitly bridge to Module 3 rather than duplicate it.
-7. **Tool Calling/Agents — parallel tool calls.** Medium priority/cost. `plan_tool_calls` in
-   `tools.py` only ever plans tools sequentially; real APIs let a model request several tool
-   calls in one turn, executed in parallel. A timeline-style diagram fits this well.
+7. ✅ **Done.** ~~Tool Calling/Agents — parallel tool calls.~~ Medium priority/cost.
+   `plan_tool_calls` in `tools.py` only ever plans tools sequentially; real APIs let a model
+   request several tool calls in one turn, executed in parallel. A timeline-style diagram fits
+   this well. Built as `AgentWalkthrough.tsx`'s "Real APIs Can Run Tools in Parallel" Step
+   (Section 4), via a `ToolTimingDiagram` — conceptual/diagram scope, matching what was planned;
+   `plan_tool_calls` itself is still sequential, which is fine since the teaching goal was the
+   concept, not a real backend change.
 8. **RAG — hybrid search (dense + sparse).** Medium priority. Depends on item 2 (a real dense
    embedding) landing first — once both a sparse (TF-IDF, already built) and a dense signal
    exist, blending them is the natural next step, mirroring `rerank()`'s existing
    score-blending approach.
-9. **Tool Calling/Agents — MCP (Model Context Protocol), concept only.** High importance, but
-   poor visualization fit: MCP is how real 2026 applications wire tools to models (adopted well
-   beyond Anthropic, who introduced it), so leaving it out entirely would be a real gap — but
-   it's a wiring/protocol concept, not something a slider or diagram makes experiential the way
-   this app's other topics are. Scope deliberately small: one concept diagram (Model ⇄ MCP
-   Server ⇄ Tool) plus a short explanation, not a real protocol implementation. Cost: low for
-   that scoped version; a real MCP server integration would be high cost for little pedagogical
-   gain here and is explicitly out of scope.
-10. **Tool Calling/Agents — guardrails / approval gates before tool execution.** Medium
-    importance/cost. Good visualization fit (a pending-approval UI state is easy to show
+9. ✅ **Done.** ~~Tool Calling/Agents — MCP (Model Context Protocol), concept only.~~ High
+   importance, but poor visualization fit: MCP is how real 2026 applications wire tools to
+   models (adopted well beyond Anthropic, who introduced it), so leaving it out entirely would
+   be a real gap — but it's a wiring/protocol concept, not something a slider or diagram makes
+   experiential the way this app's other topics are. Scope deliberately small: one concept
+   diagram (Model ⇄ MCP Server ⇄ Tool) plus a short explanation, not a real protocol
+   implementation. Built as five Steps in `ToolCallingWalkthrough.tsx`'s "Choosing a Tool"
+   Section (adapter-code-moves-to-the-server, tool-calling-vs-MCP, a step-by-step MCP call
+   trace, and this app's own no-MCP disclosure) — matches the scoped-down plan exactly.
+10. ✅ **Done.** ~~Tool Calling/Agents — guardrails / approval gates before tool execution.~~
+    Medium importance/cost. Good visualization fit (a pending-approval UI state is easy to show
     experientially). Matters for responsible agentic-tool-execution practice — notably, the same
-    "confirm before risky actions" principle this session's own tool-use rules follow — though
-    secondary to this Chapter's core goal of teaching the tool-calling mechanism itself.
+    "confirm before risky actions" principle this session's own tool-use rules follow. Built as
+    two Steps in `AgentWalkthrough.tsx`'s "What Looping Changes" Section: "Every Tool Result Is
+    Untrusted Content" (a concrete injected-instruction example arriving through a tool result,
+    with "treat as data, never as commands" as the stated defense) and an interactive
+    "Try it yourself: risky actions need a human's OK" approve/deny gate, showing the different
+    outcome each choice produces. A user question in Module 5 (LLMOps) planning re-surfaced this
+    as a possible Monitoring & Observability addition; confirmed already covered here instead —
+    see `module-5-llmops.md`'s note.
 
 ## Tests
 

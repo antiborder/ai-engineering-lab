@@ -214,7 +214,7 @@ export function ModelServingWalkthrough({
       title: "Inference Server: The Traffic Controller",
       body: (
         <p>
-          The inference server sits between the client and the model: it receives incoming
+          The inference server sits between the client and the model. It receives incoming
           requests, decides which ones to run right now, and manages the model&rsquo;s memory.
           Later Units in this module — GPU, vLLM, Continuous Batching — go deep on exactly this
           stage.
@@ -228,7 +228,8 @@ export function ModelServingWalkthrough({
       body: (
         <p>
           This is the same forward pass from Fundamentals&rsquo; Transformers Unit. Serving runs
-          it once per output token, feeding each new token back in to predict the next one — the{" "}
+          it once per output token. It feeds each new token back in to predict the next one.
+          That&rsquo;s the{" "}
           autoregressive loop you already met in Tiny LLM.
         </p>
       ),
@@ -241,7 +242,7 @@ export function ModelServingWalkthrough({
         <p>
           A served model usually streams tokens back one at a time, instead of waiting for the
           whole answer to finish. That is why the first token can arrive quickly, even for a long
-          response — the Performance Unit measures this timing directly.
+          response. The Performance Unit measures this timing directly.
         </p>
       ),
       visual: <ModelServingDiagram highlight={["tokens"]} />,
@@ -345,7 +346,8 @@ export function ModelServingWalkthrough({
         <p>
           When one server&rsquo;s queue backs up, the obvious fix is another server. But a modern
           model&rsquo;s weights can be tens of gigabytes. Before a new server can answer even one
-          request, it has to load all of that from storage into GPU memory — commonly tens of
+          request, it has to load all of that from storage into GPU memory. That commonly takes
+          tens of
           seconds, sometimes minutes.
         </p>
       ),
@@ -357,7 +359,7 @@ export function ModelServingWalkthrough({
       body: (
         <p>
           Autoscaling reacts to rising traffic by starting new servers. But a new server takes
-          just as long to load the model as any other did — so it is not ready until well after
+          just as long to load the model as any other did. So it is not ready until well after
           the spike that triggered it. Requests keep queueing on the servers that were already
           warm.
         </p>
@@ -448,8 +450,8 @@ export function ModelServingWalkthrough({
             <li>The model itself just repeats the same autoregressive forward pass, one token at a time.</li>
             <li>A single request is always easy. The real problem is many requests at once, on the same hardware.</li>
             <li>As arrival rate approaches server capacity, average wait time does not grow smoothly — it explodes.</li>
-            <li>Adding a server is not instant — loading a model&rsquo;s weights is a real, tens-of-seconds cold start, which autoscaling that reacts to traffic can&rsquo;t outrun.</li>
-            <li>Warm pools skip the cold start by paying for idle capacity; load balancing then decides which replica each request goes to — least-loaded avoids the pileups blind round-robin can cause.</li>
+            <li>Adding a server is not instant. Loading a model&rsquo;s weights is a real, tens-of-seconds cold start, which autoscaling that reacts to traffic can&rsquo;t outrun.</li>
+            <li>Warm pools skip the cold start by paying for idle capacity. Load balancing then decides which replica each request goes to — least-loaded avoids the pileups blind round-robin can cause.</li>
           </ul>
         </div>
       ),
@@ -461,10 +463,13 @@ export function ModelServingWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            The next Unit looks at the GPU itself — why it can run so many calculations at once,
-            and why its memory, not just its speed, is what actually limits how many requests fit.
-            After that, every other Unit is a different way to push that same GPU further without
-            buying a second one: vLLM, Continuous Batching, Quantization, and Performance (which
+            The next Unit looks at the GPU itself. It explains why it can run so many
+            calculations at once. It also explains why its memory, not just its speed, is what
+            actually limits how many requests fit.
+            After that, every other Unit is a different way to push that same GPU further,
+            without
+            buying a second one. Those units are vLLM, Continuous Batching, Quantization, and
+            Performance (which
             also covers the hosted-vs-self-hosted decision).
           </p>
           <Link

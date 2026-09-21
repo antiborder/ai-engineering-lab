@@ -72,7 +72,8 @@ export function GpuWalkthrough({
         <div className="space-y-2">
           <p>
             This chapter covers the hardware every later chapter in this module quietly depends
-            on: why a GPU, specifically, is what runs these models, and why its memory — not just
+            on. It explains why a GPU, specifically, is what runs these models. It also explains
+            why its memory — not just
             its speed — is the real limit on what you can serve.
           </p>
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
@@ -110,7 +111,8 @@ export function GpuWalkthrough({
       title: "A CPU: Few Cores, Very Flexible",
       body: (
         <p>
-          A <strong>core</strong> is the part of a chip that actually does the work — the
+          A <strong>core</strong> is the part of a chip that actually does the work. It&rsquo;s
+          the
           physical unit that carries out one calculation at a time. A CPU has a handful of
           cores — commonly somewhere between 8 and 64 in a modern computer. Each core is powerful
           and flexible: it can follow complicated, branching instructions and jump between
@@ -125,7 +127,7 @@ export function GpuWalkthrough({
       body: (
         <p>
           A GPU takes the opposite approach: thousands of much simpler cores — a modern
-          datacenter GPU has several thousand. Each one is less flexible on its own, but all of
+          datacenter GPU has several thousand. Each one is less flexible on its own. But all of
           them can run the exact same simple instruction at the same time, on different pieces of
           data.
         </p>
@@ -138,8 +140,8 @@ export function GpuWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            The difference comes down to how each chip spends its space: a CPU spends it on a
-            few powerful cores, a GPU spends it on thousands of simple ones.
+            The difference comes down to how each chip spends its space. A CPU spends it on a
+            few powerful cores; a GPU spends it on thousands of simple ones.
           </p>
           <table className="w-full text-base border-collapse max-w-md mx-auto">
             <thead>
@@ -178,12 +180,13 @@ export function GpuWalkthrough({
         <div className="space-y-2">
           <p>
             Fundamentals&rsquo; Transformers Unit showed that a model&rsquo;s forward pass is
-            mostly matrix multiplication: the same operation — multiply two numbers, add the
+            mostly matrix multiplication. That&rsquo;s the same operation — multiply two numbers,
+            add the
             result — repeated an enormous number of times.
           </p>
           <p>
             That is exactly the shape of work thousands of simple, identical cores are built
-            for — which makes a GPU, not a CPU, the better fit for running a neural network.
+            for. That makes a GPU, not a CPU, the better fit for running a neural network.
           </p>
         </div>
       ),
@@ -211,8 +214,9 @@ export function GpuWalkthrough({
       title: "This Is Why Serving Needs a GPU",
       body: (
         <p>
-          This is the same fact every later chapter in this module leans on: a GPU can run a
-          whole batch of requests together almost as fast as it runs one, because it was built to
+          This is the same fact every later chapter in this module leans on. A GPU can run a
+          whole batch of requests together almost as fast as it runs one. That&rsquo;s because it
+          was built to
           do the same operation on many pieces of data at the same time.
         </p>
       ),
@@ -260,7 +264,8 @@ export function GpuWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            Every one of a model&rsquo;s weights is just a number — the same kind of number
+            Every one of a model&rsquo;s weights is just a number. That&rsquo;s the same kind of
+            number
             Fundamentals&rsquo; Neural Networks Unit tuned by hand. Storing a number takes memory,
             and how much depends on how precisely it is stored.
           </p>
@@ -291,13 +296,14 @@ export function GpuWalkthrough({
         <div className="space-y-2">
           <p>
             Out of {VRAM_TOTAL_GB} GB total, {MODEL_WEIGHTS_GB} GB is already spoken for by the
-            model&rsquo;s own weights, and a further small slice goes to the working memory named
-            a moment ago — small enough that this chapter folds it into the same margin.
+            model&rsquo;s own weights. A further small slice goes to the working memory named
+            a moment ago. That&rsquo;s small enough that this chapter folds it into the same
+            margin.
           </p>
           <p>
             What&rsquo;s left, about {KV_CAPACITY_GB} GB, is what the KV cache — every concurrent
             conversation being served — actually has to share. Whether that&rsquo;s a lot or a
-            little depends entirely on how many conversations run at once; the next section lets
+            little depends entirely on how many conversations run at once. The next section lets
             you check.
           </p>
         </div>
@@ -318,7 +324,7 @@ export function GpuWalkthrough({
             <li>
               <strong>Memory shortage</strong> — costs time too, but also wastes compute. A new
               request has to wait for an existing request&rsquo;s KV cache to free up before it
-              can even start, so the GPU&rsquo;s compute sits idle meanwhile — even though there
+              can even start. So the GPU&rsquo;s compute sits idle meanwhile, even though there
               is spare compute to run it with.
             </li>
           </ul>
@@ -399,12 +405,12 @@ export function GpuWalkthrough({
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>A GPU has thousands of simple cores built to do the same operation on lots of data at once; a CPU has far fewer, more flexible cores.</li>
+            <li>A GPU has thousands of simple cores built to do the same operation on lots of data at once. A CPU has far fewer, more flexible cores.</li>
             <li>Neural networks are mostly repeated matrix multiplication — exactly the kind of work a GPU&rsquo;s parallelism is built for.</li>
             <li>A GPU&rsquo;s VRAM is fixed and separate from system RAM; a common datacenter GPU has about 80 GB.</li>
             <li>Each weight is a number stored at some precision — FP16&rsquo;s 2 bytes per number is why a 7B-parameter model takes about 14 GB.</li>
             <li>That VRAM capacity holds the model&rsquo;s own weights, the KV cache for every request being served, and working memory, all at once.</li>
-            <li>Running out of compute only costs time; running out of memory can strand the GPU&rsquo;s compute idle too, since there is nowhere yet to put a new request&rsquo;s KV cache.</li>
+            <li>Running out of compute only costs time. Running out of memory can strand the GPU&rsquo;s compute idle too, since there is nowhere yet to put a new request&rsquo;s KV cache.</li>
             <li>vLLM and Quantization each make the VRAM capacity go further; Continuous Batching stretches the GPU&rsquo;s compute instead.</li>
           </ul>
         </div>

@@ -117,7 +117,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <p>
           You give an agent a goal, in plain language. The agent wraps
           that goal in a prompt and sends it to an LLM. From there, it loops — decide, act,
-          observe, repeat — calling tools and reading or rewriting a plan along the way, until it
+          observe, repeat. It calls tools and reads or rewrites a plan along the way, until it
           has enough to give a final answer. This chapter covers how that loop works, what it
           costs, and what can go wrong along the way.
         </p>
@@ -201,8 +201,9 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           A script that always runs the same steps, in the same order, no matter what it finds
-          — like RAG&rsquo;s own pipeline — isn&rsquo;t an agent. It&rsquo;s automation, not a
-          decision. That&rsquo;s still true even if the script has if/else branches: as long as
+          — like RAG&rsquo;s own pipeline. That isn&rsquo;t an agent. It&rsquo;s automation, not
+          a
+          decision. That&rsquo;s still true even if the script has if/else branches. As long as
           a human decided those branches in advance, it&rsquo;s following a fixed diagram, not
           deciding anything itself.
         </p>
@@ -215,7 +216,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           An agent is a model that looks at a goal and decides, itself, which action to take
-          next — not a fixed sequence someone wrote in advance.
+          next. That&rsquo;s not a fixed sequence someone wrote in advance.
         </p>
       ),
       visual: <AgentDecisionDiagram />,
@@ -226,11 +227,12 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           More advanced agents follow the ReAct loop: Decide one
-          action, Act on it, Observe the result, then Decide again using what was just learned —
-          able to adapt mid-task in a way a fixed upfront plan can&rsquo;t. This app runs a
-          simpler version of that Act → Observe step: for each tool in the plan, it acts by
-          calling the tool, observes the result (its observation),
-          then moves to the next tool in order, until the plan is done.
+          action, Act on it, Observe the result, then Decide again. That
+          uses what was just learned — able to adapt mid-task in a way a fixed upfront plan
+          can&rsquo;t. This app runs a
+          simpler version of that Act → Observe step. For each tool in the plan, it acts by
+          calling the tool, and observes the result (its observation).
+          Then it moves to the next tool in order, until the plan is done.
         </p>
       ),
       visual: (
@@ -258,7 +260,8 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
             <li>
               <strong>As a tool call.</strong> The LLM calls a dedicated tool, with a structured
-              list of tasks as its arguments — the same mechanism as calling any other tool. The
+              list of tasks as its arguments. That&rsquo;s the same mechanism as calling any
+              other tool. The
               plan then lives outside the model&rsquo;s own generated text, as state the tool
               call updates.
             </li>
@@ -295,7 +298,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "All Observations Combine Into One Final Answer",
       body: (
         <p>
-          Every observation from every step is joined into one prompt, and the model writes a
+          Every observation from every step is joined into one prompt. The model writes a
           single answer using all of them together — not one answer per tool.
         </p>
       ),
@@ -344,7 +347,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <p>
           Every time the loop above decides again, that&rsquo;s another call to the model — and
           another cost. This app&rsquo;s own agent only calls the model once, since planning is
-          rule-based rather than decided by the model; a real step-by-step agent pays this cost
+          rule-based rather than decided by the model. A real step-by-step agent pays this cost
           on every lap.
         </p>
       ),
@@ -356,7 +359,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           A tool&rsquo;s result — a search hit, a webpage, a file — can itself contain text
-          trying to hijack the agent: the same prompt injection{" "}
+          trying to hijack the agent. That&rsquo;s the same prompt injection{" "}
           risk from Prompt Engineering, now arriving through a tool instead of a document.
         </p>
       ),
@@ -441,8 +444,8 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Real APIs Can Run Tools in Parallel",
       body: (
         <p>
-          Real 2026 APIs let a model request several tool calls in one turn, run concurrently —
-          the total time is however long the slowest one takes, not the sum of all of them.
+          Real 2026 APIs let a model request several tool calls in one turn, run concurrently.
+          The total time is however long the slowest one takes, not the sum of all of them.
         </p>
       ),
       visual: <ToolTimingDiagram mode="parallel" />,
@@ -503,7 +506,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Saving a Goal as an AI Artifact",
       body: (
         <p>
-          A working agent goal can be saved as an AI Artifact, the
+          A working agent goal can be saved as an AI Artifact. That&rsquo;s the
           same mechanism RAG used, to reuse or compare it later.
         </p>
       ),
@@ -535,8 +538,8 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>You give an agent a goal; it wraps that goal in a prompt and sends it to an LLM.</li>
-            <li>An agent decides its own next action — not a fixed script — and can call a tool or update its plan at each step.</li>
-            <li>Real agents often follow a ReAct loop: decide one step at a time, using each new observation, with an editable plan alongside.</li>
+            <li>An agent decides its own next action — not a fixed script. It can call a tool or update its plan at each step.</li>
+            <li>Real agents often follow a ReAct loop: decide one step at a time, using each new observation. That happens with an editable plan alongside.</li>
             <li>Each planned tool runs in order; a failed one gets retried once; a hard cap stops infinite loops.</li>
             <li>All observations combine into a single final answer, not one answer per tool.</li>
             <li>More steps means more model calls, and more cost, for an agent that decides at every step.</li>

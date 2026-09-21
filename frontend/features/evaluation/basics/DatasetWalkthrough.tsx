@@ -55,8 +55,8 @@ export function DatasetWalkthrough({
         'Chloe: "Oh no, oh no! What do I do?"\nMaya: "Whoa, breathe. What happened?"\nChloe: "Our AI went completely dumb!"\nMaya: "Dumb how?"\nChloe: "It gave some weird answer to a customer! I don\'t know what to do!"\nMaya: "Hmm. Sounds like we need to evaluate this AI."',
       body: (
         <p>
-          Evaluation is a pipeline, not a single step: the AI assistant answers every question
-          in a dataset, those outputs get scored, and the score only means something once
+          Evaluation is a pipeline, not a single step. The AI assistant answers every question
+          in a dataset, and those outputs get scored. The score only means something once
           it&rsquo;s compared against something else. Skip a stage, and a wrong answer can slip
           through unnoticed until it&rsquo;s already live.
         </p>
@@ -71,8 +71,9 @@ export function DatasetWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            An AI support assistant for an online clothing retailer was asked whether a worn item
-            could be returned for a full refund. It confidently said yes — but worn items only
+            An AI support assistant for an online clothing retailer was asked about a return.
+            The question was whether a worn item could get a full refund. It confidently said
+            yes — but worn items only
             qualify for a partial refund or store credit. Nobody caught it before it went live.
           </p>
           <p>This chapter builds the dataset that would have caught it.</p>
@@ -95,8 +96,8 @@ export function DatasetWalkthrough({
       body: (
         <p>
           A test case has a question, an expected answer, and often a reference. This bug
-          becomes one: the question that the AI assistant got wrong, the answer it should have
-          given, and the doc it should have agreed with.
+          becomes one: the question that the AI assistant got wrong, and the answer it should
+          have given. It also becomes the doc it should have agreed with.
         </p>
       ),
       visual: (
@@ -157,8 +158,8 @@ export function DatasetWalkthrough({
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
             <li>
               <strong>Matching wording isn&rsquo;t the same as matching the truth.</strong> A
-              correct answer can be phrased completely differently from the expected answer,
-              and a wrong one can still happen to resemble it. The reference checks agreement
+              correct answer can be phrased completely differently from the expected answer.
+              A wrong one can still happen to resemble it. The reference checks agreement
               with the real policy directly — not with any one fixed phrasing.
             </li>
             <li>
@@ -184,9 +185,9 @@ export function DatasetWalkthrough({
       body: (
         <p>
           A dataset is a collection of test cases, not a single one. Testing only this
-          bug&rsquo;s exact wording leaves a gap: a near-miss question in the same area —
-          worded differently, or covering a similar edge case — can slip through unnoticed
-          unless it has its own case too.
+          bug&rsquo;s exact wording leaves a gap. A near-miss question in the same area —
+          worded differently, or covering a similar edge case — can slip through unnoticed.
+          That happens unless it has its own case too.
         </p>
       ),
       visual: (
@@ -276,9 +277,10 @@ export function DatasetWalkthrough({
             leakage): evaluating a model on the same data it was trained on.
           </p>
           <p>
-            A model can score well on training data simply by having memorized it — that says
+            A model can score well on training data simply by having memorized it. That says
             nothing about how it handles a question it has never seen before. A trustworthy
-            evaluation set has to be held out from training, made of cases the model is seeing
+            evaluation set has to be held out from training. It&rsquo;s made of cases the model
+            is seeing
             for the first time.
           </p>
         </div>
@@ -410,7 +412,7 @@ export function DatasetWalkthrough({
             <li>Good coverage means testing near-misses of a known bug, not just the happy path.</li>
             <li>A dataset also needs cases for entirely different questions, not just the one bug that started it.</li>
             <li>Either kind of case can be hand-written for precise control, or imported to capture what real users actually ask.</li>
-            <li>Imported cases only reuse the question as-is — the expected answer always gets rewritten from the current reference, never from the old logged reply.</li>
+            <li>Imported cases only reuse the question as-is. The expected answer always gets rewritten from the current reference, never from the old logged reply.</li>
             <li>Before trusting any case: mask personal info, note its source, and tag its category.</li>
           </ul>
         </div>

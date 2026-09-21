@@ -55,22 +55,33 @@ flow (e.g. RAG's "Save as AI Artifact"). That's infrastructure the app runs on, 
 it does not correspond to this module's "Versioning" unit, which teaches versioning as a
 practice.
 
-### Module C — Cloud Infrastructure & IaC
-(new module — not previously curriculum anywhere; assembled from spec.txt sections 36/37/39,
-which existed only as *this app's own deployment infra*, never as taught content, plus the
-Containers unit originally drafted for AI Playground's LLMOps module)
+### Module C — Cloud Infrastructure & IaC — PARTIALLY SUPERSEDED
 
-- **Unit: Terraform (Infrastructure as Code)** — GCP APIs / Cloud Run / Artifact Registry / IAM
-  managed via Terraform (spec.txt:1522-1533, "All cloud infrastructure must be managed by
-  Terraform")
+**Reversed** for its Terraform/IaC content, the same way Module A was reversed for Inference: a
+user question asked to build Infrastructure as Code as AI Playground's own Module 6 instead of
+deferring it to this separate, unscaffolded app — see `docs/product/module-6-iac.md`. The
+"curious general learner doesn't need Terraform" reasoning that originally routed it here was
+judged not to hold for IaC specifically, once broadened from a narrow Terraform-only unit to a
+full module teaching Infrastructure as Code as a concept (with Terraform as its deep-dive
+representative example) — general enough to fit AI Playground's audience the way Containers
+(also infra-adjacent) already does in Module 5. Containers itself was never actually moved out of
+`module-5-llmops.md` in the first place (the note below describing it as relocated predates that
+Unit actually being built there) and stays there — this app's Module 6 does not duplicate it.
+
+Still true for the rest of this Module: Cloud Deployment, IAM & Least-Privilege Security, and ML
+Supply Chain Security (see below) remain planned for this separate app, not AI Playground, unless
+a future audit reverses them too.
+
+(originally: assembled from spec.txt sections 36/37/39, which existed only as *this app's own
+deployment infra*, never as taught content)
+
+- ~~Unit: Terraform (Infrastructure as Code)~~ — superseded, see `module-6-iac.md`.
 - Unit: Cloud Deployment (Cloud Run, Artifact Registry, managed container hosting)
 - Unit: IAM & Least-Privilege Security (spec.txt:1759 explicitly excluded this from AI
   Playground as "enterprise IAM complexity" — legitimate curriculum here)
-- Unit: Containers (Docker) — relocated wholesale from `module-5-llmops.md`'s "Containers"
-  section (image vs container, Dockerfile anatomy, ML images get big, GPU-in-container/CUDA
-  mention, registry, secrets via env vars, ties to Cloud Run/CI/CD, try-it-yourself). See that
-  file's now-superseded write-up for the full original 9-step plan; port the reasoning here when
-  this app is scaffolded, then remove it from `module-5-llmops.md`.
+- ~~Unit: Containers (Docker) — relocated wholesale from `module-5-llmops.md`~~ — this never
+  actually happened; Containers was built and stays in `module-5-llmops.md`'s LLMOps Module 5.
+  Corrected here to avoid this doc implying a move that didn't occur.
 
 ## Additions from the 2026 topic audit (confirmed)
 

@@ -80,7 +80,7 @@ export function RagEvaluationWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            Judging &amp; Comparing verified a fix and caught a regression — but that assistant
+            Judging &amp; Comparing verified a fix and caught a regression. But that assistant
             only ever worked from one policy, baked directly into its prompt. Southwear just
             expanded it into a full Help Center Assistant that searches across many documents
             instead. This chapter finds the new kind of bug that comes with that change:
@@ -103,7 +103,8 @@ export function RagEvaluationWalkthrough({
       body: (
         <p>
           Southwear&rsquo;s assistant now searches a whole library of policy documents before
-          answering, instead of working from one fixed policy written into its prompt. That
+          answering. That&rsquo;s instead of working from one fixed policy written into its
+          prompt. That
           extra step — search, then answer — opens up a failure mode last chapter never had:
           getting the search itself wrong.
         </p>
@@ -118,8 +119,9 @@ export function RagEvaluationWalkthrough({
         'Chloe: "Okay, show me. What\'s the bug this time?"\nMaya: "A customer asked whether international orders get free shipping over $50. The assistant said yes."\nChloe: "Is that... wrong?"\nMaya: "Completely. The international threshold is $75, not $50 — that\'s the domestic number."\nChloe: "So it just got the number wrong, like last time?"\nMaya: "Not exactly. Last time, the AI had the right information and worded it badly. This time — let\'s check what it actually had to work with."',
       body: (
         <p>
-          A wrong answer can come from two very different places: the AI said something not
-          supported by what it found (a generation problem, like last chapter&rsquo;s bug), or it
+          A wrong answer can come from two very different places. The AI said something not
+          supported by what it found (a generation problem, like last chapter&rsquo;s bug).
+          Or it
           never found the right information to begin with (a retrieval problem). Telling these
           apart matters — they need completely different fixes.
         </p>
@@ -245,7 +247,8 @@ export function RagEvaluationWalkthrough({
       body: (
         <p>
           Even with the correct document in hand, generation is a separate step that can still
-          fail on its own — misreading a figure, dropping a condition, overgeneralizing what the
+          fail on its own. That could mean misreading a figure, dropping a condition, or
+          overgeneralizing what the
           source actually said. Retrieval quality and generation quality are two independent
           things to check.
         </p>
@@ -268,9 +271,9 @@ export function RagEvaluationWalkthrough({
           <p>
             Faithfulness is checked against whatever was retrieved
             — not against ground truth. Here, the claim &ldquo;over $50 ships free&rdquo; is fully
-            supported by the retrieved Domestic Shipping Policy, so faithfulness scores it a
+            supported by the retrieved Domestic Shipping Policy. So faithfulness scores it a
             perfect 1.0. Faithfulness alone can&rsquo;t see that the wrong document was retrieved
-            in the first place — that failure is invisible to it by design.
+            in the first place. That failure is invisible to it by design.
           </p>
         </div>
       ),
@@ -296,8 +299,9 @@ export function RagEvaluationWalkthrough({
         'Chloe: "So faithfulness alone would\'ve let this ship?"\nMaya: "Right past it. That\'s exactly why you check retrieval quality first, separately."\nChloe: "So the order matters — retrieval quality, then faithfulness?"\nMaya: "Exactly. If retrieval quality is bad, you already have your answer — fix the search. Only if retrieval looks fine do you even need to ask whether generation was faithful."',
       body: (
         <p>
-          Diagnosing a wrong RAG answer means checking two things, in order. First, retrieval
-          quality (precision and recall) — if that&rsquo;s bad, the fix is in the search step, and
+          Diagnosing a wrong RAG answer means checking two things, in order. First, check
+          retrieval
+          quality (precision and recall). If that&rsquo;s bad, the fix is in the search step, and
           faithfulness doesn&rsquo;t need to be asked at all. Only once retrieval looks fine does a
           low faithfulness score actually point at generation.
         </p>
@@ -363,11 +367,11 @@ export function RagEvaluationWalkthrough({
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>A wrong RAG answer can come from a retrieval failure (wrong document) or a generation failure (right document, worded wrong) — and they need different fixes.</li>
+            <li>A wrong RAG answer can come from a retrieval failure (wrong document) or a generation failure (right document, worded wrong). They need different fixes.</li>
             <li>Retrieval quality is measured independently of the final answer&rsquo;s wording.</li>
             <li>Retrieval precision asks how much of what was retrieved was relevant; recall asks how much of what&rsquo;s relevant was actually retrieved.</li>
-            <li>Faithfulness only checks an answer against what was retrieved — it can score a wrong answer as perfectly faithful if the wrong document was retrieved in the first place.</li>
-            <li>Diagnose in order: check retrieval quality first, and only trust a low faithfulness score as a generation problem once retrieval checks out.</li>
+            <li>Faithfulness only checks an answer against what was retrieved. It can score a wrong answer as perfectly faithful if the wrong document was retrieved in the first place.</li>
+            <li>Diagnose in order: check retrieval quality first. Only trust a low faithfulness score as a generation problem once retrieval checks out.</li>
           </ul>
         </div>
       ),
@@ -381,9 +385,9 @@ export function RagEvaluationWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            This chapter added a new layer to the diagnostic toolkit: when an AI system searches
-            before it answers, a wrong result can come from the search step, the generation step,
-            or both — and telling them apart is what makes the fix targeted instead of a guess.
+            This chapter added a new layer to the diagnostic toolkit. When an AI system searches
+            before it answers, a wrong result can come from either step. Telling them apart is
+            what makes the fix targeted, instead of a guess.
           </p>
           <Link
             href="/evaluation/agents"

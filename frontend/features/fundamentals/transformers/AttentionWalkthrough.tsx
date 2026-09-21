@@ -126,7 +126,7 @@ export function AttentionWalkthrough({
       body: (
         <p>
           This chapter is about one thing: figuring out how much attention each token should pay
-          to every other token, then blending that into a single vector for each token — its{" "}
+          to every other token. Then it blends that into a single vector for each token — its{" "}
           <Equation tex={"\\text{attn\\_output}"} display={false} />. Everything from here is
           just the details of how that gets built.
         </p>
@@ -139,14 +139,15 @@ export function AttentionWalkthrough({
       body: (
         <p>
           Every token now has a vector. Attention is the operation that
-          lets each token gather information from <em>other</em> tokens&rsquo; vectors, weighted
-          by how relevant each one is — instead of only ever looking at itself. Think about how
-          you read a sentence yourself: you don&rsquo;t weigh every word equally — your attention
+          lets each token gather information from <em>other</em> tokens&rsquo; vectors. That
+          information is weighted by how relevant each one is, instead of only ever looking at
+          itself. Think about how
+          you read a sentence yourself: you don&rsquo;t weigh every word equally. Your attention
           naturally lands on whichever earlier words matter most for making sense of the one
-          you&rsquo;re on right now. Attention gives each token that same ability, letting it
-          decide, on the fly, which other tokens to focus on and how strongly. The picture below
-          is the shape of that idea: one token weighs every other token by relevance, and blends
-          their information together accordingly.
+          you&rsquo;re on right now. Attention gives each token that same ability. It lets the
+          token decide, on the fly, which other tokens to focus on and how strongly. The picture
+          below is the shape of that idea: one token weighs every other token by relevance. It
+          blends their information together accordingly.
         </p>
       ),
       visual: <AttentionOverviewDiagram />,
@@ -204,12 +205,12 @@ export function AttentionWalkthrough({
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>Every token&rsquo;s embedding <Equation tex="x" display={false} /> becomes a Query, a Key, and a Value — each via its own weight matrix.</li>
             <li>A token&rsquo;s query is compared against <em>every</em> token&rsquo;s key, not just one — every token gets its own relevance score.</li>
-            <li>The <Equation tex={"\\text{attn\\_output}"} display={false} /> is never one value picked out — it&rsquo;s a blend of <em>every</em> token&rsquo;s value, weighted by how well each key matched.</li>
+            <li>The <Equation tex={"\\text{attn\\_output}"} display={false} /> is never one value picked out. It&rsquo;s a blend of <em>every</em> token&rsquo;s value, weighted by how well each key matched.</li>
           </ul>
           <p>
             The picture below shows exactly this shape: one query, weighed against every
-            key (line thickness = match strength), producing one blended{" "}
-            <Equation tex={"\\text{attn\\_output}"} display={false} /> from every value in those
+            key (line thickness = match strength). That produces one blended{" "}
+            <Equation tex={"\\text{attn\\_output}"} display={false} /> from every value, in those
             same proportions. Illustrative numbers — the real ones come a few steps from now. That
             blended <Equation tex={"\\text{attn\\_output}"} display={false} /> isn&rsquo;t thrown
             away — updating the token&rsquo;s vector with it is exactly what the next chapter
@@ -300,7 +301,7 @@ export function AttentionWalkthrough({
       title: "Scoring how well a query matches a key",
       body: (
         <p>
-          A token&rsquo;s query is compared against every token&rsquo;s key with a dot product — a
+          A token&rsquo;s query is compared against every token&rsquo;s key with a dot product. A
           dot product is itself just a weighted sum, where one vector supplies the &ldquo;weights&rdquo;:
           <Equation tex={"\\text{score}_{ij} = q_i \\cdot k_j"} />
           A high score means key <Equation tex="j" display={false} /> matches query{" "}
@@ -309,12 +310,12 @@ export function AttentionWalkthrough({
       ),
       chart: (
         <p className="text-base text-neutral-600">
-          Recall from math class: a dot product adds up each pair of matching components — it{" "}
-          <em>extracts what two vectors have in common</em>. Large in the same components as each
-          other, on the same sign, and the products stack up into a big positive number; pointing
-          in unrelated directions, and they mostly cancel out toward zero. That&rsquo;s exactly why
-          it works as a match score here: a query and key that share structure in the same
-          dimensions naturally produce a high score.
+          Recall from math class: a dot product adds up each pair of matching components. It{" "}
+          <em>extracts what two vectors have in common</em>. When two vectors are large in the same
+          components, on the same sign, products stack into one big positive number. When they
+          point in unrelated directions, the products mostly cancel out toward zero. That&rsquo;s
+          exactly why it works as a match score here. A query and key that share structure in the
+          same dimensions naturally produce a high score.
         </p>
       ),
       visual: <QKVDiagram />,
@@ -326,8 +327,8 @@ export function AttentionWalkthrough({
         <p>
           Divide by the square root of each head&rsquo;s vector length before going further:
           <Equation tex={"\\text{score}_{ij} = \\frac{q_i \\cdot k_j}{\\sqrt{d_k}}"} />
-          Without this, scores from longer vectors would run larger just from having more terms to
-          sum — scaling keeps them in a consistent range no matter the vector size.
+          Without this, scores from longer vectors would run larger, just from having more terms to
+          sum. Scaling keeps them in a consistent range, no matter the vector size.
         </p>
       ),
       visual: <QKVDiagram />,
@@ -338,7 +339,8 @@ export function AttentionWalkthrough({
       body: (
         <p>
           Softmax turns a list of raw scores into positive numbers that
-          sum to 1 — a probability distribution over &ldquo;how much attention to pay to each
+          sum to 1. That&rsquo;s a probability distribution over &ldquo;how much attention to pay
+          to each
           token&rdquo;:
           <Equation tex={"\\text{softmax}(z_i) = \\frac{e^{z_i}}{\\sum_j e^{z_j}}"} />
           Drag the scores below and watch the weights redistribute.
@@ -359,15 +361,16 @@ export function AttentionWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            Apply that same softmax to every query&rsquo;s whole row of scores, and give the
-            result a name: <Equation tex={"\\text{weight}_{ij}"} display={false} /> — how much of
+            Apply that same softmax to every query&rsquo;s whole row of scores. Give the
+            result a name: <Equation tex={"\\text{weight}_{ij}"} display={false} />.{" "}
+            <Equation tex={"\\text{weight}_{ij}"} display={false} /> is how much of
             key <Equation tex="j" display={false} />&rsquo;s value to mix into query{" "}
             <Equation tex="i" display={false} />&rsquo;s{" "}
             <Equation tex={"\\text{attn\\_output}"} display={false} />.
           </p>
           <Equation tex={"\\text{weight}_{ij} = \\text{softmax}_j(\\text{score}_{ij})"} />
           <p>
-            This is the actual quantity worth remembering as &ldquo;attention&rdquo;: it says how
+            This is the actual quantity worth remembering as &ldquo;attention&rdquo;. It says how
             much attention token <Equation tex="i" display={false} /> pays to token{" "}
             <Equation tex="j" display={false} /> — the strength of attention between the two.
           </p>
@@ -383,7 +386,7 @@ export function AttentionWalkthrough({
           </p>
           <p>
             Below: the real per-token weights the last token in our sentence assigns to every
-            token (including itself), from its actual attention row.
+            token (including itself). These come from its actual attention row.
           </p>
         </div>
       ),
@@ -408,8 +411,8 @@ export function AttentionWalkthrough({
       title: "Try it yourself: see real attention weights",
       body: (
         <p>
-          Type your own text and inspect the full attention matrix: rows are the query token,
-          columns are the key token, brighter means more attention.
+          Type your own text and inspect the full attention matrix. Rows are the query token,
+          columns are the key token, and brighter means more attention.
         </p>
       ),
       visual: textInputControl,
@@ -422,13 +425,14 @@ export function AttentionWalkthrough({
       title: "Hide the future while training",
       body: (
         <p>
-          Imagine studying for an exam by staring at the answer key the whole time — you&rsquo;d
-          &ldquo;solve&rdquo; every question perfectly, but learn nothing useful for the real exam,
-          where there&rsquo;s no answer key. A language model has the same problem: it generates
-          text one token at a time, and whatever comes <em>after</em> the token it&rsquo;s
+          Imagine studying for an exam by staring at the answer key the whole time. You&rsquo;d
+          &ldquo;solve&rdquo; every question perfectly, but learn nothing useful for the real exam.
+          On the real exam, there&rsquo;s no answer key. A language model has the same problem: it
+          generates
+          text one token at a time. Whatever comes <em>after</em> the token it&rsquo;s
           currently producing doesn&rsquo;t exist yet. If attention were allowed to peek at those
-          future tokens during training, it would learn a shortcut that&rsquo;s impossible to use
-          for real.
+          future tokens during training, it would learn a shortcut. That shortcut would be
+          impossible to use for real.
         </p>
       ),
       visual: <CausalMaskDiagram />,
@@ -439,9 +443,9 @@ export function AttentionWalkthrough({
       body: (
         <p>
           Causal masking closes that shortcut: token{" "}
-          <Equation tex="i" display={false} /> may only attend to itself and to tokens before it —
-          never to a token after it. Below: our real sentence&rsquo;s actual attention matrix, with
-          exactly that rule applied.
+          <Equation tex="i" display={false} /> may only attend to itself and to tokens before it.
+          It may never attend to a token after it. Below: our real sentence&rsquo;s actual
+          attention matrix, with exactly that rule applied.
         </p>
       ),
       visual: result ? (
@@ -454,8 +458,8 @@ export function AttentionWalkthrough({
       body: (
         <p>
           Now the real thing: every cell above the diagonal in the heatmap below is exactly this
-          rule in action — those cells would mean &ldquo;attend to a token that hasn&rsquo;t been
-          generated yet,&rdquo; so they always stay blocked, no matter what text you type or which
+          rule in action. Those cells would mean &ldquo;attend to a token that hasn&rsquo;t been
+          generated yet.&rdquo; So they always stay blocked, no matter what text you type or which
           layer/head you pick later.
         </p>
       ),
@@ -471,16 +475,17 @@ export function AttentionWalkthrough({
         <div className="space-y-2">
           <p>
             A single attention computation can only learn one notion of &ldquo;relevance&rdquo; at
-            a time — one fixed way of deciding which words matter to which. But real language
-            needs several different notions of relevance at once: which words simply sit near each
-            other, which pronoun refers back to which noun, which words share a topic, and more.
+            a time. That&rsquo;s one fixed way of deciding which words matter to which. But real
+            language needs several different notions of relevance at once: which words simply sit
+            near each other, which pronoun refers back to which noun, which words share a topic —
+            and more.
             Asking one attention computation to capture all of that simultaneously asks too much of
             it.
           </p>
           <p>
             Multi-head attention&rsquo;s fix: instead of
-            computing attention once, compute it several times in parallel, letting each
-            &ldquo;head&rdquo; specialize in a different kind of relationship — illustrated (not
+            computing attention once, compute it several times in parallel. Each
+            &ldquo;head&rdquo; specializes in a different kind of relationship — illustrated (not
             real data) below.
           </p>
         </div>
@@ -495,17 +500,17 @@ export function AttentionWalkthrough({
           <p>
             Multi-head attention doesn&rsquo;t repeat the whole computation from scratch for each
             head — that would need brand-new, much bigger weight matrices. Instead, it reuses the
-            same Q/K/V vectors you already have and simply slices each one into equal-sized chunks,
+            same Q/K/V vectors you already have. It simply slices each one into equal-sized chunks,
             one chunk per head. Each head then runs the exact same score → softmax → blend pipeline
-            you already learned, but strictly on its own chunk, with no knowledge of what the other
-            heads are doing.
+            you already learned. It runs strictly on its own chunk, with no knowledge of what the
+            other heads are doing.
           </p>
           <p>
             Once every head finishes, their chunk-sized outputs are glued back together
-            (concatenated) into one full-size vector again, and one more linear layer mixes them
+            (concatenated) into one full-size vector again. One more linear layer then mixes them
             together. The picture below shows this split for our 8-dimensional vectors across 2
-            heads; underneath it, two real heads&rsquo; attention patterns on our sentence —
-            different from each other, because they really are separate computations on separate
+            heads. Underneath it are two real heads&rsquo; attention patterns on our sentence.
+            They differ from each other, because they really are separate computations on separate
             slices.
           </p>
         </div>
@@ -557,10 +562,10 @@ export function AttentionWalkthrough({
       title: "Try it yourself: change the number of heads",
       body: (
         <p>
-          Drag the slider to change how many heads split the vector — every head&rsquo;s own
+          Drag the slider to change how many heads split the vector. Every head&rsquo;s own
           attention pattern is shown below, all at once. Even with untrained (random) weights,
-          each head&rsquo;s pattern differs from the others — proof that they really are separate
-          computations on separate slices, not cosmetic copies.
+          each head&rsquo;s pattern differs from the others. That&rsquo;s proof that they really are
+          separate computations on separate slices, not cosmetic copies.
         </p>
       ),
       visual: textInputControl,

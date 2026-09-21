@@ -131,7 +131,8 @@ export function ModelComparisonWalkthrough({
       body: (
         <p>
           Model comparison runs the exact same dataset through more than one system — different
-          models, prompts, or configurations — so every difference in the results comes from the
+          models, prompts, or configurations. That way, every difference in the results comes
+          from the
           system, not from the questions being different.
         </p>
       ),
@@ -150,8 +151,8 @@ export function ModelComparisonWalkthrough({
       title: "One System Still Gets It Wrong",
       body: (
         <p>
-          All three answer the same worn-item question — but Model A repeats the exact bug that
-          went live, while B and C both get it right, worded differently. Correctness isn&rsquo;t
+          All three answer the same worn-item question. But Model A repeats the exact bug that
+          went live. B and C both get it right, worded differently. Correctness isn&rsquo;t
           a given just because a model runs.
         </p>
       ),
@@ -177,7 +178,7 @@ export function ModelComparisonWalkthrough({
       body: (
         <p>
           Model A doesn&rsquo;t always fail the same way. On one run it repeats the blunt
-          &ldquo;full refund&rdquo; bug; on another, it invents the same sneaky &ldquo;70%
+          &ldquo;full refund&rdquo; bug. On another, it invents the same sneaky &ldquo;70%
           refund&rdquo; cousin from Chapter 1. Both fail faithfulness, worded differently — a
           reminder to test more than one wrong answer, not just one.
         </p>
@@ -214,7 +215,7 @@ export function ModelComparisonWalkthrough({
       title: "Does It Give the Same Right Answer Twice?",
       body: (
         <p>
-          Ask Model B the same question three times, and it may phrase the correct answer three
+          Ask Model B the same question three times. It may phrase the correct answer three
           different ways — all faithful, but not identical wording. A more deterministic setting
           repeats the exact same wording every time instead.
         </p>
@@ -244,7 +245,7 @@ export function ModelComparisonWalkthrough({
       body: (
         <p>
           A is disqualified on correctness alone. Between B and C, the choice is a real
-          trade-off: C is most thorough but slowest and priciest; B is faithful, clear, and
+          trade-off. C is most thorough but slowest and priciest; B is faithful, clear, and
           cheaper. The team picks B to release as v2.
         </p>
       ),

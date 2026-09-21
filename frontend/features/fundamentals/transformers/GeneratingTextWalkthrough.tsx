@@ -107,7 +107,7 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
         <p>
           Every token now has a rich vector — but that&rsquo;s still just numbers, not a
           prediction. This chapter turns the last token&rsquo;s vector into an actual guess at
-          the next word, then loops that guess back in, one word at a time, to write a whole
+          the next word. Then it loops that guess back in, one word at a time, to write a whole
           sentence.
         </p>
       ),
@@ -118,7 +118,7 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
       title: "The final vector",
       body: (
         <p>
-          After the last block, every token has an updated vector — but to predict what comes
+          After the last block, every token has an updated vector. But to predict what comes
           next, we only need the <em>last</em> token&rsquo;s vector. It has attended to everything
           before it, so it&rsquo;s the model&rsquo;s best summary of &ldquo;everything so far&rdquo;.
         </p>
@@ -131,7 +131,7 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
       body: (
         <p>
           The final vector is compared, by dot product, against every candidate word&rsquo;s
-          embedding — then softmax turns those scores into a probability for each candidate. The
+          embedding. Then softmax turns those scores into a probability for each candidate. The
           highest bar is the model&rsquo;s current best guess for the next token.
         </p>
       ),
@@ -160,8 +160,8 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
       body: (
         <p>
           Autoregressive generation is just this next-token step,
-          repeated: predict the next token, append it to the sequence, then feed the whole thing
-          back in to predict the token after <em>that</em>. Every sentence a language model
+          repeated: predict the next token, append it to the sequence. Then feed the whole thing
+          back in, to predict the token after <em>that</em>. Every sentence a language model
           &ldquo;writes&rdquo; was produced one single-token step at a time.
         </p>
       ),
@@ -192,9 +192,9 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
       body: (
         <p>
           This teaching model only ever compares against words already in the input — it has no
-          real vocabulary — so generated text cycles through words you typed rather than inventing
-          new ones. A real language model has a full vocabulary of tens of thousands of tokens; a
-          trained one, again, is exactly what the Tiny LLM section builds next.
+          real vocabulary. So generated text cycles through words you typed, rather than inventing
+          new ones. A real language model has a full vocabulary of tens of thousands of tokens.
+          A trained one, again, is exactly what the Tiny LLM section builds next.
         </p>
       ),
       visual: <TokenChips tokens={genTokens} highlight={genTokens.length - 1} />,
@@ -210,7 +210,7 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>Text is split into tokens, each mapped to an embedding plus a positional encoding.</li>
             <li>Each token computes a Query, Key, and Value — three linear layers, same weighted-sum math as Neural Networks.</li>
-            <li>Attention scores queries against keys, scales them, and turns them into weights with softmax; the output is a weighted blend of values.</li>
+            <li>Attention scores queries against keys, scales them, and turns them into weights with softmax. The output is a weighted blend of values.</li>
             <li>Causal masking stops a token from attending to the future.</li>
             <li>Multi-head attention runs several attentions in parallel, on separate slices of the vector.</li>
             <li>Residual connections and layer normalization wrap every sublayer, keeping deep stacks trainable.</li>
@@ -227,7 +227,7 @@ export function GeneratingTextWalkthrough({ onComplete }: { onComplete?: () => v
       title: "Now it's your turn",
       body: (
         <p>
-          Everything you just learned is now unlocked below as a free-play sandbox: type any text,
+          Everything you just learned is now unlocked below as a free-play sandbox. Type any text,
           change the number of heads and blocks, and inspect any layer&rsquo;s attention matrix and
           next-token prediction directly.
         </p>

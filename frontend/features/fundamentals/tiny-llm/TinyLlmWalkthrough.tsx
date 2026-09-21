@@ -150,11 +150,12 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       body: (
         <p>
           Token embeddings, positional encoding, causal self-attention, residual connections,
-          layer normalization, a feed-forward network, stacked into several Transformer blocks —
-          nothing new here. The only difference: every one of its weights starts random and then
+          layer normalization, a feed-forward network, stacked into several Transformer blocks.
+          Nothing here is new. The only difference: every one of its weights starts random.
+          Then it
           moves, step by step, to
           actually reduce a real loss. A few thousand numbers in total — tiny next to a real
-          model&rsquo;s billions, which is exactly the point: small enough to train in seconds,
+          model&rsquo;s billions. That&rsquo;s exactly the point: small enough to train in seconds,
           right here.
         </p>
       ),
@@ -165,10 +166,10 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       title: "One character at a time",
       body: (
         <p>
-          One more change: this model reads and writes one <em>character</em> at a time, not
-          whole words like the Transformers Unit&rsquo;s tokenizer. A tiny, character-level
-          vocabulary (just the letters, spaces, and punctuation that appear in the training text)
-          keeps this toy model simple.
+          One more change: this model reads and writes one <em>character</em> at a time. That&rsquo;s
+          not whole words, like the Transformers Unit&rsquo;s tokenizer. A tiny, character-level
+          vocabulary keeps this toy model simple. That vocabulary is just the letters, spaces, and
+          punctuation that appear in the training text.
         </p>
       ),
       visual: (
@@ -191,7 +192,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
         <p>
           A short excerpt from <em>Alice&rsquo;s Adventures in Wonderland</em> — small on purpose,
           so training visibly improves within seconds instead of hours. The full text is a few
-          paragraphs; the free-play sandbox at the end of this Chapter lets you read all of it.
+          paragraphs. The free-play sandbox at the end of this Chapter lets you read all of it.
         </p>
       ),
       visual: (
@@ -206,9 +207,9 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       title: "One trip around the loop",
       body: (
         <p>
-          Training is just this loop, repeated thousands of times: sample a chunk of text,
-          predict the next character, measure how wrong that was, and nudge every weight to make
-          it a little less wrong next time.
+          Training is just this loop, repeated thousands of times. Sample a chunk of text,
+          predict the next character, and measure how wrong that was. Then nudge every weight to
+          make it a little less wrong next time.
         </p>
       ),
       visual: <TrainingLoopDiagram />,
@@ -219,7 +220,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       body: (
         <p>
           Grab a short window of characters from the corpus — the <em>input</em>. The{" "}
-          <em>target</em> is the exact same text, shifted one character later: at every position,
+          <em>target</em> is the exact same text, shifted one character later. At every position,
           the model&rsquo;s job is to predict whichever character comes right after what it&rsquo;s
           already seen.
         </p>
@@ -240,7 +241,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
           <Equation tex={"\\text{Loss} = -\\frac{1}{T}\\sum_{t=1}^{T} \\log p_t"} />
           <p>
             <Equation tex="T" display={false} /> is how many character positions are being scored
-            at once; <Equation tex="p_t" display={false} /> is the probability the model assigned
+            at once. <Equation tex="p_t" display={false} /> is the probability the model assigned
             to position <Equation tex="t" display={false} />&rsquo;s real next character. Confident
             and correct → loss near 0. Confident and <em>wrong</em> → loss shoots up.
           </p>
@@ -254,10 +255,10 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       body: (
         <p>
           Exactly the same backpropagation from Neural
-          Networks — the chain rule, applied layer by layer — except now the &ldquo;layers&rdquo;
+          Networks — the chain rule, applied layer by layer. Except now the &ldquo;layers&rdquo;
           include every attention sublayer and feed-forward sublayer in every stacked block. One
           call computes how much <em>every</em> weight in the whole network contributed to the
-          loss, all the way back to the token embeddings.
+          loss. That goes all the way back to the token embeddings.
         </p>
       ),
       visual: <TrainingLoopDiagram />,
@@ -268,8 +269,8 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       body: (
         <p>
           Same idea as gradient descent — move every weight
-          against its gradient — but instead of one fixed learning rate for every weight, AdamW
-          adapts each weight&rsquo;s step size using that weight&rsquo;s own recent gradient
+          against its gradient. But instead of one fixed learning rate for every weight, AdamW
+          adapts each weight&rsquo;s step size. It uses that weight&rsquo;s own recent gradient
           history. In practice: trains faster and more reliably than plain gradient descent,
           without any new mental model needed.
         </p>
@@ -281,7 +282,8 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       title: "Watch the loss actually drop",
       body: (
         <p>
-          A typical shape for this loss curve: fast at first, then leveling off as the model
+          A typical shape for this loss curve: fast at first, then leveling off. That happens as
+          the model
           picks up the easy patterns (spaces, common letters) before the harder ones. This
           illustrates the shape — the free-play sandbox plots the real, live curve as it trains.
         </p>
@@ -296,8 +298,8 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
         <p>
           Before training, the model&rsquo;s weights are random, so its &ldquo;predictions&rdquo;
           are close to random characters. As loss drops, generated text passes through
-          recognizable stages: gibberish, then word-shaped chunks, then real (if imperfect) words,
-          then something close to the training text&rsquo;s own style.
+          recognizable stages: gibberish, then word-shaped chunks. Then it moves to real (if
+          imperfect) words, then something close to the training text&rsquo;s own style.
         </p>
       ),
       visual: (
@@ -342,8 +344,8 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
         <p>
           Generating Text (Transformers Unit) always picked the single highest-probability word.
           Real generation usually does something different: it <em>samples</em> the next
-          character randomly, weighted by the softmax probabilities — so the same prompt can
-          produce different text each time, and rare-but-plausible characters occasionally get
+          character randomly, weighted by the softmax probabilities. The same prompt can
+          produce different text each time. Rare-but-plausible characters occasionally get
           picked instead of the top one.
         </p>
       ),
@@ -388,9 +390,9 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
             <li>This model tokenizes at the <em>character</em> level, not the word level.</li>
             <li>Training is a loop: sample text, predict the next character, measure{" "}
               cross-entropy loss, backpropagate, update every
-              weight with AdamW — repeated thousands of times.</li>
-            <li>Generation <em>samples</em> from the probability distribution rather than always
-              taking the top choice; temperature controls how sharp
+              weight with AdamW. This is repeated thousands of times.</li>
+            <li>Generation <em>samples</em> from the probability distribution, rather than always
+              taking the top choice. Temperature controls how sharp
               or flat that distribution is.</li>
           </ul>
         </div>

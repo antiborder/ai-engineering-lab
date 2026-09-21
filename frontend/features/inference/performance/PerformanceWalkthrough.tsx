@@ -56,8 +56,10 @@ export function PerformanceWalkthrough({
         <div className="space-y-2">
           <p>
             Every other Unit in this module changed how a server behaves. This last chapter is
-            about reading what that behavior looks like in a server&rsquo;s own metrics — latency,
-            throughput, time to first token — and using them to make one final decision.
+            about reading what that behavior looks like in a server&rsquo;s own metrics. Those
+            metrics are
+            latency, throughput, and time to first token. Using them together, we make one final
+            decision.
           </p>
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
             <li><strong>Latency, Throughput, and Time to First Token</strong> — the three metrics that describe how a server is doing.</li>
@@ -74,7 +76,8 @@ export function PerformanceWalkthrough({
       title: "The Big Picture",
       body: (
         <p>
-          A server produces a handful of metrics every second: how long each request takes, how
+          A server produces a handful of metrics every second. Those metrics are how long each
+          request takes, how
           many finish per second, and how quickly the first word appears. Read separately, these
           metrics can mislead. Read together, they tell you exactly what to fix — and eventually,
           whether to run the GPU yourself at all.
@@ -82,27 +85,28 @@ export function PerformanceWalkthrough({
       ),
       visual: (
         <div className="grid grid-cols-3 gap-2">
-          <StatCard label="Latency" value="time per request" />
           <StatCard label="Throughput" value="requests per second" />
           <StatCard label="Time to first token" value="time to the first word" />
+          <StatCard label="Latency" value="time per request" />
         </div>
       ),
     },
     // -------------------- 1. Latency, Throughput, and Time to First Token --------------------
     {
       section: "1. Latency, Throughput, and Time to First Token",
-      title: "Latency, Recapped",
+      title: "Average Latency, Recapped",
       body: (
         <p>
-          Model Serving showed that a single request answers almost instantly, but that latency —
+          Model Serving showed that a single request answers almost instantly. But that latency —
           how long one request takes, start to finish — climbs sharply as traffic approaches a
-          server&rsquo;s capacity.
+          server&rsquo;s capacity. Averaged across every request in a period, this is what a
+          dashboard calls <strong>average latency</strong>.
         </p>
       ),
       visual: (
         <StatCard
           label={`Same ${CAPACITY} req/sec server, at 8 req/sec arrivals`}
-          value={`${averageWaitMs(8)} ms average wait`}
+          value={`${averageWaitMs(8)} ms average latency`}
           tone="warn"
         />
       ),
@@ -114,7 +118,8 @@ export function PerformanceWalkthrough({
         <p>
           vLLM showed a different metric: throughput, how many requests get fully answered
           per second. Serving one request at a time versus batching many together on the same GPU
-          can differ by up to 24×, the published benchmarks in that chapter showed.
+          can differ by up to 24×. That&rsquo;s what the published benchmarks in that chapter
+          showed.
         </p>
       ),
       visual: <StatCard label="vLLM vs. naive serving, same GPU" value="up to 24× throughput" tone="good" />,
@@ -124,9 +129,12 @@ export function PerformanceWalkthrough({
       title: "A New Measurement: Time to First Token",
       body: (
         <p>
-          Model Serving showed that a served model streams tokens back one at a time, instead of
-          waiting for the whole answer to finish. <strong>Time to first token (TTFT)</strong> measures
-          exactly that moment: how long the reader waits before the very first token of the
+          Model Serving showed that a served model streams tokens back one at a time. That&rsquo;s
+          instead of
+          waiting for the whole answer to finish. <strong>Time to first token (TTFT)</strong>
+          measures
+          exactly that moment. It&rsquo;s how long the reader waits before the very first token of
+          the
           response appears.
         </p>
       ),
@@ -137,16 +145,37 @@ export function PerformanceWalkthrough({
       title: "TTFT and Total Latency, Side by Side",
       body: (
         <p>
-          The two can diverge a lot. In this example response, the first token streams back in
-          150 ms — but the full response is 200 tokens long, so the total latency is much longer.
-          TTFT tells you how responsive the server feels; total latency tells you how long the
-          whole answer actually takes.
+          For one response, the two can diverge a lot. In this example, the first token streams
+          back in 150 ms. But the full response is 200 tokens long. So the total latency for that
+          one request is much longer. TTFT tells you how responsive the server feels; total
+          latency tells you how long that one answer actually takes.
         </p>
       ),
       visual: (
         <div className="grid grid-cols-2 gap-2">
           <StatCard label="Time to first token" value="150 ms" tone="good" />
           <StatCard label="Total latency (200-token response)" value="4.0 sec" />
+        </div>
+      ),
+    },
+    {
+      section: "1. Latency, Throughput, and Time to First Token",
+      title: "From One Request to a Dashboard: Three Metrics, Averaged",
+      body: (
+        <p>
+          A live dashboard never shows just one response — it shows every request from a period,
+          averaged. From here on, this chapter tracks exactly three metrics:{" "}
+          <strong>throughput</strong>, <strong>average time to first token</strong>, and{" "}
+          <strong>average latency</strong>. Time to first token and total latency were both just
+          about one request. Averaged across many requests, they become the two time-based metrics
+          a real dashboard actually shows.
+        </p>
+      ),
+      visual: (
+        <div className="grid grid-cols-3 gap-2">
+          <StatCard label="Throughput" value="requests/sec" />
+          <StatCard label="Average time to first token" value="TTFT, averaged" />
+          <StatCard label="Average latency" value="total latency, averaged" />
         </div>
       ),
     },
@@ -168,8 +197,10 @@ export function PerformanceWalkthrough({
       body: (
         <p>
           Grouping requests together also means a request can sit briefly in the batch before its
-          own turn, adding latency it would not have paid running alone. More throughput per GPU
-          often costs a little latency per request — a tradeoff every serving system has to
+          own turn. That adds latency it would not have paid running alone. More throughput per
+          GPU
+          often costs a little latency per request. That&rsquo;s a tradeoff every serving system
+          has to
           balance, not a flaw in any one of them.
         </p>
       ),
@@ -183,73 +214,205 @@ export function PerformanceWalkthrough({
     // -------------------- 3. Reading a Metrics Dashboard --------------------
     {
       section: "3. Reading a Metrics Dashboard",
-      title: "Scenario: High Time to First Token, Low Throughput",
+      title: "Let's Look at a Dashboard",
       body: (
-        <p>
-          A dashboard shows time to first token far above normal, and throughput far below the
-          GPU&rsquo;s usual maximum. Requests are arriving faster than the server can start them —
-          the same queueing effect Model Serving showed, now visible directly in the metrics.
-        </p>
+        <div className="space-y-2">
+          <p>A dashboard shows these three values. Watch how they change across different situations:</p>
+          <ul className="list-disc list-inside space-y-1 text-neutral-700">
+            <li>Throughput</li>
+            <li>Average time to first token</li>
+            <li>Average latency</li>
+          </ul>
+        </div>
       ),
       visual: (
-        <div className="grid grid-cols-2 gap-2">
-          <StatCard label="Time to first token" value="1.8 sec (usually 150 ms)" tone="warn" />
-          <StatCard label="Throughput" value="6 req/sec (usually 20)" tone="warn" />
+        <div className="grid grid-cols-3 gap-2">
+          <StatCard label="Throughput" value="20 req/sec" />
+          <StatCard label="Average time to first token" value="150 ms" />
+          <StatCard label="Average latency" value="500 ms" />
         </div>
       ),
     },
     {
       section: "3. Reading a Metrics Dashboard",
-      title: "Scenario: Normal Time to First Token, High Total Latency",
+      title: "Scenario: Responses Are Just Longer Than Usual",
       body: (
-        <p>
-          Time to first token looks perfectly normal, but total latency is unusually high. This
-          usually is not a serving problem at all — it means the model is generating an unusually
-          long response, one token at a time, not that requests are queueing.
-        </p>
+        <ul className="list-disc list-inside space-y-1 text-neutral-700">
+          <li>
+            <strong>Symptom:</strong> time to first token and throughput both look close to
+            normal — only average latency is elevated.
+          </li>
+          <li>
+            <strong>Likely cause:</strong> the model is generating unusually long responses, one
+            token at a time. The server still starts each response just as quickly as ever. So
+            it
+            is not a queueing problem — each response simply takes longer to finish once started.
+          </li>
+        </ul>
       ),
       visual: (
-        <div className="grid grid-cols-2 gap-2">
-          <StatCard label="Time to first token" value="140 ms (normal)" tone="good" />
-          <StatCard label="Total latency" value="9 sec (usually 2 sec)" />
+        <div className="grid grid-cols-3 gap-2">
+          <StatCard label="Throughput" value="18 req/sec" note="usually 20" />
+          <StatCard label="Average time to first token" value="140 ms" note="normal" tone="good" />
+          <StatCard label="Average latency" value="9 sec" note="usually 2 sec" tone="warn" />
         </div>
       ),
     },
     {
       section: "3. Reading a Metrics Dashboard",
-      title: "Scenario: High Throughput and High Latency, Together",
+      title: "Scenario: Throughput and Latency Rising Together, On Purpose",
       body: (
-        <p>
-          Throughput is at its highest recorded level, and latency has crept up too. Read alone,
-          that latency number looks bad. Read together with the throughput number, it usually
-          means the server is intentionally batching more aggressively to serve more requests
-          overall — the tradeoff from the last Section, working as intended. Reading these metrics
-          together, not one at a time, is what makes a dashboard useful.
-        </p>
+        <ul className="list-disc list-inside space-y-1 text-neutral-700">
+          <li>
+            <strong>Symptom:</strong> throughput is at its highest recorded level. Both time
+            to first token and average latency have crept up slightly too.
+          </li>
+          <li>
+            <strong>Likely cause:</strong> the server is intentionally batching more aggressively
+            to serve more requests overall. That&rsquo;s the Section 2 tradeoff, working as
+            intended, not a
+            regression.
+          </li>
+        </ul>
       ),
       visual: (
-        <div className="grid grid-cols-2 gap-2">
-          <StatCard label="Throughput" value="24 req/sec (peak)" tone="good" />
-          <StatCard label="Latency" value="800 ms (slightly up)" />
+        <div className="grid grid-cols-3 gap-2">
+          <StatCard label="Throughput" value="24 req/sec" note="peak" tone="good" />
+          <StatCard label="Average time to first token" value="220 ms" note="usually 150 ms" tone="warn" />
+          <StatCard label="Average latency" value="800 ms" note="usually 500 ms" tone="warn" />
+        </div>
+      ),
+    },
+    {
+      section: "3. Reading a Metrics Dashboard",
+      title: "Scenario: All Three Metrics Move Together",
+      body: (
+        <ul className="list-disc list-inside space-y-1 text-neutral-700">
+          <li>
+            <strong>Symptom:</strong> throughput has fallen well below its usual level. Both
+            time to first token and average latency have risen sharply.
+          </li>
+          <li>
+            <strong>Likely cause:</strong> more than one real cause can produce exactly this
+            pattern:
+            <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+              <li>
+                A traffic spike outran autoscaling. Model Serving showed a new server takes a
+                real, tens-of-seconds cold start. So requests keep queueing on servers that are
+                already warm.
+              </li>
+              <li>
+                A fragmented KV cache is crowding out room for other requests. vLLM showed naive
+                reservation can waste 60&ndash;80% of a GPU&rsquo;s KV cache memory.
+              </li>
+            </ul>
+            <div className="mt-1">
+              Telling them apart needs a signal beyond these three metrics. Check whether a
+              scaling event just fired, or whether GPU/KV-cache memory utilization is unusually
+              high.
+            </div>
+          </li>
+        </ul>
+      ),
+      visual: (
+        <div className="grid grid-cols-3 gap-2">
+          <StatCard label="Throughput" value="6 req/sec" note="usually 20" tone="warn" />
+          <StatCard label="Average time to first token" value="1.8 sec" note="usually 150 ms" tone="warn" />
+          <StatCard label="Average latency" value="3.5 sec" note="usually 500 ms" tone="warn" />
         </div>
       ),
     },
     // -------------------- 4. Hosted API vs. Self-Hosted --------------------
     {
       section: "4. Hosted API vs. Self-Hosted",
-      title: "Two Different Cost Structures",
+      title: "What Is a Hosted API?",
       body: (
         <p>
-          A hosted API charges per token: no upfront hardware cost, but the total bill scales
-          directly with usage. Self-hosting means paying for GPUs whether they are busy or not — a
-          fixed cost, but each additional request costs almost nothing once the GPU is already
-          running.
+          A hosted API means someone else already has the model running, on their own GPUs, in
+          their own datacenter. That&rsquo;s the same shape as GenAI Systems&rsquo; LLM API
+          chapter. Your app
+          sends a request over the internet, their server runs it, and you get an answer back. You
+          never touch the hardware; you just pay for what you use.
         </p>
       ),
       visual: (
-        <div className="grid grid-cols-2 gap-2">
-          <StatCard label="Hosted API" value="cost scales with usage" />
-          <StatCard label="Self-hosted" value="fixed cost, near-zero per extra request" />
+        <div className="flex items-center justify-center gap-2 text-center text-sm">
+          <div className="rounded-md border border-neutral-200 bg-white px-3 py-2">Your app</div>
+          <span className="text-neutral-400">→</span>
+          <div className="rounded-md border border-neutral-200 bg-white px-3 py-2">Internet</div>
+          <span className="text-neutral-400">→</span>
+          <div className="rounded-md border border-cyan-200 bg-cyan-50 px-3 py-2">
+            Provider&rsquo;s GPU
+            <br />
+            (they run it)
+          </div>
+        </div>
+      ),
+    },
+    {
+      section: "4. Hosted API vs. Self-Hosted",
+      title: "What Is Self-Hosting?",
+      body: (
+        <p>
+          Self-hosting means running the model yourself, on a GPU you rent or own. Everything this
+          module covered — the serving engine, GPU memory, batching, quantization — becomes your
+          responsibility to set up and keep running, not someone else&rsquo;s.
+        </p>
+      ),
+      visual: (
+        <div className="flex items-center justify-center gap-2 text-center text-sm">
+          <div className="rounded-md border border-neutral-200 bg-white px-3 py-2">Your app</div>
+          <span className="text-neutral-400">→</span>
+          <div className="rounded-md border border-cyan-200 bg-cyan-50 px-3 py-2">
+            Your own GPU
+            <br />
+            (rented or owned)
+          </div>
+        </div>
+      ),
+    },
+    {
+      section: "4. Hosted API vs. Self-Hosted",
+      title: "The Comparison, Side by Side",
+      body: (
+        <p>
+          Same two options, put next to each other. Neither is universally better — the right
+          choice depends on how much traffic you have and how much control you need.
+        </p>
+      ),
+      visual: (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="text-left text-neutral-500">
+                <th className="py-1 pr-3 font-medium"></th>
+                <th className="py-1 px-3 font-medium">Hosted API</th>
+                <th className="py-1 px-3 font-medium">Self-Hosted</th>
+              </tr>
+            </thead>
+            <tbody className="text-neutral-800">
+              <tr className="border-t border-neutral-200">
+                <td className="py-1.5 pr-3 text-neutral-500">Who runs the GPU</td>
+                <td className="py-1.5 px-3">The provider</td>
+                <td className="py-1.5 px-3">You</td>
+              </tr>
+              <tr className="border-t border-neutral-200">
+                <td className="py-1.5 pr-3 text-neutral-500">Cost structure</td>
+                <td className="py-1.5 px-3">Scales with usage, no upfront cost</td>
+                <td className="py-1.5 px-3">Fixed cost, near-zero per extra request</td>
+              </tr>
+              <tr className="border-t border-neutral-200">
+                <td className="py-1.5 pr-3 text-neutral-500">Control</td>
+                <td className="py-1.5 px-3">Limited to what the API exposes</td>
+                <td className="py-1.5 px-3">Full — model choice, quantization, fine-tuning</td>
+              </tr>
+              <tr className="border-t border-neutral-200">
+                <td className="py-1.5 pr-3 text-neutral-500">Setup &amp; operations</td>
+                <td className="py-1.5 px-3">None — fully managed</td>
+                <td className="py-1.5 px-3">You run and maintain everything</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       ),
     },
@@ -258,31 +421,13 @@ export function PerformanceWalkthrough({
       title: "Where the Rest of This Module Comes Back In",
       body: (
         <p>
-          Self-hosting only pays off if that fixed GPU capacity is actually used well — which is
+          Self-hosting only pays off if that fixed GPU capacity is actually used well. That&rsquo;s
           exactly what the rest of this module was about. Continuous batching, quantization, and
           reading these very metrics are how a self-hosted deployment gets enough throughput per
-          GPU to make its fixed cost worth paying.
+          GPU. That&rsquo;s what makes its fixed cost worth paying.
         </p>
       ),
       visual: undefined,
-    },
-    {
-      section: "4. Hosted API vs. Self-Hosted",
-      title: "Control and Complexity, Not Just Cost",
-      body: (
-        <p>
-          Cost is not the only factor. Self-hosting gives full control: choice of model, custom
-          quantization, fine-tuning, and data that never leaves your own infrastructure — at the
-          cost of operating that infrastructure yourself. A hosted API trades that control for
-          convenience: someone else runs the GPUs, scales them, and keeps them updated.
-        </p>
-      ),
-      visual: (
-        <div className="grid grid-cols-2 gap-2">
-          <StatCard label="Self-hosted" value="full control, you run the infrastructure" />
-          <StatCard label="Hosted API" value="less control, zero infrastructure to run" />
-        </div>
-      ),
     },
     // -------------------- 5. Wrap-up --------------------
     {
@@ -292,11 +437,11 @@ export function PerformanceWalkthrough({
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>Latency is how long one request takes; throughput is how many requests finish per second — different metrics for the same server.</li>
-            <li>Time to first token (TTFT) measures how quickly the first streamed token appears, which can look very different from total latency.</li>
-            <li>Batching more requests together raises throughput but can raise each request&rsquo;s own latency — a tradeoff, not a bug.</li>
-            <li>Reading these metrics together, not in isolation, is what lets you diagnose what is actually wrong with a server.</li>
-            <li>A hosted API scales cost with usage and requires no infrastructure; self-hosting is a fixed cost that pays off once usage — and GPU utilization — is high enough.</li>
+            <li>A dashboard tracks three metrics: throughput, average time to first token, and average latency. Each is an average across every request in a period, not one request&rsquo;s own numbers.</li>
+            <li>Time to first token measures how quickly the first streamed token appears. That can look very different from a single request&rsquo;s total latency.</li>
+            <li>Batching more requests together raises throughput but can raise average latency — a tradeoff, not a bug.</li>
+            <li>The same three metrics, read together, diagnose what is likely wrong — but not always uniquely. Only average latency rising usually just means longer responses. Throughput and latency rising together on purpose is Continuous Batching&rsquo;s own tradeoff, not a problem. All three worsening together can mean more than one thing, like a cold-starting server or a fragmented KV cache. That needs a signal beyond these three metrics to tell apart.</li>
+            <li>A hosted API scales cost with usage and requires no infrastructure. Self-hosting is a fixed cost that pays off once usage — and GPU utilization — is high enough.</li>
           </ul>
         </div>
       ),
@@ -309,8 +454,9 @@ export function PerformanceWalkthrough({
         <div className="space-y-2">
           <p>
             That&rsquo;s every Unit in Inference. Model Serving, GPU, vLLM, Continuous Batching,
-            Quantization, and Performance together cover how one GPU serves requests efficiently —
-            from the request path itself to the levers that make it faster, cheaper, and easier to
+            Quantization, and Performance together cover how one GPU serves requests efficiently.
+            That covers everything from the request path itself to the levers that make it
+            faster, cheaper, and easier to
             reason about.
           </p>
           <Link

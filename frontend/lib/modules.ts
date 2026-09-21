@@ -3,7 +3,8 @@ export type ModuleId =
   | "genai"
   | "evaluation"
   | "inference"
-  | "llmops";
+  | "llmops"
+  | "iac";
 
 export interface ModuleInfo {
   id: ModuleId;
@@ -49,6 +50,13 @@ export const MODULES: ModuleInfo[] = [
     label: "LLMOps",
     tagline: "Run it in production",
     lifecycleStage: "Operate",
+  },
+  {
+    id: "iac",
+    slug: "iac",
+    label: "IaC",
+    tagline: "Provision the cloud infrastructure everything runs on",
+    lifecycleStage: "Provision",
   },
 ];
 

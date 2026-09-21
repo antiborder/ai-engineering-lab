@@ -81,8 +81,9 @@ export function QuantizationWalkthrough({
       body: (
         <p>
           Quantization trades three things against each other: memory, speed, and output quality.
-          Lowering precision improves the first two and risks the third — this chapter follows one
-          7B-parameter model (the same one from the GPU Unit) through FP16, INT8, and INT4 to make
+          Lowering precision improves the first two and risks the third. This chapter follows one
+          7B-parameter model (the same one from the GPU Unit) through FP16, INT8, and INT4. That
+          makes
           that tradeoff concrete.
         </p>
       ),
@@ -101,7 +102,7 @@ export function QuantizationWalkthrough({
       body: (
         <p>
           Quantization does not remove any of a model&rsquo;s parameters, and it does not change
-          how many there are — that&rsquo;s a different kind of technique entirely. A quantized
+          how many there are. That&rsquo;s a different kind of technique entirely. A quantized
           7B-parameter model still has all 7 billion parameters. What changes is how much memory
           each one takes to store.
         </p>
@@ -115,7 +116,7 @@ export function QuantizationWalkthrough({
         <p>
           Every parameter is a number stored in a fixed number of bits. The GPU Unit&rsquo;s model
           used 16 bits (2 bytes) per number, a format called <strong>FP16</strong>. Two lower-precision
-          formats store that same kind of number in fewer bits: <strong>INT8</strong> uses 8 bits
+          formats store that same kind of number in fewer bits. <strong>INT8</strong> uses 8 bits
           (1 byte), and <strong>INT4</strong> uses 4 bits (half a byte).
         </p>
       ),
@@ -127,8 +128,10 @@ export function QuantizationWalkthrough({
       body: (
         <p>
           16 bits can represent over 65,000 distinct values; 4 bits can only represent 16.
-          Converting a parameter from FP16 to INT8 or INT4 means rounding it to the nearest value
-          that smaller format can actually represent — the same kind of rounding you&rsquo;d get
+          Converting a parameter from FP16 to INT8 or INT4 means rounding it. It gets rounded to
+          the nearest value
+          that smaller format can actually represent. That&rsquo;s the same kind of rounding
+          you&rsquo;d get
           switching a ruler from millimeter markings to centimeter markings.
         </p>
       ),
@@ -149,7 +152,8 @@ export function QuantizationWalkthrough({
           At FP16&rsquo;s 2 bytes per parameter, the GPU Unit&rsquo;s 7B-parameter model needs{" "}
           {WEIGHTS_GB.fp16} GB of VRAM just for its weights. At INT8&rsquo;s 1 byte per parameter,
           that&rsquo;s half as much: {WEIGHTS_GB.int8} GB. At INT4&rsquo;s half a byte per
-          parameter, it&rsquo;s half again: {WEIGHTS_GB.int4} GB — a quarter of the original, for
+          parameter, it&rsquo;s half again: {WEIGHTS_GB.int4} GB. That&rsquo;s a quarter of the
+          original, for
           the exact same model.
         </p>
       ),
@@ -168,7 +172,8 @@ export function QuantizationWalkthrough({
         <p>
           The GPU Unit showed that VRAM is one fixed pool the weights and the KV cache both draw
           from. Every gigabyte quantization saves on weights becomes a gigabyte available for the
-          KV cache instead — on the exact same {VRAM_TOTAL_GB} GB GPU, meaning more concurrent
+          KV cache instead. That happens on the exact same {VRAM_TOTAL_GB} GB GPU. It means more
+          concurrent
           requests or longer context, not just a smaller file on disk.
         </p>
       ),
@@ -195,7 +200,7 @@ export function QuantizationWalkthrough({
           Before the GPU can compute anything, it first has to read the model&rsquo;s weights out
           of VRAM. How fast it can read that data is called <strong>memory bandwidth</strong>. A
           step&rsquo;s speed often depends on memory bandwidth just as much as on core count.
-          Fewer bits per weight means less data to read every step, which can make each step
+          Fewer bits per weight means less data to read every step. That can make each step
           faster, not just cheaper to store.
         </p>
       ),
@@ -212,7 +217,8 @@ export function QuantizationWalkthrough({
       body: (
         <p>
           Because reading weights is often the real bottleneck, quantized models commonly run
-          noticeably faster than their full-precision counterparts on the same GPU — on top of
+          noticeably faster than their full-precision counterparts. That&rsquo;s on the same GPU.
+          It&rsquo;s on top of
           the memory savings, not instead of them.
         </p>
       ),
@@ -226,7 +232,7 @@ export function QuantizationWalkthrough({
         <p>
           Rounding any single weight to a coarser grid introduces a small error. A 7B-parameter
           model has 7 billion of these small errors, all introduced at once. Individually tiny,
-          they can combine into a real difference in what the model outputs — and INT4&rsquo;s
+          they can combine into a real difference in what the model outputs. INT4&rsquo;s
           much coarser rounding introduces more error than INT8&rsquo;s.
         </p>
       ),
@@ -238,8 +244,8 @@ export function QuantizationWalkthrough({
       body: (
         <p>
           Precision loss shows up unevenly. Here&rsquo;s one illustrative case for a task where
-          getting an exact number wrong actually matters — real quantized models show this same
-          pattern, though the exact numbers below are for illustration, not a live model run.
+          getting an exact number wrong actually matters. Real quantized models show this same
+          pattern. The exact numbers below are for illustration, not a live model run.
         </p>
       ),
       visual: (
@@ -264,8 +270,8 @@ export function QuantizationWalkthrough({
             answer is good.
           </li>
           <li>
-            <strong>Precise arithmetic, code, multi-step reasoning</strong> are far more sensitive
-            — a single wrong digit or token can flip a correct answer into a wrong one.
+            <strong>Precise arithmetic, code, multi-step reasoning</strong> are far more sensitive.
+            A single wrong digit or token can flip a correct answer into a wrong one.
           </li>
         </ul>
       ),
@@ -330,7 +336,7 @@ export function QuantizationWalkthrough({
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>Quantization keeps every parameter and stores each one in fewer bits — it does not remove parameters.</li>
-            <li>FP16 uses 2 bytes per parameter, INT8 uses 1 byte, and INT4 uses half a byte — the same 7B-parameter model needs 14 GB, 7 GB, or 3.5 GB of VRAM for its weights, respectively.</li>
+            <li>FP16 uses 2 bytes per parameter, INT8 uses 1 byte, and INT4 uses half a byte. The same 7B-parameter model needs 14 GB, 7 GB, or 3.5 GB of VRAM for its weights, respectively.</li>
             <li>Freed-up VRAM from smaller weights becomes available for the KV cache, on the exact same GPU.</li>
             <li>Fewer bits per weight also means less data to read from VRAM every step, which can make serving faster, not just smaller.</li>
             <li>Lower precision risks output quality — precise arithmetic, code, and multi-step reasoning are hit first, while casual conversation tolerates it well.</li>
@@ -345,8 +351,10 @@ export function QuantizationWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            Performance metrics — latency, throughput, and time to first token, read together to
-            diagnose a bottleneck and decide hosted API vs. self-hosted — is the module&rsquo;s last
+            Performance metrics are latency, throughput, and time to first token. Read together,
+            they
+            diagnose a bottleneck and decide hosted API vs. self-hosted. That&rsquo;s the
+            module&rsquo;s last
             chapter.
           </p>
           <Link

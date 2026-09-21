@@ -123,7 +123,8 @@ export function MetricsWalkthrough({
           <p>We already ran the bug through the pipeline. This chapter finds the metric that catches it, and surveys the rest:</p>
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
             <li><strong>Matching Metrics</strong> — exact match and semantic similarity, and where each is blind.</li>
-            <li><strong>Judging Correctness</strong> — correctness, faithfulness, and relevancy: three different questions, three different formulas.</li>
+            <li><strong>Judging Correctness &amp; Faithfulness</strong> — breaking an answer into claims, then checking those claims two different ways.</li>
+            <li><strong>Judging Relevancy</strong> — a true, well-grounded answer that still misses the question.</li>
             <li><strong>Cost</strong> — latency, tokens, and price, measured separately from quality.</li>
             <li><strong>Choosing a Metric</strong> — matching the metric to the task.</li>
           </ol>
@@ -138,7 +139,8 @@ export function MetricsWalkthrough({
         'Chloe: "So we\'ve got the pipeline built and running — this is basically done, right?"\nMaya: "Not quite. Exact match caught our bug last chapter, but only because the wrong answer happened to be worded totally differently."\nChloe: "So what if it wasn\'t?"\nMaya: "That\'s exactly the sneaky version I want to show you — same bug, but worded a lot closer to the real answer."\nChloe: "Let\'s see if exact match still catches it."',
       body: (
         <p>
-          Exact match flagged the bug that went live — but only because it happened to be worded
+          Exact match flagged the bug that went live. But that&rsquo;s only because it happened
+          to be worded
           very differently from the right answer. A sneakier version of the same bug, worded
           closer to correct, would slip past a naive check. This chapter finds the metric that
           wouldn&rsquo;t miss it.
@@ -188,7 +190,8 @@ export function MetricsWalkthrough({
           <Equation tex={"\\text{similarity}(A,B) = \\frac{A \\cdot B}{\\|A\\| \\, \\|B\\|}"} />
           <p>
             Closer to 1 means closer in meaning. Imagine the AI assistant instead said worn
-            items get a 70% refund: fluent, on-topic, worded close to the real answer, and still
+            items get a 70% refund. That&rsquo;s fluent, on-topic, worded close to the real
+            answer — and still
             wrong.
           </p>
         </div>
@@ -203,7 +206,7 @@ export function MetricsWalkthrough({
     },
     // -------------------- 2. Judging Correctness --------------------
     {
-      section: "2. Judging Correctness",
+      section: "2. Judging Correctness & Faithfulness",
       title: "Breaking the Candidate Into Claims",
       story:
         'Maya: "Similarity likes that 70% answer. It shouldn\'t."\nChloe: "So what actually catches it?"\nMaya: "Hmm — before we can compare them, we need to break this down into smaller pieces first."\nChloe: "Break down the AI\'s answer, you mean?"\nMaya: "Right. Take the sentence Worn items get a 70% refund, not a full refund. That one sentence contains two separate claims:\\n• Worn items do not get a full refund.\\n• Worn items get a 70% refund."\nChloe: "Huh, now that you mention it."\nMaya: "Compare it as one mixed blob, and you can\'t compare it accurately."',
@@ -228,7 +231,7 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "2. Judging Correctness & Faithfulness",
       title: "Breaking the Expected Answer Into Claims",
       story:
         'Chloe: "So the expected answer should get split up too, right?"\nMaya: "Right. It was: No — worn items only qualify for a partial refund or store credit, not a full refund. How would you split that one?"\nChloe: "Um... let\'s see:\\n• Worn items do not get a full refund.\\n• Worn items qualify for a partial refund.\\n• Worn items qualify for store credit.\\nLike that?"\nMaya: "Yeah, that works. Splitting it that way means you can catch it separately if the AI mentions partial refund but leaves out store credit entirely, say."\nChloe: "Oh, I see."',
@@ -253,7 +256,7 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "2. Judging Correctness & Faithfulness",
       title: "Matching Claims Between the Two",
       story:
         'Maya: "Now that we\'ve split both into independent claims, let\'s match the AI\'s answer, the candidate, against the expected answer."\nChloe: "So now we can finally compare them."\nMaya: "Right. The candidate has: Worn items do not get a full refund, and Worn items get a 70% refund."\nChloe: "And the expected answer has: Worn items do not get a full refund, Worn items qualify for a partial refund, and Worn items qualify for store credit."\nMaya: "See a claim that shows up on both sides?"\nChloe: "Oh — do not get a full refund! That\'s the part the AI actually got right."\nMaya: "Exactly."',
@@ -287,7 +290,7 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "2. Judging Correctness & Faithfulness",
       title: "TP, FP, FN: Applying It to Claims",
       story:
         'Chloe: "What about a claim that\'s only on one side? Does that automatically mean it\'s wrong?"\nMaya: "That\'s exactly what needs sorting out next."\nMaya: "Let\'s sort our example by which side each claim is on:\\n1. In both: Worn items do not get a full refund.\\n2. In the expected answer but not the candidate: Worn items qualify for a partial refund, and Worn items qualify for store credit.\\n3. In the candidate but not the expected answer: Worn items get a 70% refund."\nChloe: "So claims that show up on both sides are ones the AI answered correctly, right?"\nMaya: "Exactly. Those fall into a category called TP — True Positive."\nChloe: "In our example, that\'s Worn items do not get a full refund."',
@@ -300,7 +303,7 @@ export function MetricsWalkthrough({
       visual: claimGrid(["TP"]),
     },
     {
-      section: "2. Judging Correctness",
+      section: "2. Judging Correctness & Faithfulness",
       title: "Precision: Of What It Claimed, How Much Was Right?",
       story:
         'Chloe: "So then, more TP is better?"\nMaya: "Close, but it\'s not simply \'more TP is better.\'"\nMaya: "It\'s not just about answering correctly — not answering incorrectly matters too."\nChloe: "Huh? Aren\'t those the same thing?"\nMaya: "Let\'s untangle that. In the table below, a correct claim is TP, and a wrong one is FP."\nChloe: "So saying something not in the expected answer, like Worn items get a 70% refund, that\'s FP?"\nMaya: "Right. And the share of everything the AI said that\'s actually correct — that\'s Precision."',
@@ -328,7 +331,7 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "2. Judging Correctness & Faithfulness",
       title: "Recall: Of What It Should Have Said, How Much Made It In?",
       story:
         'Chloe: "So then, we just need to raise precision?"\nMaya: "Here\'s the thing — precision alone isn\'t enough."\nChloe: "Huh? There\'s more?"\nMaya: "Think about it — if the AI only says the things it\'s absolutely sure are correct, and stays silent on everything else, precision comes out to a perfect 100."\nChloe: "Being careful makes you go quiet, huh."\nMaya: "Same for an AI assistant. So keeping down what\'s written in the expected answer but the AI never said — that matters too."\nChloe: "Oh, in the diagram, that\'s FN."\nMaya: "Right. And the share of everything in the expected answer that the AI actually said — that\'s recall."\nChloe: "So it\'s how much the AI actually remembered to say."',
@@ -357,7 +360,7 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "2. Judging Correctness & Faithfulness",
       title: "Correctness: Turning Precision and Recall Into One Score",
       story:
         'Chloe: "So we need to raise both precision and recall?"\nMaya: "Right. But an AI is just like a person here — answer more assertively, and mistakes creep in, dragging precision down."\nMaya: "And play it safe to avoid mistakes, and it says less, dragging recall down instead."\nChloe: "Wow, that\'s so human! Can\'t we just raise both at once?"\nMaya: "Well, it comes down to which one you prioritize — but the commonly used approach is a metric that splits the difference between the two: F1."',
@@ -366,8 +369,9 @@ export function MetricsWalkthrough({
           <p>
             F1 is the harmonic mean of precision and recall, weighting them equally. The
             &ldquo;F&rdquo; comes from the <strong>F-measure</strong>, a formula for combining
-            precision and recall introduced by C. J. van Rijsbergen in the 1970s and now standard
-            across search, spam filtering, and classification generally. The &ldquo;1&rdquo;
+            precision and recall. It was introduced by C. J. van Rijsbergen in the 1970s. It&rsquo;s
+            now
+            standard across search, spam filtering, and classification generally. The &ldquo;1&rdquo;
             means precision and recall count the same — a different F-score could weight one
             more than the other:
           </p>
@@ -386,10 +390,10 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "2. Judging Correctness & Faithfulness",
       title: "Faithfulness: Is It Supported by the Source?",
       story:
-        'Chloe: "Wait, is faithfulness related to correctness, or a totally different thing?"\nMaya: "Same idea — same claims, same TP and FP. Just checked against a different target."',
+        'Maya: "There\'s also a metric based on the reference, not the expected answer."\nChloe: "So it checks whether the candidate\'s claims are actually in the reference?"\nMaya: "Exactly. You\'re catching on."\nChloe: "Wait — doesn\'t that make it the same thing as correctness?"\nMaya: "They land on the same score here, but that\'s because I wrote the expected answer to match the reference closely. Look at the doc, though — it also says \'at Southwear\'s discretion,\' and the expected answer leaves that out."\nChloe: "So if the candidate said that too..."\nMaya: "Correctness would mark it wrong — it\'s not in the expected answer. Faithfulness would mark it right — the source really does say it. An expected answer is one person\'s best answer to one question, not a full copy of the source."',
       body: (
         <div className="space-y-2">
           <p>
@@ -399,14 +403,19 @@ export function MetricsWalkthrough({
           <Equation tex={"\\text{Faithfulness} = \\frac{\\text{supported claims}}{\\text{total claims}} = \\frac{TP}{TP+FP}"} />
           <p>
             There&rsquo;s no recall side to this one. Recall would mean restating everything in
-            the reference — but a good answer isn&rsquo;t expected to repeat the whole document,
-            so there&rsquo;s no meaningful &ldquo;missed claim&rdquo; to count.
+            the reference. But a good answer isn&rsquo;t expected to repeat the whole document.
+            So there&rsquo;s no meaningful &ldquo;missed claim&rdquo; to count.
           </p>
           <p>
-            Correctness and faithfulness land on the same score here, because the expected answer
-            happens to match the reference. That won&rsquo;t always hold — if the expected answer
-            were ever written wrong, correctness would be fooled by it, but faithfulness, checked
-            straight against the source, wouldn&rsquo;t be.
+            Correctness and faithfulness land on the same score here because this expected answer
+            happens to closely match the reference. That won&rsquo;t always hold: the doc itself
+            adds &ldquo;at Southwear&rsquo;s discretion,&rdquo; a detail the expected answer leaves
+            out. A candidate that included it would be marked wrong by correctness (not in the
+            expected answer). But it would be marked right by faithfulness (genuinely supported by
+            the source). That&rsquo;s the
+            same reason faithfulness has no recall side. A source document is broader than any one
+            written answer. So there&rsquo;s no fixed &ldquo;everything&rdquo; to be complete
+            against.
           </p>
         </div>
       ),
@@ -419,15 +428,15 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "3. Judging Relevancy",
       title: "Relevancy: A Different Question Than Correctness",
       story:
         'Chloe: "What if the answer\'s totally true, just... not really about what I asked?"\nMaya: "That\'s a third thing — relevancy."',
       body: (
         <div className="space-y-2">
           <p>
-            Answer relevancy checks whether the answer is actually about the question asked —
-            a separate question from whether it&rsquo;s true, which correctness and
+            Answer relevancy checks whether the answer is actually about the question asked.
+            That&rsquo;s a separate question from whether it&rsquo;s true, which correctness and
             faithfulness already check.
           </p>
         </div>
@@ -441,7 +450,7 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "3. Judging Relevancy",
       title: "Why Not Just Compare the Question to the Answer?",
       story:
         'Chloe: "Can\'t we just check how close the answer is to the question?"\nMaya: "You\'d think so — but that doesn\'t actually work."',
@@ -449,12 +458,13 @@ export function MetricsWalkthrough({
         <div className="space-y-2">
           <p>
             Embedding models place similar meanings close together. But a question and its
-            correct answer aren&rsquo;t paraphrases of each other — their embeddings often
-            land far apart even for a perfect answer.
+            correct answer aren&rsquo;t paraphrases of each other. Their embeddings often
+            land far apart, even for a perfect answer.
           </p>
           <p>
             Comparing the question straight to the answer would score a great answer as
-            &ldquo;dissimilar,&rdquo; just because a question and an answer are different
+            &ldquo;dissimilar.&rdquo; That&rsquo;s just because a question and an answer are
+            different
             kinds of text.
           </p>
         </div>
@@ -474,7 +484,7 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "3. Judging Relevancy",
       title: "The Fix: Reconstruct Questions From the Answer",
       story:
         'Chloe: "Okay, so comparing question to answer doesn\'t work. Now what?"\nMaya: "What if we made both sides the same kind of text?"\nChloe: "How would you even do that?"\nMaya: "Let\'s see."',
@@ -501,7 +511,7 @@ export function MetricsWalkthrough({
       ),
     },
     {
-      section: "2. Judging Correctness",
+      section: "3. Judging Relevancy",
       title: "Relevancy: Averaging the Similarities",
       story: 'Chloe: "And then?"\nMaya: "Then it\'s the same trick as before — just applied a little differently."',
       body: (
@@ -531,7 +541,7 @@ export function MetricsWalkthrough({
     },
     // -------------------- 3. Cost --------------------
     {
-      section: "3. Cost",
+      section: "4. Cost",
       title: "Cost Metrics: Latency, Tokens, Price",
       story:
         'Chloe: "Okay, faithfulness, correctness, relevancy... is that everything?"\nMaya: "Everything about whether the answer is good, sure. But a perfect answer that takes ten seconds and costs a fortune isn\'t shippable either."\nChloe: "Oh — so quality isn\'t the only thing being measured."\nMaya: "Right. Cost matters too, and it\'s measured completely separately."',
@@ -564,7 +574,7 @@ export function MetricsWalkthrough({
     },
     // -------------------- 4. Choosing a Metric --------------------
     {
-      section: "4. Choosing a Metric",
+      section: "5. Choosing a Metric",
       title: "Choosing the Right Metric for the Task",
       story:
         'Chloe: "That\'s... a lot of metrics. Do we run all of them, every time?"\nMaya: "No — you pick based on the task. Not every metric applies to every question."\nChloe: "So how do you know which one to use?"\nMaya: "Match it to what the task actually needs. Let\'s go through it."',
@@ -592,7 +602,7 @@ export function MetricsWalkthrough({
     },
     // -------------------- 5. Try It Yourself --------------------
     {
-      section: "5. Try It Yourself",
+      section: "6. Try It Yourself",
       title: "Try it yourself: score the bug and its sneaky cousin",
       body: (
         <p>
@@ -631,7 +641,7 @@ export function MetricsWalkthrough({
     },
     // -------------------- Wrap-up --------------------
     {
-      section: "6. Wrap-up",
+      section: "7. Wrap-up",
       title: "What you just learned",
       story:
         'Maya: "So that\'s the whole toolbox — and we already found the one that would\'ve caught our bug."\nChloe: "Faithfulness. Finally, a real answer!"\nMaya: "Before you celebrate, let\'s make sure it all stuck. Quick recap."\nChloe: "Ugh, fine. Hit me."',
@@ -652,7 +662,7 @@ export function MetricsWalkthrough({
       visual: undefined,
     },
     {
-      section: "6. Wrap-up",
+      section: "7. Wrap-up",
       title: "Next: Computing Faithfulness Well",
       story:
         'Maya: "Faithfulness is what actually catches this, every time — no matter how it\'s worded."\nChloe: "So how do we compute faithfulness well?"\nMaya: "That takes real judgment. Time to bring in an LLM judge."',

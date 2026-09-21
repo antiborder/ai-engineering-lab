@@ -109,7 +109,8 @@ export function AgentEvaluationWalkthrough({
       body: (
         <p>
           Southwear&rsquo;s assistant now plans a sequence of tool calls — look up an order,
-          check a policy, cancel it, refund it — instead of retrieving documents and answering in
+          check a policy, cancel it, refund it. That&rsquo;s instead of retrieving documents and
+          answering in
           one step. That sequence is called a trajectory, and it
           opens up a failure mode last chapter never had.
         </p>
@@ -139,7 +140,7 @@ export function AgentEvaluationWalkthrough({
       body: (
         <p>
           Southwear&rsquo;s policy requires five calls, in order, for a cancel-and-refund
-          request: look up the order, check return eligibility, cancel it, issue the refund, and
+          request. Look up the order, check return eligibility, cancel it, issue the refund, and
           confirm with the customer. The assistant&rsquo;s actual trajectory skipped one.
         </p>
       ),
@@ -158,7 +159,7 @@ export function AgentEvaluationWalkthrough({
       body: (
         <p>
           Skipping the eligibility check didn&rsquo;t make the final answer wrong from the
-          customer&rsquo;s side — they got exactly what they asked for. But the order had already
+          customer&rsquo;s side. They got exactly what they asked for. But the order had already
           shipped, and the policy exists to catch that case before refunding. The outcome hides
           the process that produced it.
         </p>
@@ -179,7 +180,8 @@ export function AgentEvaluationWalkthrough({
       body: (
         <p>
           A trajectory is graded against a reference trajectory — the sequence of tool calls the
-          task actually required — independent of whether the final outcome looks fine. This
+          task actually required. That&rsquo;s independent of whether the final outcome looks
+          fine. This
           catches process problems an outcome-only check can&rsquo;t see.
         </p>
       ),
@@ -407,7 +409,7 @@ export function AgentEvaluationWalkthrough({
           <p>
             Faithfulness checks whether an answer&rsquo;s claims are supported by the retrieved
             source. Trajectory faithfulness checks the same way, but for actions instead of
-            claims: it checks whether the assistant&rsquo;s own explanation is supported by its
+            claims. It checks whether the assistant&rsquo;s own explanation is supported by its
             actual tool calls.
           </p>
           <Equation tex={"\\text{Trajectory faithfulness} = \\frac{\\text{claimed actions actually taken}}{\\text{claimed actions}} = \\frac{TP}{TP + FP}"} />
@@ -429,7 +431,7 @@ export function AgentEvaluationWalkthrough({
         'Chloe: "So how many things do we actually have to check now?"\nMaya: "Four, in order — each one catches something the last one couldn\'t."\nChloe: "Lay it out for me."',
       body: (
         <p>
-          Diagnosing an agent&rsquo;s resolution means checking four things in order, since each
+          Diagnosing an agent&rsquo;s resolution means checking four things in order. Each
           one is blind to a different failure the ones before it can miss.
         </p>
       ),
@@ -493,12 +495,12 @@ export function AgentEvaluationWalkthrough({
         <div className="space-y-2">
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
-            <li>A task can succeed by outcome while its trajectory skipped a required step — outcome and process are checked separately, same principle as retrieval quality.</li>
-            <li>Step precision (TP/(TP+FP)) asks whether every call the agent made was necessary; step recall (TP/(TP+FN)) asks whether every required call was actually made.</li>
-            <li>Trajectory F1 combines them into one number, but a high F1 can still hide a real gap — the same trap as correctness&rsquo;s partial credit.</li>
-            <li>Task success and trajectory correctness can diverge in either direction: a shortcut that still works, or a perfect process undone by one tool failing.</li>
+            <li>A task can succeed by outcome while its trajectory skipped a required step. Outcome and process are checked separately, same principle as retrieval quality.</li>
+            <li>Step precision (TP/(TP+FP)) asks whether every call the agent made was necessary. Step recall (TP/(TP+FN)) asks whether every required call was actually made.</li>
+            <li>Trajectory F1 combines them into one number. But a high F1 can still hide a real gap — the same trap as correctness&rsquo;s partial credit.</li>
+            <li>Task success and trajectory correctness can diverge in either direction. That could be a shortcut that still works, or a perfect process undone by one tool failing.</li>
             <li>Step precision and recall can&rsquo;t see order or repetition — the right calls, wrong sequence or needlessly duplicated, both score perfectly.</li>
-            <li>Trajectory faithfulness checks whether the agent&rsquo;s own explanation matches what its tool calls actually show — the same faithfulness idea, applied to the agent&rsquo;s account of itself.</li>
+            <li>Trajectory faithfulness checks whether the agent&rsquo;s own explanation matches what its tool calls actually show. That&rsquo;s the same faithfulness idea, applied to the agent&rsquo;s account of itself.</li>
           </ul>
         </div>
       ),
@@ -511,8 +513,8 @@ export function AgentEvaluationWalkthrough({
         'Chloe: "So is that the whole toolkit now? Every way to check whether an AI system actually works?"\nMaya: "From one LLM call, to search, to a full agent — yeah. Same discipline every time: never trust the final output by itself."\nChloe: "Never take the fluent, confident answer at face value."\nMaya: "Exactly that."',
       body: (
         <p>
-          This chapter closes the Evaluation module: a single call, a RAG pipeline, and now a
-          full agent all get checked the same way — verify the process that produced an answer,
+          This chapter closes the Evaluation module. A single call, a RAG pipeline, and now a
+          full agent all get checked the same way. Verify the process that produced an answer,
           not just the answer itself.
         </p>
       ),

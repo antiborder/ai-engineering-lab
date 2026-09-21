@@ -218,7 +218,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Last stop in Fundamentals! This chapter introduces a couple of genuinely new words —{" "}
-          neuron and layer — but everything
+          neuron and layer. But everything
           underneath them is exactly what you already trained in Classification: weighted sums,
           sigmoid, cross-entropy loss, gradient descent. Same friendly pace, one small idea per
           step.
@@ -233,7 +233,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Same dataset as Classification&rsquo;s interleaving crescents — on purpose. It lets us
-          compare directly: how much better can a network do than a single neuron on the exact
+          compare directly. How much better can a network do than a single neuron on the exact
           same problem?
         </p>
       ),
@@ -245,12 +245,12 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           First, meet the neuron — the one new building block this whole
-          chapter is made of — and see that a single neuron is secretly the exact model you
-          already trained. Then we&rsquo;ll stack neurons into layers,
-          see why that only works with a nonlinear{" "}
-          activation function, train the whole thing with{" "}
-          gradient descent via backpropagation, and finish by
-          exploring the new dials a network gives us: how big to build it, and which activation to
+          chapter is made of. You&rsquo;ll see that a single neuron is secretly the exact model you
+          already trained. Then we&rsquo;ll stack neurons into layers.
+          We&rsquo;ll see why that only works with a nonlinear{" "}
+          activation function. We&rsquo;ll train the whole thing with{" "}
+          gradient descent, via backpropagation. Finally, we&rsquo;ll
+          explore the new dials a network gives us: how big to build it, and which activation to
           use.
         </p>
       ),
@@ -264,8 +264,8 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
         <p>
           Every neural network — no matter how large — is built out of one simple, repeated part
           called a neuron. A neuron takes in some numbers and produces
-          one number out. The rest of this section is just: which numbers go in, and exactly how
-          it turns them into that one output.
+          one number out. The rest of this section is just this: which numbers go in.
+          And exactly how it turns them into that one output.
         </p>
       ),
       visual: <NeuronDiagram stage="blackbox" />,
@@ -278,7 +278,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
           The numbers a neuron receives are its inputs — here, the same{" "}
           <Equation tex="x_1" display={false} /> and <Equation tex="x_2" display={false} /> you
           already know from this dataset. Together, all the inputs feeding a network are called
-          its input layer — the two dots on the left of the diagram.
+          its input layer. That&rsquo;s the two dots on the left of the diagram.
         </p>
       ),
       visual: <NeuronDiagram stage="sum" highlight={["inputs"]} />,
@@ -289,10 +289,10 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Weights: how much each input matters",
       body: (
         <p>
-          Each input connects to the neuron through its own weight — a number that scales that
-          input up, down, or flips its sign. A large positive weight means that input strongly
-          pushes the output one way; a weight near zero means the neuron barely listens to it. The
-          neuron combines its inputs by their weights:
+          Each input connects to the neuron through its own weight. That weight is a number
+          that scales that input up, down, or flips its sign. A large positive weight means that
+          input strongly pushes the output one way. A weight near zero means the neuron barely
+          listens to it. The neuron combines its inputs by their weights:
           <Equation tex={"w_1 x_1 + w_2 x_2"} />
         </p>
       ),
@@ -337,8 +337,8 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
           Inputs, weights, bias, activation — that&rsquo;s the whole neuron:
           <Equation tex={"\\text{output} = \\sigma(w_1 x_1 + w_2 x_2 + b)"} />
           Right now every weight and the bias are zero, so <Equation tex="z=0" display={false} />{" "}
-          everywhere and the neuron outputs exactly <Equation tex="0.5" display={false} /> — a coin
-          flip, shown as the flat blend of colors on the right.
+          everywhere. The neuron outputs exactly <Equation tex="0.5" display={false} /> everywhere — a
+          coin flip. This is shown as the flat blend of colors on the right.
         </p>
       ),
       visual: <NeuronDiagram stage="full" />,
@@ -350,7 +350,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Drag the sliders and watch the neuron&rsquo;s boundary move. This is the exact same
-          interaction as Classification&rsquo;s &ldquo;tilt the boundary&rdquo; step — except now
+          interaction as Classification&rsquo;s &ldquo;tilt the boundary&rdquo; step. Except now
           you&rsquo;re tuning one neuron&rsquo;s weights and bias directly.
         </p>
       ),
@@ -394,14 +394,14 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Measuring wrongness: the same loss",
       body: (
         <p>
-          Since a neuron&rsquo;s output is a probability between 0 and 1, we measure how wrong it
-          is exactly the way we did in Classification — cross-entropy
+          Since a neuron&rsquo;s output is a probability between 0 and 1, we measure how wrong it is.
+          We measure it exactly the way we did in Classification — cross-entropy
           loss:
           <Equation tex={"\\text{Loss} = -\\frac{1}{n}\\sum_{i=1}^{n}\\big[y_i\\log p_i + (1-y_i)\\log(1-p_i)\\big]"} />
-          <Equation tex="n" display={false} /> is how many data points we have;{" "}
+          <Equation tex="n" display={false} /> is how many data points we have.{" "}
           <Equation tex="y_i" display={false} /> is point <Equation tex="i" display={false} />
-          &rsquo;s true label (0 or 1); <Equation tex="p_i" display={false} /> is the neuron&rsquo;s
-          predicted probability that it&rsquo;s class 1 — so the loss is just an average, over all{" "}
+          &rsquo;s true label (0 or 1). <Equation tex="p_i" display={false} /> is the neuron&rsquo;s
+          predicted probability that it&rsquo;s class 1. So the loss is just an average, over all{" "}
           <Equation tex="n" display={false} /> points, of how wrong each prediction was. Nothing
           about the loss changes here — only what&rsquo;s producing the probability.
         </p>
@@ -414,7 +414,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Train it — you already know how",
       body: (
         <p>
-          Click below to run 150 gradient descent steps — the
+          Click below to run 150 gradient descent steps. That&rsquo;s the
           exact same update rule as before, now including the bias as one more weight to adjust:
           <Equation tex={"w_i \\leftarrow w_i - \\eta \\, \\frac{\\partial \\, \\text{Loss}}{\\partial w_i}"} />
         </p>
@@ -451,7 +451,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Instead of one neuron, use several, arranged in a{" "}
-          hidden layer — each one computing its own weighted sum
+          hidden layer. Each one computes its own weighted sum
           and activation from the exact same inputs, independently of the others. Their outputs
           then all feed into one more neuron that makes the final call.
         </p>
@@ -478,8 +478,8 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Starting from zero",
       body: (
         <p>
-          Every weight starts small and random this time, not exactly zero (a layer of identical
-          zero-weight neurons would never tell them apart during training). Right now it still
+          Every weight starts small and random this time, not exactly zero. A layer of identical
+          zero-weight neurons would never tell them apart during training. Right now it still
           predicts close to a coin flip everywhere.
         </p>
       ),
@@ -492,11 +492,11 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Wait — does stacking layers even help?",
       body: (
         <p>
-          Here&rsquo;s a surprising fact: if every neuron just computed a plain weighted sum with{" "}
+          Here&rsquo;s a surprising fact. If every neuron just computed a plain weighted sum with{" "}
           <em>no</em> activation function, stacking layers would be pointless. A linear function
-          of a linear function is still just linear — the whole network would collapse into one
-          single straight boundary, exactly like our one neuron, no matter how many layers you
-          stacked.
+          of a linear function is still just linear. The whole network would collapse into one
+          single straight boundary, exactly like our one neuron. That&rsquo;s true no matter how
+          many layers you stacked.
         </p>
       ),
       visual: <NetworkDiagram config={netConfig} weights={netWeights} activations={netActivations} />,
@@ -527,7 +527,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
           independently, from the same inputs:
           <Equation tex={"h_j = \\tanh\\!\\big(\\textstyle\\sum_i w_{ji} x_i + b_j\\big)"} />
           then the output neuron combines all the <Equation tex="h_j" display={false} /> the same
-          way our single neuron combined <Equation tex="x_i" display={false} />, finishing with
+          way our single neuron combined <Equation tex="x_i" display={false} />. It finishes with
           sigmoid to get a probability.
         </p>
       ),
@@ -539,16 +539,16 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "What loss are we minimizing?",
       body: (
         <p>
-          The network&rsquo;s final neuron still outputs one probability between 0 and 1, so we
+          The network&rsquo;s final neuron still outputs one probability between 0 and 1. So we
           measure how wrong the <em>whole network</em> is with the exact same{" "}
-          cross-entropy loss as before, applied to that one final
+          cross-entropy loss as before. That loss applies to that one final
           probability:
           <Equation tex={"\\text{Loss} = -\\frac{1}{n}\\sum_{i=1}^{n}\\big[y_i\\log p_i + (1-y_i)\\log(1-p_i)\\big]"} />
           Same <Equation tex="n" display={false} /> data points, same true labels{" "}
           <Equation tex="y_i" display={false} />, same predicted probabilities{" "}
           <Equation tex="p_i" display={false} /> — nothing about the loss itself is new. What&rsquo;s
-          new is that now many more numbers, spread across every neuron in every layer, all need
-          adjusting to bring it down.
+          new is that now many more numbers need adjusting to bring it down. Those numbers are
+          spread across every neuron in every layer.
         </p>
       ),
       visual: <NetworkDiagram config={netConfig} weights={netWeights} activations={netActivations} />,
@@ -574,8 +574,9 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Backpropagation computes each weight&rsquo;s gradient
-          by passing the output error backward through the network, one layer at a time, using
-          the chain rule — each layer asks &ldquo;how much am I to blame?&rdquo; based on how much
+          by passing the output error backward through the network, one layer at a time. It uses
+          the chain rule: each layer asks &ldquo;how much am I to blame?&rdquo; Each layer answers
+          based on how much
           the layer <em>after</em> it was to blame. No new math beyond gradient descent, just an
           efficient way to apply it everywhere at once.
         </p>
@@ -588,7 +589,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Take one real step",
       body: (
         <p>
-          Click below to run one real backpropagation update and watch the diagram&rsquo;s edge
+          Click below to run one real backpropagation update. Watch the diagram&rsquo;s edge
           colors — and the probability surface — shift, just slightly.
         </p>
       ),
@@ -652,7 +653,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Drag through architectures from linear up to 3 layers deep, then train. Watch train vs.
-          test loss in the chart as the network grows — that gap, more than the accuracy number,
+          test loss in the chart as the network grows. That gap, more than the accuracy number,
           is where under- and overfitting first show up.
         </p>
       ),
@@ -683,7 +684,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
         <p>
           With &ldquo;no hidden layer&rdquo; selected, both curves already flatten out early and
           stay flat — more training steps won&rsquo;t improve them. A straight line simply
-          can&rsquo;t bend around these crescents, so it plateaus at a mediocre loss on train
+          can&rsquo;t bend around these crescents. So it plateaus at a mediocre loss on train
           <em> and</em> test alike. Try training more steps and watch nothing change.
         </p>
       ),
@@ -709,11 +710,11 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Too big: overfitting",
       body: (
         <p>
-          Now with &ldquo;3 layers × 16, 16, 16&rdquo; selected, look at the loss chart: train
-          loss has collapsed toward zero, but test loss is <em>higher</em> than where it started
+          Now with &ldquo;3 layers × 16, 16, 16&rdquo; selected, look at the loss chart. Train
+          loss has collapsed toward zero. But test loss is <em>higher</em> than where it started,
           and still climbing. With only {archTrain.length} training points, the network has more
-          than enough capacity to memorize them exactly — including their noise — which actively
-          hurts it on unseen data. Click &ldquo;Train 400 steps&rdquo; again and watch test loss
+          than enough capacity to memorize them exactly, including their noise. That memorization
+          actively hurts it on unseen data. Click &ldquo;Train 400 steps&rdquo; again and watch test loss
           keep rising while train loss stays pinned near zero.
         </p>
       ),
@@ -759,7 +760,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Same lesson as polynomial degree: too small
-          underfits, too big overfits (unless reined in), and the right size depends on how much
+          underfits, too big overfits (unless reined in). The right size depends on how much
           data you actually have.
         </p>
       ),
@@ -789,8 +790,8 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
         <p>
           ReLU is a different, blunter nonlinearity:
           <Equation tex={"\\text{ReLU}(z) = \\max(0, z)"} />
-          Zero for any negative score, passed straight through unchanged otherwise — a flat line
-          that suddenly turns into a rising diagonal at <Equation tex="z=0" display={false} />.
+          Zero for any negative score, passed straight through unchanged otherwise. It&rsquo;s a flat
+          line that suddenly turns into a rising diagonal at <Equation tex="z=0" display={false} />.
           Cheap to compute, and still nonlinear, which is the only thing that was ever required.
         </p>
       ),
@@ -831,8 +832,8 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Why they look different",
       body: (
         <p>
-          ReLU boundaries tend to look faceted — made of flat pieces — because each ReLU neuron
-          is either fully &ldquo;off&rdquo; or acting like a plain straight line. Tanh boundaries
+          ReLU boundaries tend to look faceted — made of flat pieces. That&rsquo;s because each ReLU
+          neuron is either fully &ldquo;off&rdquo; or acting like a plain straight line. Tanh boundaries
           tend to look smoother, since every neuron bends continuously. Neither is strictly
           better; ReLU is popular mainly because it&rsquo;s cheap to compute and trains fast in
           deep networks.
@@ -848,8 +849,8 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       title: "Same dials, same effects",
       body: (
         <p>
-          Learning rate, noise, and train ratio all mean exactly what they meant in Classification
-          — a network doesn&rsquo;t change what they do, just how many weights they&rsquo;re
+          Learning rate, noise, and train ratio all mean exactly what they meant in Classification.
+          A network doesn&rsquo;t change what they do — just how many weights they&rsquo;re
           nudging at once.
         </p>
       ),
@@ -880,7 +881,7 @@ export function NeuralNetworkWalkthrough({ onComplete }: { onComplete: () => voi
       body: (
         <p>
           Turn up noise to blur the crescents together, or push the train ratio to an extreme, and
-          train — the same underfitting/overfitting/unreliable-estimate effects show up again.
+          train. The same underfitting/overfitting/unreliable-estimate effects show up again.
         </p>
       ),
       visual: <DecisionBoundaryCanvas points={dialPoints} predict={dialPredict} domain={DOMAIN} highlightErrors />,

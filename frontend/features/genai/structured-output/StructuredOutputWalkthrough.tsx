@@ -122,8 +122,10 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       body: (
         <p>
           Prompt Engineering was about writing better instructions. This chapter is about a
-          narrower, more mechanical problem: getting a response back in a shape your code can
-          actually parse — a fixed set of fields, with fixed types — instead of free-form
+          narrower, more mechanical problem. It&rsquo;s about getting a response back in a shape
+          your code can
+          actually parse. That&rsquo;s a fixed set of fields, with fixed types, instead of
+          free-form
           paragraphs.
         </p>
       ),
@@ -137,8 +139,9 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
         <p>
           A model naturally produces free-form text. Downstream code — a function call, a
           database row, a UI form — usually needs a strict, parseable shape instead. Asking
-          nicely in the prompt (&ldquo;please reply as JSON with these fields&rdquo;) helps, but
-          isn&rsquo;t reliable enough on its own — the exact formatting can still drift from call
+          nicely in the prompt (&ldquo;please reply as JSON with these fields&rdquo;) helps. But
+          it isn&rsquo;t reliable enough on its own — the exact formatting can still drift from
+          call
           to call.
         </p>
       ),
@@ -149,10 +152,10 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       title: "JSON Schema: A Contract for the Output's Shape",
       body: (
         <p>
-          A JSON Schema is a specification, written as JSON itself,
-          that describes the exact shape a piece of data must have. Sent alongside the task, it
-          tells the model — and, downstream, a validator — exactly what fields, types, and
-          structure the output must have.
+          A JSON Schema is a specification, written as JSON itself.
+          It describes the exact shape a piece of data must have. Sent alongside the task, it
+          tells the model exactly what fields, types, and
+          structure the output must have. It tells that to a validator too, downstream.
         </p>
       ),
       visual: <StructuredOutputFlowDiagram highlight={["schema"]} />,
@@ -164,11 +167,13 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
         <p>
           Not inside the prompt text. Real APIs send the schema as its own request field —
           OpenAI&rsquo;s <code className="font-mono text-base">response_format</code>,
-          Gemini&rsquo;s <code className="font-mono text-base">response_schema</code> — the same
+          Gemini&rsquo;s <code className="font-mono text-base">response_schema</code>. That&rsquo;s
+          the same
           category as the <strong>configuration</strong> you already met in LLM API (temperature,
-          max_tokens): something set alongside the prompt, not written into it. That&rsquo;s why
-          the schema box below is green, the same color LLM API used for configuration —
-          structured output isn&rsquo;t a prompt-engineering technique, it&rsquo;s a separate
+          max_tokens). It&rsquo;s something set alongside the prompt, not written into it.
+          That&rsquo;s why
+          the schema box below is green, the same color LLM API used for configuration.
+          Structured output isn&rsquo;t a prompt-engineering technique — it&rsquo;s a separate
           request parameter.
         </p>
       ),
@@ -181,7 +186,8 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
         <div className="space-y-3">
           <p>
             JSON is a plain-text format for representing data — human-readable, and reliable for
-            code to parse, which is why LLM responses aim for it instead of free-form prose. It
+            code to parse. That&rsquo;s why LLM responses aim for it, instead of free-form prose.
+            It
             has exactly six types:
           </p>
           <div className="overflow-x-auto">
@@ -395,8 +401,9 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       body: (
         <p>
           Constrained decoding restricts which tokens the
-          model is allowed to produce at each step, so schema-invalid output can&rsquo;t be
-          generated in the first place — not just caught afterward. Real 2026 APIs use this: OpenAI&rsquo;s
+          model is allowed to produce at each step. So schema-invalid output can&rsquo;t be
+          generated in the first place — not just caught afterward. Real 2026 APIs use this.
+          OpenAI&rsquo;s
           strict JSON Schema mode, Anthropic&rsquo;s tool-use-based structured output, and
           Gemini&rsquo;s structured output all work this way.
         </p>
@@ -408,12 +415,14 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       title: "How It Actually Works: Grammars, Not Prompts",
       body: (
         <p>
-          Not by adding an instruction like &ldquo;don&rsquo;t say manager&rdquo; to the prompt —
-          constrained decoding happens at the decoding level, below the prompt entirely. The
-          schema is compiled into a grammar: a set of rules for which tokens are legal next,
-          given where generation currently is in the JSON structure. At every single token, the
-          API checks that grammar and forces the logit (the raw generation score) of every
-          disallowed token to zero, before softmax turns scores into probabilities and one gets
+          Not by adding an instruction like &ldquo;don&rsquo;t say manager&rdquo; to the prompt.
+          Constrained decoding happens at the decoding level, below the prompt entirely. The
+          schema is compiled into a grammar: a set of rules for which tokens are legal next.
+          That depends on where generation currently is in the JSON structure. At every single
+          token, the
+          API checks that grammar. It forces the logit (the raw generation score) of every
+          disallowed token to zero. That happens before softmax turns scores into probabilities
+          and one gets
           sampled. The model never gets a chance to pick &ldquo;manager&rdquo; — it was never a
           candidate to begin with.
         </p>

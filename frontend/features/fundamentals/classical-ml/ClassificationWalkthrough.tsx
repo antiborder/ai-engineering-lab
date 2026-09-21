@@ -199,9 +199,9 @@ export function ClassificationWalkthrough({
       title: "Our plan",
       body: (
         <p>
-          Same recipe as Regression: start with the simplest possible boundary — a straight line —
-          train it with gradient descent, then reuse the exact
-          same technique on a curvier model once we see where the line falls short.
+          Same recipe as Regression: start with the simplest possible boundary — a straight line.
+          Train it with gradient descent. Then reuse the exact
+          same technique on a curvier model, once we see where the line falls short.
         </p>
       ),
       visual: <DecisionBoundaryCanvas points={basePoints} predict={linPredict} domain={DOMAIN} showBoundary={false} />,
@@ -234,7 +234,7 @@ export function ClassificationWalkthrough({
           <Equation tex={"P(y=1 \\mid x) = \\sigma(z(x))"} />
           <Equation tex={"\\sigma(z) = \\frac{1}{1+e^{-z}}"} />
           <Equation tex="z(x)" display={false} /> is just the score from the previous step,{" "}
-          <Equation tex="w_0 + w_1 x_1 + w_2 x_2" display={false} />, written for input{" "}
+          <Equation tex="w_0 + w_1 x_1 + w_2 x_2" display={false} />. It&rsquo;s written for input{" "}
           <Equation tex="x = (x_1, x_2)" display={false} />. Large positive{" "}
           <Equation tex="z" display={false} /> means &ldquo;confidently cyan&rdquo;; large negative
           means &ldquo;confidently orange&rdquo;.
@@ -297,10 +297,10 @@ export function ClassificationWalkthrough({
           Cross-entropy loss checks each point&rsquo;s predicted
           probability of its <em>correct</em> class against certainty:
           <Equation tex={"\\text{Loss} = -\\frac{1}{n}\\sum_{i=1}^{n}\\big[y_i\\log p_i + (1-y_i)\\log(1-p_i)\\big]"} />
-          <Equation tex="n" display={false} /> is how many data points we have;{" "}
+          <Equation tex="n" display={false} /> is how many data points we have.{" "}
           <Equation tex="y_i" display={false} /> is point <Equation tex="i" display={false} />&rsquo;s
-          true label (0 or 1); <Equation tex="p_i" display={false} /> is the model&rsquo;s predicted
-          probability that it&rsquo;s class 1 — so the loss is just an average, over all points, of
+          true label (0 or 1). <Equation tex="p_i" display={false} /> is the model&rsquo;s predicted
+          probability that it&rsquo;s class 1. So the loss is just an average, over all points, of
           how wrong each prediction was. Right now, Loss ={" "}
           <span className="text-neutral-900 font-mono">{num(linModel.loss(basePoints), 4)}</span>,
           accuracy = <span className="text-neutral-900 font-mono">{pct(linModel.accuracy(basePoints))}</span>.
@@ -315,7 +315,7 @@ export function ClassificationWalkthrough({
       body: (
         <p>
           Find <Equation tex="w_0, w_1, w_2" display={false} /> that make that loss as small as
-          possible — in other words, tilt the plane so its 0.5 crossing separates the two colors
+          possible. In other words, tilt the plane so its 0.5 crossing separates the two colors
           as cleanly as it can.
         </p>
       ),
@@ -384,7 +384,7 @@ export function ClassificationWalkthrough({
       body: (
         <p>
           Accuracy has flattened out at{" "}
-          <span className="text-neutral-900 font-mono">{pct(linModel.accuracy(basePoints))}</span> — a
+          <span className="text-neutral-900 font-mono">{pct(linModel.accuracy(basePoints))}</span>. A
           straight line simply can&rsquo;t curve around two interleaving crescents, no matter how
           it&rsquo;s angled.
         </p>
@@ -458,7 +458,7 @@ export function ClassificationWalkthrough({
       body: (
         <p>
           <Equation tex="x_1^2" display={false} />, <Equation tex="x_1 x_2" display={false} />, and{" "}
-          <Equation tex="x_2^2" display={false} /> let the boundary curve — a straight line can
+          <Equation tex="x_2^2" display={false} /> let the boundary curve. A straight line can
           only tilt, but this model can wrap around a shape.
         </p>
       ),
@@ -605,8 +605,8 @@ export function ClassificationWalkthrough({
       body: (
         <p>
           This is overfitting: great on training data, worse on new
-          data, because the model latched onto quirks of these exact points instead of the general
-          shape.
+          data. That happened because the model latched onto quirks of these exact points, instead
+          of the general shape.
         </p>
       ),
       visual: <DecisionBoundaryCanvas points={ofPoints} predict={ofPredict} domain={DOMAIN} />,
@@ -740,7 +740,7 @@ export function ClassificationWalkthrough({
     {
       section: "7. How Much to Hold Out",
       title: "Too little test data",
-      body: <p>Now set it high (try 90%) and train — with only a couple of test points left, test accuracy bounces around unreliably.</p>,
+      body: <p>Now set it high (try 90%) and train. With only a couple of test points left, test accuracy bounces around unreliably.</p>,
       visual: <DecisionBoundaryCanvas points={ratioPoints} predict={ratioPredict} domain={DOMAIN} highlightErrors />,
       chart: <LossChart series={[{ label: "train", color: "#7c3aed", values: ratioHistory.train }, { label: "test", color: "#ea580c", values: ratioHistory.test }]} height={100} />,
       controls: (
@@ -813,8 +813,8 @@ export function ClassificationWalkthrough({
         <p>
           Degree, data split, noise, and{" "}
           L2 regularization affect overfitting here exactly the
-          way they did there — degree is the biggest lever, and regularization is the one dial
-          that fights overfitting instead of causing it.
+          way they did there. Degree is the biggest lever. Regularization is the one dial
+          that fights overfitting, instead of causing it.
         </p>
       ),
       visual: <DecisionBoundaryCanvas points={regTrain} predict={regPredict} domain={DOMAIN} />,

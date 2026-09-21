@@ -126,11 +126,12 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "What Is RAG?",
       body: (
         <p>
-          <strong>RAG</strong> stands for <strong>Retrieval-Augmented Generation</strong>:
-          instead of relying only on what a model memorized during training, RAG searches your
-          own documents for relevant pieces first, then hands those to the model before it
+          <strong>RAG</strong> stands for <strong>Retrieval-Augmented Generation</strong>.
+          Instead of relying only on what a model memorized during training, RAG searches your
+          own documents for relevant pieces first. Then it hands those to the model before it
           answers. It matters because it lets a model answer accurately about things it was never
-          trained on — your own files, last week&rsquo;s data, anything — without the cost of
+          trained on. That could be your own files, last week&rsquo;s data, anything — without
+          the cost of
           retraining the model itself.
         </p>
       ),
@@ -160,11 +161,12 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           A model&rsquo;s knowledge is frozen at training time — it doesn&rsquo;t know about your
-          own files or anything that happened since, which is the gap Retrieval fills. But even
+          own files or anything that happened since. That&rsquo;s the gap Retrieval fills. But
+          even
           once you have the right documents, you can&rsquo;t just paste your entire library into
-          every prompt: every model has a fixed{" "}
-          context window — a hard limit on tokens per call — and
-          a longer prompt also costs more and answers slower, as you saw in LLM API. RAG&rsquo;s
+          every prompt. Every model has a fixed{" "}
+          context window — a hard limit on tokens per call. A
+          longer prompt also costs more and answers slower, as you saw in LLM API. RAG&rsquo;s
           whole point is searching for just the relevant pieces first, instead of sending
           everything.
         </p>
@@ -196,8 +198,8 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           Say you ask <em>&ldquo;How does sourdough bread rise?&rdquo;</em> RAG searches your
-          documents, finds the pieces about sourdough starters, hands those to the model as
-          context, and the model writes its answer from them — instead of guessing from training
+          documents, finds the pieces about sourdough starters, and hands those to the model as
+          context. The model writes its answer from them, instead of guessing from training
           data alone.
         </p>
       ),
@@ -229,8 +231,8 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "The big picture, before the details",
       body: (
         <p>
-          Structured Output shaped a single response. RAG is bigger, and happens in two phases:
-          your documents get prepared once, ahead of time; then every question you ask gets
+          Structured Output shaped a single response. RAG is bigger, and happens in two phases.
+          Your documents get prepared once, ahead of time. Then every question you ask gets
           answered by searching those prepared pieces and handing the relevant ones to the model.
         </p>
       ),
@@ -242,10 +244,12 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Chunking: Splitting Documents into Pieces",
       body: (
         <p>
-          Chunking is cutting each document into smaller pieces — chunks — so search can compare
-          and retrieve individual pieces instead of whole documents. This app, like most
-          real-world chunkers, splits along sentence boundaries, so each chunk stays a coherent,
-          readable unit rather than a random slice of text.
+          Chunking is cutting each document into smaller pieces — chunks. That way, search can
+          compare
+          and retrieve individual pieces, instead of whole documents. This app, like most
+          real-world chunkers, splits along sentence boundaries. That way, each chunk stays a
+          coherent,
+          readable unit, rather than a random slice of text.
         </p>
       ),
       visual: <ChunkingDiagram chunkSize={2} overlap={0} />,
@@ -255,7 +259,8 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Try it yourself: chunk size and overlap",
       body: (
         <p>
-          Overlap repeats a sentence from the end of one chunk at the start of the next, so an
+          Overlap repeats a sentence from the end of one chunk at the start of the next. That
+          way, an
           idea sitting right on a chunk boundary doesn&rsquo;t get lost entirely. Adjust both and
           watch the two example chunks change.
         </p>
@@ -304,10 +309,14 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           To compare a question against thousands of chunks, both need to become{" "}
-          vectors — lists of numbers — so &ldquo;how similar are
-          these two pieces of text&rdquo; becomes a math question a computer can answer directly,
-          instead of a comparison a person has to make by reading. This happens twice: once for
-          every chunk, ahead of time, and once for the question itself — the &ldquo;Query&rdquo;
+          vectors — lists of numbers.{" "}
+          &ldquo;How similar are
+          these two pieces of text&rdquo; then becomes a math question a computer can answer
+          directly.
+          That&rsquo;s instead of a comparison a person has to make by reading. This happens
+          twice: once for
+          every chunk, ahead of time. It also happens once for the question itself — the
+          &ldquo;Query&rdquo;
           in the diagram below — every time you ask.
         </p>
       ),
@@ -322,12 +331,13 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
           <p>
             Vector search scores every chunk by{" "}
             cosine similarity to the question&rsquo;s own
-            vector — a number from -1 to 1, higher meaning more shared, rarity-weighted words.
+            vector. That&rsquo;s a number from -1 to 1, where higher means more shared,
+            rarity-weighted words.
           </p>
           <Equation tex={"\\text{similarity} = \\frac{\\vec{q}\\cdot\\vec{c}}{\\lVert\\vec{q}\\rVert\\,\\lVert\\vec{c}\\rVert}"} />
           <p className="text-neutral-500">
             This app&rsquo;s vectors are already scaled to length 1, so that division does
-            nothing — the similarity score is just the dot product{" "}
+            nothing. The similarity score is just the dot product{" "}
             <Equation tex={"\\vec{q}\\cdot\\vec{c}"} display={false} />.
           </p>
         </div>
@@ -340,7 +350,8 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           For &ldquo;how does sourdough bread rise?&rdquo;, the two Sourdough Bread chunks score{" "}
-          <strong>0.58</strong> and <strong>0.41</strong> — far above the coffee-brewing
+          <strong>0.58</strong> and <strong>0.41</strong>. That&rsquo;s far above the
+          coffee-brewing
           chunk&rsquo;s <strong>0.09</strong> and the cat-behavior chunk&rsquo;s{" "}
           <strong>0.03</strong>. This is the search step doing its job: separating signal from
           noise before anything reaches the model.
@@ -354,7 +365,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Top-K: How Many Chunks to Keep",
       body: (
         <p>
-          Top-K keeps only the K highest-scoring chunks and discards the rest — the model only
+          Top-K keeps only the K highest-scoring chunks and discards the rest. The model only
           ever sees a handful of chunks, not the whole ranked list.
         </p>
       ),
@@ -413,18 +424,21 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <div className="space-y-2">
           <p>
-            Vector search is fast, but a blunt approximation — it can rank a chunk higher just
-            because it happens to share rare words, even if a different chunk is more truly
-            relevant. Reranking fixes this with a second, more careful scoring pass — but only
-            over the handful of chunks vector search already retrieved, not the whole corpus, so
+            Vector search is fast, but a blunt approximation. It can rank a chunk higher just
+            because it happens to share rare words. That can happen even if a different chunk is
+            more truly
+            relevant. Reranking fixes this with a second, more careful scoring pass. But it only
+            runs
+            over the handful of chunks vector search already retrieved, not the whole corpus. So
             the extra cost stays small.
           </p>
           <Equation tex={"\\text{rerank\\_score} = 0.5 \\times \\text{vector score} + 0.5 \\times \\text{word overlap}"} />
           <p className="text-neutral-500">
-            This app&rsquo;s reranker blends the two signals equally, where &ldquo;word
+            This app&rsquo;s reranker blends the two signals equally. &ldquo;Word
             overlap&rdquo; is the fraction of the question&rsquo;s words that appear in the chunk
-            verbatim. For example, a chunk with vector score 0.4, where 3 of the question&rsquo;s
-            5 words appear in it (0.6 overlap), gets rerank_score = 0.5×0.4 + 0.5×0.6 ={" "}
+            verbatim. For example, take a chunk with vector score 0.4, where 3 of the
+            question&rsquo;s
+            5 words appear in it (0.6 overlap). That gets rerank_score = 0.5×0.4 + 0.5×0.6 ={" "}
             <strong>0.5</strong>.
           </p>
         </div>
@@ -437,7 +451,8 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           &ldquo;Sourdough Bread #1&rdquo; repeats more of the question&rsquo;s words verbatim
-          than &ldquo;#0&rdquo; does, so its word-overlap score is higher — enough to push it
+          than &ldquo;#0&rdquo; does. So its word-overlap score is higher. That&rsquo;s enough to
+          push it
           above &ldquo;#0&rdquo; after reranking, even though #0 had the higher vector score
           alone.
         </p>
@@ -459,7 +474,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Reranking, Summarized",
       body: (
         <ul className="list-disc list-inside space-y-1 text-neutral-700">
-          <li><strong>Why:</strong> vector search is fast but approximate — it can rank a chunk higher just because it happens to share rare words.</li>
+          <li><strong>Why:</strong> vector search is fast but approximate. It can rank a chunk higher just because it happens to share rare words.</li>
           <li><strong>What:</strong> re-score only the already-retrieved chunks with a second, more careful signal, and reorder them if needed.</li>
           <li><strong>Cost:</strong> cheap — it only touches a handful of chunks, never the whole corpus.</li>
         </ul>
@@ -489,8 +504,10 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Assembling the Context",
       body: (
         <p>
-          The surviving chunks are joined into one block of text, labeled by source, and placed
-          in the prompt ahead of the actual question — with an explicit instruction to answer
+          The surviving chunks are joined into one block of text, labeled by source. That block
+          is placed
+          in the prompt ahead of the actual question. An explicit instruction tells the model to
+          answer
           only from what&rsquo;s there.
         </p>
       ),
@@ -524,12 +541,13 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
           </p>
           <p>
             Without saving, every adjustment you make here — chunk size, top-K, reranking — only
-            exists on this page, in this session; close the tab and it&rsquo;s gone.
+            exists on this page, in this session. Close the tab and it&rsquo;s gone.
           </p>
           <p>
-            Saving as an AI Artifact keeps that configuration under a name and version number, so
+            Saving as an AI Artifact keeps that configuration under a name and version number.
+            So
             you can reload it, or check whether a new version actually performs better in
-            Evaluation, instead of re-tuning from memory.
+            Evaluation. That&rsquo;s instead of re-tuning from memory.
           </p>
         </div>
       ),
@@ -559,7 +577,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
         <p>
           Everything you just adjusted — chunk size, overlap, top-K, threshold, reranking — plus
           the model, becomes the <strong>configuration</strong> of one saved version. The AI
-          Artifact itself is the named container that holds every version (v1, v2, v3…); this
+          Artifact itself is the named container that holds every version (v1, v2, v3…). This
           JSON is what a single version actually stores.
         </p>
       ),

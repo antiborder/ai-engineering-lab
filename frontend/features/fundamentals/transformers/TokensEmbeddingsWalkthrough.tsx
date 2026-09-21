@@ -92,8 +92,8 @@ export function TokensEmbeddingsWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            This Unit builds one whole mechanism, end to end, one chapter at a time — nothing
-            skipped, nothing added beyond what these four chapters cover:
+            This Unit builds one whole mechanism, end to end, one chapter at a time. Nothing
+            is skipped, and nothing is added beyond what these four chapters cover:
           </p>
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
             <li>
@@ -112,8 +112,8 @@ export function TokensEmbeddingsWalkthrough({
               <button type="button" className={chapterLinkBtn} onClick={() => onNavigateToChapter?.("block")}>
                 The Transformer Block
               </button>{" "}
-              — update a token&rsquo;s vector with that information, wrapped in residual connections
-              and layer normalization, and stack several of these blocks.
+              — update a token&rsquo;s vector with that information. This is wrapped in residual
+              connections and layer normalization, and several of these blocks are stacked.
             </li>
             <li>
               <button type="button" className={chapterLinkBtn} onClick={() => onNavigateToChapter?.("generating")}>
@@ -133,23 +133,23 @@ export function TokensEmbeddingsWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            Here&rsquo;s the shape all four chapters add up to, shown once up front so later
-            chapters have a picture to hang their details on — nothing below needs to make full
-            sense yet:
+            Here&rsquo;s the shape all four chapters add up to, shown once up front. Later
+            chapters will have a picture to hang their details on. Nothing below needs to make
+            full sense yet:
           </p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>Text becomes token + position vectors.</li>
             <li>
               Those flow through one or more Transformer Blocks: self-attention, then a small
-              feed-forward network — each wrapped in a residual connection and normalization.
+              feed-forward network. Each is wrapped in a residual connection and normalization.
             </li>
             <li>The last vector becomes a probability for what word comes next.</li>
           </ul>
           <p>
-            This app implements a single stack like this one — the shape GPT-style models use —
-            not the separate encoder-plus-decoder pair from the original Transformer paper: only
-            one attention per block, and it can only look backward (that &ldquo;masked&rdquo; part
-            is covered in the Attention chapter).
+            This app implements a single stack like this one — the shape GPT-style models use.
+            It&rsquo;s not the separate encoder-plus-decoder pair from the original Transformer paper.
+            There&rsquo;s only one attention per block, and it can only look backward (that
+            &ldquo;masked&rdquo; part is covered in the Attention chapter).
           </p>
         </div>
       ),
@@ -176,22 +176,22 @@ export function TokensEmbeddingsWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            This chapter has plenty of new vocabulary, but the machinery underneath is familiar —
-            an embedding is just the x₁/x₂-style input vector from earlier chapters, only longer.
-            You&rsquo;ll split a sentence into tokens, turn each token
-            into an embedding vector, then fix a real gap — vectors
-            alone say nothing about word order — with a{" "}
+            This chapter has plenty of new vocabulary, but the machinery underneath is familiar.
+            An embedding is just the x₁/x₂-style input vector from earlier chapters, only longer.
+            You&rsquo;ll split a sentence into tokens, then turn each token
+            into an embedding vector. Then you&rsquo;ll fix a real gap: vectors
+            alone say nothing about word order. You&rsquo;ll fix that gap with a{" "}
             positional encoding.
           </p>
           <p>
             By the end, every token has one vector that carries both its identity and its
             position. From there, later chapters compute Query/
-            Key/Value vectors, score and blend
-            tokens together with attention, repeat that with several
-            heads at once, wrap it all in residual connections and layer normalization, run it
-            through a small feed-forward network, stack several of these blocks, and finally
-            predict the next word — then do the whole thing again to generate a second word, and a
-            third.
+            Key/Value vectors. They score and blend
+            tokens together with attention. They repeat that with several
+            heads at once. They wrap it all in residual connections and layer normalization, then run
+            it through a small feed-forward network. They stack several of these blocks, and finally
+            predict the next word. Then they do the whole thing again to generate a second word,
+            and a third.
           </p>
         </div>
       ),
@@ -254,12 +254,14 @@ export function TokensEmbeddingsWalkthrough({
         <p>
           A model can&rsquo;t compute with the string &ldquo;cat&rdquo; — it needs numbers. An{" "}
           embedding is just that: a list of numbers standing in for a
-          token, exactly like the x₁/x₂ inputs from earlier chapters, just with more of them. Each
-          number&rsquo;s spot in that list is called a dimension — our
-          embeddings here have {D_MODEL} numbers, so we say they have {D_MODEL} dimensions; &ldquo;the
-          3rd dimension&rdquo; just means &ldquo;the 3rd number in the list&rdquo;. Here&rsquo;s the
-          token &ldquo;{firstToken}&rdquo;&rsquo;s embedding — the numbers themselves are printed
-          below each cell; the color is only there to make the pattern easier to scan at a glance
+          token. It&rsquo;s exactly like the x₁/x₂ inputs from earlier chapters, just with more of
+          them. Each
+          number&rsquo;s spot in that list is called a dimension. Our
+          embeddings here have {D_MODEL} numbers, so we say they have {D_MODEL} dimensions.
+          &ldquo;The 3rd dimension&rdquo; just means &ldquo;the 3rd number in the list&rdquo;.
+          Here&rsquo;s the
+          token &ldquo;{firstToken}&rdquo;&rsquo;s embedding. The numbers themselves are printed
+          below each cell. The color is only there to make the pattern easier to scan at a glance
           (orange = negative, cyan = positive):
         </p>
       ),
@@ -288,7 +290,7 @@ export function TokensEmbeddingsWalkthrough({
       body: (
         <p>
           Right now each token&rsquo;s vector is just a fixed, pseudo-random pattern derived from
-          its spelling — &ldquo;cat&rdquo; and &ldquo;kitten&rdquo; have no reason to look similar
+          its spelling. &ldquo;Cat&rdquo; and &ldquo;kitten&rdquo; have no reason to look similar
           here. In a <em>trained</em> model, embeddings shift during training so words with similar
           meaning end up with similar vectors. That training happens for real in the Tiny LLM
           section next.
@@ -324,7 +326,7 @@ export function TokensEmbeddingsWalkthrough({
       body: (
         <p>
           Very soon, every token is going to gather information by looking at every other token in
-          the sentence — but that process, on its own, has no sense of <em>where</em> a token sits.
+          the sentence. But that process, on its own, has no sense of <em>where</em> a token sits.
           Without help, &ldquo;the cat sat&rdquo; and &ldquo;sat the cat&rdquo; would look identical
           to it. We need to bake position into the numbers themselves before that happens.
         </p>
@@ -336,8 +338,9 @@ export function TokensEmbeddingsWalkthrough({
       title: "So, how do we give tokens position info?",
       body: (
         <p>
-          The simplest idea: just use the position number itself — 0 for the first word, 1 for the
-          second, 2 for the third, and so on — and mix it into the token&rsquo;s embedding
+          The simplest idea: just use the position number itself. That&rsquo;s 0 for the first
+          word, 1 for the
+          second, 2 for the third, and so on. Then mix it into the token&rsquo;s embedding
           somehow. Before jumping to a fix, it&rsquo;s worth being precise about what we actually
           need that position code to do.
         </p>
@@ -358,14 +361,14 @@ export function TokensEmbeddingsWalkthrough({
             </li>
             <li>
               <strong>Be a full vector, not one number.</strong> The token embedding has{" "}
-              {D_MODEL} numbers, and we want to add position onto <em>all</em> of them — a single
+              {D_MODEL} numbers, and we want to add position onto <em>all</em> of them. A single
               number could only be added to one slot, leaving the rest untouched by position.
             </li>
             <li>
               <strong>Make relative distance easy to read.</strong> &ldquo;3 words apart&rdquo;
-              should look the same to the model no matter <em>where</em> in the sentence it
-              happens — ideally something simple linear layers (the same kind of weighted sum
-              you already know) can pick up on directly, without extra machinery.
+              should look the same to the model, no matter <em>where</em> in the sentence it
+              happens. Ideally, something simple linear layers can pick up on directly, without
+              extra machinery. Linear layers are the same kind of weighted sum you already know.
             </li>
           </ol>
           <p>
@@ -383,7 +386,7 @@ export function TokensEmbeddingsWalkthrough({
         <p>
           The fix is going to be built out of a curve you&rsquo;ve already seen in math class:{" "}
           <Equation tex={"\\sin(x)"} display={false} />. Nothing new here — plug in a number{" "}
-          <Equation tex="x" display={false} />, get back a number between{" "}
+          <Equation tex="x" display={false} />. You get back a number between{" "}
           <Equation tex="-1" display={false} /> and <Equation tex="1" display={false} /> that rises
           and falls smoothly. That&rsquo;s all a &ldquo;wave&rdquo; means in this section: this
           exact curve.
@@ -397,8 +400,8 @@ export function TokensEmbeddingsWalkthrough({
       body: (
         <p>
           Instead of a generic <Equation tex="x" display={false} />, plug in the word&rsquo;s
-          position in the sentence — 0 for the first word, 1 for the second, and so on. Each
-          position now has its own number, read straight off the curve at that point:
+          position in the sentence. That&rsquo;s 0 for the first word, 1 for the second, and so on.
+          Each position now has its own number, read straight off the curve at that point:
         </p>
       ),
       visual: <FunctionPlot fn={Math.sin} xMin={0} xMax={20} xLabel="word position" yLabel="sin(position)" />,
@@ -421,7 +424,7 @@ export function TokensEmbeddingsWalkthrough({
           This wave is exactly periodic: <Equation tex={"\\sin(pos) = \\sin(pos + 2\\pi)"} />, with
           period <Equation tex={"2\\pi \\approx 6.28"} display={false} />. So position{" "}
           <Equation tex="p" display={false} /> and position{" "}
-          <Equation tex={"p + 2\\pi"} display={false} /> give back the literal same number — in a
+          <Equation tex={"p + 2\\pi"} display={false} /> give back the literal same number. In a
           long enough sentence, a single wave alone can&rsquo;t tell far-apart positions apart. We
           need more than one.
         </p>
@@ -434,8 +437,8 @@ export function TokensEmbeddingsWalkthrough({
       body: (
         <p>
           A clock face reads out several numbers at once — the hour hand&rsquo;s angle, the minute
-          hand&rsquo;s angle, the second hand&rsquo;s angle — each moving at its own speed. The
-          fast second hand pins down exactly where you are <em>within a minute</em>; the slow hour
+          hand&rsquo;s angle, the second hand&rsquo;s angle. Each moves at its own speed. The
+          fast second hand pins down exactly where you are <em>within a minute</em>. The slow hour
           hand tells you roughly where you are <em>within a day</em>. Read together, all three pin
           down one exact moment. Positional encoding uses the same trick: several waves, each at
           its own speed. Compare a fast wave against a much slower one over the same 20 positions:
@@ -481,7 +484,7 @@ export function TokensEmbeddingsWalkthrough({
       chart: (
         <p className="text-base text-neutral-600">
           <Equation tex="i" display={false} /> only goes up to 3 here — four speeds in total, since
-          our embeddings have {D_MODEL} dimensions and, as the next two steps show, each speed is
+          our embeddings have {D_MODEL} dimensions. As the next two steps show, each speed is
           about to fill <em>two</em> of them, not just one.
         </p>
       ),
@@ -491,11 +494,12 @@ export function TokensEmbeddingsWalkthrough({
       title: "One number per speed still isn't enough",
       body: (
         <p>
-          Sine alone is ambiguous: at 30° and at 150°, sin gives back the exact same number, 0.50 —
-          two different angles, one value, no way to tell them apart. This happens at every speed{" "}
+          Sine alone is ambiguous: at 30° and at 150°, sin gives back the exact same number, 0.50.
+          That&rsquo;s two different angles, one value — no way to tell them apart. This happens at
+          every speed{" "}
           <Equation tex="i" display={false} />, not just one. Cosine at those same two angles gives{" "}
           <em>0.87</em> and <em>−0.87</em> — completely different. Together, (sin, cos) is just a
-          point&rsquo;s (height, sideways position) as it moves around a circle, and that pair
+          point&rsquo;s (height, sideways position) as it moves around a circle. That pair
           always pins down one unique angle.
         </p>
       ),
@@ -543,11 +547,11 @@ export function TokensEmbeddingsWalkthrough({
             <li><strong>Bounded:</strong> sin and cos never leave <Equation tex="[-1, 1]" display={false} />, no matter how long the sentence gets.</li>
             <li><strong>Full vector:</strong> four speeds × two dimensions each fills the whole embedding, one number per dimension.</li>
             <li>
-              <strong>Relative distance:</strong> this one&rsquo;s a genuinely neat bonus property —
-              moving from any position to another one <Equation tex="k" display={false} /> words
-              later turns out to be the exact same rotation of the (sin, cos) pair, no matter where
-              you started. We won&rsquo;t prove it here, but it&rsquo;s exactly why this scheme —
-              not just any bounded, full-vector code — was the one chosen.
+              <strong>Relative distance:</strong> this one&rsquo;s a genuinely neat bonus property.
+              Moving <Equation tex="k" display={false} /> words
+              forward from any position is always the exact same rotation of the (sin, cos) pair.
+              That&rsquo;s true no matter where you started. We won&rsquo;t prove it here. But it&rsquo;s
+              exactly why this scheme — not just any bounded, full-vector code — was the one chosen.
             </li>
           </ul>
         </div>
@@ -559,13 +563,13 @@ export function TokensEmbeddingsWalkthrough({
       title: "All the waves together: the heatmap",
       body: (
         <p>
-          Focus on just <em>one column</em> in the picture below: reading it top to bottom gives
-          you that one position&rsquo;s entire positional-encoding vector — one number per
-          dimension, exactly like the embedding strips from earlier, just drawn standing up
+          Focus on just <em>one column</em> in the picture below. Reading it top to bottom gives
+          you that one position&rsquo;s entire positional-encoding vector. That&rsquo;s one number per
+          dimension, exactly like the embedding strips from earlier. It&rsquo;s just drawn standing up
           instead of lying flat. The whole picture is simply every position&rsquo;s column, side
-          by side. Row = one wave (one dimension); color = that wave&rsquo;s value in that column&rsquo;s
+          by side. Row = one wave (one dimension). Color = that wave&rsquo;s value in that column&rsquo;s
           position — orange for negative, cyan for positive. Top rows flip color quickly (fast
-          waves, like the second hand); bottom rows barely change (slow waves, like the hour hand).
+          waves, like the second hand). Bottom rows barely change (slow waves, like the hour hand).
         </p>
       ),
       visual: <PositionalEncodingHeatmap maxPos={12} dModel={D_MODEL} />,
@@ -598,8 +602,8 @@ export function TokensEmbeddingsWalkthrough({
             <li>Text is split into tokens.</li>
             <li>Each token maps to a fixed embedding vector.</li>
             <li>
-              A positional encoding — built from sine and
-              cosine waves at different speeds — is added on top, so the final vector carries both
+              A positional encoding is added on top — built from sine and
+              cosine waves at different speeds. So the final vector carries both
               identity and position.
             </li>
           </ul>

@@ -87,8 +87,8 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           Fundamentals showed you what happens inside a Transformer. This chapter shows what it
-          looks like from the outside — a simple request in, a response (with its tokens,
-          latency, and cost) out.
+          looks like from the outside. A simple request goes in; a response — with its tokens,
+          latency, and cost — comes out.
         </p>
       ),
       visual: <RequestFlowDiagram />,
@@ -152,8 +152,9 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           Beyond system + user prompt and model choice, a real request carries dials that shape
-          the response: how random it is, how long it&rsquo;s allowed to be, and — for some
-          models — how much the model &ldquo;thinks&rdquo; before answering.
+          the response. Those dials control how random it is, and how long it&rsquo;s allowed to
+          be. For some models, they also control how much the model &ldquo;thinks&rdquo; before
+          answering.
         </p>
       ),
       visual: <RequestFlowDiagram highlight={["config"]} />,
@@ -164,7 +165,8 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           You already met temperature in Tiny LLM — it&rsquo;s the
-          exact same dial, just now something you set on every request instead of a slider in a
+          exact same dial. It&rsquo;s just now something you set on every request, instead of a
+          slider in a
           sandbox.
         </p>
       ),
@@ -176,7 +178,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           A limit on how many output tokens the model is allowed to generate. It protects you
-          from a runaway response — and its cost and latency — by cutting the answer off once the
+          from a runaway response — and its cost and latency. It cuts the answer off once the
           cap is hit, finished or not.
         </p>
       ),
@@ -202,8 +204,8 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           Same idea as Fundamentals&rsquo; tokens — but now they&rsquo;re billed. This app counts
-          input tokens by splitting on spaces (a simplification; real tokenizers are pickier),
-          giving <strong>{SAMPLE_INPUT_TOKENS} tokens</strong> for this example prompt:
+          input tokens by splitting on spaces (a simplification; real tokenizers are pickier).
+          That gives <strong>{SAMPLE_INPUT_TOKENS} tokens</strong> for this example prompt:
         </p>
       ),
       visual: <TokenChips tokens={SAMPLE_PROMPT.split(/\s+/).filter(Boolean)} />,
@@ -214,7 +216,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           The response costs tokens too — and its length isn&rsquo;t fixed. In this app it varies
-          call to call, anywhere from about 20 to 120 tokens, depending on what the model
+          call to call, anywhere from about 20 to 120 tokens. That depends on what the model
           generates.
         </p>
       ),
@@ -232,7 +234,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           <strong>Latency</strong> is the time from sending the request to getting the full
-          response back — longer prompts and longer responses both take more time.
+          response back. Longer prompts and longer responses both take more time.
         </p>
       ),
       visual: <RequestFlowDiagram highlight={["model", "response"]} />,
@@ -313,8 +315,9 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Same input, same output — for now",
       body: (
         <p>
-          This app&rsquo;s mock model is deterministic: the exact same model + system + user
-          prompt always produces the exact same response, tokens, and cost, every single time you
+          This app&rsquo;s mock model is deterministic. The exact same model + system + user
+          prompt always produces the exact same response, tokens, and cost. That&rsquo;s true
+          every single time you
           call it.
         </p>
       ),
@@ -325,8 +328,8 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Real APIs usually aren't",
       body: (
         <p>
-          A real model typically samples its next token, the same idea as Tiny LLM&rsquo;s{" "}
-          temperature — so calling it twice, even with identical
+          A real model typically samples its next token — the same idea as Tiny LLM&rsquo;s{" "}
+          temperature. So calling it twice, even with identical
           inputs, can give back two different answers.
         </p>
       ),
@@ -337,8 +340,9 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Every call gets a receipt",
       body: (
         <p>
-          Alongside the text, every response carries a request ID and a timestamp — a paper trail
-          that later modules (Evaluation, LLMOps) build on to track what a system actually did.
+          Alongside the text, every response carries a request ID and a timestamp. That&rsquo;s a
+          paper trail
+          that later modules (Evaluation, LLMOps) build on, to track what a system actually did.
         </p>
       ),
       visual: (
@@ -371,8 +375,9 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "So the app resends the whole history",
       body: (
         <p>
-          A chat only <em>feels</em> continuous because the app does the remembering: every new
-          call&rsquo;s input is the entire conversation so far, plus your one new message, sent
+          A chat only <em>feels</em> continuous because the app does the remembering. Every new
+          call&rsquo;s input is the entire conversation so far, plus your one new message. That
+          whole thing is sent
           again from scratch.
         </p>
       ),
@@ -415,7 +420,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       body: (
         <p>
           Real providers notice when a request&rsquo;s beginning is byte-for-byte the same as one
-          they just processed — the growing history, almost always — and bill those{" "}
+          they just processed. That&rsquo;s the growing history, almost always. They bill those{" "}
           cached tokens at a fraction of the normal input price,
           instead of full price every single turn.
         </p>
@@ -478,7 +483,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
             <li>Both the request and the response are measured in tokens.</li>
             <li>Latency is time-to-response; cost is input tokens and output tokens, priced separately, per 1,000.</li>
             <li>This app&rsquo;s mock model is deterministic; real models usually sample, so output varies.</li>
-            <li>The model has no memory — every turn resends the whole conversation, so cost grows with it, unless cached tokens keep the repeated part cheap.</li>
+            <li>The model has no memory — every turn resends the whole conversation, so cost grows with it. Unless cached tokens keep the repeated part cheap.</li>
             <li>Every response carries a request ID and timestamp for tracing later.</li>
           </ul>
         </div>

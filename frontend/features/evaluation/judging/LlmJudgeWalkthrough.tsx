@@ -84,8 +84,8 @@ export function LlmJudgeWalkthrough({
         <p>
           Faithfulness needs judgment, not string matching — checking whether an answer really
           agrees with a reference isn&rsquo;t a fixed formula. An{" "}
-          LLM judge reads a question, an answer, and a reference,
-          then returns a score and an explanation, doing that judgment for every test case.
+          LLM judge reads a question, an answer, and a reference.
+          Then it returns a score and an explanation, doing that judgment for every test case.
         </p>
       ),
       visual: (
@@ -112,7 +112,7 @@ export function LlmJudgeWalkthrough({
       body: (
         <p>
           The judge is itself a model call: given the same three fields as any evaluation —
-          question, answer, reference — it returns a score plus a plain-language reason, not a
+          question, answer, reference. It returns a score plus a plain-language reason, not a
           bare number. Here it is on the original bug.
         </p>
       ),
@@ -133,8 +133,8 @@ export function LlmJudgeWalkthrough({
       title: "A Score Alone Isn't Enough",
       body: (
         <p>
-          The explanation is what makes a score usable: it says why an answer failed, so someone
-          can check the judge&rsquo;s reasoning and group failures by cause instead of just
+          The explanation is what makes a score usable: it says why an answer failed. Someone
+          can then check the judge&rsquo;s reasoning and group failures by cause, instead of just
           counting them.
         </p>
       ),
@@ -155,7 +155,7 @@ export function LlmJudgeWalkthrough({
       body: (
         <p>
           Confidence can matter more than correctness. The blunt &ldquo;full refund&rdquo; is
-          easy to flag; the &ldquo;70% refund&rdquo; cousin is fluent and sounds precise, so a
+          easy to flag. The &ldquo;70% refund&rdquo; cousin is fluent and sounds precise. So a
           weaker judge can be tempted to pass it anyway — even though the reference names no
           fixed percentage at all.
         </p>
@@ -178,7 +178,8 @@ export function LlmJudgeWalkthrough({
       title: "Position Bias: Order Can Flip the Verdict",
       body: (
         <p>
-          When a judge compares two answers, which one is shown first can shift the verdict, even
+          When a judge compares two answers, which one is shown first can shift the verdict.
+          That&rsquo;s true even
           with identical content in each slot. Real setups run both orders and average, to cancel
           this out.
         </p>
@@ -201,8 +202,9 @@ export function LlmJudgeWalkthrough({
       title: "The Same Case, Judged Twice",
       body: (
         <p>
-          Ask the same judge to score the same case twice, and the two scores can differ — judges
-          are models too, and models don&rsquo;t always answer identically on repeat. Averaging
+          Ask the same judge to score the same case twice, and the two scores can differ.
+          Judges are models too, and models don&rsquo;t always answer identically on repeat.
+          Averaging
           several judgments smooths this out.
         </p>
       ),
@@ -225,8 +227,9 @@ export function LlmJudgeWalkthrough({
       title: "The Judge's Own Limits",
       body: (
         <p>
-          Reach for a human rater when the stakes are high, the judgment is genuinely subjective,
-          or you&rsquo;re calibrating the judge itself — checking its scores against a small set
+          Reach for a human rater when the stakes are high, or the judgment is genuinely
+          subjective. Also reach for one when you&rsquo;re calibrating the judge itself. That
+          means checking its scores against a small set
           of human-labeled cases before trusting it at scale.
         </p>
       ),
@@ -250,7 +253,7 @@ export function LlmJudgeWalkthrough({
       body: (
         <p>
           Edit the candidate answer below — try the original bug, the 70%-refund cousin, or the
-          correct answer — and watch a simple rule-based judge score it against the reference.
+          correct answer. Watch a simple rule-based judge score it against the reference.
         </p>
       ),
       controls: (

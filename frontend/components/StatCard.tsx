@@ -7,10 +7,12 @@ const TONE_CLASSES = {
 export function StatCard({
   label,
   value,
+  note,
   tone = "default",
 }: {
   label: string;
   value: string;
+  note?: string;
   tone?: keyof typeof TONE_CLASSES;
 }) {
   const t = TONE_CLASSES[tone];
@@ -18,6 +20,7 @@ export function StatCard({
     <div className={`rounded-md border px-3 py-2 ${t.border}`}>
       <div className="text-sm text-neutral-500">{label}</div>
       <div className={`text-xl font-mono ${t.text}`}>{value}</div>
+      {note && <div className="text-sm text-neutral-500">{note}</div>}
     </div>
   );
 }

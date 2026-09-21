@@ -115,7 +115,8 @@ export function ContinuousBatchingWalkthrough({
         <div className="space-y-2">
           <p>
             vLLM showed how one request&rsquo;s memory gets managed efficiently. This chapter
-            covers the one piece vLLM only mapped: how the server decides which requests actually
+            covers the one piece vLLM only mapped. It explains how the server decides which
+            requests actually
             run together on the GPU, one step at a time.
           </p>
           <ol className="list-decimal list-inside space-y-1 text-neutral-700">
@@ -170,8 +171,8 @@ export function ContinuousBatchingWalkthrough({
         <p>
           <strong>Batching</strong> means running several requests through the model together,
           one step at a time, instead of one at a time. The group running together is called a{" "}
-          <strong>batch</strong> — this chapter&rsquo;s example batch has room for 4 requests at
-          once, call each of those 4 spots a <strong>slot</strong>.
+          <strong>batch</strong>. This chapter&rsquo;s example batch has room for 4 requests at
+          once. Call each of those 4 spots a <strong>slot</strong>.
         </p>
       ),
       visual: (
@@ -190,7 +191,7 @@ export function ContinuousBatchingWalkthrough({
       body: (
         <p>
           The simplest rule: fill all 4 slots, run every step until every request in the batch is
-          completely finished, and only then start a new batch with the next 4 requests waiting
+          completely finished. Only then start a new batch with the next 4 requests waiting
           in line.
         </p>
       ),
@@ -201,7 +202,7 @@ export function ContinuousBatchingWalkthrough({
       title: "The Whole Batch Waits for the Slowest",
       body: (
         <p>
-          Request 2 needs 20 steps. Requests 1, 3, and 4 finish in 5, 10, and 5 steps — but under
+          Request 2 needs 20 steps. Requests 1, 3, and 4 finish in 5, 10, and 5 steps. But under
           this rule, none of their slots can be reused until Request 2 finally finishes at step
           20.
         </p>
@@ -213,7 +214,8 @@ export function ContinuousBatchingWalkthrough({
       title: "Wasted Slots, Wasted Time",
       body: (
         <p>
-          For 15 of those 20 steps, 3 of the 4 slots sit finished but empty — not allowed to start
+          For 15 of those 20 steps, 3 of the 4 slots sit finished but empty. They&rsquo;re not
+          allowed to start
           a new request yet. Meanwhile, 4 more requests are waiting in line for a turn.
         </p>
       ),
@@ -227,7 +229,7 @@ export function ContinuousBatchingWalkthrough({
         <p>
           Continuous batching drops the &ldquo;wait for the whole batch&rdquo; rule. The instant
           any single request finishes, its slot goes straight to the next request waiting in
-          line — no waiting for anyone else.
+          line. There&rsquo;s no waiting for anyone else.
         </p>
       ),
       visual: undefined,
@@ -238,7 +240,8 @@ export function ContinuousBatchingWalkthrough({
       body: (
         <p>
           Running all 8 requests — the original 4, plus 4 more waiting in line — finishes
-          everything by step 28 this way, instead of step 35 under static batching. Same GPU,
+          everything by step 28 this way. That&rsquo;s instead of step 35 under static batching.
+          Same GPU,
           same 8 requests, 7 fewer steps.
         </p>
       ),
@@ -300,7 +303,7 @@ export function ContinuousBatchingWalkthrough({
           <p>A quick recap:</p>
           <ul className="list-disc list-inside space-y-1 text-neutral-700">
             <li>Batching runs several requests through the model together, using far more of the GPU&rsquo;s parallel capacity than one request at a time.</li>
-            <li>Static batching waits for every request in a batch to finish before starting the next one — so one slow request leaves every other slot idle.</li>
+            <li>Static batching waits for every request in a batch to finish before starting the next one. So one slow request leaves every other slot idle.</li>
             <li>Continuous batching refills a slot the instant its request finishes, instead of waiting for the whole batch.</li>
             <li>In the worked example, continuous batching finished the same 8 requests in 28 steps instead of 35, on the identical GPU.</li>
             <li>The bigger the gap between the fastest and slowest request in a batch, the more continuous batching saves.</li>

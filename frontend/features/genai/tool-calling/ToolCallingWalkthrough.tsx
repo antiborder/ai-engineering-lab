@@ -325,7 +325,7 @@ export function ToolCallingWalkthrough({
       title: "The Problem: Every App, Every Tool, Custom Code",
       body: (
         <p>
-          Say 3 apps — a chat app, a coding assistant, a spreadsheet tool — each want access to
+          Say 3 apps — a chat app, a coding assistant, a spreadsheet tool. Each wants access to
           a GitHub tool and a Calendar tool. Without a shared standard, that&rsquo;s 6 separate,
           custom-written integrations — one per (app, tool) pair.
         </p>
@@ -398,8 +398,8 @@ export function ToolCallingWalkthrough({
       title: "MCP in Action: One Tool Call, Step by Step",
       body: (
         <p>
-          Once the model has decided it needs the calendar, your app — not the model itself —
-          asks the MCP server what&rsquo;s available, then calls the tool through it.
+          Once the model decides it needs the calendar, your app — not the model itself —
+          asks the MCP server what&rsquo;s available. Then it calls the tool through it.
         </p>
       ),
       visual: <MCPSequenceDiagram />,

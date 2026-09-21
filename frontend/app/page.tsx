@@ -10,7 +10,7 @@ export default function Home() {
       <div className="max-w-2xl mb-12">
         <h1 className="text-3xl font-semibold mb-3">{APP_NAME}</h1>
         <p className="text-neutral-600">
-          One integrated lab, five connected modules. Everything you build shares a single{" "}
+          One integrated lab, six connected modules. Everything you build shares a single{" "}
           <strong className="text-neutral-800 font-medium">AI Artifact</strong> lifecycle — build
           it, evaluate it, optimize it, deploy it, monitor it, and improve it, all on the same
           system.

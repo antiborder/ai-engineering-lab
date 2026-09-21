@@ -193,8 +193,8 @@ export function RegressionWalkthrough({
         <p>
           These dots are our data: each one is a pair of numbers, an input <Equation tex="x" display={false} />{" "}
           and an output <Equation tex="y" display={false} />. Our goal is to draw a single curve that follows
-          this pattern as closely as possible — one that could predict <Equation tex="y" display={false} /> for
-          an <Equation tex="x" display={false} /> we haven&rsquo;t even seen yet.
+          this pattern as closely as possible. That curve should even predict <Equation tex="y" display={false} /> for
+          an <Equation tex="x" display={false} /> we haven&rsquo;t seen yet.
         </p>
       ),
       visual: <RegressionPlot points={basePoints} model={linModel} showTrueFn={false} showCurve={false} />,
@@ -205,8 +205,8 @@ export function RegressionWalkthrough({
       body: (
         <p>
           Think of <Equation tex="x" display={false} /> as anything you can measure or set — a time, a
-          setting, a position — and <Equation tex="y" display={false} /> as the number you&rsquo;d like to
-          predict from it. The actual meaning doesn&rsquo;t matter for how we&rsquo;ll solve this: the technique
+          setting, a position. Think of <Equation tex="y" display={false} /> as the number you&rsquo;d like to
+          predict from it. The actual meaning doesn&rsquo;t matter for how we&rsquo;ll solve this. The technique
           works the same regardless of what <Equation tex="x" display={false} /> and{" "}
           <Equation tex="y" display={false} /> represent.
         </p>
@@ -218,10 +218,10 @@ export function RegressionWalkthrough({
       title: "Our plan",
       body: (
         <p>
-          We&rsquo;ll start with the simplest possible curve — a straight line — and teach it to fit this
-          data using an algorithm called gradient descent. Once you&rsquo;ve
-          seen how that works, we&rsquo;ll reuse the exact same recipe on curvier models and explore what can
-          go right, and wrong, along the way.
+          We&rsquo;ll start with the simplest possible curve — a straight line. Then we&rsquo;ll teach it to fit
+          this data, using an algorithm called gradient descent. Once you&rsquo;ve
+          seen how that works, we&rsquo;ll reuse the exact same recipe on curvier models. We&rsquo;ll also explore
+          what can go right, and wrong, along the way.
         </p>
       ),
       visual: <RegressionPlot points={basePoints} model={linModel} showTrueFn={false} showCurve={false} />,
@@ -255,7 +255,7 @@ export function RegressionWalkthrough({
           <Equation tex="w_1" display={false} /> tilts the line — how much{" "}
           <Equation tex="\hat{y}" display={false} /> changes for each step <Equation tex="x" display={false} />{" "}
           moves right. Together they can place the line anywhere, at any angle. Every possible{" "}
-          <Equation tex="(w_0, w_1)" display={false} /> pair is one point on the landscape to the right — its
+          <Equation tex="(w_0, w_1)" display={false} /> pair is one point on the landscape to the right. Its
           height is how well that line fits the data.
         </p>
       ),
@@ -269,7 +269,7 @@ export function RegressionWalkthrough({
         <p>
           Right now <Equation tex="w_0 = 0" display={false} /> and <Equation tex="w_1 = 0" display={false} />,
           so <Equation tex="\hat{y} = 0" display={false} /> no matter what{" "}
-          <Equation tex="x" display={false} /> is — that&rsquo;s the flat line you see. Every model has to
+          <Equation tex="x" display={false} /> is. That&rsquo;s the flat line you see. Every model has to
           start somewhere; ours starts knowing nothing at all.
         </p>
       ),
@@ -284,7 +284,7 @@ export function RegressionWalkthrough({
         <p>
           Before we let the computer learn, get a feel for the two weights yourself. Drag the sliders below
           and watch how <Equation tex="w_0" display={false} /> and <Equation tex="w_1" display={false} /> change
-          the line — and where that puts you on the MSE landscape on the right. Every point on that surface is
+          the line. Watch where that puts you on the MSE landscape on the right. Every point on that surface is
           one possible line; the height is how bad it is.
         </p>
       ),
@@ -304,8 +304,8 @@ export function RegressionWalkthrough({
       body: (
         <p>
           For any point, the <span className="text-neutral-800 font-medium">error</span> is the gap between
-          what the model predicts and the real value — shown here as red lines. We&rsquo;d like every one of
-          these gaps to be as small as possible.
+          what the model predicts and the real value. This gap is shown here as red lines. We&rsquo;d like every
+          one of these gaps to be as small as possible.
         </p>
       ),
       visual: <RegressionPlot points={basePoints} model={linModel} showTrueFn={false} showErrors />,
@@ -316,14 +316,15 @@ export function RegressionWalkthrough({
       title: "Averaging all the errors: MSE",
       body: (
         <p>
-          To judge the whole line at once, not just one point, we square every error (so misses in either
-          direction count as positive, and big misses count extra) and average them. This is called{" "}
+          To judge the whole line at once, not just one point, we square every error. Squaring means misses
+          in either direction count as positive, and big misses count extra. Then we average all the squared
+          errors. This is called{" "}
           Mean Squared Error:
           <Equation tex={"\\text{MSE} = \\frac{1}{n}\\sum_{i=1}^{n} (\\hat{y}_i - y_i)^2"} />
           Right now, with the flat line, MSE ={" "}
           <span className="text-neutral-900 font-mono">{num(linModel.loss(basePoints), 4)}</span>. That single
-          number is exactly the <em>height</em> of the landscape on the right, at the point{" "}
-          <Equation tex="(w_0, w_1)" display={false} /> we&rsquo;re currently standing on.
+          number is exactly the <em>height</em> of the landscape on the right. It&rsquo;s the height at the
+          point <Equation tex="(w_0, w_1)" display={false} /> we&rsquo;re currently standing on.
         </p>
       ),
       visual: <RegressionPlot points={basePoints} model={linModel} showTrueFn={false} showErrors />,
@@ -334,9 +335,9 @@ export function RegressionWalkthrough({
       title: "Our precise goal",
       body: (
         <p>
-          Now we can say exactly what we&rsquo;re after: find the values of{" "}
+          Now we can say exactly what we&rsquo;re after. Find the values of{" "}
           <Equation tex="w_0" display={false} /> and <Equation tex="w_1" display={false} /> that make{" "}
-          MSE as small as possible — in other words, find the lowest point in that
+          MSE as small as possible. In other words, find the lowest point in that
           landscape. That&rsquo;s the entire job of training.
         </p>
       ),
@@ -378,8 +379,8 @@ export function RegressionWalkthrough({
       title: "Take one real step",
       body: (
         <p>
-          Let&rsquo;s actually do it. Click the button and watch both weights update once using the rule above
-          — the line will nudge slightly toward the data, and the yellow dot will take one visible step
+          Let&rsquo;s actually do it. Click the button and watch both weights update once, using the rule
+          above. The line will nudge slightly toward the data. The yellow dot will take one visible step
           downhill on the landscape.
         </p>
       ),
@@ -420,9 +421,9 @@ export function RegressionWalkthrough({
         <p>
           MSE has flattened out — this line is about as good as a straight line gets, at{" "}
           <span className="text-neutral-900 font-mono">{num(linModel.loss(basePoints), 4)}</span>. The yellow
-          trail on the landscape shows the whole path gradient descent walked to get here, settling at the
+          trail on the landscape shows the whole path gradient descent walked to get here. It settles at the
           bottom of the valley. The dashed curve on the left shows the true underlying pattern the data came
-          from — notice the line can&rsquo;t follow its bends.
+          from. Notice the line can&rsquo;t follow its bends.
         </p>
       ),
       visual: <RegressionPlot points={basePoints} model={linModel} showTrueFn />,
@@ -435,7 +436,7 @@ export function RegressionWalkthrough({
         <p>
           This isn&rsquo;t a training problem — no amount of extra steps will fix it. Gradient descent already
           found the bottom of this valley; there is no lower point to walk to. A straight line simply cannot
-          bend, so it can never match a curve that rises and falls like this one does. To do better, we need a
+          bend. So it can never match a curve that rises and falls like this one does. To do better, we need a
           model that&rsquo;s allowed to curve.
         </p>
       ),
@@ -462,7 +463,7 @@ export function RegressionWalkthrough({
       title: "Starting from zero, again",
       body: (
         <p>
-          Same starting point as last time: all four weights at zero, so the model predicts a flat line
+          Same starting point as last time: all four weights start at zero. So the model predicts a flat line
           until it&rsquo;s trained.
         </p>
       ),
@@ -514,7 +515,7 @@ export function RegressionWalkthrough({
       body: (
         <p>
           <Equation tex="x^2" display={false} /> and <Equation tex="x^3" display={false} /> let the curve
-          bend — a straight line can only tilt, but this model can curve up, then down, then up again. More
+          bend. A straight line can only tilt, but this model can curve up, then down, then up again. More
           weights means more shapes the model is capable of drawing.
         </p>
       ),
@@ -538,8 +539,8 @@ export function RegressionWalkthrough({
       title: "Let's push it further",
       body: (
         <p>
-          Here&rsquo;s the same idea with degree 9 instead of degree 3 — ten weights instead of four,
-          controlling a much curvier model. Click below to train it on the same data.
+          Here&rsquo;s the same idea with degree 9 instead of degree 3. Ten weights control this much
+          curvier model, instead of four. Click below to train it on the same data.
         </p>
       ),
       visual: <RegressionPlot points={ofTrain} model={ofModel} showTrueFn={false} />,
@@ -604,8 +605,8 @@ export function RegressionWalkthrough({
       title: "...but is it learning the pattern?",
       body: (
         <p>
-          Compare the curve against the true function (dashed). Between the data points, it wiggles wildly
-          — it&rsquo;s threading itself exactly through every training point, noise included, instead of
+          Compare the curve against the true function (dashed). Between the data points, it wiggles wildly.
+          It threads itself exactly through every training point, noise included, instead of
           following the smooth pattern underneath.
         </p>
       ),
@@ -618,7 +619,7 @@ export function RegressionWalkthrough({
         <p>
           A model that has <em>memorized</em> its training points will always look perfect on those exact
           points. To find out whether it actually learned anything general, we need to test it on data it
-          has never seen — a train/test split.
+          has never seen. That test is a train/test split.
         </p>
       ),
       visual: <RegressionPlot points={ofTrain} model={ofModel} showTrueFn />,
@@ -629,7 +630,7 @@ export function RegressionWalkthrough({
       body: (
         <p>
           Drag the slider to set what fraction of points are used for training (purple) versus held back for
-          testing (orange), then retrain the degree-9 model.
+          testing (orange). Then retrain the degree-9 model.
         </p>
       ),
       visual: <RegressionPlot points={ofPoints} model={ofModel} showTrueFn={false} />,
@@ -687,8 +688,8 @@ export function RegressionWalkthrough({
       body: (
         <p>
           This is overfitting: the model got very good at the training data
-          but worse at new data, because it started fitting the noise and quirks specific to those exact
-          points instead of the general pattern.
+          but worse at new data. That happened because it started fitting the noise and quirks specific to
+          those exact points, instead of the general pattern.
         </p>
       ),
       visual: <RegressionPlot points={ofPoints} model={ofModel} showTrueFn />,
@@ -806,8 +807,8 @@ export function RegressionWalkthrough({
       title: "Real data is never perfectly clean",
       body: (
         <p>
-          Every point we&rsquo;ve used so far had a bit of random scatter added around the true curve —
-          that&rsquo;s <span className="text-neutral-800 font-medium">noise</span>, and real-world
+          Every point we&rsquo;ve used so far had a bit of random scatter added around the true curve. That&rsquo;s{" "}
+          <span className="text-neutral-800 font-medium">noise</span>, and real-world
           measurements almost always have some.
         </p>
       ),
@@ -818,7 +819,7 @@ export function RegressionWalkthrough({
       title: "Try it yourself: turn up the noise",
       body: (
         <p>
-          Drag the slider to add more scatter to the data and watch the points spread further from the true
+          Drag the slider to add more scatter to the data. Watch the points spread further from the true
           curve (dashed).
         </p>
       ),
@@ -833,7 +834,7 @@ export function RegressionWalkthrough({
       body: (
         <p>
           Train this degree-9 model on the noisy data — it will bend itself to match the scatter, not just
-          the shape. More noise gives it more misleading detail to memorize, so the same degree overfits
+          the shape. More noise gives it more misleading detail to memorize. So the same degree overfits
           harder than it did on cleaner data.
         </p>
       ),
@@ -849,9 +850,9 @@ export function RegressionWalkthrough({
       title: "Noise is why testing matters",
       body: (
         <p>
-          Because we can&rsquo;t remove noise from real data, we can&rsquo;t just trust training error —
-          it&rsquo;s exactly why the train/test split and, as we&rsquo;ll see next, keeping weights small
-          both matter so much.
+          Because we can&rsquo;t remove noise from real data, we can&rsquo;t just trust training error.
+          That&rsquo;s exactly why the train/test split matters so much. As we&rsquo;ll see next, keeping
+          weights small matters too.
         </p>
       ),
       visual: <RegressionPlot points={noisePoints} model={noiseModel} showTrueFn />,
@@ -893,7 +894,7 @@ export function RegressionWalkthrough({
       body: (
         <p>
           Set the ratio low (try 20%) and train. With so few examples, the model can barely learn the shape
-          at all — there just isn&rsquo;t enough signal to work with.
+          at all. There just isn&rsquo;t enough signal to work with.
         </p>
       ),
       visual: <RegressionPlot points={ratioPoints} model={ratioModel} showTrueFn />,
@@ -918,9 +919,9 @@ export function RegressionWalkthrough({
       title: "Too little test data",
       body: (
         <p>
-          Now set the ratio high (try 90%) and train. The fit can look great, but with only a couple of test
-          points left, the test MSE bounces around a lot depending on which specific points happened to be
-          held out — it&rsquo;s no longer a reliable estimate.
+          Now set the ratio high (try 90%) and train. The fit can look great, but only a couple of test
+          points are left. The test MSE bounces around a lot, depending on which specific points happened to
+          be held out. It&rsquo;s no longer a reliable estimate.
         </p>
       ),
       visual: <RegressionPlot points={ratioPoints} model={ratioModel} showTrueFn />,
@@ -945,9 +946,9 @@ export function RegressionWalkthrough({
       title: "A common default",
       body: (
         <p>
-          In practice, 70/30 or 80/20 (train/test) is a common starting point — enough data to learn from,
-          enough held back to trust the evaluation. Like the learning rate, the right split depends on how
-          much data you actually have.
+          In practice, 70/30 or 80/20 (train/test) is a common starting point. That leaves enough data to
+          learn from, and enough held back to trust the evaluation. Like the learning rate, the right split
+          depends on how much data you actually have.
         </p>
       ),
       visual: <RegressionPlot points={ratioPoints} model={ratioModel} showTrueFn />,
@@ -1010,8 +1011,8 @@ export function RegressionWalkthrough({
       body: (
         <p>
           Push <Equation tex={"\\lambda"} display={false} /> high (try 0.04) and train. The penalty
-          dominates, weights get squashed toward zero, and the curve flattens back toward a straight line —
-          underfitting again, just reached from a different direction.
+          dominates: weights get squashed toward zero, and the curve flattens back toward a straight line.
+          That&rsquo;s underfitting again, just reached from a different direction.
         </p>
       ),
       visual: <RegressionPlot points={regTrain} model={regModel} showTrueFn />,
@@ -1068,7 +1069,7 @@ export function RegressionWalkthrough({
       body: (
         <p>
           You&rsquo;ve seen every idea Regression has to offer, one step at a time. Below, a free-play
-          version of everything you just learned is now unlocked — no more guided steps, just the sliders
+          version of everything you just learned is now unlocked. No more guided steps — just the sliders
           and controls, all in one place. Go make it overfit on purpose. Go find a learning rate that
           explodes. It&rsquo;s yours to break.
           <br />

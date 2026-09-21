@@ -262,8 +262,9 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       body: (
         <p>
           We&rsquo;ll learn Lloyd&rsquo;s algorithm — the
-          classic recipe behind k-means — one step at a time, then look at two ways it can go
-          wrong: picking the wrong number of groups, and bad luck in where it starts.
+          classic recipe behind k-means — one step at a time. Then we&rsquo;ll look at two ways
+          it can go wrong. One is picking the wrong number of groups; the other is bad luck
+          in where it starts.
         </p>
       ),
       visual: <ClusteringPlot points={lloydPoints} centroids={[]} assignments={[]} />,
@@ -299,8 +300,8 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       title: "Try it yourself: move a centroid",
       body: (
         <p>
-          Drag the sliders to move the first centroid (✕) around by hand, and watch which points
-          on the left would be assigned to it, and how the 3D surface&rsquo;s basin follows it
+          Drag the sliders to move the first centroid (✕) around by hand. Watch which points
+          on the left would be assigned to it. Watch how the 3D surface&rsquo;s basin follows it
           on the right.
         </p>
       ),
@@ -337,8 +338,8 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
           <Equation tex={"\\mu_{c(i)}"} display={false} /> is the centroid point{" "}
           <Equation tex="i" display={false} /> was assigned to. Right now{" "}
           <Equation tex="J" display={false} /> ={" "}
-          <span className="text-neutral-900 font-mono">{num(lloydPreview.inertia, 1)}</span> — and
-          that number is exactly the total height of the surface on the right, summed over every
+          <span className="text-neutral-900 font-mono">{num(lloydPreview.inertia, 1)}</span>.
+          That number is exactly the total height of the surface on the right, summed over every
           point.
         </p>
       ),
@@ -350,7 +351,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       title: "Our precise goal",
       body: (
         <p>
-          Find centroid positions that make inertia as small as possible — in other words, place
+          Find centroid positions that make inertia as small as possible. In other words, place
           each centroid at the bottom of its own basin.
         </p>
       ),
@@ -378,8 +379,8 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       title: "Take one real iteration",
       body: (
         <p>
-          Click below to actually assign every point and move every centroid to its new mean —
-          watch the basins on the right slide to follow.
+          Click below to actually assign every point and move every centroid to its new mean.
+          Watch the basins on the right slide to follow.
         </p>
       ),
       visual: <ClusteringPlot points={lloydPoints} centroids={lloydCentroids} assignments={lloydDisplayAssignments} />,
@@ -411,7 +412,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
         <p>
           Inertia dropped to{" "}
           <span className="text-neutral-900 font-mono">{num(lloydHistory.at(-1) ?? 0, 1)}</span>{" "}
-          after {lloydIteration} iterations and stopped changing — every centroid is now sitting
+          after {lloydIteration} iterations and stopped changing. Every centroid is now sitting
           exactly at the bottom of its own basin. That&rsquo;s convergence: the assign-then-move
           step can&rsquo;t improve inertia any further.
         </p>
@@ -425,7 +426,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       body: (
         <p>
           Not necessarily. Lloyd&rsquo;s algorithm guarantees inertia can&rsquo;t improve any
-          <em>further</em> from here — it says nothing about whether a completely different
+          <em>further</em> from here. But it says nothing about whether a completely different
           starting point could have found something better. And we haven&rsquo;t even asked how
           many centroids to use. Both turn out to matter a lot.
         </p>
@@ -485,7 +486,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       body: (
         <p>
           Run k-means for every k from 1 to 8 and record the final inertia at each. Inertia
-          always falls as k rises (more centroids can only help), but click below and watch
+          always falls as k rises (more centroids can only help). But click below and watch
           where it stops falling <em>quickly</em>.
         </p>
       ),
@@ -519,7 +520,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
         <p>
           The elbow method is a heuristic, not a guarantee — real data often doesn&rsquo;t have
           such a clean bend. It&rsquo;s one useful piece of evidence among several (another
-          common one is called the silhouette score), not a formula that hands you the answer.
+          common one is called the silhouette score). It&rsquo;s not a formula that hands you the answer.
         </p>
       ),
       visual: <ClusteringPlot points={kPoints} centroids={kDisplayCentroids} assignments={kAssignments} />,
@@ -530,8 +531,8 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       title: "Same algorithm, different starting point",
       body: (
         <p>
-          Lloyd&rsquo;s algorithm always improves inertia step by step until it stops — but
-          &ldquo;stops improving&rdquo; and &ldquo;found the best possible grouping&rdquo; aren&rsquo;t
+          Lloyd&rsquo;s algorithm always improves inertia step by step until it stops.
+          But &ldquo;stops improving&rdquo; and &ldquo;found the best possible grouping&rdquo; aren&rsquo;t
           the same thing. Where the centroids start can change where they end up.
         </p>
       ),
@@ -565,8 +566,8 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       body: (
         <p>
           If you tried a few times, some runs likely landed on a noticeably higher final inertia
-          than others — a local optimum the algorithm couldn&rsquo;t
-          escape from, even though a better grouping existed.
+          than others. That&rsquo;s a local optimum the algorithm couldn&rsquo;t
+          escape from. A better grouping existed, even though the algorithm couldn&rsquo;t reach it.
         </p>
       ),
       visual: <ClusteringPlot points={initPoints} centroids={initDisplayCentroids} assignments={initAssignments} />,
@@ -576,9 +577,9 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
       title: "Why this happens",
       body: (
         <p>
-          Lloyd&rsquo;s algorithm only ever takes moves that help <em>right now</em>. If two
-          centroids start crowded into the same true group while another true group gets none,
-          assign-then-move alone often can&rsquo;t untangle that — every available move keeps
+          Lloyd&rsquo;s algorithm only ever takes moves that help <em>right now</em>. Suppose two
+          centroids start crowded into the same true group, while another true group gets none.
+          Assign-then-move alone often can&rsquo;t untangle that. Every available move keeps
           things roughly where they are.
         </p>
       ),
@@ -592,7 +593,7 @@ export function ClusteringWalkthrough({ onComplete }: { onComplete: () => void }
           In practice, k-means is usually run several times from different random starts, keeping
           whichever run reached the lowest inertia. Real implementations (like{" "}
           <span className="text-neutral-800 font-medium">k-means++</span>) also use a smarter
-          initialization that spreads the starting centroids out on purpose, making a bad
+          initialization. It spreads the starting centroids out on purpose. That makes a bad
           starting point far less likely to begin with.
         </p>
       ),

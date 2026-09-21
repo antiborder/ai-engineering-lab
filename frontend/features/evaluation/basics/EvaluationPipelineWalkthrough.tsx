@@ -116,13 +116,15 @@ export function EvaluationPipelineWalkthrough({
           </ul>
           <p>
             More generally, an artifact can be a prompt, a RAG setup, an agent, a model
-            choice — any of these, not just one type. Evaluation always measures one
-            specific, reproducible AI artifact, so a later score can be traced back to
+            choice. It can be any of these, not just one type. Evaluation always measures
+            one
+            specific, reproducible AI artifact. That way, a later score can be traced back to
             exactly what produced it.
           </p>
           <p>
-            If a system retrieves documents at answer time instead of having them written
-            into the prompt — a RAG setup — that retrievable document set becomes a third,
+            If a system retrieves documents at answer time, instead of having them written
+            into the prompt, that&rsquo;s a RAG setup. That retrievable document set becomes a
+            third,
             separately version-tracked part of the artifact, alongside the model and prompt.
           </p>
         </div>
@@ -141,8 +143,8 @@ export function EvaluationPipelineWalkthrough({
       body: (
         <div className="space-y-2">
           <p>
-            Without a pinned-down artifact, a score change is ambiguous: it could reflect a
-            real improvement or regression, or it could just mean something else was swapped in
+            Without a pinned-down artifact, a score change is ambiguous. It could reflect a
+            real improvement or regression. Or it could just mean something else was swapped in
             between runs — a different prompt, or a different model.
           </p>
           <p>Version-tracking the artifact is what makes a score traceable back to one specific cause.</p>
@@ -198,8 +200,8 @@ export function EvaluationPipelineWalkthrough({
         'Chloe: "So a run is just... asking it this one question?"\nMaya: "No — a run sends every case in the dataset through the artifact, all 100 of them. This one bug is just the case we\'re following closely."\nChloe: "Oh, so behind the scenes it\'s actually answering a hundred different questions right now?"\nMaya: "Exactly. We actually get an output back from the AI for all 100 questions right here."',
       body: (
         <p>
-          A run isn&rsquo;t limited to one question — it sends every test case in the dataset
-          through the artifact and records an output for each. This chapter keeps following
+          A run isn&rsquo;t limited to one question. It sends every test case in the dataset
+          through the artifact, and records an output for each. This chapter keeps following
           the worn-item bug&rsquo;s case specifically, but in a real run, all 100 cases get
           answered at once.
         </p>
@@ -217,7 +219,7 @@ export function EvaluationPipelineWalkthrough({
         'Chloe: "So next, you evaluate the output that came back from the AI?"\nMaya: "That\'s right! First, evaluation compares what the AI assistant actually said to what it should have said."\nChloe: "So you\'re checking whether it actually got the answer right?"\nMaya: "And that comparison produces a score. Right now it\'s about as simple as it gets — a flat pass or fail."',
       body: (
         <p>
-          Evaluation takes each actual output and checks it against its expected answer, using
+          Evaluation takes each actual output and checks it against its expected answer. It uses
           a metric to decide how well they match. Here, that means comparing the AI
           assistant&rsquo;s answer to what the docs actually say.
         </p>
@@ -262,7 +264,7 @@ export function EvaluationPipelineWalkthrough({
         <p>
           A score is evaluation&rsquo;s output: a number or a pass/fail-style category
           summarizing how well the actual answer matched. Exact match already scores this
-          output as a fail — but exact match would flag any differently-worded answer too,
+          output as a fail. But exact match would flag any differently-worded answer too,
           right or wrong.
         </p>
       ),
@@ -284,7 +286,8 @@ export function EvaluationPipelineWalkthrough({
       body: (
         <p>
           A run&rsquo;s score means little by itself. 84 out of 100 says nothing without
-          something to compare it against: an earlier version, a different model, a minimum
+          something to compare it against. That could be an earlier version, a different model,
+          or a minimum
           bar the system needs to clear.
         </p>
       ),

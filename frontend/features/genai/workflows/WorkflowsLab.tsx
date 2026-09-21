@@ -116,9 +116,9 @@ export function WorkflowsLab() {
 
       <p className="text-base text-neutral-500 max-w-2xl">
         Try the math example: the deterministic workflow searches documents anyway (there&rsquo;s
-        nothing about percentages in the corpus), while the agent recognizes it needs the
-        calculator instead. That gap is the whole argument for agents — but notice the
-        deterministic workflow is simpler, cheaper, and fully predictable, which matters when the
+        nothing about percentages in the corpus). The agent recognizes it needs the
+        calculator instead. That gap is the whole argument for agents. But notice the
+        deterministic workflow is simpler, cheaper, and fully predictable. That matters when the
         task is always the same shape.
       </p>
     </div>

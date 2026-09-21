@@ -574,27 +574,75 @@ than re-taught from scratch: Model Serving's "the Performance Unit measures this
 (time to first token) and the module's own repeated "...and the hosted-vs-self-hosted decision
 they feed" line, echoed in every earlier Unit's Wrap-up.
 
-`PerformanceWalkthrough.tsx` — 16 Steps across Welcome + 4 Sections + Wrap-up:
+`PerformanceWalkthrough.tsx` — 17 Steps across Welcome + 4 Sections + Wrap-up. Revised after a user
+question forced a real decision the first draft dodged: TTFT, total latency, and average latency
+are all time metrics, and the three "Reading a Metrics Dashboard" scenarios were each showing a
+different, inconsistent subset of them (2 of some possible 4). Resolved explicitly, in a new Step
+("From One Request to a Dashboard: Three Metrics, Averaged"), rather than left implicit: this Unit
+tracks exactly **three** dashboard metrics — throughput, average time to first token, and average
+latency — not four. Total latency survives only as the single-request concept that average latency
+generalizes ("Time to first token and total latency were both just about one request; averaged
+across many requests, they become the two time-based metrics a real dashboard actually shows"), not
+as its own ongoing tracked metric. Terminology also unified in the same pass: "latency,"
+"measurement," and "numbers" had been used interchangeably for the same concept — now all say
+"metrics" (matching the "Reading a Metrics Dashboard" Section title) or, where it's specifically
+the averaged/dashboard sense, "average latency" / "average time to first token."
 
-- **Latency, Throughput, and Time to First Token** — recaps latency (Model Serving's own 10
-  req/sec server and M/M/1 wait formula, recomputed at 8 req/sec arrivals, not re-derived with new
-  numbers) and throughput (vLLM's published "up to 24×"), then formally defines time to first
-  token (TTFT) and contrasts it against total latency with one illustrative example (150 ms TTFT,
-  4 sec total, for a 200-token response).
+- **Latency, Throughput, and Time to First Token** — recaps average latency (Model Serving's own
+  10 req/sec server and M/M/1 wait formula, recomputed at 8 req/sec arrivals, now explicitly named
+  "average latency" rather than "average wait") and throughput (vLLM's published "up to 24×"), then
+  formally defines time to first token (TTFT) and contrasts it against one request's total latency
+  with one illustrative example (150 ms TTFT, 4 sec total, for a 200-token response) — before the
+  new Step generalizes both into the two averaged dashboard metrics.
 - **The Latency-Throughput Tradeoff** — batching more requests together (Continuous Batching)
   raises throughput but can add queueing latency per request — a real tradeoff, not a flaw in any
   one Unit.
-- **Reading a Metrics Dashboard** — the Unit's central skill, taught through three labeled-
-  illustrative dashboard scenarios (same convention as Quantization's arithmetic example, not
-  measurements from a real system): high TTFT + low throughput → undersized capacity/queueing; low
-  TTFT + high total latency → a long response, not a serving problem; high throughput + high
-  latency together → the Section 2 tradeoff working as intended, not a regression. The point is
-  reading metrics together, not any one in isolation.
-- **Hosted API vs. Self-Hosted** — cost *structure* (usage-scaled vs. fixed), explicitly kept
-  qualitative in the walkthrough itself (no fabricated dollar figures), plus control/complexity as
-  a second, non-cost axis, and an explicit callback tying the whole module together: self-hosting
-  only pays off if continuous batching/quantization/etc. actually deliver enough throughput per
-  GPU to justify the fixed cost.
+- **Reading a Metrics Dashboard** — the Unit's central skill. Went through several revisions (each
+  driven by a user question, not a self-initiated cleanup) before settling on its current shape;
+  earlier intermediate states (a 4th "KV cache" scenario as a separate card, three-part
+  Symptom/Likely cause/Fix bullets) are no longer in the code and aren't worth reconstructing here
+  — what follows is the final structure and the reasoning that produced it.
+
+  Now 4 Steps: one intro ("Let's Look at a Dashboard") stating the three tracked metrics
+  (throughput, average time to first token, average latency) with a baseline "normal" reading
+  (20 req/sec, 150 ms, 500 ms — the same numbers every scenario compares against), followed by 3
+  scenarios, each a **Symptom / Likely cause** bullet list only — the Fix bullet used in an earlier
+  draft was cut entirely; this Section's job is reading metrics, not prescribing remediation, and
+  the earlier Fixes' real content (warm pools, PagedAttention, quantization, Continuous Batching)
+  already lives in their own Units and in this Unit's own "Where the Rest of This Module Comes Back
+  In" Step.
+
+  The 3 scenarios, in order: (1) **longer responses** — only average latency elevated, throughput/
+  TTFT normal, likely just longer output, not a serving problem; (2) **intentional aggressive
+  batching** — throughput at a new high with both time metrics only slightly up, the Section 2
+  tradeoff working as intended; (3) **all three metrics degrade together** — a scenario this module
+  originally split into two (an "undersized server / cold start" card and a separate "KV cache
+  fragmentation" card) before realizing, via a user question, that the two are genuinely
+  indistinguishable from these three metrics alone: both produce the identical shape (throughput
+  below normal, both time metrics up), and the two illustrative numeric readings differed only in
+  magnitude, not in any principled way a reader could use to tell them apart. Rather than pretend a
+  fake distinguishing signal exists, the merged scenario's Likely cause now states both real causes
+  explicitly (a traffic spike outrunning autoscaling, per Model Serving's cold-start Section; or a
+  fragmented KV cache, per vLLM's 60–80%-waste figure) and names what *would* disambiguate them in
+  practice — checking for a recent scaling event, or checking GPU/KV-cache memory utilization —
+  neither of which this Unit's three tracked metrics include. This is an honest, realistic
+  limitation of a 3-metric dashboard, not a gap to paper over: outcome-level metrics (throughput,
+  latency, TTFT) often can't uniquely pin down root cause in real operations either, which is
+  exactly why production observability stacks track lower-level signals (GPU/memory utilization,
+  queue depth, deploy events) alongside them. The Wrap-up's recap bullet says so explicitly now,
+  without implying a 1:1 shape-to-cause mapping.
+- **Hosted API vs. Self-Hosted** — restructured after user feedback: the original 3 Steps jumped
+  straight into a cost-structure comparison and a separate control comparison, both assuming the
+  reader already knew what "hosted API" and "self-hosted" concretely meant. Now 4 Steps, each term
+  explained plainly first (a simple text-flow visual for each: hosted API is "Your app → Internet →
+  Provider's GPU (they run it)"; self-hosted is "Your app → Your own GPU (rented or owned)"), then
+  one consolidated **comparison table** (who runs the GPU / cost structure / control / setup &
+  operations — the same table style as Quantization's tradeoff table) replacing the two separate
+  StatCard-pair comparisons, then the callback tying the whole module together: self-hosting only
+  pays off if continuous batching/quantization/etc. actually deliver enough throughput per GPU to
+  justify the fixed cost. Cost structure stays qualitative in the walkthrough itself (no fabricated
+  dollar figures) — concrete numbers remain in the Lab's own calculator, where the reader supplies
+  them.
 
 `PerformanceLab.tsx` unlocks after completion with the concrete numbers the walkthrough
 deliberately withheld: drag daily request volume, hosted-API price per request, and self-hosted

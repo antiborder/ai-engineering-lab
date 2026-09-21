@@ -91,13 +91,14 @@ export function TransformerBlockWalkthrough({
         <p>
           The last chapter computed, for every token, an{" "}
           <Equation tex={"\\text{attn\\_output}"} display={false} /> — a vector blended from
-          every other token&rsquo;s Value. This chapter shows how it actually updates the token:
-          added onto the token&rsquo;s own vector, processed a little further, and the whole
-          thing repeated several times — so each token&rsquo;s vector keeps getting richer. The
-          picture below is the shape of the whole chapter: attention (plus its add-and-normalize
-          step) is one sublayer, feed-forward (plus its own add-and-normalize step) is a second
-          sublayer, and one Block is exactly those two sublayers back to back — repeated as
-          several separate Blocks, stacked.
+          every other token&rsquo;s Value. This chapter shows how it actually updates the token.
+          The <Equation tex={"\\text{attn\\_output}"} display={false} /> is
+          added onto the token&rsquo;s own vector, then processed a little further. The whole
+          thing is repeated several times, so each token&rsquo;s vector keeps getting richer. The
+          picture below is the shape of the whole chapter. Attention (plus its add-and-normalize
+          step) is one sublayer. Feed-forward (plus its own add-and-normalize step) is a second
+          sublayer. One Block is exactly those two sublayers back to back. Several separate
+          Blocks are then repeated and stacked.
         </p>
       ),
       visual: <BlockOverviewDiagram />,
@@ -108,8 +109,9 @@ export function TransformerBlockWalkthrough({
       body: (
         <p>
           Every token now has two vectors sitting side by side: the one it already had, and its{" "}
-          <Equation tex={"\\text{attn\\_output}"} display={false} /> — the vector the last
-          chapter built, new information gathered from other tokens. Somehow these two need to
+          <Equation tex={"\\text{attn\\_output}"} display={false} />. The{" "}
+          <Equation tex={"\\text{attn\\_output}"} display={false} /> is the vector the last
+          chapter built — new information gathered from other tokens. Somehow these two need to
           become a single, updated vector. There&rsquo;s more than one way to do that, and the
           choice matters.
         </p>
@@ -134,7 +136,7 @@ export function TransformerBlockWalkthrough({
       body: (
         <p>
           But the <Equation tex={"\\text{attn\\_output}"} display={false} /> is a blend across{" "}
-          <em>every</em> token in the sentence — this token&rsquo;s own vector is only one
+          <em>every</em> token in the sentence. This token&rsquo;s own vector is only one
           ingredient in that mix, often a small one. Replacing the vector entirely, every single
           time, risks slowly washing out what made this token itself.
         </p>
@@ -151,7 +153,7 @@ export function TransformerBlockWalkthrough({
           replacing it:
           <Equation tex={"\\text{new\\_x} = \\text{old\\_x} + \\text{attn\\_output}"} />
           Nothing is thrown away. If the <Equation tex={"\\text{attn\\_output}"} display={false} />{" "}
-          isn&rsquo;t helpful yet, it can just shrink toward zero and the token falls back to
+          isn&rsquo;t helpful yet, it can just shrink toward zero. Then the token falls back to
           passing <Equation tex={"\\text{old\\_x}"} display={false} /> straight through unchanged
           — an easy default.
         </p>
@@ -163,12 +165,12 @@ export function TransformerBlockWalkthrough({
       title: "Keeping numbers in range: layer normalization",
       body: (
         <p>
-          There&rsquo;s a catch with residual connections: repeatedly adding new information on
-          top of old, layer after layer, can make a token&rsquo;s numbers drift — growing large
-          or uneven across dimensions, since nothing ever shrinks them back down.{" "}
+          There&rsquo;s a catch with residual connections. Repeatedly adding new information on
+          top of old, layer after layer, can make a token&rsquo;s numbers drift. They can grow
+          large or uneven across dimensions, since nothing ever shrinks them back down.{" "}
           Layer normalization is the fix: it resets that
-          after every addition, rescaling each token&rsquo;s own vector so its numbers land in a
-          consistent, predictable range — mean 0, spread (standard deviation) 1:
+          after every addition. It rescales each token&rsquo;s own vector so its numbers land in a
+          consistent, predictable range. That&rsquo;s mean 0, spread (standard deviation) 1:
           <Equation tex={"\\text{LayerNorm}(x) = \\frac{x - \\mu}{\\sigma}"} />
           where <Equation tex={"\\mu"} display={false} /> and{" "}
           <Equation tex={"\\sigma"} display={false} /> come from <Equation tex="x" display={false} />
@@ -194,9 +196,9 @@ export function TransformerBlockWalkthrough({
       body: (
         <p>
           What we walked through: start from the token&rsquo;s vector, run it through
-          attention to get <Equation tex={"\\text{attn\\_output}"} display={false} />, add that
+          attention to get <Equation tex={"\\text{attn\\_output}"} display={false} />. Add that
           back onto the vector, then normalize. A sublayer is just
-          whatever gets wrapped this way — attention is one; the feed-forward network
+          whatever gets wrapped this way. Attention is one; the feed-forward network
           you&rsquo;ll meet next is the other. This exact wrapper appears twice in every
           Transformer block, once around each.
         </p>
@@ -214,8 +216,9 @@ export function TransformerBlockWalkthrough({
           feed-forward network:
           <Equation tex={"\\text{FFN}(x) = W_2 \\, \\text{ReLU}(W_1 x + b_1) + b_2"} />
           Linear → ReLU → Linear — exactly the one-hidden-layer network from the Neural Networks
-          chapter (one hidden layer, two weight matrices), reused as-is, just without a final
-          sigmoid (it needs to output a vector here, not a single probability). Below: this exact
+          chapter (one hidden layer, two weight matrices). It&rsquo;s reused as-is, just without a
+          final sigmoid. It needs to output a vector here, not a single probability. Below: this
+          exact
           shape for our case — {D_MODEL} dimensions in, a {D_MODEL * 4}-unit hidden layer, {D_MODEL}{" "}
           dimensions back out.
         </p>
@@ -240,8 +243,8 @@ export function TransformerBlockWalkthrough({
       body: (
         <p>
           A Transformer block is exactly these two wrapped
-          sublayers, back to back: attention first (tokens exchange information), then the
-          feed-forward network (each token processes what it gathered, on its own).
+          sublayers, back to back. Attention comes first (tokens exchange information). Then comes
+          the feed-forward network (each token processes what it gathered, on its own).
         </p>
       ),
       visual: <SublayerDiagram sublayerLabel="Attention" />,
@@ -253,10 +256,11 @@ export function TransformerBlockWalkthrough({
       title: "Why stack more than one block?",
       body: (
         <p>
-          One block refines every token&rsquo;s vector once. Stacking several — feeding one
-          block&rsquo;s output straight into the next block&rsquo;s input — lets the model build up
-          progressively richer representations, exactly the same &ldquo;depth&rdquo; capacity dial
-          you saw for plain networks, just applied here to whole blocks instead of single layers.
+          One block refines every token&rsquo;s vector once. Stacking several means feeding one
+          block&rsquo;s output straight into the next block&rsquo;s input. That lets the model build up
+          progressively richer representations. It&rsquo;s exactly the same &ldquo;depth&rdquo;
+          capacity dial you saw for plain networks. It&rsquo;s just applied here to whole blocks,
+          instead of single layers.
         </p>
       ),
       visual: <BlockStackDiagram numBlocks={2} />,
