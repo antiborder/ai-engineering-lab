@@ -10,8 +10,7 @@ export default function StructuredOutputPage() {
       <h1 className="text-2xl font-semibold mb-1">Structured Output</h1>
       <p className="text-neutral-600 mb-8 max-w-2xl">
         Edit the JSON Schema and see the shape of the output change with it — and watch
-        validation catch it when the output doesn&rsquo;t match. Requires the backend to be
-        running.
+        validation catch it when the output doesn&rsquo;t match.
       </p>
       <StructuredOutputLab />
     </div>

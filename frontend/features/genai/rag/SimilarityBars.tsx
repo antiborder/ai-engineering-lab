@@ -8,7 +8,7 @@ export interface ScoredChunk {
  * (Fundamentals) and ConstrainedDecodingDiagram (Structured Output), reused
  * here for retrieval. Bars sort by rerankScore when present, otherwise by
  * score. `topK`/`threshold` dim out chunks that wouldn't make the cut,
- * matching backend/app/genai/rag.py's retrieve()'s own pool + threshold
+ * matching features/genai/engine/rag.ts's retrieve()'s own pool + threshold
  * logic. */
 export function SimilarityBars({
   chunks,

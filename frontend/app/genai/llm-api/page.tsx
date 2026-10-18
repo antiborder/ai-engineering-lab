@@ -10,7 +10,7 @@ export default function LlmApiPage() {
       <h1 className="text-2xl font-semibold mb-1">LLM API</h1>
       <p className="text-neutral-600 mb-8 max-w-2xl">
         Every AI application starts here: a model, a prompt, and a response — with token usage,
-        latency, and cost tracked on every call. Requires the backend to be running.
+        latency, and cost tracked on every call.
       </p>
       <LlmApiLab />
     </div>

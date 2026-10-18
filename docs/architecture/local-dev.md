@@ -1,76 +1,66 @@
-# Local development (Phase 1)
+# Local development
 
-Phase 1 has no GCP dependency (spec section 35). Four things run locally:
-
-1. **Firestore emulator** — local persistence, same client code as production Firestore.
-2. **FastAPI backend** — port 8001 (8000 is often already taken by other local tools; the
-   backend has no fixed requirement on 8001, just pick a free port consistently).
-3. **Next.js frontend** — port 3100 chosen to avoid collisions with other local projects;
-   `next dev` will auto-pick a free port if you omit `-p`, but check `lsof -i :<port>` first if
-   you want a stable one, since this machine tends to have other dev servers running.
-4. **AI providers** — mocked by default (`AI_PROVIDER_MODE=mock`), no API keys required.
+The whole app is the Next.js frontend. Every lab runs in the browser: the mock LLM provider,
+RAG, tool calling, agents, structured output, and Tiny LLM training (TensorFlow.js). Saved data
+(RAG documents, AI Artifacts) lives in the visitor's `localStorage`. There is no backend to run and
+no API key to set. See [`../decisions/0002-static-site-on-firebase-hosting.md`](../decisions/0002-static-site-on-firebase-hosting.md).
 
 ## One-time setup
 
 ```bash
-# Backend toolchain
-brew install uv openjdk        # openjdk is required by the Firestore emulator (JVM)
-echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc
-
-# Frontend toolchain
 corepack enable pnpm
 pnpm setup && source ~/.zshrc
-pnpm add -g firebase-tools
+pnpm add -g firebase-tools     # only needed to preview the static build or deploy
+cd frontend && pnpm install
 ```
 
 ## Every time
 
-Three long-running processes, each in its own terminal:
-
 ```bash
-# 1. Firestore emulator (repo root)
-firebase emulators:start --only firestore --project ai-engineering-lab-dev
-# UI at http://127.0.0.1:4000, Firestore at 127.0.0.1:8080
-
-# 2. Backend (backend/)
-cp .env.example .env   # first time only
-uv run uvicorn app.main:app --port 8001 --reload
-
-# 3. Frontend (frontend/)
-cp .env.local.example .env.local   # first time only
+# frontend/
 pnpm exec next dev -p 3100
 ```
 
-Then open http://localhost:3100.
+Then open http://localhost:3100. Port 3100 is chosen to avoid other local projects; check
+`lsof -i :3100` first if something else may be using it.
 
 ## Tests
 
 ```bash
-# Backend (requires the Firestore emulator running)
-cd backend && uv run pytest
-
-# Frontend
-cd frontend && pnpm test        # vitest — pure-function unit tests, no server needed
+cd frontend && pnpm test        # vitest, including the ported GenAI engine and Tiny LLM
 cd frontend && pnpm exec tsc --noEmit && pnpm lint
+```
+
+## Static build and deploy
+
+The production site is a static export (`output: "export"` in `frontend/next.config.ts`) hosted
+on Firebase Hosting, project `ai-playland` (the default in `.firebaserc`).
+
+```bash
+# Build into frontend/out/
+pnpm --dir frontend build
+
+# Preview the static build exactly as Firebase serves it (repo root)
+firebase emulators:start --only hosting
+# http://localhost:5050 — port 5000 is taken by macOS AirPlay
+
+# Deploy (repo root). firebase.json runs the build as a predeploy step.
+firebase deploy --only hosting
+# https://ai-playland.web.app
 ```
 
 ## Notes
 
-- `firestore.rules` allows open read/write — emulator only, never used against real Firestore.
-- The backend's `AIArtifact` / `ArtifactVersion` Firestore-backed CRUD (`/api/artifacts`) is used
-  by Module 2's RAG lab (`/genai/rag`, "Save as AI Artifact") — needs the Firestore emulator
-  running. Module 1 (Fundamentals) doesn't touch it.
-- Module 2's GenAI endpoints (`/api/genai/*`) — LLM completion, structured output, RAG,
-  tool calling, agents — need the backend but not the emulator, except RAG's artifact-save.
-- CORS: the backend only accepts requests from origins listed in `CORS_ALLOW_ORIGINS`
-  (`backend/.env`), which defaults to `localhost:3000` and `localhost:3100`. If you run the
-  frontend on a different port (e.g. because both of those are already taken by something
-  else), add that origin to `backend/.env` and restart the backend, or the browser will fail
-  with a CORS error that looks like a network failure.
-- Tiny LLM (`/fundamentals/tiny-llm`) is the only Fundamentals page that needs the backend —
-  it trains a real PyTorch model via `/api/fundamentals/tiny-llm/*`. Its training state is an
-  in-memory singleton on the backend process, not persisted to Firestore.
+- Tiny LLM uses the WebGL backend and falls back to the CPU backend, which is much slower.
+  Speed measured in a background browser tab is misleading: Chrome throttles timers in hidden
+  tabs to about once per second.
+- Pages that read query parameters (e.g. `?artifact=`) do so on the client with
+  `useSearchParams` inside `Suspense`, because a static export has no server to read them.
+- `backend/` (FastAPI) and the Firestore emulator setup (`firestore.rules`, the `firestore`
+  emulator in `firebase.json`) are kept for reference only; the frontend no longer uses them.
+  To run them anyway: `firebase emulators:start --only firestore --project ai-engineering-lab-dev`
+  and `cd backend && uv run uvicorn app.main:app --port 8001 --reload`.
 - This machine tends to have other local dev servers already bound to common ports (3000,
-  3001, 8000 have all been observed in use by unrelated projects) — always check `lsof -i
+  3001, 8000 have all been observed in use by unrelated projects). Always check `lsof -i
   :<port>` before assuming a port is free, and never kill a process on a shared port without
-  confirming it's actually one of this project's own processes first.
+  confirming it is one of this project's own processes first.

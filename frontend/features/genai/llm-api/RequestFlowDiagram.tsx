@@ -14,9 +14,9 @@ const DIM = 0.22;
  * other part, the same technique SublayerDiagram (Fundamentals) uses, so
  * this one diagram can be reused across several Steps, each pointing at
  * just the piece that Step is about. Matches LlmApiLab.tsx /
- * app/api/genai.py's `CompletionRequest` (model, system, prompt) →
+ * features/genai/api.ts's `complete()` input (model, system, prompt) →
  * `CompletionResponse` (text, tokens, latency, cost) shape — `config` has
- * no backend field yet (this app's mock API doesn't expose it), shown here
+ * no field yet (this app's mock API doesn't expose it), shown here
  * only as the concept real APIs add on top. */
 export function RequestFlowDiagram({ highlight }: { highlight?: FlowPart[] }) {
   const width = 420;

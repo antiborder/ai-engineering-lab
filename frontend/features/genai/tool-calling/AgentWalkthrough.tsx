@@ -17,7 +17,7 @@ interface AgentExample {
   steps: { tool: string; args: string; observation: string }[];
 }
 
-// Real computed output from backend/app/genai/agent.py's run_agent() — not
+// Real computed output from features/genai/engine/agent.ts's runAgent() — not
 // fabricated. Final-answer text is omitted (the mock model's exact wording
 // isn't the teaching point; the plan and trace are).
 const AGENT_EXAMPLES: AgentExample[] = [
@@ -61,7 +61,7 @@ type Approval = "pending" | "approved" | "denied";
  * Agents Unit). Entirely schematic/illustrative — no backend calls —
  * matching every other GenAI Systems Chapter's split between a fast
  * guided walkthrough and a separately-unlocked "Explore it yourself"
- * sandbox (here, the real backend-connected AgentLab). */
+ * sandbox (here, the real live AgentLab). */
 export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
   const [step, setStep] = useState(0);
 
@@ -558,7 +558,7 @@ export function AgentWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Now it's your turn",
       body: (
         <p>
-          Everything above is now unlocked below, talking to the real backend: describe your own
+          Everything above is now unlocked below, running for real in your browser: describe your own
           goal and watch the plan and trace it produces.
           <br />
           Or,{" "}

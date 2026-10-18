@@ -67,7 +67,7 @@ const OUTPUT_EXAMPLE = {
  * schematic/illustrative — no backend calls — matching every other GenAI
  * Systems Chapter's split between a fast guided walkthrough and a
  * separately-unlocked "Explore it yourself" sandbox (here, the real
- * backend-connected StructuredOutputLab, which validates real output
+ * live StructuredOutputLab, which validates real output
  * against a real, user-editable schema with `jsonschema`). */
 export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () => void }) {
   const [step, setStep] = useState(0);
@@ -474,7 +474,7 @@ export function StructuredOutputWalkthrough({ onComplete }: { onComplete?: () =>
       title: "Now it's your turn",
       body: (
         <p>
-          Everything above is now unlocked below, talking to the real backend: edit the schema,
+          Everything above is now unlocked below, running for real in your browser: edit the schema,
           generate output, and watch validation catch it when you deliberately break it.
           <br />
           Or,{" "}

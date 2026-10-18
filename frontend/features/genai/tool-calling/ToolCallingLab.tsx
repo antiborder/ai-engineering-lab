@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ApiError } from "@/lib/api";
 import { callWithTools, type ToolCallResponse } from "../api";
 import { ToolCallingWalkthrough } from "./ToolCallingWalkthrough";
 import type { ChapterId } from "./ToolCallingAgentsPlayground";
@@ -23,7 +22,7 @@ export function ToolCallingLab({ onNavigateToChapter }: { onNavigateToChapter?: 
     try {
       setResult(await callWithTools(message, model));
     } catch (err) {
-      setError(err instanceof ApiError ? `${err.status}: ${err.message}` : "Could not reach the backend API.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

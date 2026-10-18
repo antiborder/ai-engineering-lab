@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { LossChart } from "../classical-ml/LossChart";
 import { Slider } from "../classical-ml/Slider";
-import { ApiError } from "@/lib/api";
 import { StatCard } from "@/components/StatCard";
 import {
   generateTinyLlm,
@@ -20,9 +19,8 @@ const BLOCK_SIZE = 48;
 const STEPS_PER_TICK = 10;
 const TICK_MS = 150;
 
-function backendUnreachableMessage(err: unknown): string {
-  if (err instanceof ApiError) return `Backend error (${err.status}): ${err.message}`;
-  return "Could not reach the backend API. Is it running? See docs/architecture/local-dev.md.";
+function errorMessage(err: unknown): string {
+  return err instanceof Error ? `Tiny LLM error: ${err.message}` : "Something went wrong. Please try again.";
 }
 
 export function TinyLlmLab() {
@@ -56,7 +54,7 @@ export function TinyLlmLab() {
         setCorpus(c.text);
         setError(null);
       } catch (err) {
-        if (!cancelled) setError(backendUnreachableMessage(err));
+        if (!cancelled) setError(errorMessage(err));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -77,7 +75,7 @@ export function TinyLlmLab() {
           setState((prev) => (prev ? { ...prev, step: res.step, loss_history: res.loss_history } : prev));
         } catch (err) {
           if (!cancelled) {
-            setError(backendUnreachableMessage(err));
+            setError(errorMessage(err));
             setPlaying(false);
           }
           return;
@@ -100,7 +98,7 @@ export function TinyLlmLab() {
       setState(s);
       setError(null);
     } catch (err) {
-      setError(backendUnreachableMessage(err));
+      setError(errorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -113,7 +111,7 @@ export function TinyLlmLab() {
       setGenerated(res.text);
       setError(null);
     } catch (err) {
-      setError(backendUnreachableMessage(err));
+      setError(errorMessage(err));
     } finally {
       setGenerating(false);
     }
@@ -124,8 +122,8 @@ export function TinyLlmLab() {
       <div className="space-y-3">
         <p className="text-base text-neutral-600 leading-relaxed max-w-2xl">
           <span className="text-neutral-800 font-medium">Tiny LLM</span> is the same Transformer
-          architecture from the last Unit, but real: a character-level model, trained live on the
-          backend with PyTorch, so its weights actually learn instead of staying fixed and random.
+          architecture from the last Unit, but real: a character-level model, trained live in your
+          browser, so its weights actually learn instead of staying fixed and random.
         </p>
         <TinyLlmWalkthrough onComplete={() => setWalkthroughComplete(true)} />
       </div>

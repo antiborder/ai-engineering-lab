@@ -7,7 +7,7 @@ const NEUTRAL = "#a1a1aa";
  * GenerationLoopDiagram's role in the Generating Text chapter: text goes
  * in, the model predicts, a loss comes out, and the loop feeds back into
  * itself — but here the loop updates the model's weights instead of the
- * token sequence. Matches tiny_llm_session.py's `train_steps()`: sample a
+ * token sequence. Matches session.ts's `trainSteps()`: sample a
  * batch (`_sample_batch`), forward pass with targets (`self.model(x, y)`),
  * `loss.backward()`, `optimizer.step()`, repeat. */
 export function TrainingLoopDiagram() {

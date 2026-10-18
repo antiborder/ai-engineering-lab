@@ -93,9 +93,9 @@ function PassFailPreview({ budget }: { budget: number }) {
  * backend calls — matching every other GenAI Systems/Fundamentals
  * Chapter's split between a fast guided walkthrough and a
  * separately-unlocked "Explore it yourself" sandbox (here, the real
- * backend-connected PromptComparisonLab, which now also carries this
+ * live PromptComparisonLab, which now also carries this
  * Chapter's token-budget pass/fail rule for real). The mock provider
- * (backend/app/providers/mock.py) doesn't actually reason, so it can't
+ * (lib/mock-provider.ts) doesn't actually reason, so it can't
  * demonstrate few-shot/chain-of-thought improving answer quality — this
  * Chapter is honest about that and focuses on the *structure* of writing
  * these techniques instead. */
@@ -651,7 +651,7 @@ export function PromptEngineeringWalkthrough({ onComplete }: { onComplete?: () =
       title: "Now it's your turn",
       body: (
         <p>
-          Everything above is now unlocked below, talking to the real backend: write your own
+          Everything above is now unlocked below, running for real in your browser: write your own
           prompt variants, set a token budget, and see which one actually passes.
           <br />
           Or,{" "}

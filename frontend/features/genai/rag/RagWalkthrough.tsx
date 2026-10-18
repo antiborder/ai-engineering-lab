@@ -9,8 +9,8 @@ import { ChunkingDiagram } from "./ChunkingDiagram";
 import { SimilarityBars, type ScoredChunk } from "./SimilarityBars";
 
 // Illustrative retrieval scores for the query "how does sourdough bread
-// rise?" over the real 6-document demo corpus (backend/app/genai/
-// rag_corpus.py) — schematic, not computed by the real TfidfIndex, but
+// rise?" over the real 6-document demo corpus (features/genai/
+// engine/rag-corpus.ts) — schematic, not computed by the real TfidfIndex, but
 // shaped the way real TF-IDF scores would be: the on-topic chunks score
 // far higher than the rest, which mostly sit near zero.
 const VECTOR_SCORES: ScoredChunk[] = [
@@ -21,7 +21,7 @@ const VECTOR_SCORES: ScoredChunk[] = [
 ];
 
 // Same chunks, illustrating the mock reranker's real behavior
-// (backend/app/genai/rag.py's rerank(): 0.5 × vector score + 0.5 × exact
+// (features/genai/engine/rag.ts's rerank(): 0.5 × vector score + 0.5 × exact
 // query-word overlap) — chunk #1 happens to repeat "rise" and "bread"
 // verbatim, so it overtakes #0 after reranking even though #0 had the
 // higher vector score.
@@ -60,7 +60,7 @@ const ARTIFACT_CONFIG_EXAMPLE = `{
  * schematic/illustrative — no backend calls — matching every other GenAI
  * Systems Chapter's split between a fast guided walkthrough and a
  * separately-unlocked "Explore it yourself" sandbox (here, the real
- * backend-connected RagLab, with a real TF-IDF index over a real 6-document
+ * live RagLab, with a real TF-IDF index over a real 6-document
  * corpus, and the one place in this app today where [Save as AI Artifact]
  * actually exists). */
 export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
@@ -614,7 +614,7 @@ export function RagWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Now it's your turn",
       body: (
         <p>
-          Everything above is now unlocked below, talking to the real backend: ask questions
+          Everything above is now unlocked below, running for real in your browser: ask questions
           about a real 6-document corpus, adjust every parameter, and save your own AI Artifact.
           <br />
           Or,{" "}

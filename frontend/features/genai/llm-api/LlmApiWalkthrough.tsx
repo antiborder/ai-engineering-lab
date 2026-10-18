@@ -12,7 +12,7 @@ import { ConversationHistoryDiagram } from "./ConversationHistoryDiagram";
 const SAMPLE_PROMPT = "Explain what a vector database is in two sentences.";
 const SAMPLE_INPUT_TOKENS = SAMPLE_PROMPT.split(/\s+/).filter(Boolean).length;
 
-// Same fabricated-but-stable pricing as backend/app/providers/mock.py's
+// Same fabricated-but-stable pricing as lib/mock-provider.ts's
 // _MOCK_PRICING_PER_1K_TOKENS — kept in sync by hand since this Chapter is
 // fully client-side/illustrative, no backend calls during the walkthrough
 // itself (only "Explore it yourself" talks to the real API).
@@ -33,8 +33,8 @@ function cost(model: "mock-small" | "mock-large", inputTokens: number, outputTok
  * Entirely schematic/illustrative — no backend calls — matching every
  * Fundamentals Chapter's split between a fast guided walkthrough and a
  * separately-unlocked "Explore it yourself" sandbox (here, the real
- * backend-connected LlmApiLab). See backend/app/api/genai.py and
- * backend/app/providers/mock.py for the real request/response shape and
+ * live LlmApiLab). See features/genai/api.ts and
+ * lib/mock-provider.ts for the real request/response shape and
  * mock pricing this Chapter describes. */
 export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
   const [step, setStep] = useState(0);
@@ -495,7 +495,7 @@ export function LlmApiWalkthrough({ onComplete }: { onComplete?: () => void }) {
       title: "Now it's your turn",
       body: (
         <p>
-          Everything above is now unlocked below, talking to the real backend: write your own
+          Everything above is now unlocked below, running for real in your browser: write your own
           prompts, switch models, and watch tokens, latency, and cost update live.
           <br />
           Or,{" "}
