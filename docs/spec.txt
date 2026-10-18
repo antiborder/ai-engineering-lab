@@ -1478,6 +1478,8 @@ Never commit secrets.
 
 # 36. Phase 2 — GCP
 
+> **Superseded (2026-10-18):** the app is published as a static site on Firebase Hosting, with every lab running in the browser. See [`docs/decisions/0002-static-site-on-firebase-hosting.md`](decisions/0002-static-site-on-firebase-hosting.md).
+
 Only after the five modules have individually passed user testing should the cloud implementation begin.
 
 Target architecture:
@@ -1521,6 +1523,8 @@ GPU/vLLM infrastructure should be optional.
 
 # 37. Terraform
 
+> **Superseded (2026-10-18):** the app is published as a static site on Firebase Hosting, with every lab running in the browser. See [`docs/decisions/0002-static-site-on-firebase-hosting.md`](decisions/0002-static-site-on-firebase-hosting.md).
+
 **All cloud infrastructure must be managed by Terraform.**
 
 Terraform must manage relevant:
@@ -1550,6 +1554,8 @@ No manually created infrastructure should be required for the final deployment.
 ---
 
 # 38. Cost Strategy
+
+> **Superseded (2026-10-18):** the app is published as a static site on Firebase Hosting, with every lab running in the browser. See [`docs/decisions/0002-static-site-on-firebase-hosting.md`](decisions/0002-static-site-on-firebase-hosting.md).
 
 Expected traffic is extremely small.
 

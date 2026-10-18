@@ -27,15 +27,18 @@ Full specification: [`docs/spec.txt`](docs/spec.txt). Architecture notes: [`docs
 
 ```text
 docs/      specs, architecture, learning content, API docs, decisions
-frontend/  Next.js + TypeScript
-backend/   Python + FastAPI
-infra/     Terraform (Phase 2 / GCP only — not used in Phase 1)
+frontend/  Next.js + TypeScript — the whole app; every lab runs in the browser
+backend/   Python + FastAPI — reference only; the frontend no longer calls it
+infra/     Terraform — empty; the current deployment needs none
 ```
 
 ## Status
 
-Phase 1 (local, no cloud dependency) is in progress. See [`docs/product/`](docs/product/) for per-module status and test checklists.
+Published as a static site on Firebase Hosting: https://ai-playland.web.app. There is no server
+and no pay-per-use AI cost — every lab runs on the visitor's own device. See
+[`docs/decisions/0002-static-site-on-firebase-hosting.md`](docs/decisions/0002-static-site-on-firebase-hosting.md).
+See [`docs/product/`](docs/product/) for per-module status and test checklists.
 
 ## Local development
 
-See [`docs/architecture/local-dev.md`](docs/architecture/local-dev.md) for setup instructions.
+See [`docs/architecture/local-dev.md`](docs/architecture/local-dev.md) for setup and deploy instructions.
