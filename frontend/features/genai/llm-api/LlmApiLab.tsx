@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ApiError } from "@/lib/api";
 import { StatCard } from "@/components/StatCard";
 import { complete, listModels, type CompletionResponse } from "../api";
 import { LlmApiWalkthrough } from "./LlmApiWalkthrough";
@@ -29,7 +28,7 @@ export function LlmApiLab() {
       const res = await complete(model, prompt, system || undefined);
       setResult(res);
     } catch (err) {
-      setError(err instanceof ApiError ? `${err.status}: ${err.message}` : "Could not reach the backend API.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

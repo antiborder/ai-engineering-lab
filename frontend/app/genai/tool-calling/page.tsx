@@ -12,7 +12,7 @@ export default function ToolCallingPage() {
         Tool Calling is one round trip: the model decides whether a tool is needed, the tool
         runs, its result feeds back in, and the model answers. An Agent repeats that same round
         trip in a loop, with a plan on top — give it a goal, and it decides how many tool calls
-        it needs, in what order. Requires the backend to be running.
+        it needs, in what order.
       </p>
       <ToolCallingAgentsPlayground />
     </div>

@@ -11,7 +11,7 @@ export default function WorkflowsPage() {
       <p className="text-neutral-600 mb-8 max-w-2xl">
         The same input, run through a fixed deterministic pipeline and through an adaptive
         agent, side by side — so the trade-off is something you see, not just something
-        you&rsquo;re told. Requires the backend to be running.
+        you&rsquo;re told.
       </p>
       <WorkflowsLab />
     </div>

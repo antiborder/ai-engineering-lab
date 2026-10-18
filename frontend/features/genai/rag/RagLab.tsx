@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ApiError } from "@/lib/api";
 import { SaveArtifactPanel } from "@/components/SaveArtifactPanel";
 import { Slider } from "../../fundamentals/classical-ml/Slider";
 import { listDocuments, ragQuery, type RagDocument, type RagQueryResponse } from "../api";
@@ -31,7 +30,7 @@ export function RagLab() {
   useEffect(() => {
     listDocuments()
       .then(setDocuments)
-      .catch(() => setError("Could not reach the backend API. Is it running?"));
+      .catch(() => setError("Could not load the documents."));
   }, []);
 
   const handleAsk = async () => {
@@ -49,7 +48,7 @@ export function RagLab() {
       });
       setResult(res);
     } catch (err) {
-      setError(err instanceof ApiError ? `${err.status}: ${err.message}` : "Could not reach the backend API.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

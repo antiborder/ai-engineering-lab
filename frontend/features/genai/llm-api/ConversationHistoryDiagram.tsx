@@ -4,8 +4,8 @@ const GREEN = "#059669";
 const NEUTRAL = "#a1a1aa";
 
 // Illustrative per-turn sizes and pricing — not from the real (single-shot,
-// no-history) mock API, since backend/app/api/genai.py's CompletionRequest
-// has no `messages` field yet. Mirrors backend/app/providers/mock.py's
+// no-history) mock API, since features/genai/api.ts's complete()
+// takes no `messages` history yet. Mirrors lib/mock-provider.ts's
 // mock-small pricing so the numbers stay consistent with the rest of this
 // Chapter's cost math. Cache discount (10% of normal input price) matches
 // the rough ballpark real providers (Anthropic, OpenAI, Gemini) use.

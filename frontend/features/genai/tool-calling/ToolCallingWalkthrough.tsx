@@ -15,7 +15,7 @@ interface ToolExample {
   result: string | null;
 }
 
-// Real computed output from backend/app/genai/tools.py — not fabricated.
+// Real computed output from features/genai/engine/tools.ts — not fabricated.
 const TOOL_EXAMPLES: ToolExample[] = [
   { message: "what is 15% of 240", tool: "calculator", args: "expression: 15% of 240", result: "36.0" },
   { message: "what's the weather in Berlin", tool: "weather", args: "city: berlin", result: "Berlin: cloudy, 11°C" },
@@ -38,7 +38,7 @@ const HIGHLIGHT_FOR_TOOL: Record<"calculator" | "weather" | "search", ToolCallSt
  * Agents Unit). Entirely schematic/illustrative — no backend calls —
  * matching every other GenAI Systems Chapter's split between a fast
  * guided walkthrough and a separately-unlocked "Explore it yourself"
- * sandbox (here, the real backend-connected ToolCallingLab). */
+ * sandbox (here, the real live ToolCallingLab). */
 export function ToolCallingWalkthrough({
   onComplete,
   onNavigateToChapter,
@@ -410,7 +410,7 @@ export function ToolCallingWalkthrough({
       body: (
         <p>
           This app skips the MCP server entirely — its 3 tools are wired directly into the
-          backend. Fine at this scale; not how systems with dozens of tools are actually built.
+          app itself. Fine at this scale; not how systems with dozens of tools are actually built.
         </p>
       ),
       visual: <MCPWiringDiagram apps={["This App"]} tools={["Calculator", "Weather", "Search"]} mode="direct" />,
@@ -480,7 +480,7 @@ export function ToolCallingWalkthrough({
       title: "Now it's your turn",
       body: (
         <p>
-          Everything above is now unlocked below, talking to the real backend: send your own
+          Everything above is now unlocked below, running for real in your browser: send your own
           messages and see which tool gets picked.
           <br />
           Or,{" "}

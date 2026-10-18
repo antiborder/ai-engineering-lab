@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ApiError } from "@/lib/api";
 import { complete } from "../api";
 import { PromptEngineeringWalkthrough } from "./PromptEngineeringWalkthrough";
 
@@ -41,7 +40,7 @@ export function PromptComparisonLab() {
       setResultsA(a.map((r) => ({ text: r.text, latencyMs: r.latency_ms, outputTokens: r.output_tokens })));
       setResultsB(b.map((r) => ({ text: r.text, latencyMs: r.latency_ms, outputTokens: r.output_tokens })));
     } catch (err) {
-      setError(err instanceof ApiError ? `${err.status}: ${err.message}` : "Could not reach the backend API.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

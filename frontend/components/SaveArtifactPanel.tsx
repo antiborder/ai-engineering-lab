@@ -39,7 +39,7 @@ export function SaveArtifactPanel({
       const res = await createArtifact({ name, type, configuration, model });
       setSaved({ id: res.artifact.id, name: res.artifact.name, version: res.artifact.current_version });
     } catch {
-      setError("Could not save artifact — is the backend + Firestore emulator running?");
+      setError("Could not save the artifact.");
     } finally {
       setSaving(false);
     }

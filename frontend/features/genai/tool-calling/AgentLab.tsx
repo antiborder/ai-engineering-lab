@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ApiError } from "@/lib/api";
 import { SaveArtifactPanel } from "@/components/SaveArtifactPanel";
 import { runAgent, type AgentRunResponse } from "../api";
 import { AgentWalkthrough } from "./AgentWalkthrough";
@@ -26,7 +25,7 @@ export function AgentLab() {
     try {
       setResult(await runAgent(goal, model));
     } catch (err) {
-      setError(err instanceof ApiError ? `${err.status}: ${err.message}` : "Could not reach the backend API.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

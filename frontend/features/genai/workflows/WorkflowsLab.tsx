@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ApiError } from "@/lib/api";
 import { ragQuery, runAgent, type AgentRunResponse, type RagQueryResponse } from "../api";
 
 const EXAMPLES = ["what is 18% of 640", "how does sourdough bread rise?", "what's the weather in Oslo"];
@@ -32,7 +31,7 @@ export function WorkflowsLab() {
       setDeterministic(det);
       setAgentic(agent);
     } catch (err) {
-      setError(err instanceof ApiError ? `${err.status}: ${err.message}` : "Could not reach the backend API.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

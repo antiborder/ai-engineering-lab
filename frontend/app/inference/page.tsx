@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { SelectedArtifactBanner } from "@/components/SelectedArtifactBanner";
 
 export const metadata = { title: "Inference" };
 
@@ -42,11 +43,7 @@ const UNITS = [
   },
 ];
 
-export default async function InferencePage({ searchParams }: PageProps<"/inference">) {
-  const params = await searchParams;
-  const artifactName = typeof params.artifactName === "string" ? params.artifactName : undefined;
-  const artifactVersion = typeof params.artifactVersion === "string" ? params.artifactVersion : undefined;
-
+export default function InferencePage() {
   return (
     <div>
       <Breadcrumbs items={[{ label: "Inference" }]} />
@@ -57,13 +54,7 @@ export default async function InferencePage({ searchParams }: PageProps<"/infere
         operating on artifacts created in GenAI Systems.
       </p>
 
-      {artifactName && (
-        <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-4 max-w-2xl mb-6">
-          <p className="text-base text-cyan-700">
-            Selected artifact: <span className="font-mono">{artifactName} {artifactVersion}</span>
-          </p>
-        </div>
-      )}
+      <SelectedArtifactBanner />
 
       <div className="grid sm:grid-cols-2 gap-4">
         {UNITS.map((s) =>

@@ -1,8 +1,8 @@
 // Real sentences of the "Sourdough Bread" demo document
-// (backend/app/genai/rag_corpus.py), split exactly the way
-// backend/app/genai/rag.py's split_sentences() actually splits them (after
+// (features/genai/engine/rag-corpus.ts), split exactly the way
+// features/genai/engine/rag.ts's splitSentences() actually splits them (after
 // ./!/? followed by whitespace) — not fabricated text, so the sentence
-// count/overlap shown here matches what chunk_document() actually does on
+// count/overlap shown here matches what chunkDocument() actually does on
 // real content.
 const DEMO_SENTENCES = [
   "Sourdough bread gets its rise from a wild yeast starter instead of commercial yeast.",
@@ -12,7 +12,7 @@ const DEMO_SENTENCES = [
   "Baking sourdough requires patience: bulk fermentation can take four to twelve hours depending on room temperature, and a long cold proof in the refrigerator overnight develops more flavor and makes the dough easier to score before baking in a very hot oven, often inside a preheated Dutch oven.",
 ];
 
-/** Same sliding-window chunking backend/app/genai/rag.py's chunk_document()
+/** Same sliding-window chunking features/genai/engine/rag.ts's chunkDocument()
  * implements: a fixed-size window of sentences, advanced by (size -
  * overlap) each step. Shows the first two chunks over a real demo
  * document, color-coding every sentence by which chunk(s) it falls in, so

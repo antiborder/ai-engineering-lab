@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ApiError } from "@/lib/api";
 import { generateStructuredOutput, type StructuredOutputResponse } from "../api";
 import { StructuredOutputWalkthrough } from "./StructuredOutputWalkthrough";
 
@@ -43,7 +42,7 @@ export function StructuredOutputLab() {
       const res = await generateStructuredOutput(schema, breakSchema, seed);
       setResult(res);
     } catch (err) {
-      setError(err instanceof ApiError ? `${err.status}: ${err.message}` : "Could not reach the backend API.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

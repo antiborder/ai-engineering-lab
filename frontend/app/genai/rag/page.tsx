@@ -12,8 +12,7 @@ export default function RagPage() {
         Ask a question, watch retrieval find the relevant chunks by real vector similarity (not
         fabricated scores), and see how chunk size, overlap, top-K, and reranking change what
         the model sees. Save it as an AI Artifact when you&rsquo;re happy with it — that&rsquo;s
-        what flows into Evaluation, Inference, and LLMOps next. Requires the backend to be
-        running.
+        what flows into Evaluation, Inference, and LLMOps next.
       </p>
       <RagLab />
     </div>

@@ -82,11 +82,11 @@ function ContextTargetStrip({ text }: { text: string }) {
 }
 
 /** Tiny LLM Unit's guided walkthrough: bridges the fixed-random-weight
- * mechanics taught in Transformers to this Unit's real, backend-trained
+ * mechanics taught in Transformers to this Unit's real, trainable
  * model. Entirely schematic/illustrative — no backend calls — matching
  * every other Chapter's split between a fast guided walkthrough and a
  * separately-unlocked "Explore it yourself" sandbox (here, the real
- * PyTorch-backed TinyLlmLab). See tiny_llm_session.py and model.py for the
+ * trainable TinyLlmLab). See session.ts and model.ts for the
  * real training loop and architecture this Chapter describes. */
 export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) {
   const [step, setStep] = useState(0);
@@ -404,7 +404,7 @@ export function TinyLlmWalkthrough({ onComplete }: { onComplete?: () => void }) 
       title: "Now it's your turn",
       body: (
         <p>
-          Everything above is now unlocked below as a real, backend-trained model — the exact
+          Everything above is now unlocked below as a real model, trained in your browser — the exact
           architecture, actually learning, on your own settings. Train it for a bit, then
           generate from it. Push temperature to an extreme and see what breaks.
         </p>

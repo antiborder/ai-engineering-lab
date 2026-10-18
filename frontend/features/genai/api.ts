@@ -1,22 +1,30 @@
-import { apiDelete, apiGet, apiPost } from "@/lib/api";
+// Every GenAI lab talks to these functions. They run entirely in the
+// browser against the mock provider (lib/mock-provider.ts), so the labs
+// need no server and never call a paid AI service. The request/response
+// shapes match what a real LLM API would return.
+import { AVAILABLE_MODELS, mockComplete, type ProviderResponse } from "@/lib/mock-provider";
+import { runAgent as runAgentLoop, type AgentStep, type AgentTrace } from "./engine/agent";
+import type { Document } from "./engine/rag";
+import { getRagSession, type QueryParams } from "./engine/rag-session";
+import { generateStructuredOutput as generateMockOutput, validateAgainstSchema } from "./engine/structured-output";
+import { runToolCalling, type ToolCallTrace } from "./engine/tool-calling";
 
-export interface CompletionResponse {
-  text: string;
-  model: string;
-  input_tokens: number;
-  output_tokens: number;
-  latency_ms: number;
-  estimated_cost: number;
-  request_id: string;
-  timestamp: string;
+/** Input limits a real API would enforce, so oversized input fails the
+ * same way it would against a hosted endpoint. */
+function requireLength(label: string, value: string, max: number): void {
+  if (value.trim().length === 0) throw new Error(`${label} must not be empty.`);
+  if (value.length > max) throw new Error(`${label} must be at most ${max} characters.`);
 }
 
-export function listModels() {
-  return apiGet<string[]>("/api/genai/models");
+export type CompletionResponse = ProviderResponse;
+
+export async function listModels(): Promise<string[]> {
+  return AVAILABLE_MODELS;
 }
 
-export function complete(model: string, prompt: string, system?: string) {
-  return apiPost<CompletionResponse>("/api/genai/complete", { model, prompt, system });
+export async function complete(model: string, prompt: string, system?: string): Promise<CompletionResponse> {
+  requireLength("Prompt", prompt, 4000);
+  return mockComplete(model, prompt, system);
 }
 
 export interface StructuredOutputResponse {
@@ -25,38 +33,36 @@ export interface StructuredOutputResponse {
   errors: string[];
 }
 
-export function generateStructuredOutput(
+export async function generateStructuredOutput(
   jsonSchema: Record<string, unknown>,
   breakSchema: boolean,
   seed: number
-) {
-  return apiPost<StructuredOutputResponse>("/api/genai/structured-output/generate", {
-    json_schema: jsonSchema,
-    break_schema: breakSchema,
-    seed,
-  });
+): Promise<StructuredOutputResponse> {
+  const output = generateMockOutput(jsonSchema, seed, breakSchema);
+  const errors = validateAgainstSchema(output, jsonSchema);
+  return { output, valid: errors.length === 0, errors };
 }
 
-export interface RagDocument {
-  id: string;
-  title: string;
-  text: string;
+export type RagDocument = Document;
+
+export async function listDocuments(): Promise<RagDocument[]> {
+  return getRagSession().listDocuments();
 }
 
-export function listDocuments() {
-  return apiGet<RagDocument[]>("/api/genai/rag/documents");
+export async function addDocument(title: string, text: string): Promise<RagDocument> {
+  requireLength("Title", title, 100);
+  requireLength("Text", text, 8000);
+  return getRagSession().addDocument(title, text);
 }
 
-export function addDocument(title: string, text: string) {
-  return apiPost<RagDocument>("/api/genai/rag/documents", { title, text });
+export async function resetDocuments(): Promise<RagDocument[]> {
+  const session = getRagSession();
+  session.resetToDemo();
+  return session.listDocuments();
 }
 
-export function resetDocuments() {
-  return apiPost<RagDocument[]>("/api/genai/rag/documents/reset", {});
-}
-
-export function deleteDocument(id: string): Promise<void> {
-  return apiDelete(`/api/genai/rag/documents/${id}`);
+export async function deleteDocument(id: string): Promise<void> {
+  getRagSession().removeDocument(id);
 }
 
 export interface RetrievedChunk {
@@ -76,48 +82,36 @@ export interface RagQueryResponse {
   estimated_cost: number;
 }
 
-export interface RagQueryParams {
-  query: string;
-  chunk_size: number;
-  overlap: number;
-  top_k: number;
-  similarity_threshold: number;
-  use_reranking: boolean;
-  model: string;
+export type RagQueryParams = QueryParams;
+
+export async function ragQuery(params: RagQueryParams): Promise<RagQueryResponse> {
+  requireLength("Query", params.query, 500);
+  const session = getRagSession();
+  if (session.listDocuments().length === 0) throw new Error("There are no documents in the corpus.");
+  const result = await session.query(params);
+  return {
+    ...result,
+    retrieved: result.retrieved.map((r) => ({
+      doc_title: r.chunk.doc_title,
+      chunk_index: r.chunk.index,
+      text: r.chunk.text,
+      score: r.score,
+      rerank_score: r.rerank_score,
+    })),
+  };
 }
 
-export function ragQuery(params: RagQueryParams) {
-  return apiPost<RagQueryResponse>("/api/genai/rag/query", params);
+export type ToolCallResponse = ToolCallTrace;
+
+export async function callWithTools(message: string, model: string): Promise<ToolCallResponse> {
+  requireLength("Message", message, 500);
+  return runToolCalling(message, getRagSession().listDocuments(), model);
 }
 
-export interface ToolCallResponse {
-  tool_name: string | null;
-  tool_args: Record<string, string> | null;
-  tool_result: string | null;
-  answer: string;
-  model: string;
-}
+export type { AgentStep };
+export type AgentRunResponse = AgentTrace;
 
-export function callWithTools(message: string, model: string) {
-  return apiPost<ToolCallResponse>("/api/genai/tools/call", { message, model });
-}
-
-export interface AgentStep {
-  step: number;
-  tool_name: string;
-  tool_args: Record<string, string>;
-  observation: string;
-  failed: boolean;
-  retried: boolean;
-}
-
-export interface AgentRunResponse {
-  plan: string[];
-  steps: AgentStep[];
-  final_answer: string;
-  model: string;
-}
-
-export function runAgent(goal: string, model: string) {
-  return apiPost<AgentRunResponse>("/api/genai/agent/run", { goal, model });
+export async function runAgent(goal: string, model: string): Promise<AgentRunResponse> {
+  requireLength("Goal", goal, 500);
+  return runAgentLoop(goal, getRagSession().listDocuments(), model);
 }
